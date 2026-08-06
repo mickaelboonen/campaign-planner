@@ -3,12 +3,19 @@
 namespace App\Entity;
 
 use App\Repository\CampaignRepository;
+use App\Entity\Traits\ArchivableTrait;
+use App\Entity\Traits\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CampaignRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class Campaign
 {
+    use TimestampableTrait;
+    use ArchivableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -20,25 +27,20 @@ class Campaign
     #[ORM\Column(length: 7, nullable: true)]
     private ?string $color = null;
 
-    #[ORM\Column]
-    private \DateTimeImmutable $createdAt;
-
-    #[ORM\Column]
-    private \DateTimeImmutable $updatedAt;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $archivedAt = null;
-
     #[ORM\ManyToOne(inversedBy: 'campaigns')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $owner = null;
 
+    /**
+     * @var Collection<int, Participant>
+     */
+    #[ORM\OneToMany(targetEntity: Participant::class, mappedBy: 'campaign')]
+    private Collection $participants;
+
     public function __construct()
     {
-        $now = new \DateTimeImmutable();
-
-        $this->createdAt = $now;
-        $this->updatedAt = $now;
+        $this->initializeTimestamps();
+        $this->participants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -80,32 +82,9 @@ class Campaign
         return $this->updatedAt;
     }
 
-    #[ORM\PreUpdate]
-    public function updateTimestamp(): void
-    {
-        $this->updatedAt = new \DateTimeImmutable();
-    }
-
     public function getArchivedAt(): ?\DateTimeImmutable
     {
         return $this->archivedAt;
-    }
-
-    public function archive(): void
-    {
-        if ($this->archivedAt === null) {
-            $this->archivedAt = new \DateTimeImmutable();
-        }
-    }
-
-    public function restore(): void
-    {
-        $this->archivedAt = null;
-    }
-
-    public function isArchived(): bool
-    {
-        return $this->archivedAt !== null;
     }
 
     public function getOwner(): ?User
@@ -116,6 +95,24 @@ class Campaign
     public function setOwner(User $owner): static
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Participant>
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(Participant $participant): static
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants->add($participant);
+            $participant->setCampaign($this);
+        }
 
         return $this;
     }

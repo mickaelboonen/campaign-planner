@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ campaign.name }}{% endblock %}
+
+{% block body %}
+    {% include 'components/breadcrumb.html.twig' with {
+        items: [
+            {
+                label: 'Campagnes',
+                path: path('campaign_list')
+            },
+            {
+                label: campaign.name
+            }
+        ]
+    } %}
+
+    {% include 'components/page-header.html.twig' with {
+        eyebrow: 'Campagne active',
+        title: campaign.name,
+        description: 'Créée le ' ~ campaign.createdAt|date('d/m/Y'),
+        action_label: 'Ajouter un participant',
+        action_path: '#'
+    } %}
+
+    <section
+        class="campaign-banner"
+        style="--campaign-color: {{ campaign.color ?? '#c9a85c' }}"
+    >
+        <div class="campaign-banner__accent"></div>
+
+        <div class="campaign-banner__content">
+            <span class="campaign-banner__label">
+                Campagne
+            </span>
+
+            <strong class="campaign-banner__name">
+                {{ campaign.name }}
+            </strong>
+
+            <p class="campaign-banner__status">
+                Aucune session planifiée pour le moment.
+            </p>
+        </div>
+    </section>
+
+    <section class="stat-grid">
+        {% include 'components/stat-card.html.twig' with {
+            label: 'Participants',
+            value: participants|length,
+            description: 'Participants actifs'
+        } %}
+
+        {% include 'components/stat-card.html.twig' with {
+            label: 'Sessions',
+            value: 0,
+            description: 'Sessions planifiées'
+        } %}
+
+        {% include 'components/stat-card.html.twig' with {
+            label: 'Disponibilités',
+            value: '—',
+            description: 'Calendrier à venir'
+        } %}
+    </section>
+
+    <section class="content-section">
+        <div class="section-heading">
+            <div>
+                <p class="page-eyebrow">Groupe de jeu</p>
+                <h2>Participants</h2>
+            </div>
+
+            <a class="button button--primary" href="#">
+                Ajouter un participant
+            </a>
+        </div>
+
+        {% if participants is empty %}
+            {% include 'components/empty-state.html.twig' with {
+                icon: '◆',
+                title: 'Aucun participant',
+                message: 'Ajoutez votre premier joueur afin de commencer à préparer le calendrier de cette campagne.',
+                action_label: 'Ajouter un participant',
+                action_path: '#'
+            } %}
+        {% else %}
+            <div class="participant-grid">
+                {% for participant in participants %}
+                    {% include 'components/participant-card.html.twig' with {
+                        participant: participant
+                    } %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}

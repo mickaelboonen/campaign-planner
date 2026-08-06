@@ -1,0 +1,25 @@
+<header class="page-heading">
+    <div class="page-heading__content">
+        {% if eyebrow is defined and eyebrow %}
+            <p class="page-eyebrow">{{ eyebrow }}</p>
+        {% endif %}
+
+        <h1 class="page-heading__title">
+            {{ title }}
+        </h1>
+
+        {% if description is defined and description %}
+            <p class="page-heading__description">
+                {{ description }}
+            </p>
+        {% endif %}
+    </div>
+
+    {% if action_label is defined and action_path is defined %}
+        <div class="page-heading__actions">
+            <a class="button button--primary" href="{{ action_path }}">
+                {{ action_label }}
+            </a>
+        </div>
+    {% endif %}
+</header>

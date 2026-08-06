@@ -31,7 +31,7 @@
                         ></span>
                     {% endif %}
 
-                    {{ campaign.name }}
+                    <a href="{{ path('campaign_show', { id: campaign.id }) }}">{{ campaign.name }}</a>
                 </li>
             {% endfor %}
         </ul>

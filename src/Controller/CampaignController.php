@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Campaign;
+use App\Repository\ParticipantRepository;
+use App\Security\Voter\CampaignVoter;
 use App\DTO\CreateCampaignData;
 use App\Form\CampaignType;
 use App\Repository\CampaignRepository;
@@ -15,6 +18,7 @@ final class CampaignController extends BaseController
 {
     public function __construct(
         private readonly CampaignRepository $campaignRepository,
+        private readonly ParticipantRepository $participantRepository,
         private readonly CampaignManager $campaignManager,
     ) {
     }
@@ -55,6 +59,23 @@ final class CampaignController extends BaseController
 
         return $this->render('campaign/create.html.twig', [
             'form' => $form,
+        ]);
+    }
+    
+    #[Route('/{id}', name: 'show', methods: ['GET'])]
+    public function show(Campaign $campaign): Response
+    {
+        $this->denyAccessUnlessGranted(
+            CampaignVoter::VIEW,
+            $campaign,
+        );
+
+        $participants = $this->participantRepository
+            ->findActiveByCampaign($campaign);
+
+        return $this->render('campaign/show.html.twig', [
+            'campaign' => $campaign,
+            'participants' => $participants,
         ]);
     }
 }

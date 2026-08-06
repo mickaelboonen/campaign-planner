@@ -1,0 +1,17 @@
+<nav class="breadcrumb" aria-label="Fil d’Ariane">
+    {% for item in items %}
+        {% if not loop.first %}
+            <span class="breadcrumb__separator">›</span>
+        {% endif %}
+
+        {% if item.path is defined and item.path %}
+            <a class="breadcrumb__link" href="{{ item.path }}">
+                {{ item.label }}
+            </a>
+        {% else %}
+            <span class="breadcrumb__current">
+                {{ item.label }}
+            </span>
+        {% endif %}
+    {% endfor %}
+</nav>

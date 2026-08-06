@@ -1,0 +1,48 @@
+<article class="participant-card">
+    <header class="participant-card__header">
+        <div class="participant-card__avatar">
+            {{ participant.name|slice(0, 1)|upper }}
+        </div>
+
+        <div>
+            <h3 class="participant-card__name">
+                {{ participant.name }}
+            </h3>
+
+            {% if participant.characterName %}
+                <p class="participant-card__character">
+                    {{ participant.characterName }}
+                </p>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="participant-card__content">
+        <a
+            class="participant-card__email"
+            href="mailto:{{ participant.email }}"
+        >
+            {{ participant.email }}
+        </a>
+
+        {% if participant.phone %}
+            <span class="participant-card__phone">
+                {{ participant.phone }}
+            </span>
+        {% endif %}
+    </div>
+
+    <footer class="participant-card__footer">
+        <span class="participant-card__status">
+            Aucune disponibilité renseignée
+        </span>
+
+        <button
+            class="participant-card__link button button--secondary"
+            type="button"
+            disabled
+        >
+            Copier le lien
+        </button>
+    </footer>
+</article>
