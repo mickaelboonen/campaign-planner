@@ -1,0 +1,110 @@
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.25rem;
+}
+
+.dashboard-card {
+    min-height: 12rem;
+    padding: 1.5rem;
+}
+
+.dashboard-card--featured {
+    grid-row: span 2;
+    min-height: 25.25rem;
+}
+
+.dashboard-card__header {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+
+    color: var(--color-text-muted);
+}
+
+.dashboard-card__icon {
+    color: var(--color-gold);
+}
+
+.dashboard-card__label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.dashboard-card__content {
+    display: flex;
+    height: calc(100% - 2rem);
+    max-width: 31rem;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dashboard-card__content p {
+    color: var(--color-text-muted);
+    line-height: 1.6;
+}
+
+.dashboard-card__stat {
+    margin: 1.2rem 0;
+
+    color: var(--color-gold-light);
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.dashboard-card--action {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    min-height: 12rem;
+
+    transition:
+        transform var(--transition-fast),
+        border-color var(--transition-fast),
+        background-color var(--transition-fast);
+}
+
+.dashboard-card--action:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-gold-dark);
+    background-color: var(--color-surface-hover);
+}
+
+.dashboard-card__action-icon {
+    display: grid;
+    width: 3rem;
+    height: 3rem;
+    flex: 0 0 auto;
+    place-items: center;
+
+    border: 1px solid var(--color-gold-dark);
+    border-radius: 50%;
+
+    color: var(--color-gold-light);
+    font-size: 1.5rem;
+}
+
+.dashboard-card--action strong,
+.dashboard-card--action small {
+    display: block;
+}
+
+.dashboard-card--action small {
+    margin-top: 0.4rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-card--featured {
+        grid-row: auto;
+        min-height: 18rem;
+    }
+}

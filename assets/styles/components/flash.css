@@ -1,0 +1,18 @@
+.flash {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+
+    border-radius: var(--radius-small);
+}
+
+.flash--success {
+    border: 1px solid rgb(111 185 143 / 40%);
+    color: var(--color-success);
+    background: rgb(111 185 143 / 8%);
+}
+
+.flash--error {
+    border: 1px solid rgb(207 117 117 / 40%);
+    color: var(--color-danger);
+    background: rgb(207 117 117 / 8%);
+}

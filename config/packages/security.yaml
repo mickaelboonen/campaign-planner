@@ -38,6 +38,7 @@ security:
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/campaign, roles: ROLE_GAME_MASTER }
+        - { path: ^/, roles: ROLE_GAME_MASTER }
 
 when@test:
     security:

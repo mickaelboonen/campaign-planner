@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+    <header class="page-header">
+        <div>
+            <p class="page-eyebrow">Vue d’ensemble</p>
+            <h1>Tableau de bord</h1>
+            <p class="page-description">
+                Planifiez facilement les prochaines sessions de vos campagnes.
+            </p>
+        </div>
+    </header>
+
+    <section class="dashboard-grid">
+        <article class="dashboard-card dashboard-card--featured">
+            <div class="dashboard-card__header">
+                <span class="dashboard-card__icon">◈</span>
+                <span class="dashboard-card__label">Prochaine session</span>
+            </div>
+
+            <div class="dashboard-card__content">
+                <h2>Aucune session planifiée</h2>
+                <p>
+                    Le calendrier permettra bientôt de sélectionner votre
+                    prochaine date de jeu.
+                </p>
+            </div>
+        </article>
+
+        <article class="dashboard-card">
+            <div class="dashboard-card__header">
+                <span class="dashboard-card__icon">◆</span>
+                <span class="dashboard-card__label">Campagnes actives</span>
+            </div>
+
+            <div class="dashboard-card__stat">
+                {{ campaigns|length }}
+            </div>
+
+            <a class="text-link" href="{{ path('campaign_list') }}">
+                Voir mes campagnes
+            </a>
+        </article>
+
+        <a
+            class="dashboard-card dashboard-card--action"
+            href="{{ path('campaign_create') }}"
+        >
+            <span class="dashboard-card__action-icon">+</span>
+
+            <span>
+                <strong>Nouvelle campagne</strong>
+                <small>
+                    Créez une nouvelle table et préparez son calendrier.
+                </small>
+            </span>
+        </a>
+    </section>
+
+    {% if campaigns is not empty %}
+        <section class="content-section">
+            <div class="section-heading">
+                <div>
+                    <p class="page-eyebrow">Accès rapide</p>
+                    <h2>Mes campagnes</h2>
+                </div>
+
+                <a class="button button--secondary" href="{{ path('campaign_list') }}">
+                    Tout afficher
+                </a>
+            </div>
+
+            <div class="campaign-grid">
+                {% for campaign in campaigns|slice(0, 3) %}
+                    <article class="campaign-card">
+                        <span
+                            class="campaign-card__color"
+                            style="--campaign-color: {{ campaign.color ?? '#c9a85c' }}"
+                        ></span>
+
+                        <h3>{{ campaign.name }}</h3>
+                        <p>Calendrier et participants bientôt disponibles.</p>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}

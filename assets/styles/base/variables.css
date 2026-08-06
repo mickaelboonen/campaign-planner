@@ -1,0 +1,29 @@
+:root {
+    --color-background: #101116;
+    --color-sidebar: #15171d;
+    --color-surface: #1b1e26;
+    --color-surface-hover: #232731;
+    --color-border: #30343e;
+
+    --color-gold: #c9a85c;
+    --color-gold-light: #e2c87f;
+    --color-gold-dark: #8c7139;
+
+    --color-text: #f4f1e8;
+    --color-text-muted: #a7a8ad;
+
+    --color-success: #6fb98f;
+    --color-danger: #cf7575;
+
+    --sidebar-width: 260px;
+
+    --radius-small: 8px;
+    --radius-medium: 14px;
+    --radius-large: 20px;
+
+    --shadow-card: 0 18px 45px rgb(0 0 0 / 18%);
+
+    --transition-fast: 150ms ease;
+
+    --content-width: 1400px;
+}
