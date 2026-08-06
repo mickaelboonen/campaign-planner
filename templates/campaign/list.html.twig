@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes campagnes{% endblock %}
+
+{% block body %}
+    <h1>Mes campagnes</h1>
+
+    <a href="{{ path('campaign_create') }}">
+        Nouvelle campagne
+    </a>
+
+    {% for message in app.flashes('success') %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
+    {% if campaigns is empty %}
+        <p>Tu n'as encore créé aucune campagne.</p>
+    {% else %}
+        <ul>
+            {% for campaign in campaigns %}
+                <li>
+                    {% if campaign.color %}
+                        <span
+                            style="
+                                display: inline-block;
+                                width: 1rem;
+                                height: 1rem;
+                                border-radius: 50%;
+                                background-color: {{ campaign.color }};
+                            "
+                        ></span>
+                    {% endif %}
+
+                    {{ campaign.name }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
