@@ -1,0 +1,54 @@
+body {
+    background:
+        radial-gradient(
+            circle at top right,
+            rgb(201 168 92 / 8%),
+            transparent 30rem
+        ),
+        var(--color-background);
+}
+
+.app-layout {
+    min-height: 100vh;
+}
+
+.main-content {
+    min-height: 100vh;
+    margin-left: var(--sidebar-width);
+    padding: 3.5rem clamp(2rem, 5vw, 5rem);
+}
+
+.main-content > * {
+    width: 100%;
+    max-width: var(--content-width);
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.content-section {
+    margin-top: 3rem;
+}
+
+.section-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+@media (max-width: 900px) {
+    .main-content {
+        margin-left: 0;
+        padding: 2rem 1.25rem;
+    }
+
+    .section-heading {
+        align-items: stretch;
+        flex-direction: column;
+    }
+}
