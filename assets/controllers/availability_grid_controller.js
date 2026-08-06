@@ -367,23 +367,29 @@
                                     </span>
                                 {% else %}
                                     <span class="availability-table__summary-item is-available">
-                                        <span>{{ day.afternoonSummary.availableCount }}</span>
-                                        <span class="availability-table__summary-symbol">✓</span>
+                                        {{ day.afternoonSummary.availableCount }}
+                                        {{ day.afternoonSummary.availableCount > 1
+                                            ? 'disponibles'
+                                            : 'disponible'
+                                        }}
                                     </span>
 
                                     <span class="availability-table__summary-item is-maybe">
-                                        <span>{{ day.afternoonSummary.maybeCount }}</span>
-                                        <span class="availability-table__summary-symbol">?</span>
+                                        {{ day.afternoonSummary.maybeCount }}
+                                        peut-être
                                     </span>
 
                                     <span class="availability-table__summary-item is-unavailable">
-                                        <span>{{ day.afternoonSummary.unavailableCount }}</span>
-                                        <span class="availability-table__summary-symbol">×</span>
+                                        {{ day.afternoonSummary.unavailableCount }}
+                                        {{ day.afternoonSummary.unavailableCount > 1
+                                            ? 'indisponibles'
+                                            : 'indisponible'
+                                        }}
                                     </span>
 
                                     <span class="availability-table__summary-item is-unanswered">
-                                        <span>{{ day.afternoonSummary.unansweredCount }}</span>
-                                        <span class="availability-table__summary-symbol">—</span>
+                                        {{ day.afternoonSummary.unansweredCount }}
+                                        sans réponse
                                     </span>
                                 {% endif %}
                             </div>
@@ -395,23 +401,29 @@
                                     </span>
                                 {% else %}
                                     <span class="availability-table__summary-item is-available">
-                                        <span>{{ day.afternoonSummary.availableCount }}</span>
-                                        <span class="availability-table__summary-symbol">✓</span>
+                                        {{ day.eveningSummary.availableCount }}
+                                        {{ day.eveningSummary.availableCount > 1
+                                            ? 'disponibles'
+                                            : 'disponible'
+                                        }}
                                     </span>
 
                                     <span class="availability-table__summary-item is-maybe">
-                                        <span>{{ day.afternoonSummary.maybeCount }}</span>
-                                        <span class="availability-table__summary-symbol">?</span>
+                                        {{ day.eveningSummary.maybeCount }}
+                                        peut-être
                                     </span>
 
                                     <span class="availability-table__summary-item is-unavailable">
-                                        <span>{{ day.afternoonSummary.unavailableCount }}</span>
-                                        <span class="availability-table__summary-symbol">×</span>
+                                        {{ day.eveningSummary.unavailableCount }}
+                                        {{ day.eveningSummary.unavailableCount > 1
+                                            ? 'indisponibles'
+                                            : 'indisponible'
+                                        }}
                                     </span>
 
                                     <span class="availability-table__summary-item is-unanswered">
-                                        <span>{{ day.afternoonSummary.unansweredCount }}</span>
-                                        <span class="availability-table__summary-symbol">—</span>
+                                        {{ day.eveningSummary.unansweredCount }}
+                                        sans réponse
                                     </span>
                                 {% endif %}
                             </div>

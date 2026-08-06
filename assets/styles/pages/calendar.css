@@ -295,3 +295,259 @@
     box-shadow: inset 3px 0 0 var(--color-gold);
     background: rgb(201 168 92 / 5%);
 }
+
+.availability-editor {
+    display: grid;
+    gap: 1rem;
+
+    margin-bottom: 1.25rem;
+    padding: 1.25rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-medium);
+
+    background: var(--color-surface);
+}
+
+.availability-editor__status,
+.availability-editor__shortcuts {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.availability-editor__label {
+    margin-right: 0.25rem;
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.availability-status-button {
+    min-height: 2.5rem;
+    padding: 0.55rem 0.8rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+
+    color: var(--color-text-muted);
+    background: transparent;
+
+    transition:
+        color var(--transition-fast),
+        border-color var(--transition-fast),
+        background-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.availability-status-button.is-active {
+    border-color: currentColor;
+    box-shadow: 0 0 0 3px rgb(255 255 255 / 4%);
+}
+
+.availability-status-button.is-available {
+    color: #7fc89c;
+}
+
+.availability-status-button.is-maybe {
+    color: var(--color-gold-light);
+}
+
+.availability-status-button.is-unavailable {
+    color: #d98181;
+}
+
+.availability-cell.is-editable {
+    cursor: pointer;
+}
+
+.availability-cell.is-editable:hover {
+    box-shadow: inset 0 0 0 2px var(--color-gold-dark);
+}
+
+.availability-cell.is-blocked {
+    cursor: not-allowed;
+}
+
+.availability-save {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+
+    margin-top: 1.25rem;
+}
+
+.availability-save__hint {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+}
+
+.button:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+    transform: none;
+}
+
+@media (max-width: 700px) {
+    .availability-editor__status,
+    .availability-editor__shortcuts,
+    .availability-save {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .availability-status-button,
+    .availability-editor__shortcuts .button,
+    .availability-save .button {
+        width: 100%;
+    }
+}
+
+.availability-table__period-button {
+    display: grid;
+    min-width: 0;
+    min-height: 3rem;
+    place-items: center;
+
+    padding: 0.4rem;
+
+    border: 0;
+    color: var(--color-text-muted);
+    background: transparent;
+
+    font-size: 0.72rem;
+    font-weight: 700;
+
+    transition:
+        color var(--transition-fast),
+        background-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.availability-table__period-button + input
+    + .availability-table__period-button {
+    border-left: 1px solid var(--color-border);
+}
+
+.availability-table__period-button:hover {
+    color: var(--color-gold-light);
+    box-shadow: inset 0 0 0 1px var(--color-gold-dark);
+}
+
+.availability-table__period-button.is-blocked {
+    color: #8d919a;
+
+    background:
+        repeating-linear-gradient(
+            -45deg,
+            rgb(255 255 255 / 3%),
+            rgb(255 255 255 / 3%) 6px,
+            transparent 6px,
+            transparent 12px
+        ),
+        #17191f;
+}
+
+.availability-table__period-button.is-open {
+    color: var(--color-text-muted);
+}
+
+.availability-table__periods input[type="hidden"] {
+    display: none;
+}
+
+.calendar-readonly-notice {
+    margin-bottom: 1.25rem;
+    padding: 1rem 1.25rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-medium);
+
+    color: var(--color-text-muted);
+    background: var(--color-surface);
+}
+
+.availability-table__results-label {
+    display: flex;
+    min-height: 7.5rem;
+    align-items: center;
+
+    padding: 1rem;
+
+    color: var(--color-gold-light);
+    background: rgb(201 168 92 / 5%);
+
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.availability-table__results {
+    display: grid;
+    min-height: 7.5rem;
+    grid-template-columns: 1fr 1fr;
+
+    background: rgb(201 168 92 / 3%);
+}
+
+.availability-table__result-slot {
+    display: grid;
+    align-content: center;
+    gap: 0.25rem;
+
+    min-width: 0;
+    padding: 0.65rem;
+}
+
+.availability-table__result-slot + .availability-table__result-slot {
+    border-left: 1px solid var(--color-border);
+}
+
+.availability-table__summary-item {
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+
+    font-size: .72rem;
+    font-weight: 600;
+}
+
+.availability-table__summary-symbol {
+    width: .9rem;
+    text-align: center;
+    font-weight: 700;
+}
+
+.availability-table__summary-item.is-available {
+    color: #7fc89c;
+}
+
+.availability-table__summary-item.is-maybe {
+    color: var(--color-gold-light);
+}
+
+.availability-table__summary-item.is-unavailable {
+    color: #d98181;
+}
+
+.availability-table__summary-item.is-unanswered {
+    color: var(--color-text-muted);
+}
+
+.availability-table__result-blocked {
+    color: #8d919a;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.availability-table__period-button {
+    align-content: center;
+    gap: 0.15rem;
+}

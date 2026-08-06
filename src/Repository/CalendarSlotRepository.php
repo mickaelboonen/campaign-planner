@@ -51,4 +51,26 @@ final class CalendarSlotRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @param list<int> $ids
+     *
+     * @return list<CalendarSlot>
+     */
+    public function findByIdsAndCampaign(
+        array $ids,
+        Campaign $campaign,
+    ): array {
+        if ($ids === []) {
+            return [];
+        }
+
+        return $this->createQueryBuilder('slot')
+            ->andWhere('slot.id IN (:ids)')
+            ->andWhere('slot.campaign = :campaign')
+            ->setParameter('ids', $ids)
+            ->setParameter('campaign', $campaign)
+            ->getQuery()
+            ->getResult();
+    }
 }

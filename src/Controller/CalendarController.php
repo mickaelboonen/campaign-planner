@@ -10,6 +10,7 @@ use App\Service\CalendarViewBuilder;
 use App\Repository\ParticipantRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/campaign/{id}/calendar', name: 'calendar_')]
@@ -49,6 +50,12 @@ final class CalendarController extends BaseController
             ->modify('monday this week')
             ->setTime(0, 0);
 
+        $currentWeekStart = (new \DateTimeImmutable())
+            ->modify('monday this week')
+            ->setTime(0, 0);
+
+        $isPastWeek = $weekStart < $currentWeekStart;
+
         $slots = $this->calendarSlotManager->getOrCreateWeek(
             $campaign,
             $weekStart,
@@ -70,6 +77,72 @@ final class CalendarController extends BaseController
         return $this->render('calendar/show.html.twig', [
             'campaign' => $campaign,
             'calendar' => $calendar,
+            'isPastWeek' => $isPastWeek,
+        ]);
+    }
+
+    #[Route('/slots/save', name: 'save_slots', methods: ['POST'])]
+    public function saveSlots(
+        Request $request,
+        Campaign $campaign,
+    ): RedirectResponse {
+        $this->denyAccessUnlessGranted(
+            CampaignVoter::EDIT,
+            $campaign,
+        );
+
+        if (!$this->isCsrfTokenValid(
+            'save-calendar-slots-'.$campaign->getId(),
+            (string) $request->request->get('_token'),
+        )) {
+            throw $this->createAccessDeniedException(
+                'Jeton CSRF invalide.',
+            );
+        }
+
+        $week = (string) $request->request->get('week');
+
+        try {
+            $weekStart = new \DateTimeImmutable($week);
+        } catch (\Exception) {
+            throw $this->createNotFoundException(
+                'La semaine envoyée est invalide.',
+            );
+        }
+
+        $weekStart = $weekStart
+            ->modify('monday this week')
+            ->setTime(0, 0);
+
+        $currentWeekStart = (new \DateTimeImmutable())
+            ->modify('monday this week')
+            ->setTime(0, 0);
+
+        if ($weekStart < $currentWeekStart) {
+            throw $this->createAccessDeniedException(
+                'Une semaine passée ne peut plus être modifiée.',
+            );
+        }
+
+        try {
+            $this->calendarSlotManager->saveBlockingStates(
+                $campaign,
+                $request->request->all('slots'),
+            );
+        } catch (\InvalidArgumentException $exception) {
+            throw $this->createNotFoundException(
+                $exception->getMessage(),
+            );
+        }
+
+        $this->addFlash(
+            'success',
+            'Les créneaux ont bien été mis à jour.',
+        );
+
+        return $this->redirectToRoute('calendar_show', [
+            'id' => $campaign->getId(),
+            'week' => $weekStart->format('Y-m-d'),
         ]);
     }
 }

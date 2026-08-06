@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Availability;
+use App\Entity\CalendarSlot;
+use App\Entity\Participant;
 use App\Entity\Campaign;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -36,6 +38,28 @@ class AvailabilityRepository extends ServiceEntityRepository
             ->setParameter('campaign', $campaign)
             ->setParameter('weekStart', $weekStart)
             ->setParameter('weekEnd', $weekEnd)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param list<CalendarSlot> $slots
+     *
+     * @return list<Availability>
+     */
+    public function findByParticipantAndSlots(
+        Participant $participant,
+        array $slots,
+    ): array {
+        if ($slots === []) {
+            return [];
+        }
+
+        return $this->createQueryBuilder('availability')
+            ->andWhere('availability.participant = :participant')
+            ->andWhere('availability.calendarSlot IN (:slots)')
+            ->setParameter('participant', $participant)
+            ->setParameter('slots', $slots)
             ->getQuery()
             ->getResult();
     }

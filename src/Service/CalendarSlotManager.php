@@ -64,4 +64,70 @@ final readonly class CalendarSlotManager
     ): \DateTimeImmutable {
         return $date->modify('monday this week')->setTime(0, 0);
     }
+
+    /**
+     * @param array<string|int, mixed> $submittedSlots
+     */
+    public function saveBlockingStates(
+        Campaign $campaign,
+        array $submittedSlots,
+    ): void {
+        $normalizedStates = [];
+
+        foreach ($submittedSlots as $slotId => $status) {
+            $validatedSlotId = filter_var(
+                $slotId,
+                FILTER_VALIDATE_INT,
+            );
+
+            if (
+                $validatedSlotId === false
+                || $validatedSlotId <= 0
+            ) {
+                throw new \InvalidArgumentException(
+                    'Identifiant de créneau invalide.',
+                );
+            }
+
+            if (!is_string($status)) {
+                throw new \InvalidArgumentException(
+                    'État de créneau invalide.',
+                );
+            }
+
+            if (!in_array($status, ['open', 'blocked'], true)) {
+                throw new \InvalidArgumentException(
+                    'État de créneau inconnu.',
+                );
+            }
+
+            $normalizedStates[$validatedSlotId] = $status;
+        }
+
+        $slotIds = array_keys($normalizedStates);
+
+        $slots = $this->calendarSlotRepository
+            ->findByIdsAndCampaign($slotIds, $campaign);
+
+        if (count($slots) !== count($slotIds)) {
+            throw new \InvalidArgumentException(
+                'Un ou plusieurs créneaux sont invalides.',
+            );
+        }
+
+        foreach ($slots as $slot) {
+            $slotId = $slot->getId();
+
+            if ($slotId === null) {
+                continue;
+            }
+
+            match ($normalizedStates[$slotId]) {
+                'blocked' => $slot->block(),
+                'open' => $slot->reopen(),
+            };
+        }
+
+        $this->entityManager->flush();
+    }
 }

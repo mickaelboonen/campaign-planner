@@ -11,6 +11,8 @@ final readonly class CalendarDayView
         public \DateTimeImmutable $date,
         public CalendarSlot $afternoonSlot,
         public CalendarSlot $eveningSlot,
+        public CalendarSlotSummaryView $afternoonSummary,
+        public CalendarSlotSummaryView $eveningSummary,
     ) {
     }
 
