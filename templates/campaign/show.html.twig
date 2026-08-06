@@ -20,7 +20,9 @@
         title: campaign.name,
         description: 'Créée le ' ~ campaign.createdAt|date('d/m/Y'),
         action_label: 'Ajouter un participant',
-        action_path: '#'
+        action_path: path('participant_new', {
+            id: campaign.id
+        })
     } %}
 
     <section
@@ -71,7 +73,7 @@
                 <h2>Participants</h2>
             </div>
 
-            <a class="button button--primary" href="#">
+            <a class="button button--primary" href="{{ path('participant_new', { id: campaign.id }) }}">
                 Ajouter un participant
             </a>
         </div>
@@ -82,7 +84,9 @@
                 title: 'Aucun participant',
                 message: 'Ajoutez votre premier joueur afin de commencer à préparer le calendrier de cette campagne.',
                 action_label: 'Ajouter un participant',
-                action_path: '#'
+                action_path: path('participant_new', {
+                    id: campaign.id
+                })
             } %}
         {% else %}
             <div class="participant-grid">

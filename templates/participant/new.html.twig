@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Nouveau participant
+{% endblock %}
+
+{% block body %}
+
+    {% include 'components/breadcrumb.html.twig' with {
+        items: [
+            {
+                label: 'Campagnes',
+                path: path('campaign_list')
+            },
+            {
+                label: campaign.name,
+                path: path('campaign_show', {
+                    id: campaign.id
+                })
+            },
+            {
+                label: 'Nouveau participant'
+            }
+        ]
+    } %}
+
+    {% include 'components/page-header.html.twig' with {
+        eyebrow: 'Participants',
+        title: 'Ajouter un participant',
+        description: 'Invitez un nouveau joueur dans cette campagne.'
+    } %}
+
+    <section class="card card--form">
+
+        {{ form_start(form, {
+            attr: {
+                class: 'form'
+            }
+        }) }}
+
+            {{ form_row(form.name) }}
+
+            {{ form_row(form.email) }}
+
+            {{ form_row(form.phone) }}
+
+            {{ form_row(form.characterName) }}
+
+            <div class="form-actions">
+
+                <a
+                    href="{{ path('campaign_show', {
+                        id: campaign.id
+                    }) }}"
+                    class="button button--secondary"
+                >
+                    Annuler
+                </a>
+                <button 
+                    class="button button--primary"
+                >
+                    Ajouter un participant
+                </button>
+
+            </div>
+
+        {{ form_end(form) }}
+
+    </section>
+
+{% endblock %}

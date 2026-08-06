@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\DTO\CreateParticipantData;
+use App\DTO\EditParticipantData;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -37,6 +38,11 @@ final class ParticipantType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => CreateParticipantData::class,
+        ]);
+
+        $resolver->setAllowedValues('data_class', [
+            CreateParticipantData::class,
+            EditParticipantData::class,
         ]);
     }
 }

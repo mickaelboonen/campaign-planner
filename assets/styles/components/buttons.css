@@ -44,3 +44,13 @@
     color: var(--color-text);
     background: var(--color-surface-hover);
 }
+
+.button--ghost {
+    color: var(--color-text-muted);
+    background: transparent;
+}
+
+.button--ghost:hover {
+    color: var(--color-danger);
+    background: rgb(207 117 117 / 8%);
+}

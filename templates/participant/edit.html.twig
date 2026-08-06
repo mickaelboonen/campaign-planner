@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier {{ participant.name }}{% endblock %}
+
+{% block body %}
+    {% include 'components/breadcrumb.html.twig' with {
+        items: [
+            {
+                label: 'Campagnes',
+                path: path('campaign_list')
+            },
+            {
+                label: campaign.name,
+                path: path('campaign_show', {
+                    id: campaign.id
+                })
+            },
+            {
+                label: participant.name
+            }
+        ]
+    } %}
+
+    {% include 'components/page-header.html.twig' with {
+        eyebrow: 'Participants',
+        title: 'Modifier le participant',
+        description: 'Mettez à jour les informations de ' ~ participant.name ~ '.'
+    } %}
+
+    <section class="card card--form">
+        {{ form_start(form, {
+            attr: {
+                class: 'form'
+            }
+        }) }}
+
+            {{ form_row(form.name) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.phone) }}
+            {{ form_row(form.characterName) }}
+
+            <div class="form-actions">
+                <a
+                    href="{{ path('campaign_show', {
+                        id: campaign.id
+                    }) }}"
+                    class="button button--secondary"
+                >
+                    Annuler
+                </a>
+
+                <button type="submit" class="button button--primary">
+                    Enregistrer
+                </button>
+            </div>
+
+        {{ form_end(form) }}
+    </section>
+{% endblock %}

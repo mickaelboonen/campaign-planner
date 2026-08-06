@@ -33,16 +33,55 @@
     </div>
 
     <footer class="participant-card__footer">
+
         <span class="participant-card__status">
             Aucune disponibilité renseignée
         </span>
 
-        <button
-            class="participant-card__link button button--secondary"
-            type="button"
-            disabled
-        >
-            Copier le lien
-        </button>
+        <div class="participant-card__actions">
+
+            <a
+                href="{{ path('participant_edit', {
+                    id: participant.campaign.id,
+                    participant: participant.id
+                }) }}"
+                class="button button--secondary"
+            >
+                Modifier
+            </a>
+
+            <button
+                class="button button--secondary"
+                type="button"
+                disabled
+            >
+                Copier le lien
+            </button>
+
+            <form
+                method="post"
+                action="{{ path('participant_archive', {
+                    id: participant.campaign.id,
+                    participant: participant.id
+                }) }}"
+                onsubmit="return confirm('Archiver ce participant ?');"
+            >
+                <input
+                    type="hidden"
+                    name="_token"
+                    value="{{ csrf_token(
+                        'archive-participant-' ~ participant.id
+                    ) }}"
+                >
+
+                <button
+                    type="submit"
+                    class="button button--ghost"
+                >
+                    Archiver
+                </button>
+            </form>
+        </div>
+
     </footer>
 </article>

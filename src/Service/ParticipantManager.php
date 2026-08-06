@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\DTO\CreateParticipantData;
+use App\DTO\EditParticipantData;
+use App\Repository\ParticipantRepository;
 use App\Entity\Campaign;
 use App\Entity\Participant;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,6 +13,7 @@ final readonly class ParticipantManager
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
+        private ParticipantRepository $participantRepository,
     ) {
     }
 
@@ -31,6 +34,18 @@ final readonly class ParticipantManager
         $this->entityManager->flush();
 
         return $participant;
+    }
+
+    public function update(
+        Participant $participant,
+        EditParticipantData $data,
+    ): void {
+        $participant->setName((string) $data->name);
+        $participant->setEmail((string) $data->email);
+        $participant->setPhone($data->phone);
+        $participant->setCharacterName($data->characterName);
+
+        $this->entityManager->flush();
     }
 
     public function archive(Participant $participant): void

@@ -2,9 +2,10 @@
 
 namespace App\DTO;
 
+use App\Entity\Participant;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class CreateParticipantData
+final class EditParticipantData
 {
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
@@ -15,7 +16,6 @@ final class CreateParticipantData
     #[Assert\Length(max: 255)]
     public ?string $email = null;
 
-    #[Assert\Length(max: 32)]
     #[Assert\Regex(
         pattern: '/^\d{10}$/',
         message: 'Le numéro de téléphone doit contenir exactement 10 chiffres.',
@@ -24,4 +24,16 @@ final class CreateParticipantData
 
     #[Assert\Length(max: 255)]
     public ?string $characterName = null;
+
+    public static function fromParticipant(Participant $participant): self
+    {
+        $data = new self();
+
+        $data->name = $participant->getName();
+        $data->email = $participant->getEmail();
+        $data->phone = $participant->getPhone();
+        $data->characterName = $participant->getCharacterName();
+
+        return $data;
+    }
 }
