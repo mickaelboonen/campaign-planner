@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Entity\Traits\ArchivableTrait;
 use App\Entity\Traits\TimestampableTrait;
 use App\Repository\ParticipantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
@@ -42,9 +44,16 @@ class Participant
     #[ORM\JoinColumn(nullable: false)]
     private ?Campaign $campaign = null;
 
+    /**
+     * @var Collection<int, Availability>
+     */
+    #[ORM\OneToMany(targetEntity: Availability::class, mappedBy: 'participant')]
+    private Collection $availabilities;
+
     public function __construct()
     {
         $this->initializeTimestamps();
+        $this->availabilities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -131,4 +140,23 @@ class Participant
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Availability>
+     */
+    public function getAvailabilities(): Collection
+    {
+        return $this->availabilities;
+    }
+
+    public function addAvailability(Availability $availability): static
+    {
+        if (!$this->availabilities->contains($availability)) {
+            $this->availabilities->add($availability);
+            $availability->setParticipant($this);
+        }
+
+        return $this;
+    }
+    
 }

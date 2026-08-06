@@ -25,6 +25,12 @@
         })
     } %}
 
+<a
+    class="button button--secondary"
+    href="{{ path('calendar_show', { id: campaign.id }) }}"
+>
+    Voir le calendrier
+</a>
     <section
         class="campaign-banner"
         style="--campaign-color: {{ campaign.color ?? '#c9a85c' }}"

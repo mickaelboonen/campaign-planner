@@ -37,10 +37,17 @@ class Campaign
     #[ORM\OneToMany(targetEntity: Participant::class, mappedBy: 'campaign')]
     private Collection $participants;
 
+    /**
+     * @var Collection<int, CalendarSlot>
+     */
+    #[ORM\OneToMany(targetEntity: CalendarSlot::class, mappedBy: 'campaign')]
+    private Collection $calendarSlots;
+
     public function __construct()
     {
         $this->initializeTimestamps();
         $this->participants = new ArrayCollection();
+        $this->calendarSlots = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -72,21 +79,6 @@ class Campaign
         return $this;
     }
 
-    public function getCreatedAt(): \DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function getUpdatedAt(): \DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function getArchivedAt(): ?\DateTimeImmutable
-    {
-        return $this->archivedAt;
-    }
-
     public function getOwner(): ?User
     {
         return $this->owner;
@@ -112,6 +104,24 @@ class Campaign
         if (!$this->participants->contains($participant)) {
             $this->participants->add($participant);
             $participant->setCampaign($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CalendarSlot>
+     */
+    public function getCalendarSlots(): Collection
+    {
+        return $this->calendarSlots;
+    }
+
+    public function addCalendarSlot(CalendarSlot $calendarSlot): static
+    {
+        if (!$this->calendarSlots->contains($calendarSlot)) {
+            $this->calendarSlots->add($calendarSlot);
+            $calendarSlot->setCampaign($this);
         }
 
         return $this;

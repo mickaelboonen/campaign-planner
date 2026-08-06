@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1"
+        >
+
+        <title>
+            {% block title %}CampaignPlanner{% endblock %}
+            — CampaignPlanner
+        </title>
+
+        {% block stylesheets %}
+            {{ importmap('app') }}
+        {% endblock %}
+    </head>
+
+    <body class="public-page">
+        <header class="public-header">
+            <a class="brand" href="#">
+                <span class="brand__emblem">◆</span>
+
+                <span>
+                    <strong>Campaign</strong><em>Planner</em>
+                </span>
+            </a>
+        </header>
+
+        <main class="public-content">
+            {% for message in app.flashes('success') %}
+                <div class="flash flash--success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            {% block body %}{% endblock %}
+        </main>
+    </body>
+</html>

@@ -1,0 +1,24 @@
+.public-page {
+    min-height: 100vh;
+}
+
+.public-header {
+    display: flex;
+    min-height: 5rem;
+    align-items: center;
+
+    padding: 1rem clamp(1.25rem, 5vw, 4rem);
+    border-bottom: 1px solid var(--color-border);
+
+    background: rgb(21 23 29 / 96%);
+}
+
+.public-header .brand {
+    margin-bottom: 0;
+}
+
+.public-content {
+    width: min(100% - 2rem, var(--content-width));
+    margin-inline: auto;
+    padding-block: 2.5rem 4rem;
+}

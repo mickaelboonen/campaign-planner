@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Calendrier — {{ campaign.name }}{% endblock %}
+
+{% block body %}
+    {% include 'components/breadcrumb.html.twig' with {
+        items: [
+            {
+                label: 'Campagnes',
+                path: path('campaign_list')
+            },
+            {
+                label: campaign.name,
+                path: path('campaign_show', {
+                    id: campaign.id
+                })
+            },
+            {
+                label: 'Calendrier'
+            }
+        ]
+    } %}
+
+    {% include 'components/page-header.html.twig' with {
+        eyebrow: 'Disponibilités',
+        title: 'Calendrier',
+        description: 'Semaine du '
+            ~ calendar.start|date('d/m/Y')
+            ~ ' au '
+            ~ calendar.end|date('d/m/Y')
+    } %}
+
+    <section class="calendar-toolbar">
+        <a
+            class="button button--secondary"
+            href="{{ path('calendar_show', {
+                id: campaign.id,
+                week: calendar.previousWeek|date('Y-m-d')
+            }) }}"
+        >
+            ← Semaine précédente
+        </a>
+
+        <a
+            class="button button--secondary"
+            href="{{ path('calendar_show', {
+                id: campaign.id
+            }) }}"
+        >
+            Cette semaine
+        </a>
+
+        <a
+            class="button button--secondary"
+            href="{{ path('calendar_show', {
+                id: campaign.id,
+                week: calendar.nextWeek|date('Y-m-d')
+            }) }}"
+        >
+            Semaine suivante →
+        </a>
+    </section>
+
+                <section class="calendar-legend">
+    <span class="calendar-legend__item is-available">
+        <span class="calendar-legend__symbol">✓</span>
+        Disponible
+    </span>
+
+    <span class="calendar-legend__item is-maybe">
+        <span class="calendar-legend__symbol">?</span>
+        Peut-être
+    </span>
+
+    <span class="calendar-legend__item is-unavailable">
+        <span class="calendar-legend__symbol">×</span>
+        Indisponible
+    </span>
+
+    <span class="calendar-legend__item is-empty">
+        <span class="calendar-legend__symbol">—</span>
+        Non renseigné
+    </span>
+</section>
+
+    <section class="calendar-card">
+        <div class="availability-table">
+            <div class="availability-table__corner">
+                Participant
+            </div>
+
+            {% for day in calendar.days %}
+                <div class="availability-table__day">
+                    <strong>{{ day.label }}</strong>
+                    <span>{{ day.date|date('d/m') }}</span>
+                </div>
+            {% endfor %}
+
+            <div class="availability-table__subheader"></div>
+
+
+
+            {% for day in calendar.days %}
+                <div class="availability-table__periods">
+                    <span>Après-midi</span>
+                    <span>Soir</span>
+                </div>
+            {% endfor %}
+
+            {% for row in calendar.rows %}
+                <div class="availability-table__participant">
+                    <strong>{{ row.participant.name }}</strong>
+
+                    {% if row.participant.characterName %}
+                        <span>{{ row.participant.characterName }}</span>
+                    {% endif %}
+                </div>
+
+                {% for cell in row.cells %}
+                    {% if loop.index0 is even %}
+                        <div class="availability-table__cells">
+                    {% endif %}
+
+                        <div
+                            class="availability-cell {{ cell.cssClass }}"
+                            title="{{ cell.label }}"
+                        >
+                            <span class="availability-cell__symbol">
+                                {{ cell.symbol }}
+                            </span>
+                        </div>
+
+                    {% if loop.index is even %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <div class="availability-table__empty">
+                    Aucun participant actif dans cette campagne.
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

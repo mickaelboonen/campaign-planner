@@ -61,4 +61,14 @@ class ParticipantRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    public function findActiveByAccessToken(string $token): ?Participant
+    {
+        return $this->createQueryBuilder('participant')
+            ->andWhere('participant.accessToken = :token')
+            ->andWhere('participant.archivedAt IS NULL')
+            ->setParameter('token', $token)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

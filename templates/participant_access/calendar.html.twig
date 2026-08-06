@@ -1,0 +1,134 @@
+{% extends 'public_base.html.twig' %}
+
+{% block title %}
+    Mes disponibilités — {{ campaign.name }}
+{% endblock %}
+
+{% block body %}
+    {% include 'components/page-header.html.twig' with {
+        eyebrow: campaign.name,
+        title: 'Bonjour ' ~ participant.name,
+        description: 'Indiquez vos disponibilités pour la semaine du '
+            ~ calendar.start|date('d/m/Y')
+            ~ ' au '
+            ~ calendar.end|date('d/m/Y')
+            ~ '. Les réponses des autres participants sont visibles.'
+    } %}
+
+    <section class="calendar-toolbar">
+        <a
+            class="button button--secondary"
+            href="{{ path('participant_availability_show', {
+                token: participant.accessToken,
+                week: calendar.previousWeek|date('Y-m-d')
+            }) }}"
+        >
+            ← Semaine précédente
+        </a>
+
+        <a
+            class="button button--secondary"
+            href="{{ path('participant_availability_show', {
+                token: participant.accessToken
+            }) }}"
+        >
+            Cette semaine
+        </a>
+
+        <a
+            class="button button--secondary"
+            href="{{ path('participant_availability_show', {
+                token: participant.accessToken,
+                week: calendar.nextWeek|date('Y-m-d')
+            }) }}"
+        >
+            Semaine suivante →
+        </a>
+    </section>
+
+    <section class="calendar-legend">
+        <span class="calendar-legend__item is-available">
+            <span class="calendar-legend__symbol">✓</span>
+            Disponible
+        </span>
+
+        <span class="calendar-legend__item is-maybe">
+            <span class="calendar-legend__symbol">?</span>
+            Peut-être
+        </span>
+
+        <span class="calendar-legend__item is-unavailable">
+            <span class="calendar-legend__symbol">×</span>
+            Indisponible
+        </span>
+
+        <span class="calendar-legend__item is-empty">
+            <span class="calendar-legend__symbol">—</span>
+            Non renseigné
+        </span>
+    </section>
+
+    <section class="calendar-card">
+        <div class="availability-table">
+            <div class="availability-table__corner">
+                Participant
+            </div>
+
+            {% for day in calendar.days %}
+                <div class="availability-table__day">
+                    <strong>{{ day.label }}</strong>
+                    <span>{{ day.date|date('d/m') }}</span>
+                </div>
+            {% endfor %}
+
+            <div class="availability-table__subheader"></div>
+
+            {% for day in calendar.days %}
+                <div class="availability-table__periods">
+                    <span>Après-midi</span>
+                    <span>Soir</span>
+                </div>
+            {% endfor %}
+
+            {% for row in calendar.rows %}
+                <div class="availability-table__participant">
+                    <strong>
+                        {{ row.participant.id == participant.id ? 'Vous — ' : '' }}
+                        {{ row.participant.name }}
+                    </strong>
+
+                    {% if row.participant.characterName %}
+                        <span>{{ row.participant.characterName }}</span>
+                    {% endif %}
+                </div>
+
+                {% for dayIndex in 0..6 %}
+                    {% set afternoonCell = row.cells[dayIndex * 2] %}
+                    {% set eveningCell = row.cells[(dayIndex * 2) + 1] %}
+
+                    <div
+                        class="availability-table__cells {{ row.participant.id == participant.id ? 'is-current-participant' }}"
+                    >
+                        <div
+                            class="availability-cell {{ afternoonCell.cssClass }}"
+                            title="{{ afternoonCell.label }}"
+                        >
+                            <span class="availability-cell__symbol">
+                                {{ afternoonCell.symbol }}
+                            </span>
+                        </div>
+
+                        <div
+                            class="availability-cell {{ eveningCell.cssClass }}"
+                            title="{{ eveningCell.label }}"
+                        >
+                            <span class="availability-cell__symbol">
+                                {{ eveningCell.symbol }}
+                            </span>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}
