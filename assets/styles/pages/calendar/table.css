@@ -51,6 +51,32 @@
             color: var(--color-text-muted);
             font-size: 0.85rem;
         }
+
+        &.has-session {
+            position: relative;
+
+            color: var(--color-gold-light);
+            background:
+                linear-gradient(
+                    180deg,
+                    rgb(201 168 92 / 14%),
+                    rgb(201 168 92 / 5%)
+                );
+
+            box-shadow:
+                inset 0 3px 0 var(--color-gold);
+
+            &::after {
+                content: 'SESSION';
+
+                margin-top: 0.3rem;
+
+                color: var(--color-gold);
+                font-size: 0.6rem;
+                font-weight: 800;
+                letter-spacing: 0.1em;
+            }
+        }
     }
 
     .availability-table__periods {

@@ -61,6 +61,21 @@ final class ParticipantAccessController extends AbstractController
             ->modify('monday this week')
             ->setTime(0, 0);
 
+        $availableWeeks = [];
+
+        $limit = $currentWeekStart->modify('+6 months');
+
+        for (
+            $week = $currentWeekStart;
+            $week <= $limit;
+            $week = $week->modify('+1 week')
+        ) {
+            $availableWeeks[] = [
+                'start' => $week,
+                'end' => $week->modify('+6 days'),
+            ];
+        }
+
         $isPastWeek = $weekStart < $currentWeekStart;
 
         $slots = $this->calendarSlotManager->getOrCreateWeek(
@@ -86,6 +101,7 @@ final class ParticipantAccessController extends AbstractController
             'campaign' => $campaign,
             'calendar' => $calendar,
             'isPastWeek' => $isPastWeek,
+            'availableWeeks' => $availableWeeks,
         ]);
     }
 

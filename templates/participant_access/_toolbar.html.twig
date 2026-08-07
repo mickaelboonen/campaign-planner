@@ -41,4 +41,42 @@
             →
         </span>
     </a>
+
+     <form
+        method="get"
+        action="{{ path('participant_availability_show', {
+            token: participant.accessToken,
+            week: calendar.nextWeek|date('Y-m-d')
+        }) }}"
+        class="calendar-week-picker"
+    >
+        <label
+            for="calendar-week-picker"
+            class="sr-only"
+        >
+            Choisir une semaine
+        </label>
+
+        <select
+            id="calendar-week-picker"
+            name="week"
+            onchange="this.form.submit()"
+        >
+            {% for week in availableWeeks %}
+                <option
+                    value="{{ week.start|date('Y-m-d') }}"
+                    {% if
+                        week.start|date('Y-m-d')
+                        == calendar.start|date('Y-m-d')
+                    %}
+                        selected
+                    {% endif %}
+                >
+                    {{ week.start|date('d/m') }}
+                    —
+                    {{ week.end|date('d/m/Y') }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
 </section>

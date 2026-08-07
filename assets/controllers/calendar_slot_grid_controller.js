@@ -83,6 +83,19 @@ export default class extends Controller {
         this.applySlotState(slot, status);
         this.updateHiddenInput(slot.dataset.slotId, status);
         this.updateSaveButton();
+
+        console.log(
+    'slotId',
+    slot.dataset.slotId,
+    'status',
+    status,
+    'inputs',
+    this.inputTargets.map((input) => ({
+        slotId: input.dataset.slotId,
+        value: input.value,
+        initial: input.dataset.initialValue,
+    })),
+);
     }
 
     applyShortcut(event) {

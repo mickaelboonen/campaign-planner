@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Campaign;
+use App\Entity\CalendarSlot;
 use App\Security\Voter\CampaignVoter;
 use App\Service\CalendarSlotManager;
+use App\Service\SessionManager;
 use App\Repository\AvailabilityRepository;
 use App\Service\CalendarViewBuilder;
 use App\Repository\ParticipantRepository;
@@ -54,6 +56,21 @@ final class CalendarController extends BaseController
             ->modify('monday this week')
             ->setTime(0, 0);
 
+        $availableWeeks = [];
+
+        $limit = $currentWeekStart->modify('+6 months');
+
+        for (
+            $week = $currentWeekStart;
+            $week <= $limit;
+            $week = $week->modify('+1 week')
+        ) {
+            $availableWeeks[] = [
+                'start' => $week,
+                'end' => $week->modify('+6 days'),
+            ];
+        }
+
         $isPastWeek = $weekStart < $currentWeekStart;
 
         $slots = $this->calendarSlotManager->getOrCreateWeek(
@@ -78,6 +95,7 @@ final class CalendarController extends BaseController
             'campaign' => $campaign,
             'calendar' => $calendar,
             'isPastWeek' => $isPastWeek,
+            'availableWeeks' => $availableWeeks,
         ]);
     }
 
@@ -144,5 +162,38 @@ final class CalendarController extends BaseController
             'id' => $campaign->getId(),
             'week' => $weekStart->format('Y-m-d'),
         ]);
+    }
+
+    #[Route( '/slot/{slot}/schedule', name: 'slot_schedule', methods: ['POST'])]
+    public function schedule(
+        Campaign $campaign,
+        CalendarSlot $slot,
+        Request $request,
+        SessionManager $sessionManager,
+    ): Response
+    {
+        try {
+            $sessionManager->scheduleFromSlot(
+                $slot,
+            );
+
+            $this->addFlash(
+                'success',
+                'La session a bien été créée.',
+            );
+        } catch (\DomainException $exception) {
+            $this->addFlash(
+                'error',
+                $exception->getMessage(),
+            );
+        }
+
+        return $this->redirectToRoute(
+            'calendar_show',
+            [
+                'id' => $slot->getCampaign()->getId(),
+                'week' => $slot->getDate()->format('Y-m-d'),
+            ],
+        );
     }
 }

@@ -1,0 +1,63 @@
+<div class="availability-table__results-label">
+    Décision
+</div>
+
+{% for day in calendar.days %}
+    <div class="availability-table__results">
+        <div class="availability-table__result-slot">
+            {% if day.afternoonSlot.blocked %}
+                <span class="availability-table__result-blocked">
+                    —
+                </span>
+            {% elseif day.afternoonSlot.status.value == 'selected' %}
+                <span class="availability-table__selected">
+                    Session prévue
+                </span>
+            {% else %}
+                <button
+                    type="submit"
+                    class="availability-table__schedule-button"
+                    formaction="{{ path('calendar_slot_schedule', {
+                        id: campaign.id,
+                        slot: day.afternoonSlot.id
+                    }) }}"
+                    formmethod="post"
+                    name="schedule_token"
+                    value="{{ csrf_token(
+                        'schedule-slot-' ~ day.afternoonSlot.id
+                    ) }}"
+                >
+                    ✓ Valider
+                </button>
+            {% endif %}
+        </div>
+
+        <div class="availability-table__result-slot">
+            {% if day.eveningSlot.blocked %}
+                <span class="availability-table__result-blocked">
+                    —
+                </span>
+            {% elseif day.eveningSlot.status.value == 'selected' %}
+                <span class="availability-table__selected">
+                    Session prévue
+                </span>
+            {% else %}
+                <button
+                    type="submit"
+                    class="availability-table__schedule-button"
+                    formaction="{{ path('calendar_slot_schedule', {
+                        id: campaign.id,
+                        slot: day.eveningSlot.id
+                    }) }}"
+                    formmethod="post"
+                    name="schedule_token"
+                    value="{{ csrf_token(
+                        'schedule-slot-' ~ day.eveningSlot.id
+                    ) }}"
+                >
+                    ✓ Valider
+                </button>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}

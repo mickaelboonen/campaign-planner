@@ -3,43 +3,112 @@
 {% block title %}Tableau de bord{% endblock %}
 
 {% block body %}
-    <header class="page-header">
-        <div>
-            <p class="page-eyebrow">Vue d’ensemble</p>
-            <h1>Tableau de bord</h1>
-            <p class="page-description">
-                Planifiez facilement les prochaines sessions de vos campagnes.
-            </p>
-        </div>
-    </header>
+    <p class="page-eyebrow">
+        Vue d’ensemble
+    </p>
+
+    <h1>
+        Tableau de bord
+    </h1>
+
+    <p class="page-description">
+        Planifiez facilement les prochaines sessions de vos campagnes.
+    </p>
 
     <section class="dashboard-grid">
-        <article class="dashboard-card dashboard-card--featured">
-            <div class="dashboard-card__header">
-                <span class="dashboard-card__icon">◈</span>
-                <span class="dashboard-card__label">Prochaine session</span>
-            </div>
+        {% if nextSession %}
+            <article
+                class="dashboard-card dashboard-card--featured dashboard-card--session"
+                style="
+                    --campaign-color:
+                    {{ nextSession.campaign.color ?? '#c9a85c' }}
+                "
+            >
+                {% if nextSession.campaign.image %}
+                    <div class="dashboard-card__media">
+                        <img
+                            src="{{ asset(
+                                'uploads/campaigns/'
+                                ~ nextSession.campaign.image
+                            ) }}"
+                            alt=""
+                        >
+                    </div>
 
-            <div class="dashboard-card__content">
-                <h2>Aucune session planifiée</h2>
-                <p>
-                    Le calendrier permettra bientôt de sélectionner votre
-                    prochaine date de jeu.
-                </p>
-            </div>
-        </article>
+                    <div class="dashboard-card__overlay"></div>
+                {% endif %}
+
+                <div class="dashboard-card__session-content">
+                    <div class="dashboard-card__header">
+                        <span class="dashboard-card__icon">◈</span>
+
+                        <span class="dashboard-card__label">
+                            Prochaine session
+                        </span>
+                    </div>
+
+                    <div class="dashboard-card__content">
+                        <h2>
+                            {{ nextSession.campaign.name }}
+                        </h2>
+
+                        <p class="dashboard-card__session-date">
+                            {{ nextSession.date|date('d/m/Y') }}
+                            ·
+                            {{ nextSession.period.label() }}
+                        </p>
+                    </div>
+
+                    <a
+                        class="text-link"
+                        href="{{ path('campaign_show', {
+                            id: nextSession.campaign.id
+                        }) }}"
+                    >
+                        Voir la campagne
+                    </a>
+                </div>
+            </article>
+        {% else %}
+            <article class="dashboard-card dashboard-card--featured">
+                <div class="dashboard-card__header">
+                    <span class="dashboard-card__icon">◈</span>
+
+                    <span class="dashboard-card__label">
+                        Prochaine session
+                    </span>
+                </div>
+
+                <div class="dashboard-card__content">
+                    <h2>
+                        Aucune session planifiée
+                    </h2>
+
+                    <p>
+                        Consultez les calendriers de vos campagnes
+                        pour choisir votre prochaine date.
+                    </p>
+                </div>
+            </article>
+        {% endif %}
 
         <article class="dashboard-card">
             <div class="dashboard-card__header">
                 <span class="dashboard-card__icon">◆</span>
-                <span class="dashboard-card__label">Campagnes actives</span>
+
+                <span class="dashboard-card__label">
+                    Campagnes actives
+                </span>
             </div>
 
             <div class="dashboard-card__stat">
                 {{ campaigns|length }}
             </div>
 
-            <a class="text-link" href="{{ path('campaign_list') }}">
+            <a
+                class="text-link"
+                href="{{ path('campaign_list') }}"
+            >
                 Voir mes campagnes
             </a>
         </article>
@@ -48,10 +117,15 @@
             class="dashboard-card dashboard-card--action"
             href="{{ path('campaign_create') }}"
         >
-            <span class="dashboard-card__action-icon">+</span>
+            <span class="dashboard-card__action-icon">
+                +
+            </span>
 
             <span>
-                <strong>Nouvelle campagne</strong>
+                <strong>
+                    Nouvelle campagne
+                </strong>
+
                 <small>
                     Créez une nouvelle table et préparez son calendrier.
                 </small>
@@ -59,29 +133,120 @@
         </a>
     </section>
 
+    {% if upcomingSessions is not empty %}
+        <section class="content-section">
+            <div class="section-heading">
+                <div>
+                    <p class="page-eyebrow">
+                        Planning
+                    </p>
+
+                    <h2>
+                        Sessions à venir
+                    </h2>
+                </div>
+            </div>
+
+            <div class="dashboard-session-list">
+                {% for session in upcomingSessions %}
+                    <a
+                        class="dashboard-session-card"
+                        href="{{ path('campaign_show', {
+                            id: session.campaign.id
+                        }) }}"
+                    >
+                        <div class="dashboard-session-card__date">
+                            <strong>
+                                {{ session.date|date('d') }}
+                            </strong>
+
+                            <span>
+                                {{ session.date|date('m/Y') }}
+                            </span>
+                        </div>
+
+                        <div class="dashboard-session-card__content">
+                            <strong>
+                                {{ session.campaign.name }}
+                            </strong>
+
+                            <span>
+                                {{ session.period.label() }}
+                            </span>
+                        </div>
+
+                        <span class="dashboard-session-card__arrow">
+                            →
+                        </span>
+                    </a>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
     {% if campaigns is not empty %}
         <section class="content-section">
             <div class="section-heading">
                 <div>
-                    <p class="page-eyebrow">Accès rapide</p>
-                    <h2>Mes campagnes</h2>
+                    <p class="page-eyebrow">
+                        Accès rapide
+                    </p>
+
+                    <h2>
+                        Mes campagnes
+                    </h2>
                 </div>
 
-                <a class="button button--secondary" href="{{ path('campaign_list') }}">
+                <a
+                    class="button button--secondary"
+                    href="{{ path('campaign_list') }}"
+                >
                     Tout afficher
                 </a>
             </div>
 
             <div class="campaign-grid">
                 {% for campaign in campaigns|slice(0, 3) %}
-                    <article class="campaign-card">
-                        <span
-                            class="campaign-card__color"
-                            style="--campaign-color: {{ campaign.color ?? '#c9a85c' }}"
-                        ></span>
+                    <article
+                        class="campaign-card"
+                        style="
+                            --campaign-color:
+                            {{ campaign.color ?? '#c9a85c' }}
+                        "
+                    >
+                        {% if campaign.image %}
+                            <div class="campaign-card__media">
+                                <img
+                                    src="{{ asset(
+                                        'uploads/campaigns/'
+                                        ~ campaign.image
+                                    ) }}"
+                                    alt=""
+                                >
+                            </div>
+                        {% endif %}
 
-                        <h3>{{ campaign.name }}</h3>
-                        <p>Calendrier et participants bientôt disponibles.</p>
+                        <span class="campaign-card__color"></span>
+
+                        <div class="campaign-card__content">
+                            <h3>
+                                {{ campaign.name }}
+                            </h3>
+
+                            <p>
+                                Consultez les participants
+                                et planifiez vos prochaines sessions.
+                            </p>
+
+                            <a
+                                class="text-link"
+                                href="{{ path('campaign_show', {
+                                    id: campaign.id
+                                }) }}"
+                            >
+                                Ouvrir la campagne
+                            </a>
+                        </div>
                     </article>
                 {% endfor %}
             </div>

@@ -112,16 +112,119 @@
         } %}
 
         {% include 'components/stat-card.html.twig' with {
-            label: 'Sessions',
-            value: 0,
+            label: 'Sessions à venir',
+            value: upcomingSessions|length,
             description: 'Sessions planifiées'
         } %}
 
         {% include 'components/stat-card.html.twig' with {
-            label: 'Disponibilités',
-            value: '—',
-            description: 'Calendrier à venir'
+            label: 'Sessions jouées',
+            value: pastSessions|length,
+            description: 'Historique de la campagne'
         } %}
+    </section>
+
+    <section class="content-section">
+        <div class="section-heading">
+            <div>
+                <p class="page-eyebrow">
+                    Planning
+                </p>
+
+                <h2>
+                    Sessions à venir
+                </h2>
+            </div>
+
+            <a
+                class="button button--secondary"
+                href="{{ path('calendar_show', {
+                    id: campaign.id
+                }) }}"
+            >
+                Voir le calendrier
+            </a>
+        </div>
+
+        {% if upcomingSessions is empty %}
+            <div class="campaign-sessions__empty">
+                <strong>
+                    Aucune session planifiée
+                </strong>
+
+                <span>
+                    Consultez les disponibilités pour choisir une prochaine date.
+                </span>
+            </div>
+        {% else %}
+            <div class="campaign-session-list">
+                {% for session in upcomingSessions %}
+                    <article class="campaign-session-card">
+                        <div class="campaign-session-card__date">
+                            <strong>
+                                {{ session.date|date('d') }}
+                            </strong>
+
+                            <span>
+                                {{ session.date|date('m/Y') }}
+                            </span>
+                        </div>
+
+                        <div class="campaign-session-card__content">
+                            <strong>
+                                {{ session.date|date('d/m/Y') }}
+                            </strong>
+
+                            <span>
+                                {{ session.period.label() }}
+                            </span>
+                        </div>
+
+                        {% if loop.first %}
+                            <span class="campaign-session-card__badge">
+                                Prochaine session
+                            </span>
+                        {% endif %}
+                    </article>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </section>
+
+    <section class="content-section">
+        <div class="section-heading">
+            <div>
+                <p class="page-eyebrow">
+                    Historique
+                </p>
+
+                <h2>
+                    Sessions passées
+                </h2>
+            </div>
+        </div>
+
+        {% if pastSessions is empty %}
+            <div class="campaign-sessions__empty">
+                <strong>
+                    Aucune session passée
+                </strong>
+            </div>
+        {% else %}
+            <div class="campaign-session-history">
+                {% for session in pastSessions %}
+                    <div class="campaign-session-history__item">
+                        <span>
+                            {{ session.date|date('d/m/Y') }}
+                        </span>
+
+                        <strong>
+                            {{ session.period.label() }}
+                        </strong>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
     </section>
 
     <section class="content-section">

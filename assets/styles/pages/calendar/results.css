@@ -74,3 +74,56 @@
         text-align: center;
     }
 }
+
+.availability-table__schedule-form {
+    display: flex;
+    justify-content: center;
+}
+
+.availability-table__selected {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0.35rem 0.55rem;
+
+    border-radius: 999px;
+
+    color: #7fc89c;
+    background: rgb(111 185 143 / 10%);
+
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+.availability-table__schedule-button {
+    appearance: none;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 0;
+    padding: 0.25rem 0.55rem;
+
+    border: 1px solid var(--color-gold-dark);
+    border-radius: 999px;
+
+    color: var(--color-gold-light);
+    background: transparent;
+
+    font: inherit;
+    font-size: 0.7rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color var(--transition-fast),
+        color var(--transition-fast),
+        border-color var(--transition-fast);
+
+    &:hover {
+        color: #17191f;
+        background: var(--color-gold-dark);
+    }
+}

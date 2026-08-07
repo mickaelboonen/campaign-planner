@@ -8,6 +8,7 @@ use App\Security\Voter\CampaignVoter;
 use App\DTO\CreateCampaignData;
 use App\DTO\EditCampaignData;
 use App\Form\CampaignType;
+use App\Repository\GameSessionRepository;
 use App\Repository\CampaignRepository;
 use App\Service\CampaignManager;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,7 @@ final class CampaignController extends BaseController
     public function __construct(
         private readonly CampaignRepository $campaignRepository,
         private readonly ParticipantRepository $participantRepository,
+        private readonly GameSessionRepository $gameSessionRepository,
         private readonly CampaignManager $campaignManager,
     ) {
     }
@@ -74,9 +76,17 @@ final class CampaignController extends BaseController
         $participants = $this->participantRepository
             ->findActiveByCampaign($campaign);
 
+        $upcomingSessions = $this->gameSessionRepository
+            ->findUpcomingByCampaign($campaign);
+
+        $pastSessions = $this->gameSessionRepository
+            ->findPastByCampaign($campaign);
+
         return $this->render('campaign/show.html.twig', [
             'campaign' => $campaign,
             'participants' => $participants,
+            'upcomingSessions' => $upcomingSessions,
+            'pastSessions' => $pastSessions,
         ]);
     }
 

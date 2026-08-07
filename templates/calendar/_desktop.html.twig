@@ -5,7 +5,11 @@
         </div>
 
         {% for day in calendar.days %}
-            <div class="availability-table__day">
+            {% set hasSelectedSession =
+                day.afternoonSlot.isSelected
+                or day.eveningSlot.isSelected
+            %}
+            <div class="availability-table__day {{ hasSelectedSession ? 'has-session' }}">
                 <strong>{{ day.label }}</strong>
                 <span>{{ day.date|date('d/m') }}</span>
             </div>
@@ -26,5 +30,7 @@
         {% endfor %}
 
         {% include 'components/calendar/_results.html.twig' %}
+
+        {% include 'calendar/_decision_desktop.html.twig' %}
     </div>
 </section>

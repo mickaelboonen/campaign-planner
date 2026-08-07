@@ -1,44 +1,83 @@
 <section class="calendar-toolbar">
-    <a
-        class="button button--secondary calendar-toolbar__button"
-        href="{{ path('calendar_show', {
-            id: campaign.id,
-            week: calendar.previousWeek|date('Y-m-d')
-        }) }}"
-        aria-label="Semaine précédente"
-    >
-        <span class="calendar-toolbar__desktop-label">
-            ← Semaine précédente
-        </span>
+    <div class="calendar-toolbar__navigation">
+        <a
+            class="button button--secondary calendar-toolbar__button"
+            href="{{ path('calendar_show', {
+                id: campaign.id,
+                week: calendar.previousWeek|date('Y-m-d')
+            }) }}"
+            aria-label="Semaine précédente"
+        >
+            <span class="calendar-toolbar__desktop-label">
+                ← Semaine précédente
+            </span>
 
-        <span class="calendar-toolbar__mobile-label">
-            ←
-        </span>
-    </a>
+            <span class="calendar-toolbar__mobile-label">
+                ←
+            </span>
+        </a>
 
-    <a
-        class="button button--secondary calendar-toolbar__button"
-        href="{{ path('calendar_show', {
+        <a
+            class="button button--secondary calendar-toolbar__button"
+            href="{{ path('calendar_show', {
+                id: campaign.id
+            }) }}"
+        >
+            Cette semaine
+        </a>
+
+        <a
+            class="button button--secondary calendar-toolbar__button"
+            href="{{ path('calendar_show', {
+                id: campaign.id,
+                week: calendar.nextWeek|date('Y-m-d')
+            }) }}"
+            aria-label="Semaine suivante"
+        >
+            <span class="calendar-toolbar__desktop-label">
+                Semaine suivante →
+            </span>
+
+            <span class="calendar-toolbar__mobile-label">
+                →
+            </span>
+        </a>
+    </div>
+
+    <form
+        method="get"
+        action="{{ path('calendar_show', {
             id: campaign.id
         }) }}"
+        class="calendar-week-picker"
     >
-        Cette semaine
-    </a>
+        <label
+            for="calendar-week-picker"
+            class="sr-only"
+        >
+            Choisir une semaine
+        </label>
 
-    <a
-        class="button button--secondary calendar-toolbar__button"
-        href="{{ path('calendar_show', {
-            id: campaign.id,
-            week: calendar.nextWeek|date('Y-m-d')
-        }) }}"
-        aria-label="Semaine suivante"
-    >
-        <span class="calendar-toolbar__desktop-label">
-            Semaine suivante →
-        </span>
-
-        <span class="calendar-toolbar__mobile-label">
-            →
-        </span>
-    </a>
+        <select
+            id="calendar-week-picker"
+            name="week"
+            onchange="this.form.submit()"
+        >
+            {% for week in availableWeeks %}
+                <option
+                    value="{{ week.start|date('Y-m-d') }}"
+                    {% if
+                        week.start|date('Y-m-d')
+                        == calendar.start|date('Y-m-d')
+                    %}
+                        selected
+                    {% endif %}
+                >
+                    {{ week.start|date('d/m') }}
+                    —
+                    {{ week.end|date('d/m/Y') }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
 </section>

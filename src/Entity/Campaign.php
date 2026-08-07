@@ -46,11 +46,18 @@ class Campaign
     #[ORM\OneToMany(targetEntity: CalendarSlot::class, mappedBy: 'campaign')]
     private Collection $calendarSlots;
 
+    /**
+     * @var Collection<int, GameSession>
+     */
+    #[ORM\OneToMany(targetEntity: GameSession::class, mappedBy: 'campaign')]
+    private Collection $gameSessions;
+
     public function __construct()
     {
         $this->initializeTimestamps();
         $this->participants = new ArrayCollection();
         $this->calendarSlots = new ArrayCollection();
+        $this->gameSessions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -138,6 +145,36 @@ class Campaign
     public function setImage(?string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GameSession>
+     */
+    public function getGameSessions(): Collection
+    {
+        return $this->gameSessions;
+    }
+
+    public function addGameSession(GameSession $gameSession): static
+    {
+        if (!$this->gameSessions->contains($gameSession)) {
+            $this->gameSessions->add($gameSession);
+            $gameSession->setCampaign($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGameSession(GameSession $gameSession): static
+    {
+        if ($this->gameSessions->removeElement($gameSession)) {
+            // set the owning side to null (unless already changed)
+            if ($gameSession->getCampaign() === $this) {
+                $gameSession->setCampaign(null);
+            }
+        }
 
         return $this;
     }
