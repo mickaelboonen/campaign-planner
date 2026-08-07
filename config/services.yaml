@@ -25,3 +25,12 @@ services:
     App\Service\CampaignImageManager:
         arguments:
             $campaignImagesDirectory: '%campaign_images_directory%'
+
+    _instanceof:
+        App\Service\Notification\SessionNotifierInterface:
+            tags:
+                - 'app.session_notifier'
+
+    App\Service\Notification\SessionNotificationManager:
+        arguments:
+            $notifiers: !tagged_iterator app.session_notifier

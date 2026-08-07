@@ -11,6 +11,22 @@ services:
       database:
         condition: service_healthy
 
+  worker:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    working_dir: /var/www/html
+    command: php bin/console messenger:consume async --time-limit=3600 -vv
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/html
+      - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    depends_on:
+      database:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+
   nginx:
     image: nginx:alpine
     ports:
@@ -38,6 +54,12 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "1025:1025"
+      - "8025:8025"
 
 volumes:
   database_data:

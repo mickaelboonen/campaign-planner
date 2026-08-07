@@ -6,6 +6,7 @@ use App\Entity\Campaign;
 use App\Entity\CalendarSlot;
 use App\Security\Voter\CampaignVoter;
 use App\Service\CalendarSlotManager;
+use App\Service\Notification\SessionNotificationManager;
 use App\Service\SessionManager;
 use App\Repository\AvailabilityRepository;
 use App\Service\CalendarViewBuilder;
@@ -164,17 +165,43 @@ final class CalendarController extends BaseController
         ]);
     }
 
-    #[Route( '/slot/{slot}/schedule', name: 'slot_schedule', methods: ['POST'])]
+    #[Route(
+        '/slot/{slot}/schedule',
+        name: 'slot_schedule',
+        methods: ['POST'],
+    )]
     public function schedule(
         Campaign $campaign,
         CalendarSlot $slot,
         Request $request,
         SessionManager $sessionManager,
-    ): Response
-    {
+        SessionNotificationManager $sessionNotificationManager,
+    ): Response {
+        $this->denyAccessUnlessGranted(
+            CampaignVoter::EDIT,
+            $campaign,
+        );
+
+        if ($slot->getCampaign() !== $campaign) {
+            throw $this->createNotFoundException(
+                'Ce créneau n’appartient pas à cette campagne.',
+            );
+        }
+
+        if (!$this->isCsrfTokenValid(
+            'schedule-slot-' . $slot->getId(),
+            (string) $request->request->get('schedule_token'),
+        )) {
+            throw $this->createAccessDeniedException(
+                'Jeton CSRF invalide.',
+            );
+        }
+
         try {
-            $sessionManager->scheduleFromSlot(
-                $slot,
+            $session = $sessionManager->scheduleFromSlot($slot);
+
+            $sessionNotificationManager->notifySessionScheduled(
+                $session,
             );
 
             $this->addFlash(
@@ -191,7 +218,7 @@ final class CalendarController extends BaseController
         return $this->redirectToRoute(
             'calendar_show',
             [
-                'id' => $slot->getCampaign()->getId(),
+                'id' => $campaign->getId(),
                 'week' => $slot->getDate()->format('Y-m-d'),
             ],
         );
