@@ -1,0 +1,44 @@
+<section class="calendar-toolbar">
+    <a
+        class="button button--secondary calendar-toolbar__button"
+        href="{{ path('calendar_show', {
+            id: campaign.id,
+            week: calendar.previousWeek|date('Y-m-d')
+        }) }}"
+        aria-label="Semaine précédente"
+    >
+        <span class="calendar-toolbar__desktop-label">
+            ← Semaine précédente
+        </span>
+
+        <span class="calendar-toolbar__mobile-label">
+            ←
+        </span>
+    </a>
+
+    <a
+        class="button button--secondary calendar-toolbar__button"
+        href="{{ path('calendar_show', {
+            id: campaign.id
+        }) }}"
+    >
+        Cette semaine
+    </a>
+
+    <a
+        class="button button--secondary calendar-toolbar__button"
+        href="{{ path('calendar_show', {
+            id: campaign.id,
+            week: calendar.nextWeek|date('Y-m-d')
+        }) }}"
+        aria-label="Semaine suivante"
+    >
+        <span class="calendar-toolbar__desktop-label">
+            Semaine suivante →
+        </span>
+
+        <span class="calendar-toolbar__mobile-label">
+            →
+        </span>
+    </a>
+</section>

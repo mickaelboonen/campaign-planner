@@ -1,0 +1,197 @@
+{% for dayIndex, day in calendar.days %}
+    {% set isDayBlocked =
+        day.afternoonSlot.blocked
+        and day.eveningSlot.blocked
+    %}
+
+    {% set afternoonStatus =
+        day.afternoonSlot.blocked
+            ? 'blocked'
+            : 'open'
+    %}
+
+    {% set eveningStatus =
+        day.eveningSlot.blocked
+            ? 'blocked'
+            : 'open'
+    %}
+
+    <article
+        class="
+            calendar-mobile-day
+            {{ isDayBlocked ? 'is-blocked' }}
+        "
+    >
+        <header class="calendar-mobile-day__header">
+            <div class="calendar-mobile-day__identity">
+                <strong>{{ day.label }}</strong>
+                <span>{{ day.date|date('d/m') }}</span>
+            </div>
+
+            {% if isDayBlocked %}
+                <span class="calendar-mobile-day__blocked">
+                    Bloqué
+                </span>
+            {% endif %}
+        </header>
+
+        {% if not isDayBlocked %}
+            <div class="calendar-mobile-grid">
+                <div class="calendar-mobile-grid__header is-name">
+                    Participant
+                </div>
+
+                {% if not isPastWeek %}
+                    <button
+                        type="button"
+                        class="
+                            calendar-mobile-grid__header
+                            calendar-mobile-slot-toggle
+                            is-afternoon
+                            {{ afternoonStatus == 'blocked'
+                                ? 'is-blocked'
+                                : 'is-open'
+                            }}
+                        "
+                        data-calendar-slot-grid-target="slot"
+                        data-action="calendar-slot-grid#updateSlot"
+                        data-slot-id="{{ day.afternoonSlot.id }}"
+                        data-period="afternoon"
+                        data-label="Après-midi"
+                        data-status="{{ afternoonStatus }}"
+                    >
+                        <span>
+                            {{ afternoonStatus == 'blocked'
+                                ? 'Bloqué'
+                                : 'Après-midi'
+                            }}
+                        </span>
+                    </button>
+                {% else %}
+                    <div
+                        class="
+                            calendar-mobile-grid__header
+                            is-afternoon
+                            {{ afternoonStatus == 'blocked'
+                                ? 'is-blocked'
+                                : 'is-open'
+                            }}
+                        "
+                    >
+                        {{ afternoonStatus == 'blocked'
+                            ? 'Bloqué'
+                            : 'Après-midi'
+                        }}
+                    </div>
+                {% endif %}
+
+                {% if not isPastWeek %}
+                    <button
+                        type="button"
+                        class="
+                            calendar-mobile-grid__header
+                            calendar-mobile-slot-toggle
+                            is-evening
+                            {{ eveningStatus == 'blocked'
+                                ? 'is-blocked'
+                                : 'is-open'
+                            }}
+                        "
+                        data-calendar-slot-grid-target="slot"
+                        data-action="calendar-slot-grid#updateSlot"
+                        data-slot-id="{{ day.eveningSlot.id }}"
+                        data-period="evening"
+                        data-label="Soir"
+                        data-status="{{ eveningStatus }}"
+                    >
+                        <span>
+                            {{ eveningStatus == 'blocked'
+                                ? 'Bloqué'
+                                : 'Soir'
+                            }}
+                        </span>
+                    </button>
+                {% else %}
+                    <div
+                        class="
+                            calendar-mobile-grid__header
+                            is-evening
+                            {{ eveningStatus == 'blocked'
+                                ? 'is-blocked'
+                                : 'is-open'
+                            }}
+                        "
+                    >
+                        {{ eveningStatus == 'blocked'
+                            ? 'Bloqué'
+                            : 'Soir'
+                        }}
+                    </div>
+                {% endif %}
+
+                {% for row in calendar.rows %}
+                    {% set afternoonCell =
+                        row.cells[dayIndex * 2]
+                    %}
+
+                    {% set eveningCell =
+                        row.cells[(dayIndex * 2) + 1]
+                    %}
+
+                    <div
+                        class="
+                            calendar-mobile-grid__participant
+                            is-name
+                        "
+                    >
+                        <strong>
+                            {{ row.participant.name }}
+                        </strong>
+
+                        {% if row.participant.characterName %}
+                            <span>
+                                {{ row.participant.characterName }}
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    <div
+                        class="
+                            calendar-mobile-status
+                            is-afternoon
+                            {{ afternoonCell.cssClass }}
+                        "
+                        data-calendar-slot-id="{{ afternoonCell.slot.id }}"
+                        title="{{ afternoonCell.label }}"
+                    >
+                        <span class="availability-cell__symbol">
+                            {{ afternoonCell.symbol }}
+                        </span>
+                    </div>
+
+                    <div
+                        class="
+                            calendar-mobile-status
+                            is-evening
+                            {{ eveningCell.cssClass }}
+                        "
+                        data-calendar-slot-id="{{ eveningCell.slot.id }}"
+                        title="{{ eveningCell.label }}"
+                    >
+                        <span class="availability-cell__symbol">
+                            {{ eveningCell.symbol }}
+                        </span>
+                    </div>
+                {% else %}
+                    <div class="calendar-mobile-empty">
+                        Aucun participant actif.
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </article>
+{% else %}
+    <div class="calendar-mobile-empty">
+        Aucun créneau disponible pour cette semaine.
+    </div>
+{% endfor %}

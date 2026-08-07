@@ -1,0 +1,119 @@
+{% for day in calendar.days %}
+    {% set afternoonStatus =
+        day.afternoonSlot.blocked
+            ? 'blocked'
+            : 'open'
+    %}
+
+    {% set eveningStatus =
+        day.eveningSlot.blocked
+            ? 'blocked'
+            : 'open'
+    %}
+
+    <div class="availability-table__periods">
+        {% if not isPastWeek %}
+            <button
+                type="button"
+                class="
+                    availability-table__period-button
+                    {{ afternoonStatus == 'blocked'
+                        ? 'is-blocked'
+                        : 'is-open'
+                    }}
+                "
+                data-calendar-slot-grid-target="slot"
+                data-action="calendar-slot-grid#updateSlot"
+                data-slot-id="{{ day.afternoonSlot.id }}"
+                data-period="afternoon"
+                data-label="Après-midi"
+                data-status="{{ afternoonStatus }}"
+            >
+                <span class="availability-table__period-label">
+                    {{ afternoonStatus == 'blocked'
+                        ? 'Bloqué'
+                        : 'Après-midi'
+                    }}
+                </span>
+            </button>
+
+            <input
+                type="hidden"
+                name="slots[{{ day.afternoonSlot.id }}]"
+                value="{{ afternoonStatus }}"
+                data-calendar-slot-grid-target="input"
+                data-slot-id="{{ day.afternoonSlot.id }}"
+                data-initial-value="{{ afternoonStatus }}"
+            >
+        {% else %}
+            <div
+                class="
+                    availability-table__period-button
+                    {{ afternoonStatus == 'blocked'
+                        ? 'is-blocked'
+                        : 'is-open'
+                    }}
+                "
+            >
+                <span class="availability-table__period-label">
+                    {{ afternoonStatus == 'blocked'
+                        ? 'Bloqué'
+                        : 'Après-midi'
+                    }}
+                </span>
+            </div>
+        {% endif %}
+
+        {% if not isPastWeek %}
+            <button
+                type="button"
+                class="
+                    availability-table__period-button
+                    {{ eveningStatus == 'blocked'
+                        ? 'is-blocked'
+                        : 'is-open'
+                    }}
+                "
+                data-calendar-slot-grid-target="slot"
+                data-action="calendar-slot-grid#updateSlot"
+                data-slot-id="{{ day.eveningSlot.id }}"
+                data-period="evening"
+                data-label="Soir"
+                data-status="{{ eveningStatus }}"
+            >
+                <span class="availability-table__period-label">
+                    {{ eveningStatus == 'blocked'
+                        ? 'Bloqué'
+                        : 'Soir'
+                    }}
+                </span>
+            </button>
+
+            <input
+                type="hidden"
+                name="slots[{{ day.eveningSlot.id }}]"
+                value="{{ eveningStatus }}"
+                data-calendar-slot-grid-target="input"
+                data-slot-id="{{ day.eveningSlot.id }}"
+                data-initial-value="{{ eveningStatus }}"
+            >
+        {% else %}
+            <div
+                class="
+                    availability-table__period-button
+                    {{ eveningStatus == 'blocked'
+                        ? 'is-blocked'
+                        : 'is-open'
+                    }}
+                "
+            >
+                <span class="availability-table__period-label">
+                    {{ eveningStatus == 'blocked'
+                        ? 'Bloqué'
+                        : 'Soir'
+                    }}
+                </span>
+            </div>
+        {% endif %}
+    </div>
+{% endfor %}

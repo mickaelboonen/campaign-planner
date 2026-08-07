@@ -1,453 +1,193 @@
-{% extends 'public_base.html.twig' %}
+import { Controller } from '@hotwired/stimulus';
 
-{% block title %}
-    Mes disponibilités — {{ campaign.name }}
-{% endblock %}
+export default class extends Controller {
+    static targets = [
+        'cell',
+        'statusButton',
+        'input',
+        'saveButton',
+    ];
 
-{% block body %}
-    {% include 'components/page-header.html.twig' with {
-        eyebrow: campaign.name,
-        title: 'Bonjour ' ~ participant.name,
-        description: 'Indiquez vos disponibilités pour la semaine du '
-            ~ calendar.start|date('d/m/Y')
-            ~ ' au '
-            ~ calendar.end|date('d/m/Y')
-            ~ '. Les réponses des autres participants sont visibles.'
-    } %}
+    static values = {
+        activeStatus: {
+            type: String,
+            default: 'available',
+        },
+    };
 
-    <section class="calendar-toolbar">
-        <a
-            class="button button--secondary"
-            href="{{ path('participant_availability_show', {
-                token: participant.accessToken,
-                week: calendar.previousWeek|date('Y-m-d')
-            }) }}"
-        >
-            ← Semaine précédente
-        </a>
+    connect() {
+        this.hasUnsavedChanges = false;
 
-        <a
-            class="button button--secondary"
-            href="{{ path('participant_availability_show', {
-                token: participant.accessToken
-            }) }}"
-        >
-            Cette semaine
-        </a>
+        this.beforeUnloadHandler = (event) => {
+            if (!this.hasUnsavedChanges) {
+                return;
+            }
 
-        <a
-            class="button button--secondary"
-            href="{{ path('participant_availability_show', {
-                token: participant.accessToken,
-                week: calendar.nextWeek|date('Y-m-d')
-            }) }}"
-        >
-            Semaine suivante →
-        </a>
-    </section>
+            event.preventDefault();
+            event.returnValue = '';
+        };
 
-    <form
-        {% if not isPastWeek %}
-            method="post"
-            action="{{ path('participant_availability_save', {
-                token: participant.accessToken
-            }) }}"
-            data-controller="availability-grid"
-            data-action="submit->availability-grid#submit"
-        {% endif %}
-    >
-        {% if not isPastWeek %}
-            <input
-                type="hidden"
-                name="_token"
-                value="{{ csrf_token(
-                    'save-availabilities-' ~ participant.id
-                ) }}"
-            >
+        this.beforeVisitHandler = (event) => {
+            if (!this.hasUnsavedChanges) {
+                return;
+            }
 
-            <input
-                type="hidden"
-                name="week"
-                value="{{ calendar.start|date('Y-m-d') }}"
-            >
+            const shouldLeave = window.confirm(
+                'Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter cette page ?',
+            );
 
-            <section class="availability-editor">
-                <div class="availability-editor__status">
-                    <span class="availability-editor__label">
-                        Statut à appliquer
-                    </span>
+            if (!shouldLeave) {
+                event.preventDefault();
+            }
+        };
 
-                    <button
-                        type="button"
-                        class="availability-status-button is-available"
-                        data-availability-grid-target="statusButton"
-                        data-action="availability-grid#selectStatus"
-                        data-status="available"
-                    >
-                        ✓ Disponible
-                    </button>
+        window.addEventListener(
+            'beforeunload',
+            this.beforeUnloadHandler,
+        );
 
-                    <button
-                        type="button"
-                        class="availability-status-button is-maybe"
-                        data-availability-grid-target="statusButton"
-                        data-action="availability-grid#selectStatus"
-                        data-status="maybe"
-                    >
-                        ? Peut-être
-                    </button>
+        document.addEventListener(
+            'turbo:before-visit',
+            this.beforeVisitHandler,
+        );
 
-                    <button
-                        type="button"
-                        class="availability-status-button is-unavailable"
-                        data-availability-grid-target="statusButton"
-                        data-action="availability-grid#selectStatus"
-                        data-status="unavailable"
-                    >
-                        × Indisponible
-                    </button>
+        this.updateStatusButtons();
+        this.updateSaveButton();
+    }
 
-                    <button
-                        type="button"
-                        class="availability-status-button is-empty"
-                        data-availability-grid-target="statusButton"
-                        data-action="availability-grid#selectStatus"
-                        data-status=""
-                    >
-                        — Effacer
-                    </button>
-                </div>
+    disconnect() {
+        window.removeEventListener(
+            'beforeunload',
+            this.beforeUnloadHandler,
+        );
 
-                <div class="availability-editor__shortcuts">
-                    <span class="availability-editor__label">
-                        Actions rapides
-                    </span>
+        document.removeEventListener(
+            'turbo:before-visit',
+            this.beforeVisitHandler,
+        );
+    }
 
-                    <button
-                        type="button"
-                        class="button button--secondary"
-                        data-action="availability-grid#applyToAll"
-                        data-scope="all"
-                    >
-                        Toute la semaine
-                    </button>
+    submit() {
+        this.hasUnsavedChanges = false;
+    }
 
-                    <button
-                        type="button"
-                        class="button button--secondary"
-                        data-action="availability-grid#applyToAll"
-                        data-scope="afternoon"
-                    >
-                        Tous les après-midi
-                    </button>
+    selectStatus(event) {
+        this.activeStatusValue = event.currentTarget.dataset.status;
+        this.updateStatusButtons();
+    }
 
-                    <button
-                        type="button"
-                        class="button button--secondary"
-                        data-action="availability-grid#applyToAll"
-                        data-scope="evening"
-                    >
-                        Tous les soirs
-                    </button>
-                </div>
-            </section>
-        {% else %}
-            <div class="calendar-readonly-notice">
-                Cette semaine est passée et ne peut plus être modifiée.
-            </div>
-        {% endif %}
+    updateCell(event) {
+        const cell = event.currentTarget;
 
-        <section class="calendar-legend">
-            <span class="calendar-legend__item is-available">
-                <span class="calendar-legend__symbol">✓</span>
-                Disponible
-            </span>
+        if (cell.dataset.blocked === 'true') {
+            return;
+        }
 
-            <span class="calendar-legend__item is-maybe">
-                <span class="calendar-legend__symbol">?</span>
-                Peut-être
-            </span>
+        const status = this.activeStatusValue;
 
-            <span class="calendar-legend__item is-unavailable">
-                <span class="calendar-legend__symbol">×</span>
-                Indisponible
-            </span>
+        cell.dataset.status = status;
 
-            <span class="calendar-legend__item is-empty">
-                <span class="calendar-legend__symbol">—</span>
-                Non renseigné
-            </span>
+        this.applyCellAppearance(cell, status);
+        this.updateHiddenInput(cell, status);
+        this.updateSaveButton();
+    }
 
-            <span class="calendar-legend__item is-blocked">
-                <span class="calendar-legend__symbol">×</span>
-                Créneau bloqué
-            </span>
-        </section>
+    applyToAll(event) {
+        const scope = event.currentTarget.dataset.scope;
+        const status = this.activeStatusValue;
 
-        <section class="calendar-card">
-            <div class="availability-table">
-                <div class="availability-table__corner">
-                    Participant
-                </div>
+        this.cellTargets
+            .filter((cell) => {
+                if (cell.dataset.blocked === 'true') {
+                    return false;
+                }
 
-                {% for day in calendar.days %}
-                    <div class="availability-table__day">
-                        <strong>{{ day.label }}</strong>
-                        <span>{{ day.date|date('d/m') }}</span>
-                    </div>
-                {% endfor %}
+                return scope === 'all'
+                    || cell.dataset.period === scope;
+            })
+            .forEach((cell) => {
+                cell.dataset.status = status;
 
-                <div class="availability-table__subheader"></div>
+                this.applyCellAppearance(cell, status);
+                this.updateHiddenInput(cell, status);
+            });
 
-                {% for day in calendar.days %}
-                    <div class="availability-table__periods">
-                        <span>Après-midi</span>
-                        <span>Soir</span>
-                    </div>
-                {% endfor %}
+        this.updateSaveButton();
+    }
 
-                {% for row in calendar.rows %}
-                    {% set isCurrentParticipant =
-                        row.participant.id == participant.id
-                    %}
+    applyCellAppearance(cell, status) {
+        cell.classList.remove(
+            'is-empty',
+            'is-available',
+            'is-maybe',
+            'is-unavailable',
+        );
 
-                    {% set isEditable =
-                        isCurrentParticipant and not isPastWeek
-                    %}
+        const symbol = cell.querySelector(
+            '.availability-cell__symbol',
+        );
 
-                    <div
-                        class="
-                            availability-table__participant
-                            {{ isCurrentParticipant
-                                ? 'is-current-participant'
-                            }}
-                        "
-                    >
-                        <strong>
-                            {% if isCurrentParticipant %}
-                                Vous —
-                            {% endif %}
+        if (!symbol) {
+            return;
+        }
 
-                            {{ row.participant.name }}
-                        </strong>
+        switch (status) {
+            case 'available':
+                cell.classList.add('is-available');
+                cell.title = 'Disponible';
+                symbol.textContent = '✓';
+                break;
 
-                        {% if row.participant.characterName %}
-                            <span>{{ row.participant.characterName }}</span>
-                        {% endif %}
-                    </div>
+            case 'maybe':
+                cell.classList.add('is-maybe');
+                cell.title = 'Peut-être';
+                symbol.textContent = '?';
+                break;
 
-                    {% for dayIndex in 0..6 %}
-                        {% set afternoonCell = row.cells[dayIndex * 2] %}
-                        {% set eveningCell = row.cells[(dayIndex * 2) + 1] %}
+            case 'unavailable':
+                cell.classList.add('is-unavailable');
+                cell.title = 'Indisponible';
+                symbol.textContent = '×';
+                break;
 
-                        <div
-                            class="
-                                availability-table__cells
-                                {{ isCurrentParticipant
-                                    ? 'is-current-participant'
-                                }}
-                            "
-                        >
-                            <div
-                                class="
-                                    availability-cell
-                                    {{ afternoonCell.cssClass }}
-                                    {{ isEditable ? 'is-editable' }}
-                                "
-                                title="{{ afternoonCell.label }}"
+            default:
+                cell.classList.add('is-empty');
+                cell.title = 'Non renseigné';
+                symbol.textContent = '—';
+        }
+    }
 
-                                {% if isEditable %}
-                                    data-availability-grid-target="cell"
-                                    data-action="click->availability-grid#updateCell"
-                                    data-slot-id="{{ afternoonCell.slot.id }}"
-                                    data-period="afternoon"
-                                    data-status="{{
-                                        afternoonCell.status
-                                            ? afternoonCell.status.value
-                                            : ''
-                                    }}"
-                                    data-blocked="{{
-                                        afternoonCell.blocked
-                                            ? 'true'
-                                            : 'false'
-                                    }}"
-                                {% endif %}
-                            >
-                                <span class="availability-cell__symbol">
-                                    {{ afternoonCell.symbol }}
-                                </span>
-                            </div>
+    updateHiddenInput(cell, status) {
+        const slotId = cell.dataset.slotId;
 
-                            {% if isEditable %}
-                                <input
-                                    type="hidden"
-                                    name="availabilities[{{ afternoonCell.slot.id }}]"
-                                    value="{{
-                                        afternoonCell.status
-                                            ? afternoonCell.status.value
-                                            : ''
-                                    }}"
-                                    data-availability-grid-target="input"
-                                    data-slot-id="{{ afternoonCell.slot.id }}"
-                                    data-initial-value="{{
-                                        afternoonCell.status
-                                            ? afternoonCell.status.value
-                                            : ''
-                                    }}"
-                                >
-                            {% endif %}
+        const input = this.inputTargets.find(
+            (candidate) => candidate.dataset.slotId === slotId,
+        );
 
-                            <div
-                                class="
-                                    availability-cell
-                                    {{ eveningCell.cssClass }}
-                                    {{ isEditable ? 'is-editable' }}
-                                "
-                                title="{{ eveningCell.label }}"
+        if (input) {
+            input.value = status;
+        }
+    }
 
-                                {% if isEditable %}
-                                    data-availability-grid-target="cell"
-                                    data-action="click->availability-grid#updateCell"
-                                    data-slot-id="{{ eveningCell.slot.id }}"
-                                    data-period="evening"
-                                    data-status="{{
-                                        eveningCell.status
-                                            ? eveningCell.status.value
-                                            : ''
-                                    }}"
-                                    data-blocked="{{
-                                        eveningCell.blocked
-                                            ? 'true'
-                                            : 'false'
-                                    }}"
-                                {% endif %}
-                            >
-                                <span class="availability-cell__symbol">
-                                    {{ eveningCell.symbol }}
-                                </span>
-                            </div>
+    updateStatusButtons() {
+        this.statusButtonTargets.forEach((button) => {
+            button.classList.toggle(
+                'is-active',
+                button.dataset.status === this.activeStatusValue,
+            );
+        });
+    }
 
-                            {% if isEditable %}
-                                <input
-                                    type="hidden"
-                                    name="availabilities[{{ eveningCell.slot.id }}]"
-                                    value="{{
-                                        eveningCell.status
-                                            ? eveningCell.status.value
-                                            : ''
-                                    }}"
-                                    data-availability-grid-target="input"
-                                    data-slot-id="{{ eveningCell.slot.id }}"
-                                    data-initial-value="{{
-                                        eveningCell.status
-                                            ? eveningCell.status.value
-                                            : ''
-                                    }}"
-                                >
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <div class="availability-table__empty">
-                        Aucun participant actif dans cette campagne.
-                    </div>
-                {% endfor %}
+    updateSaveButton() {
+        if (!this.hasSaveButtonTarget) {
+            return;
+        }
 
-                {% if calendar.rows is not empty %}
-                    <div class="availability-table__results-label">
-                        Résultats
-                    </div>
+        const hasChanges = this.inputTargets.some(
+            (input) => input.value !== input.dataset.initialValue,
+        );
 
-                    {% for day in calendar.days %}
-                        <div class="availability-table__results">
-                            <div class="availability-table__result-slot">
-                                {% if day.afternoonSlot.blocked %}
-                                    <span class="availability-table__result-blocked">
-                                        Créneau bloqué
-                                    </span>
-                                {% else %}
-                                    <span class="availability-table__summary-item is-available">
-                                        {{ day.afternoonSummary.availableCount }}
-                                        {{ day.afternoonSummary.availableCount > 1
-                                            ? 'disponibles'
-                                            : 'disponible'
-                                        }}
-                                    </span>
-
-                                    <span class="availability-table__summary-item is-maybe">
-                                        {{ day.afternoonSummary.maybeCount }}
-                                        peut-être
-                                    </span>
-
-                                    <span class="availability-table__summary-item is-unavailable">
-                                        {{ day.afternoonSummary.unavailableCount }}
-                                        {{ day.afternoonSummary.unavailableCount > 1
-                                            ? 'indisponibles'
-                                            : 'indisponible'
-                                        }}
-                                    </span>
-
-                                    <span class="availability-table__summary-item is-unanswered">
-                                        {{ day.afternoonSummary.unansweredCount }}
-                                        sans réponse
-                                    </span>
-                                {% endif %}
-                            </div>
-
-                            <div class="availability-table__result-slot">
-                                {% if day.eveningSlot.blocked %}
-                                    <span class="availability-table__result-blocked">
-                                        Créneau bloqué
-                                    </span>
-                                {% else %}
-                                    <span class="availability-table__summary-item is-available">
-                                        {{ day.eveningSummary.availableCount }}
-                                        {{ day.eveningSummary.availableCount > 1
-                                            ? 'disponibles'
-                                            : 'disponible'
-                                        }}
-                                    </span>
-
-                                    <span class="availability-table__summary-item is-maybe">
-                                        {{ day.eveningSummary.maybeCount }}
-                                        peut-être
-                                    </span>
-
-                                    <span class="availability-table__summary-item is-unavailable">
-                                        {{ day.eveningSummary.unavailableCount }}
-                                        {{ day.eveningSummary.unavailableCount > 1
-                                            ? 'indisponibles'
-                                            : 'indisponible'
-                                        }}
-                                    </span>
-
-                                    <span class="availability-table__summary-item is-unanswered">
-                                        {{ day.eveningSummary.unansweredCount }}
-                                        sans réponse
-                                    </span>
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            </div>
-        </section>
-
-        {% if not isPastWeek %}
-            <div class="availability-save">
-                <p class="availability-save__hint">
-                    Les modifications ne sont enregistrées qu’après validation.
-                </p>
-
-                <button
-                    type="submit"
-                    class="button button--primary"
-                    data-availability-grid-target="saveButton"
-                    disabled
-                >
-                    Enregistrer mes disponibilités
-                </button>
-            </div>
-        {% endif %}
-    </form>
-{% endblock %}
+        this.hasUnsavedChanges = hasChanges;
+        this.saveButtonTarget.disabled = !hasChanges;
+    }
+}

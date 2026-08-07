@@ -1,0 +1,65 @@
+{% if calendar.rows is not empty %}
+    <div class="availability-table__results-label">
+        Résultats
+    </div>
+
+    {% for day in calendar.days %}
+        <div class="availability-table__results">
+            <div class="availability-table__result-slot">
+                {% if day.afternoonSlot.blocked %}
+                    <span class="availability-table__result-blocked">
+                        Créneau bloqué
+                    </span>
+                {% else %}
+                    <span class="availability-table__summary-item is-available">
+                        <span class="availability-table__summary-symbol">✓</span>
+                        {{ day.afternoonSummary.availableCount }}
+                    </span>
+
+                    <span class="availability-table__summary-item is-maybe">
+                        <span class="availability-table__summary-symbol">?</span>
+                        {{ day.afternoonSummary.maybeCount }}
+                    </span>
+
+                    <span class="availability-table__summary-item is-unavailable">
+                        <span class="availability-table__summary-symbol">×</span>
+                        {{ day.afternoonSummary.unavailableCount }}
+                    </span>
+
+                    <span class="availability-table__summary-item is-unanswered">
+                        <span class="availability-table__summary-symbol">—</span>
+                        {{ day.afternoonSummary.unansweredCount }}
+                    </span>
+                {% endif %}
+            </div>
+
+            <div class="availability-table__result-slot">
+                {% if day.eveningSlot.blocked %}
+                    <span class="availability-table__result-blocked">
+                        Créneau bloqué
+                    </span>
+                {% else %}
+                    <span class="availability-table__summary-item is-available">
+                        <span class="availability-table__summary-symbol">✓</span>
+                        {{ day.eveningSummary.availableCount }}
+                    </span>
+
+                    <span class="availability-table__summary-item is-maybe">
+                        <span class="availability-table__summary-symbol">?</span>
+                        {{ day.eveningSummary.maybeCount }}
+                    </span>
+
+                    <span class="availability-table__summary-item is-unavailable">
+                        <span class="availability-table__summary-symbol">×</span>
+                        {{ day.eveningSummary.unavailableCount }}
+                    </span>
+
+                    <span class="availability-table__summary-item is-unanswered">
+                        <span class="availability-table__summary-symbol">—</span>
+                        {{ day.eveningSummary.unansweredCount }}
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}

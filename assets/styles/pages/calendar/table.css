@@ -1,0 +1,121 @@
+.calendar-card {
+    overflow-x: auto;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-large);
+
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+}
+
+.availability-table {
+    display: grid;
+    min-width: 1250px;
+    grid-template-columns: 190px repeat(7, minmax(140px, 1fr));
+
+    > * {
+        border-right: 1px solid var(--color-border);
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .availability-table__corner,
+    .availability-table__subheader {
+        background: rgb(255 255 255 / 2%);
+    }
+
+    .availability-table__corner {
+        display: flex;
+        align-items: center;
+
+        padding: 1rem;
+
+        color: var(--color-text-muted);
+
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .availability-table__day {
+        display: grid;
+        min-height: 5rem;
+        align-content: center;
+        gap: 0.3rem;
+
+        padding: 1rem;
+
+        text-align: center;
+
+        span {
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+        }
+    }
+
+    .availability-table__periods {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        background: rgb(255 255 255 / 2%);
+
+        > span {
+            display: grid;
+            min-height: 3rem;
+            place-items: center;
+
+            color: var(--color-text-muted);
+
+            font-size: 0.75rem;
+            font-weight: 700;
+
+            + span {
+                border-left: 1px solid var(--color-border);
+            }
+        }
+
+        input[type="hidden"] {
+            display: none;
+        }
+    }
+
+    .availability-table__participant {
+        display: grid;
+        min-height: 5rem;
+        align-content: center;
+        gap: 0.25rem;
+
+        padding: 1rem;
+
+        span {
+            color: var(--color-gold);
+            font-size: 0.8rem;
+        }
+
+        &:has(
+            + .availability-table__cells.is-current-participant
+        ) {
+            box-shadow: inset 3px 0 0 var(--color-gold);
+            background: rgb(201 168 92 / 5%);
+        }
+    }
+
+    .availability-table__cells {
+        display: grid;
+        min-height: 5rem;
+        grid-template-columns: 1fr 1fr;
+
+        &.is-current-participant {
+            background: rgb(201 168 92 / 3%);
+        }
+    }
+
+    .availability-table__empty {
+        grid-column: 1 / -1;
+
+        padding: 3rem;
+
+        color: var(--color-text-muted);
+        text-align: center;
+    }
+}

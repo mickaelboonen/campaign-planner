@@ -1,0 +1,86 @@
+{% if not isPastWeek %}
+    <section class="availability-editor">
+        <div class="availability-editor__status">
+            <span class="availability-editor__label">
+                Statut à appliquer
+            </span>
+
+            <button
+                type="button"
+                class="availability-status-button is-available"
+                data-availability-grid-target="statusButton"
+                data-action="availability-grid#selectStatus"
+                data-status="available"
+            >
+                ✓ Disponible
+            </button>
+
+            <button
+                type="button"
+                class="availability-status-button is-maybe"
+                data-availability-grid-target="statusButton"
+                data-action="availability-grid#selectStatus"
+                data-status="maybe"
+            >
+                ? Peut-être
+            </button>
+
+            <button
+                type="button"
+                class="availability-status-button is-unavailable"
+                data-availability-grid-target="statusButton"
+                data-action="availability-grid#selectStatus"
+                data-status="unavailable"
+            >
+                × Indisponible
+            </button>
+
+            <button
+                type="button"
+                class="availability-status-button is-empty"
+                data-availability-grid-target="statusButton"
+                data-action="availability-grid#selectStatus"
+                data-status=""
+            >
+                — Effacer
+            </button>
+        </div>
+
+        <div class="availability-editor__shortcuts">
+            <span class="availability-editor__label">
+                Actions rapides
+            </span>
+
+            <button
+                type="button"
+                class="button button--secondary"
+                data-action="availability-grid#applyToAll"
+                data-scope="all"
+            >
+                Toute la semaine
+            </button>
+
+            <button
+                type="button"
+                class="button button--secondary"
+                data-action="availability-grid#applyToAll"
+                data-scope="afternoon"
+            >
+                Tous les après-midi
+            </button>
+
+            <button
+                type="button"
+                class="button button--secondary"
+                data-action="availability-grid#applyToAll"
+                data-scope="evening"
+            >
+                Tous les soirs
+            </button>
+        </div>
+    </section>
+{% else %}
+    <div class="calendar-readonly-notice">
+        Cette semaine est passée et ne peut plus être modifiée.
+    </div>
+{% endif %}

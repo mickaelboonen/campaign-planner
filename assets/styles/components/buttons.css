@@ -54,3 +54,9 @@
     color: var(--color-danger);
     background: rgb(207 117 117 / 8%);
 }
+
+@media (max-width: 700px) {
+    .button {
+        justify-content: center;
+    }
+}

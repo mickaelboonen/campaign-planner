@@ -1,0 +1,40 @@
+<div class="availability-table__participant">
+    <strong>{{ row.participant.name }}</strong>
+
+    {% if row.participant.characterName %}
+        <span>{{ row.participant.characterName }}</span>
+    {% endif %}
+</div>
+
+{% for dayIndex in 0..6 %}
+    {% set afternoonCell = row.cells[dayIndex * 2] %}
+    {% set eveningCell = row.cells[(dayIndex * 2) + 1] %}
+
+    <div class="availability-table__cells">
+        <div
+            class="
+                availability-cell
+                {{ afternoonCell.cssClass }}
+            "
+            title="{{ afternoonCell.label }}"
+            data-calendar-slot-id="{{ afternoonCell.slot.id }}"
+        >
+            <span class="availability-cell__symbol">
+                {{ afternoonCell.symbol }}
+            </span>
+        </div>
+
+        <div
+            class="
+                availability-cell
+                {{ eveningCell.cssClass }}
+            "
+            title="{{ eveningCell.label }}"
+            data-calendar-slot-id="{{ eveningCell.slot.id }}"
+        >
+            <span class="availability-cell__symbol">
+                {{ eveningCell.symbol }}
+            </span>
+        </div>
+    </div>
+{% endfor %}

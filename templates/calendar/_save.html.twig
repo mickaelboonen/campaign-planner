@@ -1,0 +1,16 @@
+{% if not isPastWeek %}
+    <div class="availability-save">
+        <p class="availability-save__hint">
+            Les modifications ne sont enregistrées qu’après validation.
+        </p>
+
+        <button
+            type="submit"
+            class="button button--primary"
+            data-calendar-slot-grid-target="saveButton"
+            disabled
+        >
+            Enregistrer les créneaux
+        </button>
+    </div>
+{% endif %}

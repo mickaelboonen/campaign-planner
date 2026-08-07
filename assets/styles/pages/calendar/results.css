@@ -1,0 +1,76 @@
+.availability-table__results-label {
+    display: flex;
+    min-height: 7.5rem;
+    align-items: center;
+
+    padding: 1rem;
+
+    color: var(--color-gold-light);
+    background: rgb(201 168 92 / 5%);
+
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.availability-table__results {
+    display: grid;
+    min-height: 7.5rem;
+    grid-template-columns: 1fr 1fr;
+
+    background: rgb(201 168 92 / 3%);
+
+    .availability-table__result-slot {
+        display: grid;
+        min-width: 0;
+        align-content: center;
+        gap: 0.25rem;
+
+        padding: 0.65rem;
+
+        + .availability-table__result-slot {
+            border-left: 1px solid var(--color-border);
+        }
+    }
+
+    .availability-table__summary-item {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+
+        font-size: 0.72rem;
+        font-weight: 600;
+
+        &.is-available {
+            color: #7fc89c;
+        }
+
+        &.is-maybe {
+            color: var(--color-gold-light);
+        }
+
+        &.is-unavailable {
+            color: #d98181;
+        }
+
+        &.is-unanswered {
+            color: var(--color-text-muted);
+        }
+
+        .availability-table__summary-symbol {
+            width: 0.9rem;
+
+            text-align: center;
+            font-weight: 700;
+        }
+    }
+
+    .availability-table__result-blocked {
+        color: #8d919a;
+
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-align: center;
+    }
+}

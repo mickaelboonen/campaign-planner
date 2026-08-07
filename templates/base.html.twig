@@ -19,8 +19,32 @@
     </head>
 
     <body>
-        <div class="app-layout">
-            <aside class="sidebar">
+        <div class="app-layout" data-controller="mobile-navigation">
+          <header class="mobile-header">
+            <button
+                class="mobile-header__toggle"
+                type="button"
+                aria-label="Ouvrir la navigation"
+                data-action="mobile-navigation#toggle"
+            >
+                ☰
+            </button>
+
+            <a
+                class="mobile-header__brand"
+                href="{{ path('dashboard') }}"
+            >
+                CampaignPlanner
+            </a>
+        </header>
+
+        <div
+            class="mobile-overlay"
+            data-mobile-navigation-target="overlay"
+            data-action="click->mobile-navigation#close"
+        ></div>
+            <aside class="sidebar" data-mobile-navigation-target="sidebar">
+
                 <a class="brand" href="{{ path('dashboard') }}">
                     <span class="brand__emblem">◆</span>
 

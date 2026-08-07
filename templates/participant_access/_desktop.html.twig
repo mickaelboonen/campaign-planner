@@ -1,0 +1,30 @@
+<section class="calendar-card">
+    <div class="availability-table">
+        <div class="availability-table__corner">
+            Participant
+        </div>
+
+        {% for day in calendar.days %}
+            <div class="availability-table__day">
+                <strong>{{ day.label }}</strong>
+                <span>{{ day.date|date('d/m') }}</span>
+            </div>
+        {% endfor %}
+
+        <div class="availability-table__subheader"></div>
+
+        {% include 'participant_access/_desktop_periods.html.twig' %}
+
+        {% for row in calendar.rows %}
+            {% include 'participant_access/_participant_row.html.twig' with {
+                row: row
+            } %}
+        {% else %}
+            <div class="availability-table__empty">
+                Aucun participant actif dans cette campagne.
+            </div>
+        {% endfor %}
+
+        {% include 'components/calendar/_results.html.twig' %}
+    </div>
+</section>

@@ -1,0 +1,66 @@
+{% if not isPastWeek %}
+    <section class="availability-editor">
+        <div class="availability-editor__status">
+            <span class="availability-editor__label">
+                Action à appliquer
+            </span>
+
+            <button
+                type="button"
+                class="availability-status-button is-unavailable"
+                data-calendar-slot-grid-target="modeButton"
+                data-action="calendar-slot-grid#selectMode"
+                data-mode="blocked"
+            >
+                × Bloquer
+            </button>
+
+            <button
+                type="button"
+                class="availability-status-button is-available"
+                data-calendar-slot-grid-target="modeButton"
+                data-action="calendar-slot-grid#selectMode"
+                data-mode="open"
+            >
+                ✓ Ouvrir
+            </button>
+        </div>
+
+        <div class="availability-editor__shortcuts">
+            <span class="availability-editor__label">
+                Actions rapides
+            </span>
+
+            <button
+                type="button"
+                class="button button--secondary"
+                data-action="calendar-slot-grid#applyShortcut"
+                data-scope="all"
+            >
+                Toute la semaine
+            </button>
+
+            <button
+                type="button"
+                class="button button--secondary"
+                data-action="calendar-slot-grid#applyShortcut"
+                data-scope="afternoon"
+            >
+                Tous les après-midi
+            </button>
+
+            <button
+                type="button"
+                class="button button--secondary"
+                data-action="calendar-slot-grid#applyShortcut"
+                data-scope="evening"
+            >
+                Tous les soirs
+            </button>
+        </div>
+    </section>
+{% else %}
+    <div class="calendar-readonly-notice">
+        Cette semaine est passée et ne peut plus être modifiée.
+    </div>
+{% endif %}
