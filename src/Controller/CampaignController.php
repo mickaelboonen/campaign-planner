@@ -6,6 +6,7 @@ use App\Entity\Campaign;
 use App\Repository\ParticipantRepository;
 use App\Security\Voter\CampaignVoter;
 use App\DTO\CreateCampaignData;
+use App\DTO\EditCampaignData;
 use App\Form\CampaignType;
 use App\Repository\CampaignRepository;
 use App\Service\CampaignManager;
@@ -61,7 +62,7 @@ final class CampaignController extends BaseController
             'form' => $form,
         ]);
     }
-    
+
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Campaign $campaign): Response
     {
@@ -77,5 +78,57 @@ final class CampaignController extends BaseController
             'campaign' => $campaign,
             'participants' => $participants,
         ]);
+    }
+
+    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
+    public function edit(
+        Campaign $campaign,
+        Request $request,
+    ): Response {
+        $this->denyAccessUnlessGranted(
+            CampaignVoter::EDIT,
+            $campaign,
+        );
+
+        $data = new EditCampaignData();
+        $data->name = $campaign->getName();
+        $data->color = $campaign->getColor();
+
+        $form = $this->createForm(
+            CampaignType::class,
+            $data,
+            [
+                'data_class' => EditCampaignData::class,
+            ],
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->campaignManager->update(
+                $campaign,
+                $data,
+            );
+
+            $this->addFlash(
+                'success',
+                'La campagne a bien été modifiée.',
+            );
+
+            return $this->redirectToRoute(
+                'campaign_show',
+                [
+                    'id' => $campaign->getId(),
+                ],
+            );
+        }
+
+        return $this->render(
+            'campaign/edit.html.twig',
+            [
+                'campaign' => $campaign,
+                'form' => $form,
+            ],
+        );
     }
 }

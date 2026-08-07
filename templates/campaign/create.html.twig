@@ -1,25 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouvelle campagne{% endblock %}
+{% block title %}
+    Nouvelle campagne
+{% endblock %}
 
 {% block body %}
-    <h1>Créer une campagne</h1>
+    {% include 'components/breadcrumb.html.twig' with {
+        items: [
+            {
+                label: 'Campagnes',
+                path: path('campaign_list')
+            },
+            {
+                label: 'Nouvelle campagne'
+            }
+        ]
+    } %}
 
-    {{ form_start(form) }}
-        {{ form_row(form.name, {
-            label: 'Nom de la campagne'
-        }) }}
+    {% include 'components/page-header.html.twig' with {
+        eyebrow: 'Campagne',
+        title: 'Nouvelle campagne',
+        description: 'Créez un nouvel espace pour organiser votre groupe et vos sessions.'
+    } %}
 
-        {{ form_row(form.color, {
-            label: 'Couleur'
-        }) }}
-
-        <button type="submit">
-            Créer la campagne
-        </button>
-    {{ form_end(form) }}
-
-    <a href="{{ path('campaign_list') }}">
-        Retour aux campagnes
-    </a>
+    {% include 'campaign/_form.html.twig' with {
+        form: form,
+        form_title: 'Créer une campagne',
+        submit_label: 'Créer la campagne',
+        cancel_path: path('campaign_list')
+    } %}
 {% endblock %}

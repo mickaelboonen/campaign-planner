@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ campaign.name }}{% endblock %}
+{% block title %}
+    {{ campaign.name }}
+{% endblock %}
 
 {% block body %}
     {% include 'components/breadcrumb.html.twig' with {
@@ -15,42 +17,92 @@
         ]
     } %}
 
-    {% include 'components/page-header.html.twig' with {
-        eyebrow: 'Campagne active',
-        title: campaign.name,
-        description: 'Créée le ' ~ campaign.createdAt|date('d/m/Y'),
-        action_label: 'Ajouter un participant',
-        action_path: path('participant_new', {
-            id: campaign.id
-        })
-    } %}
-
-<a
-    class="button button--secondary"
-    href="{{ path('calendar_show', { id: campaign.id }) }}"
->
-    Voir le calendrier
-</a>
     <section
-        class="campaign-banner"
+        class="campaign-hero"
         style="--campaign-color: {{ campaign.color ?? '#c9a85c' }}"
     >
-        <div class="campaign-banner__accent"></div>
+        <div class="campaign-hero__media">
+            {% if campaign.image %}
+                <img
+                    src="{{ asset(
+                        'uploads/campaigns/' ~ campaign.image
+                    ) }}"
+                    alt=""
+                >
+            {% else %}
+                <div class="campaign-hero__placeholder">
+                    ◆
+                </div>
+            {% endif %}
+        </div>
 
-        <div class="campaign-banner__content">
-            <span class="campaign-banner__label">
-                Campagne
-            </span>
+        <div class="campaign-hero__overlay"></div>
 
-            <strong class="campaign-banner__name">
-                {{ campaign.name }}
-            </strong>
+        <div class="campaign-hero__content">
+            <div>
+                <p class="page-eyebrow">
+                    Campagne active
+                </p>
 
-            <p class="campaign-banner__status">
-                Aucune session planifiée pour le moment.
-            </p>
+                <h1>
+                    {{ campaign.name }}
+                </h1>
+
+                <p class="campaign-hero__meta">
+                    Créée le
+                    {{ campaign.createdAt|date('d/m/Y') }}
+                </p>
+            </div>
+
+            <a
+                class="button button--secondary"
+                href="{{ path('campaign_edit', {
+                    id: campaign.id
+                }) }}"
+            >
+                Modifier
+            </a>
         </div>
     </section>
+
+    <nav class="campaign-navigation">
+        <a
+            class="campaign-navigation__item is-active"
+            href="{{ path('campaign_show', {
+                id: campaign.id
+            }) }}"
+        >
+            <span class="campaign-navigation__icon">◆</span>
+
+            <span>
+                <strong>Participants</strong>
+                <small>Gérer le groupe de jeu</small>
+            </span>
+        </a>
+
+        <a
+            class="campaign-navigation__item"
+            href="{{ path('calendar_show', {
+                id: campaign.id
+            }) }}"
+        >
+            <span class="campaign-navigation__icon">▦</span>
+
+            <span>
+                <strong>Calendrier</strong>
+                <small>Disponibilités et créneaux</small>
+            </span>
+        </a>
+
+        <div class="campaign-navigation__item is-disabled">
+            <span class="campaign-navigation__icon">◈</span>
+
+            <span>
+                <strong>Sessions</strong>
+                <small>Bientôt disponible</small>
+            </span>
+        </div>
+    </nav>
 
     <section class="stat-grid">
         {% include 'components/stat-card.html.twig' with {
@@ -75,11 +127,21 @@
     <section class="content-section">
         <div class="section-heading">
             <div>
-                <p class="page-eyebrow">Groupe de jeu</p>
-                <h2>Participants</h2>
+                <p class="page-eyebrow">
+                    Groupe de jeu
+                </p>
+
+                <h2>
+                    Participants
+                </h2>
             </div>
 
-            <a class="button button--primary" href="{{ path('participant_new', { id: campaign.id }) }}">
+            <a
+                class="button button--primary"
+                href="{{ path('participant_new', {
+                    id: campaign.id
+                }) }}"
+            >
                 Ajouter un participant
             </a>
         </div>

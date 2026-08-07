@@ -1,0 +1,89 @@
+<section class="campaign-form-card">
+    <header class="campaign-form-card__header">
+        <div>
+            <p class="page-eyebrow">
+                Informations générales
+            </p>
+
+            <h2>
+                {{ form_title }}
+            </h2>
+
+            <p>
+                Nom, couleur et image de couverture de la campagne.
+            </p>
+        </div>
+    </header>
+
+    {{ form_start(form) }}
+
+        <div class="campaign-form">
+            <div class="campaign-form__field">
+                {{ form_label(form.name, 'Nom de la campagne') }}
+                {{ form_widget(form.name, {
+                    attr: {
+                        placeholder: 'Ex. Curse of Strahd'
+                    }
+                }) }}
+                {{ form_errors(form.name) }}
+            </div>
+
+            <div class="campaign-form__field">
+                {{ form_label(form.color, 'Couleur de la campagne') }}
+
+                <div class="campaign-form__color">
+                    {{ form_widget(form.color) }}
+
+                    <span class="campaign-form__color-hint">
+                        Cette couleur sera utilisée comme accent visuel.
+                    </span>
+                </div>
+
+                {{ form_errors(form.color) }}
+            </div>
+
+            <div class="campaign-form__field">
+                {{ form_label(form.imageFile, 'Image de couverture') }}
+
+                {% if campaign is defined and campaign.image %}
+                    <div class="campaign-form__current-image">
+                        <img
+                            src="{{ asset(
+                                'uploads/campaigns/' ~ campaign.image
+                            ) }}"
+                            alt=""
+                        >
+
+                        <span>
+                            Image actuelle
+                        </span>
+                    </div>
+                {% endif %}
+
+                {{ form_widget(form.imageFile) }}
+                {{ form_errors(form.imageFile) }}
+
+                <p class="campaign-form__help">
+                    JPG, PNG ou WebP — 5 Mo maximum.
+                </p>
+            </div>
+        </div>
+
+        <div class="campaign-form__actions">
+            <a
+                class="button button--secondary"
+                href="{{ cancel_path }}"
+            >
+                Annuler
+            </a>
+
+            <button
+                type="submit"
+                class="button button--primary"
+            >
+                {{ submit_label }}
+            </button>
+        </div>
+
+    {{ form_end(form) }}
+</section>

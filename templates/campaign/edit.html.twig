@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Modifier {{ campaign.name }}
+{% endblock %}
+
+{% block body %}
+    {% include 'components/breadcrumb.html.twig' with {
+        items: [
+            {
+                label: 'Campagnes',
+                path: path('campaign_list')
+            },
+            {
+                label: campaign.name,
+                path: path('campaign_show', {
+                    id: campaign.id
+                })
+            },
+            {
+                label: 'Modifier'
+            }
+        ]
+    } %}
+
+    {% include 'components/page-header.html.twig' with {
+        eyebrow: 'Campagne',
+        title: 'Modifier ' ~ campaign.name,
+        description: 'Modifiez les informations générales de la campagne.'
+    } %}
+
+    {% include 'campaign/_form.html.twig' with {
+        form: form,
+        campaign: campaign,
+        form_title: 'Informations de la campagne',
+        submit_label: 'Enregistrer',
+        cancel_path: path('campaign_show', {
+            id: campaign.id
+        })
+    } %}
+{% endblock %}

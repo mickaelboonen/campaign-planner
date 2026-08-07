@@ -31,6 +31,9 @@ class Campaign
     #[ORM\JoinColumn(nullable: false)]
     private ?User $owner = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
     /**
      * @var Collection<int, Participant>
      */
@@ -123,6 +126,18 @@ class Campaign
             $this->calendarSlots->add($calendarSlot);
             $calendarSlot->setCampaign($this);
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }

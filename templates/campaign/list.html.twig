@@ -1,39 +1,99 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mes campagnes{% endblock %}
+{% block title %}
+    Mes campagnes
+{% endblock %}
 
 {% block body %}
-    <h1>Mes campagnes</h1>
-
-    <a href="{{ path('campaign_create') }}">
-        Nouvelle campagne
-    </a>
+    {% include 'components/page-header.html.twig' with {
+        eyebrow: 'Organisation',
+        title: 'Mes campagnes',
+        description: 'Retrouvez toutes vos campagnes actives et accédez rapidement à leur gestion.',
+        action_label: 'Nouvelle campagne',
+        action_path: path('campaign_create')
+    } %}
 
     {% for message in app.flashes('success') %}
-        <p>{{ message }}</p>
+        <div class="flash flash--success">
+            {{ message }}
+        </div>
     {% endfor %}
 
     {% if campaigns is empty %}
-        <p>Tu n'as encore créé aucune campagne.</p>
+        {% include 'components/empty-state.html.twig' with {
+            icon: '◆',
+            title: 'Aucune campagne',
+            message: 'Créez votre première campagne pour commencer à organiser vos prochaines sessions.',
+            action_label: 'Créer une campagne',
+            action_path: path('campaign_create')
+        } %}
     {% else %}
-        <ul>
+        <section class="campaign-grid">
             {% for campaign in campaigns %}
-                <li>
-                    {% if campaign.color %}
-                        <span
-                            style="
-                                display: inline-block;
-                                width: 1rem;
-                                height: 1rem;
-                                border-radius: 50%;
-                                background-color: {{ campaign.color }};
-                            "
-                        ></span>
-                    {% endif %}
+                <article
+                    class="campaign-card"
+                    style="--campaign-color: {{ campaign.color ?? '#c9a85c' }}"
+                >
+                    <a
+                        class="campaign-card__cover"
+                        href="{{ path('campaign_show', {
+                            id: campaign.id
+                        }) }}"
+                    >
+                        {% if campaign.image %}
+                            <img
+                                src="{{ asset(
+                                    'uploads/campaigns/' ~ campaign.image
+                                ) }}"
+                                alt=""
+                            >
+                        {% else %}
+                            <div class="campaign-card__placeholder">
+                                <span>◆</span>
+                            </div>
+                        {% endif %}
+                    </a>
 
-                    <a href="{{ path('campaign_show', { id: campaign.id }) }}">{{ campaign.name }}</a>
-                </li>
+                    <div class="campaign-card__body">
+                        <div class="campaign-card__heading">
+                            <span class="campaign-card__accent"></span>
+
+                            <h2>
+                                <a href="{{ path('campaign_show', {
+                                    id: campaign.id
+                                }) }}">
+                                    {{ campaign.name }}
+                                </a>
+                            </h2>
+                        </div>
+
+                        <p class="campaign-card__meta">
+                            Créée le
+                            {{ campaign.createdAt|date('d/m/Y') }}
+                        </p>
+
+                        <div class="campaign-card__actions">
+                            <a
+                                class="button button--secondary"
+                                href="{{ path('campaign_edit', {
+                                    id: campaign.id
+                                }) }}"
+                            >
+                                Modifier
+                            </a>
+
+                            <a
+                                class="button button--primary"
+                                href="{{ path('campaign_show', {
+                                    id: campaign.id
+                                }) }}"
+                            >
+                                Ouvrir →
+                            </a>
+                        </div>
+                    </div>
+                </article>
             {% endfor %}
-        </ul>
+        </section>
     {% endif %}
 {% endblock %}

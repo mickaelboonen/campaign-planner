@@ -5,7 +5,7 @@ namespace App\DTO;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class CreateCampaignData
+final class EditCampaignData
 {
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
