@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>
+        {% block title %}{% endblock %}
+        — Campaign Planner
+    </title>
+
+    {% block stylesheets %}
+        {{ importmap('app') }}
+    {% endblock %}
+</head>
+
+<body class="login-body">
+    <main class="login-layout">
+        {% block body %}{% endblock %}
+    </main>
+
+    {% include 'components/footer.html.twig' %}
+</body>
+</html>
