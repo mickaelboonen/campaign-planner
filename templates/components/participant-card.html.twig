@@ -34,10 +34,6 @@
 
     <footer class="participant-card__footer">
 
-        <span class="participant-card__status">
-            Aucune disponibilité renseignée
-        </span>
-
         <div class="participant-card__actions">
 
             <a
@@ -53,9 +49,25 @@
             <button
                 class="button button--secondary"
                 type="button"
-                disabled
+                data-controller="clipboard"
+                data-action="clipboard#copy"
+                data-clipboard-value-value="{{ url('participant_dashboard', {
+                    token: participant.dashboardToken
+                }) }}"
             >
-                Copier le lien
+                Copier Dashboard
+            </button>
+
+            <button
+                type="button"
+                class="button button--secondary"
+                data-controller="clipboard"
+                data-action="clipboard#copy"
+                data-clipboard-value-value="{{ url('participant_availability_show', {
+                    token: participant.accessToken
+                }) }}"
+            >
+                Copier Calendrier
             </button>
 
             <form

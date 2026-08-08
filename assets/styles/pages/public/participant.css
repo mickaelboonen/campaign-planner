@@ -1,0 +1,421 @@
+/* ==========================================================
+   Participant dashboard — Hero
+   ========================================================== */
+
+.participant-dashboard-hero {
+    position: relative;
+
+    overflow: hidden;
+
+    min-height: 14rem;
+    margin-bottom: 1.5rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-large);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgb(201 168 92 / 10%),
+            var(--color-surface)
+        );
+}
+
+.participant-dashboard-hero__media,
+.participant-dashboard-hero__overlay {
+    position: absolute;
+    inset: 0;
+}
+
+.participant-dashboard-hero__media img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.participant-dashboard-hero__overlay {
+    background:
+        linear-gradient(
+            90deg,
+            rgb(13 14 18 / 95%) 0%,
+            rgb(13 14 18 / 75%) 55%,
+            rgb(13 14 18 / 35%) 100%
+        );
+}
+
+.participant-dashboard-hero__content {
+    position: relative;
+    z-index: 1;
+
+    display: grid;
+    align-content: end;
+
+    min-height: 14rem;
+    padding: 1.75rem;
+}
+
+.participant-dashboard-hero__content h1 {
+    margin: 0.2rem 0 0;
+
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+}
+
+.participant-dashboard-hero__content > p:last-child {
+    max-width: 42rem;
+    margin: 0.65rem 0 0;
+
+    color: var(--color-text-muted);
+    line-height: 1.6;
+}
+
+
+/* ==========================================================
+   Participant dashboard — Summary
+   ========================================================== */
+
+.participant-dashboard-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(14rem, 0.6fr);
+    gap: 1rem;
+
+    margin-bottom: 1.5rem;
+}
+
+.participant-dashboard-card {
+    padding: 1.35rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-large);
+
+    background: var(--color-surface);
+
+    box-shadow: var(--shadow-card);
+}
+
+.participant-dashboard-card--featured {
+    position: relative;
+
+    overflow: hidden;
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--color-gold),
+            var(--color-border) 55%
+        );
+
+    background:
+        linear-gradient(
+            135deg,
+            rgb(201 168 92 / 9%),
+            var(--color-surface) 65%
+        );
+}
+
+.participant-dashboard-card--featured::before {
+    content: '';
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+
+    width: 3px;
+
+    background: var(--color-gold);
+}
+
+.participant-dashboard-card h2 {
+    margin: 0.25rem 0 0.5rem;
+
+    font-size: 1.35rem;
+}
+
+.participant-dashboard-card p {
+    margin: 0;
+
+    color: var(--color-text-muted);
+    line-height: 1.5;
+}
+
+.participant-dashboard-card__date {
+    margin-top: 0.5rem !important;
+
+    color: var(--color-text) !important;
+
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.participant-dashboard-card__period {
+    margin-top: 0.3rem !important;
+
+    color: var(--color-gold-light) !important;
+
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+
+/* ==========================================================
+   Participant dashboard — Sessions
+   ========================================================== */
+
+.participant-session-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.participant-session-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    padding: 0.9rem 1rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-medium);
+
+    background: var(--color-surface);
+
+    transition:
+        transform 180ms ease,
+        border-color 180ms ease,
+        background-color 180ms ease;
+}
+
+.participant-session-card:hover {
+    transform: translateY(-1px);
+
+    border-color: var(--color-gold-dark);
+
+    background: rgb(255 255 255 / 2%);
+}
+
+.participant-session-card__date {
+    display: grid;
+    flex: 0 0 auto;
+
+    min-width: 3.3rem;
+
+    place-items: center;
+
+    padding-right: 1rem;
+
+    border-right: 1px solid var(--color-border);
+}
+
+.participant-session-card__date strong {
+    color: var(--color-gold-light);
+
+    font-size: 1.35rem;
+    line-height: 1;
+}
+
+.participant-session-card__date span {
+    margin-top: 0.25rem;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.68rem;
+}
+
+.participant-session-card__content {
+    display: grid;
+    gap: 0.2rem;
+}
+
+.participant-session-card__content strong {
+    color: var(--color-text);
+
+    font-size: 0.95rem;
+}
+
+.participant-session-card__content span {
+    color: var(--color-text-muted);
+
+    font-size: 0.8rem;
+}
+
+
+/* ==========================================================
+   Participant dashboard — Campaigns
+   ========================================================== */
+
+.participant-campaign-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(min(20rem, 100%), 1fr)
+        );
+
+    gap: 1.25rem;
+}
+
+.participant-campaign-card {
+    position: relative;
+
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+
+    min-height: 20rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-large);
+
+    background: var(--color-surface);
+
+    box-shadow: var(--shadow-card);
+
+    transition:
+        transform 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.participant-campaign-card:hover {
+    transform: translateY(-2px);
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--campaign-color, #c9a85c),
+            var(--color-border) 45%
+        );
+
+    box-shadow: var(--shadow-medium);
+}
+
+.participant-campaign-card::before {
+    content: '';
+
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    left: 0;
+
+    height: 3px;
+
+    background: var(--campaign-color, #c9a85c);
+}
+
+.participant-campaign-card__media {
+    position: relative;
+
+    height: 11rem;
+
+    background: var(--color-surface);
+}
+
+.participant-campaign-card__media::after {
+    content: '';
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to top,
+            rgb(13 14 18 / 88%),
+            rgb(13 14 18 / 5%) 70%
+        );
+}
+
+.participant-campaign-card__media img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.participant-campaign-card__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.65rem;
+
+    padding: 1.25rem;
+}
+
+.participant-campaign-card__content .page-eyebrow {
+    margin-bottom: -0.15rem;
+}
+
+.participant-campaign-card__content h3 {
+    margin: 0;
+
+    color: var(--color-text);
+
+    font-size: 1.25rem;
+}
+
+.participant-campaign-card__character {
+    margin: 0 0 0.4rem;
+
+    color: var(--color-gold-light);
+
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+.participant-campaign-card .button {
+    width: fit-content;
+    margin-top: auto;
+}
+
+
+/* ==========================================================
+   Participant dashboard — Responsive
+   ========================================================== */
+
+@media (max-width: 768px) {
+    .participant-dashboard-hero {
+        min-height: 12rem;
+    }
+
+    .participant-dashboard-hero__content {
+        min-height: 12rem;
+        padding: 1.25rem;
+    }
+
+    .participant-dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .participant-campaign-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .participant-campaign-card {
+        min-height: auto;
+    }
+
+    .participant-campaign-card__media {
+        height: 9rem;
+    }
+
+    .participant-campaign-card .button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .participant-session-card {
+        gap: 0.75rem;
+
+        padding: 0.8rem;
+    }
+
+    .participant-session-card__date {
+        min-width: 2.8rem;
+        padding-right: 0.75rem;
+    }
+
+    .participant-session-card__date strong {
+        font-size: 1.15rem;
+    }
+}

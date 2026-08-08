@@ -1,0 +1,192 @@
+{% extends 'public_base.html.twig' %}
+
+{% block title %}
+    Mon espace joueur
+{% endblock %}
+
+{% block body %}
+    <section class="participant-dashboard-hero">
+        <div class="participant-dashboard-hero__content">
+            <p class="page-eyebrow">
+                Espace joueur
+            </p>
+
+            <h1>
+                Bonjour {{ participant.name }}
+            </h1>
+
+            <p>
+                Retrouvez vos campagnes, vos prochaines sessions
+                et vos calendriers de disponibilités.
+            </p>
+        </div>
+    </section>
+
+    <section class="participant-dashboard-grid">
+        <article
+            class="
+                participant-dashboard-card
+                participant-dashboard-card--featured
+            "
+        >
+            <p class="page-eyebrow">
+                Prochaine session
+            </p>
+
+            {% if nextSession %}
+                <h2>
+                    {{ nextSession.campaign.name }}
+                </h2>
+
+                <p class="participant-dashboard-card__date">
+                    {{ nextSession.date|format_date(
+                        pattern: 'EEEE d MMMM yyyy',
+                        locale: 'fr'
+                    ) }}
+                </p>
+
+                <p class="participant-dashboard-card__period">
+                    {{ nextSession.period.label() }}
+                </p>
+            {% else %}
+                <h2>
+                    Aucune session planifiée
+                </h2>
+
+                <p>
+                    Aucun MJ n’a encore validé de prochaine date.
+                </p>
+            {% endif %}
+        </article>
+
+        <article class="participant-dashboard-card">
+            <p class="page-eyebrow">
+                Campagnes
+            </p>
+
+            <h2>
+                {{ participations|length }}
+            </h2>
+
+            <p>
+                {{ participations|length > 1
+                    ? 'Campagnes actives'
+                    : 'Campagne active'
+                }}
+            </p>
+        </article>
+    </section>
+
+    {% if upcomingSessions is not empty %}
+        <section class="content-section">
+            <div class="section-heading">
+                <div>
+                    <p class="page-eyebrow">
+                        Planning
+                    </p>
+
+                    <h2>
+                        Autres sessions prévues
+                    </h2>
+                </div>
+            </div>
+
+            <div class="participant-session-list">
+                {% for session in upcomingSessions %}
+                    <article class="participant-session-card">
+                        <div class="participant-session-card__date">
+                            <strong>
+                                {{ session.date|date('d') }}
+                            </strong>
+
+                            <span>
+                                {{ session.date|date('m/Y') }}
+                            </span>
+                        </div>
+
+                        <div class="participant-session-card__content">
+                            <strong>
+                                {{ session.campaign.name }}
+                            </strong>
+
+                            <span>
+                                {{ session.date|format_date(
+                                    pattern: 'EEEE d MMMM',
+                                    locale: 'fr'
+                                ) }}
+                                ·
+                                {{ session.period.label() }}
+                            </span>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
+    <section class="content-section">
+        <div class="section-heading">
+            <div>
+                <p class="page-eyebrow">
+                    Mes campagnes
+                </p>
+
+                <h2>
+                    Accès aux calendriers
+                </h2>
+            </div>
+        </div>
+
+        <div class="participant-campaign-grid">
+            {% for item in participations %}
+                <article
+                    class="participant-campaign-card"
+                    style="
+                        --campaign-color:
+                        {{ item.campaign.color ?? '#c9a85c' }}
+                    "
+                >
+                    {% if item.campaign.image %}
+                        <div class="participant-campaign-card__media">
+                            <img
+                                src="{{ asset(
+                                    'uploads/campaigns/'
+                                    ~ item.campaign.image
+                                ) }}"
+                                alt=""
+                            >
+                        </div>
+                    {% endif %}
+
+                    <div class="participant-campaign-card__content">
+                        <p class="page-eyebrow">
+                            Campagne
+                        </p>
+
+                        <h3>
+                            {{ item.campaign.name }}
+                        </h3>
+
+                        {% if item.participant.characterName %}
+                            <p class="participant-campaign-card__character">
+                                {{ item.participant.characterName }}
+                            </p>
+                        {% endif %}
+
+                        <a
+                            class="button button--primary"
+                            href="{{ path(
+                                'participant_availability_show',
+                                {
+                                    token: item.participant.accessToken
+                                }
+                            ) }}"
+                        >
+                            Voir mes disponibilités
+                        </a>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

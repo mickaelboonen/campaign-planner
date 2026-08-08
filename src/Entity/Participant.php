@@ -40,6 +40,9 @@ class Participant
     #[ORM\Column(length: 64, unique: true)]
     private ?string $accessToken = null;
 
+    #[ORM\Column(length: 64)]
+    private ?string $dashboardToken = null;
+
     #[ORM\ManyToOne(inversedBy: 'participants')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Campaign $campaign = null;
@@ -129,6 +132,18 @@ class Participant
         return $this;
     }
 
+    public function getDashboardToken(): ?string
+    {
+        return $this->dashboardToken;
+    }
+
+    public function setDashboardToken(string $dashboardToken): static
+    {
+        $this->dashboardToken = $dashboardToken;
+
+        return $this;
+    }
+
     public function getCampaign(): ?Campaign
     {
         return $this->campaign;
@@ -158,5 +173,5 @@ class Participant
 
         return $this;
     }
-    
+
 }

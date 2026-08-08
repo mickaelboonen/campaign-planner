@@ -30,6 +30,19 @@ final readonly class ParticipantManager
         $participant->setCharacterName($data->characterName);
         $participant->setAccessToken(bin2hex(random_bytes(32)));
 
+        $existingParticipant = $this->participantRepository
+            ->findOneActiveByEmail($data->email);
+
+        if ($existingParticipant !== null) {
+            $participant->setDashboardToken(
+                $existingParticipant->getDashboardToken(),
+            );
+        } else {
+            $participant->setDashboardToken(
+                bin2hex(random_bytes(32)),
+            );
+        }
+
         $this->entityManager->persist($participant);
         $this->entityManager->flush();
 

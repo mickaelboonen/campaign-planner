@@ -14,5 +14,6 @@
 @import url("./pages/dashboard.css");
 @import url("./pages/campaign.css");
 @import url("./pages/calendar/calendar.css");
+@import url("./pages/public/participant.css");
 
 @import url("./components/content-components.css");

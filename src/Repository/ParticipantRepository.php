@@ -16,7 +16,7 @@ class ParticipantRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Participant::class);
     }
-    
+
     /**
      * @return list<Participant>
      */
@@ -70,5 +70,30 @@ class ParticipantRepository extends ServiceEntityRepository
             ->setParameter('token', $token)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function findOneActiveByEmail(
+        string $email,
+    ): ?Participant {
+        return $this->createQueryBuilder('participant')
+            ->andWhere('participant.email = :email')
+            ->andWhere('participant.archivedAt IS NULL')
+            ->setParameter('email', $email)
+            ->orderBy('participant.createdAt', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findActiveByDashboardToken(
+        string $dashboardToken,
+    ): array {
+        return $this->createQueryBuilder('participant')
+            ->andWhere('participant.dashboardToken = :dashboardToken')
+            ->andWhere('participant.archivedAt IS NULL')
+            ->setParameter('dashboardToken', $dashboardToken)
+            ->orderBy('participant.createdAt', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 }
