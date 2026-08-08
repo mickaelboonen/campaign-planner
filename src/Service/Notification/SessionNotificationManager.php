@@ -21,4 +21,14 @@ final readonly class SessionNotificationManager
             $notifier->notify($session);
         }
     }
+
+    public function notifySessionCancelled(
+        GameSession $session,
+    ): void {
+        foreach ($this->notifiers as $notifier) {
+            $notifier->notifyCancellation(
+                $session,
+            );
+        }
+    }
 }

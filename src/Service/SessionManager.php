@@ -100,7 +100,7 @@ final readonly class SessionManager
         $slot = $session->getCalendarSlot();
 
         if ($slot !== null && $slot->isSelected()) {
-            $slot->open();
+            $slot->block();
         }
 
         $this->entityManager->flush();

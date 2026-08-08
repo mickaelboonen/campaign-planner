@@ -1,11 +1,11 @@
 {% extends 'emails/_layout.html.twig' %}
 
 {% block title %}
-    Nouvelle session - {{ campaign.name }}
+    Session annulée - {{ campaign.name }}
 {% endblock %}
 
 {% block heading %}
-    🎲 Nouvelle session
+    Session annulée
 {% endblock %}
 
 {% block content %}
@@ -14,16 +14,12 @@
     </p>
 
     <p style="margin: 0 0 24px; color: #d4d7dd; font-size: 16px; line-height: 1.7;">
-        Une nouvelle session vient d’être validée pour votre campagne :
+        La session suivante vient d’être annulée :
     </p>
 
     {% include 'emails/_session_details.html.twig' with {
-        accentColor: '#c9a85c'
+        accentColor: '#d77474'
     } %}
-
-    <p style="margin: 0 0 30px; color: #d4d7dd; font-size: 15px; line-height: 1.7;">
-        Pensez à vérifier vos disponibilités si nécessaire et préparez vos dés !
-    </p>
 
     {% include 'emails/_dashboard_button.html.twig' %}
 {% endblock %}

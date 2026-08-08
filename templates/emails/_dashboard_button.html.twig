@@ -1,0 +1,32 @@
+<table
+    role="presentation"
+    cellspacing="0"
+    cellpadding="0"
+    border="0"
+    align="center"
+>
+    <tr>
+        <td
+            style="
+                border-radius: 8px;
+                background: #c9a85c;
+            "
+        >
+            <a
+                href="{{ url('participant_dashboard', {
+                    token: participant.dashboardToken
+                }) }}"
+                style="
+                    display: inline-block;
+                    padding: 14px 28px;
+                    color: #111318;
+                    font-size: 15px;
+                    font-weight: 700;
+                    text-decoration: none;
+                "
+            >
+                Voir mon espace joueur
+            </a>
+        </td>
+    </tr>
+</table>
