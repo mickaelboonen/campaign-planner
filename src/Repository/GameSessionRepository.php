@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\User;
 use App\Entity\Campaign;
 use App\Entity\GameSession;
+use App\Enum\GameSessionStatus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -24,6 +25,8 @@ class GameSessionRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('session')
             ->andWhere('session.campaign = :campaign')
             ->andWhere('session.date >= :today')
+            ->andWhere('session.status = :status')
+            ->setParameter('status', GameSessionStatus::SCHEDULED)
             ->setParameter('campaign', $campaign)
             ->setParameter('today', new \DateTimeImmutable('today'))
             ->orderBy('session.date', 'ASC')
@@ -53,6 +56,8 @@ class GameSessionRepository extends ServiceEntityRepository
             ->join('session.campaign', 'campaign')
             ->andWhere('campaign.owner = :owner')
             ->andWhere('session.date >= :today')
+            ->andWhere('session.status = :status')
+            ->setParameter('status', GameSessionStatus::SCHEDULED)
             ->setParameter('owner', $owner)
             ->setParameter('today', new \DateTimeImmutable('today'))
             ->orderBy('session.date', 'ASC')

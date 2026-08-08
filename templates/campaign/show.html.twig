@@ -185,6 +185,32 @@
                                 Prochaine session
                             </span>
                         {% endif %}
+
+                        <form
+                            method="post"
+                            action="{{ path('campaign_session_cancel', {
+                                id: campaign.id,
+                                session: session.id
+                            }) }}"
+                            onsubmit="return confirm(
+                                'Voulez-vous vraiment annuler cette session ?'
+                            );"
+                        >
+                            <input
+                                type="hidden"
+                                name="_token"
+                                value="{{ csrf_token(
+                                    'cancel-session-' ~ session.id
+                                ) }}"
+                            >
+
+                            <button
+                                type="submit"
+                                class="button button--ghost"
+                            >
+                                Annuler la session
+                            </button>
+                        </form>
                     </article>
                 {% endfor %}
             </div>

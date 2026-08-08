@@ -86,4 +86,23 @@ final readonly class SessionManager
             );
         }
     }
+
+    public function cancel(GameSession $session): void
+    {
+        if ($session->isCancelled()) {
+            throw new \DomainException(
+                'Cette session est déjà annulée.',
+            );
+        }
+
+        $session->cancel();
+
+        $slot = $session->getCalendarSlot();
+
+        if ($slot !== null && $slot->isSelected()) {
+            $slot->open();
+        }
+
+        $this->entityManager->flush();
+    }
 }

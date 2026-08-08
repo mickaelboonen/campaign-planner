@@ -732,3 +732,57 @@
         }
     }
 }
+/* ==========================================================
+   Campaign sessions
+   ========================================================== */
+
+.campaign-session-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.campaign-session-card__content {
+    flex: 1;
+}
+
+.campaign-session-card form {
+    margin-left: auto;
+}
+
+.campaign-session-card .button {
+    white-space: nowrap;
+}
+
+.campaign-session-card .button--ghost {
+    border-color: rgb(176 68 68 / 35%);
+
+    color: #d77474;
+
+    transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease;
+}
+
+.campaign-session-card .button--ghost:hover {
+    border-color: #d77474;
+
+    background: rgb(215 116 116 / 10%);
+}
+
+@media (max-width: 768px) {
+    .campaign-session-card {
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+
+    .campaign-session-card form {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .campaign-session-card form .button {
+        width: 100%;
+    }
+}

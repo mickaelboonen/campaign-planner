@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Enum\DayPeriod;
+use App\Enum\GameSessionStatus;
 use App\Repository\GameSessionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -31,6 +32,11 @@ class GameSession
 
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
+
+    #[ORM\Column(
+        enumType: GameSessionStatus::class,
+    )]
+    private GameSessionStatus $status = GameSessionStatus::SCHEDULED;
 
     public function __construct()
     {
@@ -93,5 +99,22 @@ class GameSession
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    public function isScheduled(): bool
+    {
+        return $this->status === GameSessionStatus::SCHEDULED;
+    }
+
+    public function isCancelled(): bool
+    {
+        return $this->status === GameSessionStatus::CANCELLED;
+    }
+
+    public function cancel(): static
+    {
+        $this->status = GameSessionStatus::CANCELLED;
+
+        return $this;
     }
 }

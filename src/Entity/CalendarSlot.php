@@ -123,6 +123,13 @@ class CalendarSlot
         $this->blockedReason = null;
     }
 
+    public function open(): static
+    {
+        $this->status = CalendarSlotStatus::OPEN;
+
+        return $this;
+    }
+
     public function getCampaign(): ?Campaign
     {
         return $this->campaign;
@@ -152,5 +159,5 @@ class CalendarSlot
 
         return $this;
     }
-    
+
 }

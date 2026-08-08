@@ -11,6 +11,9 @@ use App\Form\CampaignType;
 use App\Repository\GameSessionRepository;
 use App\Repository\CampaignRepository;
 use App\Service\CampaignManager;
+use App\Entity\GameSession;
+use App\Service\SessionManager;
+use App\Service\Notification\SessionNotificationManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -138,6 +141,64 @@ final class CampaignController extends BaseController
             [
                 'campaign' => $campaign,
                 'form' => $form,
+            ],
+        );
+    }
+
+    #[Route(
+        '/{id}/session/{session}/cancel',
+        name: 'session_cancel',
+        methods: ['POST'],
+    )]
+    public function cancelSession(
+        Campaign $campaign,
+        GameSession $session,
+        Request $request,
+        SessionManager $sessionManager,
+        SessionNotificationManager $sessionNotificationManager,
+    ): Response {
+        $this->denyAccessUnlessGranted(
+            CampaignVoter::EDIT,
+            $campaign,
+        );
+
+        if ($session->getCampaign() !== $campaign) {
+            throw $this->createNotFoundException(
+                'Cette session n’appartient pas à cette campagne.',
+            );
+        }
+
+        if (!$this->isCsrfTokenValid(
+            'cancel-session-' . $session->getId(),
+            (string) $request->request->get('_token'),
+        )) {
+            throw $this->createAccessDeniedException(
+                'Jeton CSRF invalide.',
+            );
+        }
+
+        try {
+            $sessionManager->cancel($session);
+
+            $sessionNotificationManager->notifySessionCancelled(
+                $session,
+            );
+
+            $this->addFlash(
+                'success',
+                'La session a bien été annulée.',
+            );
+        } catch (\DomainException $exception) {
+            $this->addFlash(
+                'error',
+                $exception->getMessage(),
+            );
+        }
+
+        return $this->redirectToRoute(
+            'campaign_show',
+            [
+                'id' => $campaign->getId(),
             ],
         );
     }
