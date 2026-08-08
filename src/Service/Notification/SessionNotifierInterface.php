@@ -11,4 +11,8 @@ interface SessionNotifierInterface
     public function notifyCancellation(
         GameSession $session,
     ): void;
+
+    public function notifyReminder(
+        GameSession $session,
+    ): void;
 }

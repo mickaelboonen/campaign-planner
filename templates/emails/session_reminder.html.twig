@@ -1,0 +1,30 @@
+{% extends 'emails/_layout.html.twig' %}
+
+{% block title %}
+    Rappel de session
+{% endblock %}
+
+{% block content %}
+    <p>
+        Bonjour {{ participant.name }},
+    </p>
+
+    <p>
+        Petit rappel : votre prochaine session de
+        <strong>{{ campaign.name }}</strong>
+        aura lieu dans une semaine.
+    </p>
+
+    {% include 'emails/_session_details.html.twig' with {
+        accentColor: '#c9a85c'
+    } %}
+
+    <p>
+        Pensez à préparer vos dés, vos fiches
+        et vos meilleurs jets de sauvegarde.
+    </p>
+
+    {% include 'emails/_dashboard_button.html.twig' with {
+        participant: participant
+    } %}
+{% endblock %}

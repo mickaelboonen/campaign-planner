@@ -6,8 +6,8 @@ use App\Entity\User;
 use App\Entity\Campaign;
 use App\Entity\GameSession;
 use App\Enum\GameSessionStatus;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<GameSession>
@@ -19,9 +19,8 @@ class GameSessionRepository extends ServiceEntityRepository
         parent::__construct($registry, GameSession::class);
     }
 
-    public function findUpcomingByCampaign(
-        Campaign $campaign,
-    ): array {
+    public function findUpcomingByCampaign(Campaign $campaign): array
+    {
         return $this->createQueryBuilder('session')
             ->andWhere('session.campaign = :campaign')
             ->andWhere('session.date >= :today')
@@ -35,9 +34,8 @@ class GameSessionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findPastByCampaign(
-        Campaign $campaign,
-    ): array {
+    public function findPastByCampaign(Campaign $campaign): array
+    {
         return $this->createQueryBuilder('session')
             ->andWhere('session.campaign = :campaign')
             ->andWhere('session.date < :today')
@@ -49,9 +47,8 @@ class GameSessionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findUpcomingByOwner(
-        User $owner,
-    ): array {
+    public function findUpcomingByOwner(User $owner): array
+    {
         return $this->createQueryBuilder('session')
             ->join('session.campaign', 'campaign')
             ->andWhere('campaign.owner = :owner')
@@ -65,4 +62,28 @@ class GameSessionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findSessionsNeedingReminder(\DateTimeImmutable $date): array
+    {
+    return $this->createQueryBuilder('session')
+        ->andWhere('session.date = :date')
+        ->andWhere('session.status = :status')
+        ->andWhere('session.reminderSentAt IS NULL')
+        ->setParameter('date',$date->format('Y-m-d'))
+        ->setParameter('status',GameSessionStatus::SCHEDULED)
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function findPastScheduledSessions(\DateTimeImmutable $today): array
+    {
+        return $this->createQueryBuilder('session')
+            ->andWhere('session.date < :today')
+            ->andWhere('session.status = :status')
+            ->setParameter('today',$today->setTime(0, 0))
+            ->setParameter('status',GameSessionStatus::SCHEDULED)
+            ->getQuery()
+            ->getResult();
+    }
+
 }

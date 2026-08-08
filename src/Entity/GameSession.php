@@ -38,6 +38,9 @@ class GameSession
     )]
     private GameSessionStatus $status = GameSessionStatus::SCHEDULED;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $reminderSentAt = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -114,6 +117,25 @@ class GameSession
     public function cancel(): static
     {
         $this->status = GameSessionStatus::CANCELLED;
+
+        return $this;
+    }
+
+    public function getReminderSentAt(): ?\DateTimeImmutable
+    {
+        return $this->reminderSentAt;
+    }
+
+    public function markReminderSent(): static
+    {
+        $this->reminderSentAt = new \DateTimeImmutable();
+
+        return $this;
+    }
+
+    public function complete(): static
+    {
+        $this->status = GameSessionStatus::COMPLETED;
 
         return $this;
     }

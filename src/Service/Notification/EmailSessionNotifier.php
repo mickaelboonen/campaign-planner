@@ -23,13 +23,8 @@ final readonly class EmailSessionNotifier implements SessionNotifierInterface
             $email = (new TemplatedEmail())
                 ->from('noreply@campaign-planner.local')
                 ->to($participant->getEmail())
-                ->subject(sprintf(
-                    'Nouvelle session planifiée — %s',
-                    $session->getCampaign()->getName(),
-                ))
-                ->htmlTemplate(
-                    'emails/session_scheduled.html.twig',
-                )
+                ->subject($this->setMailSubject('Nouvelle session planifiée', $session))
+                ->htmlTemplate('emails/session_scheduled.html.twig')
                 ->context([
                     'participant' => $participant,
                     'campaign' => $session->getCampaign(),
@@ -40,9 +35,8 @@ final readonly class EmailSessionNotifier implements SessionNotifierInterface
         }
     }
 
-    public function notifyCancellation(
-        GameSession $session,
-    ): void {
+    public function notifyCancellation(GameSession $session): void
+    {
         foreach ($session->getCampaign()->getParticipants() as $participant) {
             if (!$participant->getEmail()) {
                 continue;
@@ -51,13 +45,8 @@ final readonly class EmailSessionNotifier implements SessionNotifierInterface
             $email = (new TemplatedEmail())
                 ->from('noreply@campaign-planner.local')
                 ->to($participant->getEmail())
-                ->subject(sprintf(
-                    'Session annulée — %s',
-                    $session->getCampaign()->getName(),
-                ))
-                ->htmlTemplate(
-                    'emails/session_cancelled.html.twig',
-                )
+                ->subject($this->setMailSubject('Session annulée', $session))
+                ->htmlTemplate('emails/session_cancelled.html.twig')
                 ->context([
                     'participant' => $participant,
                     'campaign' => $session->getCampaign(),
@@ -67,4 +56,31 @@ final readonly class EmailSessionNotifier implements SessionNotifierInterface
             $this->mailer->send($email);
         }
     }
+
+    public function notifyReminder(GameSession $session): void
+    {
+        foreach ($session->getCampaign()->getParticipants() as $participant) {
+            if (!$participant->getEmail()) {
+                continue;
+            }
+
+            $email = (new TemplatedEmail())
+                ->from('noreply@campaign-planner.local')
+                ->to($participant->getEmail())
+                ->subject($this->setMailSubject('Rappel — Session dans une semaine', $session))
+                ->htmlTemplate('emails/session_reminder.html.twig')
+                ->context([
+                    'participant' => $participant,
+                    'campaign' => $session->getCampaign(),
+                    'session' => $session,
+                ]);
+
+            $this->mailer->send($email);
+        }
+    }
+
+     private function setMailSubject(string $type, GameSession $session): string
+     {
+        return sprintf('%s — %s', $type, $session->getCampaign()->getName());
+     }
 }
