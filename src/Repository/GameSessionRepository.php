@@ -63,16 +63,20 @@ class GameSessionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findSessionsNeedingReminder(\DateTimeImmutable $date): array
+    public function findSessionsNeedingReminder(\DateTimeImmutable $today): array
     {
-    return $this->createQueryBuilder('session')
-        ->andWhere('session.date = :date')
-        ->andWhere('session.status = :status')
-        ->andWhere('session.reminderSentAt IS NULL')
-        ->setParameter('date',$date->format('Y-m-d'))
-        ->setParameter('status',GameSessionStatus::SCHEDULED)
-        ->getQuery()
-        ->getResult();
+        $limit = $today->modify('+7 days');
+        return $this->createQueryBuilder('session')
+            ->andWhere('session.date > :today')
+            ->andWhere('session.date <= :limit')
+            ->andWhere('session.status = :status')
+            ->andWhere('session.reminderSentAt IS NULL')
+            ->setParameter('today', $today->format('Y-m-d'))
+            ->setParameter('limit', $limit->format('Y-m-d'))
+            ->setParameter('status',GameSessionStatus::SCHEDULED)
+            ->orderBy('session.date', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
     public function findPastScheduledSessions(\DateTimeImmutable $today): array

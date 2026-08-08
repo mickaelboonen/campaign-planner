@@ -37,14 +37,10 @@ final readonly class SessionAutomationManager
 
     private function sendReminders(\DateTimeImmutable $today): void
     {
-        $reminderDate = $today->modify('+7 days');
-
-        $sessions = $this->gameSessionRepository
-            ->findSessionsNeedingReminder($reminderDate);
+        $sessions = $this->gameSessionRepository->findSessionsNeedingReminder($today);
 
         foreach ($sessions as $session) {
-            $this->sessionNotificationManager
-                ->notifySessionReminder($session);
+            $this->sessionNotificationManager->notifySessionReminder($session);
 
             $session->markReminderSent();
         }

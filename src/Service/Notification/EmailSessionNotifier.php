@@ -67,7 +67,7 @@ final readonly class EmailSessionNotifier implements SessionNotifierInterface
             $email = (new TemplatedEmail())
                 ->from('noreply@campaign-planner.local')
                 ->to($participant->getEmail())
-                ->subject($this->setMailSubject('Rappel — Session dans une semaine', $session))
+                ->subject($this->setMailSubject('Rappel — Session à venir', $session))
                 ->htmlTemplate('emails/session_reminder.html.twig')
                 ->context([
                     'participant' => $participant,
