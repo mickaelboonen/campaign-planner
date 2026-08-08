@@ -26,4 +26,8 @@
     --transition-fast: 150ms ease;
 
     --content-width: 1400px;
+
+
+    --font-heading: 'Cinzel', serif;
+    --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }

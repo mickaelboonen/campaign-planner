@@ -87,7 +87,7 @@
 
             color: var(--title-color);
 
-            font-family: 'Cinzel', serif;
+            font-family: var(--font-heading);
             font-size: 2rem;
             font-weight: 600;
             line-height: 1.15;
@@ -107,7 +107,7 @@
     .error-page__code {
         color: var(--accent);
 
-        font-family: 'Cinzel', serif;
+        font-family: var(--font-heading);
         font-size: clamp(5rem, 12vw, 9rem);
         font-weight: 600;
         line-height: 0.9;
@@ -167,7 +167,7 @@
 
         color: var(--subtitle-color);
 
-        font-family: 'Cinzel', serif;
+        font-family: var(--font-heading);
         font-size: 3rem;
         font-weight: 600;
 
@@ -216,7 +216,7 @@
         color: #d6b577;
         background: rgb(8 12 16 / 72%);
 
-        font-family: 'Cinzel', serif;
+        font-family: var(--font-heading);
         font-size: 1rem;
         text-decoration: none;
 
