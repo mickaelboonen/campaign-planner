@@ -1,0 +1,17 @@
+.app-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 6rem;
+    padding: 1rem 2rem;
+
+    border-top: 1px solid rgb(201 168 92 / 18%);
+
+    background:
+        linear-gradient(
+            180deg,
+            #090c10,
+            #06080b
+        );
+}

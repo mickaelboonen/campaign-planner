@@ -39,8 +39,12 @@ final class CampaignVoter extends Voter
         $campaign = $subject;
 
         return match ($attribute) {
-            self::VIEW,
-            self::EDIT => $campaign->getOwner() === $user,
+            self::VIEW =>
+                $campaign->getOwner() === $user,
+
+            self::EDIT =>
+                $campaign->getOwner() === $user
+                && !$campaign->isArchived(),
 
             default => false,
         };

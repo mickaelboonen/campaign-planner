@@ -786,3 +786,26 @@
         width: 100%;
     }
 }
+
+.campaign-archive-badge,
+.campaign-readonly-notice {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-medium);
+
+    color: var(--color-text-muted);
+    background: var(--color-surface);
+}
+
+.campaign-archive-badge {
+    padding: 0.45rem 0.75rem;
+
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.campaign-readonly-notice {
+    margin-bottom: 1rem;
+    padding: 0.9rem 1rem;
+}

@@ -46,11 +46,7 @@
             <aside class="sidebar" data-mobile-navigation-target="sidebar">
 
                 <a class="brand" href="{{ path('dashboard') }}">
-                    <span class="brand__emblem">◆</span>
-
-                    <span>
-                        <strong>Campaign</strong><em>Planner</em>
-                    </span>
+                    {% include 'components/brand.html.twig' %}
                 </a>
 
                 <nav class="sidebar-nav" aria-label="Navigation principale">
@@ -98,6 +94,8 @@
 
                 {% block body %}{% endblock %}
             </main>
+
+        {% include 'components/footer.html.twig' %}
         </div>
     </body>
 </html>

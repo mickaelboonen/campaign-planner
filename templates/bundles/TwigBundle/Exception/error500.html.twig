@@ -1,0 +1,45 @@
+{% extends 'error_base.html.twig' %}
+
+{% block title %}
+    Erreur serveur
+{% endblock %}
+
+{% block body %}
+    <section class="error-page error-page--500">
+        <div class="error-page__content error-page__content--500">
+            <div class="error-page__code error-page__code--arcane">
+                500
+            </div>
+
+            <div class="error-page__separator error-page__separator--arcane">
+                <span></span>
+                <span class="error-page__separator-icon">◆</span>
+                <span></span>
+            </div>
+
+            <h1>
+                PLAN PRÉVISIONNEL PERTURBÉ
+            </h1>
+
+            <div class="error-page__subtitle error-page__subtitle--arcane">
+                WILD MAGIC SURGE
+            </div>
+
+            <p class="error-page__message">
+                Une erreur inattendue est survenue.<br>
+                Même le MJ ne l’avait pas préparée.
+            </p>
+
+            <a
+                class="error-page__button"
+                href="{{ path('dashboard') }}"
+            >
+                <span class="error-page__button-icon">
+                    ◈
+                </span>
+
+                Retour à l’accueil
+            </a>
+        </div>
+    </section>
+{% endblock %}

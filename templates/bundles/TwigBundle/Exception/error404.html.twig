@@ -1,0 +1,45 @@
+{% extends 'error_base.html.twig' %}
+
+{% block title %}
+    Page introuvable
+{% endblock %}
+
+{% block body %}
+    <section class="error-page error-page--404">
+        <div class="error-page__content error-page__content--404">
+            <div class="error-page__code">
+                404
+            </div>
+
+            <div class="error-page__separator">
+                <span></span>
+                <span class="error-page__separator-icon">◆</span>
+                <span></span>
+            </div>
+
+            <h1>
+                Jet de Survie : 1 naturel
+            </h1>
+
+            <div class="error-page__subtitle error-page__subtitle--mist">
+                Lost in the mist
+            </div>
+
+            <p class="error-page__message">
+                Les Brumes ont effacé le chemin.<br>
+                Cette page demeure introuvable.
+            </p>
+
+            <a
+                class="error-page__button"
+                href="{{ path('dashboard') }}"
+            >
+                <span class="error-page__button-icon">
+                    ◈
+                </span>
+
+                Retour à l’accueil
+            </a>
+        </div>
+    </section>
+{% endblock %}

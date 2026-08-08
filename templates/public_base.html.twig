@@ -20,12 +20,8 @@
 
     <body class="public-page">
         <header class="public-header">
-            <a class="brand" href="#">
-                <span class="brand__emblem">◆</span>
-
-                <span>
-                    <strong>Campaign</strong><em>Planner</em>
-                </span>
+            <a class="brand" href="{{ path('dashboard') }}">
+                {% include 'components/brand.html.twig' %}
             </a>
         </header>
 
@@ -38,5 +34,7 @@
 
             {% block body %}{% endblock %}
         </main>
+
+        {% include 'components/footer.html.twig' %}
     </body>
 </html>

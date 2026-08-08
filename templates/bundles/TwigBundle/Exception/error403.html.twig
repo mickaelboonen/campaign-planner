@@ -1,0 +1,45 @@
+{% extends 'error_base.html.twig' %}
+
+{% block title %}
+    Accès interdit
+{% endblock %}
+
+{% block body %}
+    <section class="error-page error-page--403">
+        <div class="error-page__content error-page__content--403">
+            <div class="error-page__code error-page__code--danger">
+                403
+            </div>
+
+            <div class="error-page__separator error-page__separator--danger">
+                <span></span>
+                <span class="error-page__separator-icon">◆</span>
+                <span></span>
+            </div>
+
+            <h1>
+                Accès interdit
+            </h1>
+
+            <div class="error-page__subtitle">
+                TPK ahead
+            </div>
+
+            <p class="error-page__message">
+                Ce territoire est hors de votre portée.<br>
+                Même les plus braves n’y sont pas invités.
+            </p>
+
+            <a
+                class="error-page__button"
+                href="{{ path('dashboard') }}"
+            >
+                <span class="error-page__button-icon">
+                    ◈
+                </span>
+
+                Retour à l’accueil
+            </a>
+        </div>
+    </section>
+{% endblock %}

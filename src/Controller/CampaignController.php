@@ -202,4 +202,44 @@ final class CampaignController extends BaseController
             ],
         );
     }
+
+    #[Route(
+        '/{id}/archive',
+        name: 'archive',
+        methods: ['POST'],
+    )]
+    public function archive(
+        Campaign $campaign,
+        Request $request,
+    ): Response {
+        $this->denyAccessUnlessGranted(
+            CampaignVoter::EDIT,
+            $campaign,
+        );
+
+        if (!$this->isCsrfTokenValid(
+            'archive-campaign-' . $campaign->getId(),
+            (string) $request->request->get('_token'),
+        )) {
+            throw $this->createAccessDeniedException(
+                'Jeton CSRF invalide.',
+            );
+        }
+
+        try {
+            $this->campaignManager->archive($campaign);
+
+            $this->addFlash(
+                'success',
+                'La campagne a bien été archivée.',
+            );
+        } catch (\DomainException $exception) {
+            $this->addFlash(
+                'error',
+                $exception->getMessage(),
+            );
+        }
+
+        return $this->redirectToRoute('campaign_list');
+    }
 }

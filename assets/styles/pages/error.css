@@ -1,0 +1,386 @@
+/* ========================================
+   ERROR LAYOUT
+   ======================================== */
+
+.error-body {
+    height: 100vh;
+    overflow: hidden;
+    background: #07090c;
+}
+
+.error-layout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: calc(100vh - 6rem);
+    padding: 1.25rem;
+}
+
+
+/* ========================================
+   ERROR PAGE
+   ======================================== */
+
+.error-page {
+    --accent: #c9a85c;
+    --title-color: #d6b577;
+    --subtitle-color: var(--accent);
+    --separator-color: var(--accent);
+    --glow: rgb(201 168 92 / 20%);
+    --mobile-background-position: center;
+
+    position: relative;
+
+    display: grid;
+    overflow: hidden;
+    place-items: center;
+
+    width: min(
+        calc((100vh - 6rem - 2.5rem) * 1.5),
+        calc(100vw - 2.5rem)
+    );
+
+    aspect-ratio: 3 / 2;
+
+    border: 1px solid rgb(201 168 92 / 70%);
+    border-radius: 0.75rem;
+
+    background-color: #07090c;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    box-shadow:
+        0 0 0 1px rgb(201 168 92 / 10%),
+        0 18px 55px rgb(0 0 0 / 45%);
+
+
+    /* ========================================
+       CONTENT
+       ======================================== */
+
+    .error-page__content {
+        position: relative;
+        z-index: 1;
+
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        width: min(90%, 42rem);
+
+        margin-right: auto;
+        margin-left: 5%;
+        padding: 2rem;
+
+        text-align: left;
+
+
+        /* ----------------------------------------
+           Title
+           ---------------------------------------- */
+
+        h1 {
+            max-width: 33rem;
+            margin: 0;
+
+            color: var(--title-color);
+
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            line-height: 1.15;
+
+            text-transform: uppercase;
+
+            text-shadow:
+                0 3px 16px rgb(0 0 0 / 85%);
+        }
+    }
+
+
+    /* ========================================
+       ERROR CODE
+       ======================================== */
+
+    .error-page__code {
+        color: var(--accent);
+
+        font-family: 'Cinzel', serif;
+        font-size: clamp(5rem, 12vw, 9rem);
+        font-weight: 600;
+        line-height: 0.9;
+
+        text-shadow:
+            0 4px 30px rgb(0 0 0 / 80%),
+            0 0 30px var(--glow);
+    }
+
+
+    /* ========================================
+       SEPARATOR
+       ======================================== */
+
+    .error-page__separator {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+
+        width: min(18rem, 80%);
+        margin: 1.5rem 0;
+
+        > span:not(.error-page__separator-icon) {
+            flex: 1;
+            height: 1px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    var(--separator-color)
+                );
+        }
+
+        > span:last-child {
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--separator-color),
+                    transparent
+                );
+        }
+
+        .error-page__separator-icon {
+            color: var(--separator-color);
+            font-size: 0.75rem;
+        }
+    }
+
+
+    /* ========================================
+       SUBTITLE
+       ======================================== */
+
+    .error-page__subtitle {
+        max-width: 33rem;
+
+        color: var(--subtitle-color);
+
+        font-family: 'Cinzel', serif;
+        font-size: 3rem;
+        font-weight: 600;
+
+        text-transform: uppercase;
+
+        text-shadow:
+            0 3px 16px rgb(0 0 0 / 90%),
+            0 0 22px var(--glow);
+
+    }
+
+
+    /* ========================================
+       MESSAGE
+       ======================================== */
+
+    .error-page__message {
+        max-width: 28rem;
+        margin: 1rem 0 1.6rem;
+
+        color: #e3ddd1;
+
+        font-size: 0.95rem;
+        line-height: 1.6;
+
+        text-shadow:
+            0 2px 10px rgb(0 0 0 / 85%);
+    }
+
+
+    /* ========================================
+       BUTTON
+       ======================================== */
+
+    .error-page__button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.7rem;
+
+        width: fit-content;
+        padding: 0.85rem 1.4rem;
+
+        border: 1px solid #b38d4e;
+        border-radius: 0.35rem;
+
+        color: #d6b577;
+        background: rgb(8 12 16 / 72%);
+
+        font-family: 'Cinzel', serif;
+        font-size: 1rem;
+        text-decoration: none;
+
+        backdrop-filter: blur(4px);
+
+        transition:
+            color 180ms ease,
+            background-color 180ms ease,
+            border-color 180ms ease,
+            transform 180ms ease;
+
+        &:hover {
+            transform: translateY(-1px);
+
+            border-color: #d6b577;
+
+            color: #f0d59e;
+            background: rgb(20 20 18 / 88%);
+        }
+
+        .error-page__button-icon {
+            color: #c9a85c;
+            font-size: 1.1rem;
+        }
+    }
+}
+
+
+/* ========================================
+   VARIANTS
+   ======================================== */
+
+.error-page--404 {
+    --accent: #8fa9b3;
+    --title-color: #d6b577;
+    --subtitle-color: #8fa9b3;
+    --separator-color: #8fa9b3;
+    --glow: rgb(143 169 179 / 18%);
+    --mobile-background-position: 62% center;
+
+    background-image:
+        linear-gradient(
+            90deg,
+            rgb(5 8 12 / 82%) 0%,
+            rgb(5 8 12 / 60%) 38%,
+            rgb(5 8 12 / 18%) 72%,
+            rgb(5 8 12 / 6%) 100%
+        ),
+        url('/images/errors/404.png');
+}
+
+
+.error-page--403 {
+    --accent: #9f2924;
+    --title-color: #d6b577;
+    --subtitle-color: #b63730;
+    --separator-color: #8d302b;
+    --glow: rgb(120 20 15 / 20%);
+    --mobile-background-position: 65% center;
+
+    background-image:
+        linear-gradient(
+            90deg,
+            rgb(5 8 12 / 88%) 0%,
+            rgb(5 8 12 / 68%) 42%,
+            rgb(5 8 12 / 15%) 72%,
+            rgb(5 8 12 / 8%) 100%
+        ),
+        url('/images/errors/403.webp');
+}
+
+
+.error-page--500 {
+    --accent: #8f6ad8;
+    --title-color: #d6b577;
+    --subtitle-color: #9c7be5;
+    --separator-color: #7960ba;
+    --glow: rgb(120 75 200 / 28%);
+    --mobile-background-position: 55% center;
+
+    background-image:
+        linear-gradient(
+            90deg,
+            rgb(5 8 14 / 82%) 0%,
+            rgb(5 8 14 / 62%) 38%,
+            rgb(5 8 14 / 18%) 72%,
+            rgb(5 8 14 / 8%) 100%
+        ),
+        url('/images/errors/500.png');
+}
+
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 700px) {
+    .error-layout {
+        height: calc(100vh - 6rem);
+        padding: 0;
+    }
+
+    .error-page {
+        width: 100vw;
+        height: 100%;
+
+        aspect-ratio: auto;
+
+        border-right: 0;
+        border-left: 0;
+        border-radius: 0;
+
+        background-position:
+            var(--mobile-background-position);
+
+        background-size: cover;
+
+        .error-page__content {
+            align-items: center;
+
+            width: 92%;
+
+            margin: 0;
+            padding: 1.25rem;
+
+            text-align: center;
+
+            h1 {
+                max-width: 24rem;
+
+                font-size: clamp(
+                    1.4rem,
+                    6vw,
+                    1.9rem
+                );
+            }
+        }
+
+        .error-page__code {
+            font-size: clamp(
+                4.5rem,
+                24vw,
+                7rem
+            );
+        }
+
+        .error-page__subtitle {
+            max-width: 21rem;
+
+            font-size: clamp(
+                0.95rem,
+                4vw,
+                1.2rem
+            );
+        }
+
+        .error-page__message {
+            max-width: 22rem;
+            font-size: 0.9rem;
+        }
+
+        .error-page__button {
+            margin-right: auto;
+            margin-left: auto;
+        }
+    }
+}

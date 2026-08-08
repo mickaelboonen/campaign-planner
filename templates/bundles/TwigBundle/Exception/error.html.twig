@@ -1,0 +1,28 @@
+{% extends 'error_base.html.twig' %}
+
+{% block title %}
+    Une erreur est survenue
+{% endblock %}
+
+{% block body %}
+    <section class="error-page">
+        <p class="page-eyebrow">
+            Erreur
+        </p>
+
+        <h1>
+            Impossible de traiter cette demande.
+        </h1>
+
+        <p class="error-page__message">
+            Une erreur est survenue.
+        </p>
+
+        <a
+            class="button button--primary"
+            href="{{ path('dashboard') }}"
+        >
+            Retour à l’accueil
+        </a>
+    </section>
+{% endblock %}

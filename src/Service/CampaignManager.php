@@ -6,6 +6,7 @@ use App\Entity\Campaign;
 use App\Entity\User;
 use App\DTO\CreateCampaignData;
 use App\DTO\EditCampaignData;
+use App\Repository\GameSessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class CampaignManager
@@ -13,6 +14,7 @@ final readonly class CampaignManager
     public function __construct(
         private EntityManagerInterface $entityManager,
         private CampaignImageManager $campaignImageManager,
+        private GameSessionRepository $gameSessionRepository,
     ) {
     }
 
@@ -57,6 +59,21 @@ final readonly class CampaignManager
 
     public function archive(Campaign $campaign): void
     {
+        if ($campaign->isArchived()) {
+            throw new \DomainException(
+                'Cette campagne est déjà archivée.',
+            );
+        }
+
+        $upcomingSessions = $this->gameSessionRepository
+            ->findUpcomingByCampaign($campaign);
+
+        if ($upcomingSessions !== []) {
+            throw new \DomainException(
+                'Cette campagne possède encore des sessions à venir.',
+            );
+        }
+
         $campaign->archive();
 
         $this->entityManager->flush();

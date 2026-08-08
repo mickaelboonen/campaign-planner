@@ -8,14 +8,14 @@ use App\Repository\ParticipantRepository;
 use App\Service\AvailabilityManager;
 use App\Service\CalendarSlotManager;
 use App\Service\CalendarViewBuilder;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Controller\BaseController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/p/{token}', name: 'participant_')]
-final class ParticipantAccessController extends AbstractController
+final class ParticipantAccessController extends BaseController
 {
     public function __construct(
         private readonly ParticipantRepository $participantRepository,
@@ -45,6 +45,11 @@ final class ParticipantAccessController extends AbstractController
         }
 
         $campaign = $participant->getCampaign();
+
+        $this->denyArchivedCampaign(
+            $campaign,
+            'Le calendrier de cette campagne n’est plus disponible.',
+        );
 
         $requestedWeek = $request->query->get('week');
 
@@ -133,6 +138,14 @@ final class ParticipantAccessController extends AbstractController
                 'Ce lien de participation est invalide ou n’est plus actif.',
             );
         }
+
+        $campaign = $participant->getCampaign();
+
+        $this->denyArchivedCampaign(
+            $campaign,
+            'Le calendrier de cette campagne n’est plus disponible.',
+        );
+
 
         if (!$this->isCsrfTokenValid(
             'save-availabilities-' . $participant->getId(),

@@ -54,55 +54,89 @@
                 </p>
             </div>
 
-            <a
-                class="button button--secondary"
-                href="{{ path('campaign_edit', {
-                    id: campaign.id
-                }) }}"
-            >
-                Modifier
-            </a>
+            {% if not campaign.isArchived %}
+                <a
+                    class="button button--secondary"
+                    href="{{ path('campaign_edit', {
+                        id: campaign.id
+                    }) }}"
+                >
+                    Modifier
+                </a>
+
+
+                <form
+                    method="post"
+                    action="{{ path('campaign_archive', {
+                        id: campaign.id
+                    }) }}"
+                    onsubmit="return confirm(
+                        'Archiver cette campagne ?'
+                    );"
+                >
+                    <input
+                        type="hidden"
+                        name="_token"
+                        value="{{ csrf_token(
+                            'archive-campaign-' ~ campaign.id
+                        ) }}"
+                    >
+
+                    <button
+                        type="submit"
+                        class="button button--ghost"
+                    >
+                        Archiver
+                    </button>
+                </form>
+            {% else %}
+                <span class="campaign-archive-badge">
+                    Campagne archivée
+                </span>
+            {% endif %}
         </div>
     </section>
 
-    <nav class="campaign-navigation">
-        <a
-            class="campaign-navigation__item is-active"
-            href="{{ path('campaign_show', {
-                id: campaign.id
-            }) }}"
-        >
-            <span class="campaign-navigation__icon">◆</span>
+    {% if not campaign.isArchived %}
+        <nav class="campaign-navigation">
+            <a
+                class="campaign-navigation__item is-active"
+                href="{{ path('campaign_show', {
+                    id: campaign.id
+                }) }}"
+            >
+                <span class="campaign-navigation__icon">◆</span>
 
-            <span>
-                <strong>Participants</strong>
-                <small>Gérer le groupe de jeu</small>
-            </span>
-        </a>
+                <span>
+                    <strong>Participants</strong>
+                    <small>Gérer le groupe de jeu</small>
+                </span>
+            </a>
 
-        <a
-            class="campaign-navigation__item"
-            href="{{ path('calendar_show', {
-                id: campaign.id
-            }) }}"
-        >
-            <span class="campaign-navigation__icon">▦</span>
+            <a
+                class="campaign-navigation__item"
+                href="{{ path('calendar_show', {
+                    id: campaign.id
+                }) }}"
+            >
+                <span class="campaign-navigation__icon">▦</span>
 
-            <span>
-                <strong>Calendrier</strong>
-                <small>Disponibilités et créneaux</small>
-            </span>
-        </a>
+                <span>
+                    <strong>Calendrier</strong>
+                    <small>Disponibilités et créneaux</small>
+                </span>
+            </a>
 
-        <div class="campaign-navigation__item is-disabled">
-            <span class="campaign-navigation__icon">◈</span>
+            <div class="campaign-navigation__item is-disabled">
+                <span class="campaign-navigation__icon">◈</span>
 
-            <span>
-                <strong>Sessions</strong>
-                <small>Bientôt disponible</small>
-            </span>
-        </div>
-    </nav>
+                <span>
+                    <strong>Sessions</strong>
+                    <small>Bientôt disponible</small>
+                </span>
+            </div>
+        </nav>
+    {% endif %}
 
     <section class="stat-grid">
         {% include 'components/stat-card.html.twig' with {
@@ -136,14 +170,16 @@
                 </h2>
             </div>
 
-            <a
-                class="button button--secondary"
-                href="{{ path('calendar_show', {
-                    id: campaign.id
-                }) }}"
-            >
-                Voir le calendrier
-            </a>
+            {% if not campaign.isArchived %}
+                <a
+                    class="button button--secondary"
+                    href="{{ path('calendar_show', {
+                        id: campaign.id
+                    }) }}"
+                >
+                    Voir le calendrier
+                </a>
+            {% endif %}
         </div>
 
         {% if upcomingSessions is empty %}
@@ -265,14 +301,16 @@
                 </h2>
             </div>
 
-            <a
-                class="button button--primary"
-                href="{{ path('participant_new', {
-                    id: campaign.id
-                }) }}"
-            >
-                Ajouter un participant
-            </a>
+            {% if not campaign.isArchived %}
+                <a
+                    class="button button--primary"
+                    href="{{ path('participant_new', {
+                        id: campaign.id
+                    }) }}"
+                >
+                    Ajouter un participant
+                </a>
+            {% endif %}
         </div>
 
         {% if participants is empty %}
@@ -289,7 +327,8 @@
             <div class="participant-grid">
                 {% for participant in participants %}
                     {% include 'components/participant-card.html.twig' with {
-                        participant: participant
+                        participant: participant,
+                        readOnly: campaign.isArchived
                     } %}
                 {% endfor %}
             </div>

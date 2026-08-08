@@ -32,6 +32,11 @@
             ~ calendar.end|date('d/m/Y')
     } %}
 
+    {% if campaign.isArchived %}
+        <div class="campaign-readonly-notice">
+            Cette campagne est archivée. Le calendrier est disponible en lecture seule.
+        </div>
+    {% endif %}
     {% include 'calendar/_toolbar.html.twig' %}
 
     <form

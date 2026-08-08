@@ -89,10 +89,12 @@ class ParticipantRepository extends ServiceEntityRepository
         string $dashboardToken,
     ): array {
         return $this->createQueryBuilder('participant')
+            ->innerJoin('participant.campaign', 'campaign')
             ->andWhere('participant.dashboardToken = :dashboardToken')
             ->andWhere('participant.archivedAt IS NULL')
-            ->setParameter('dashboardToken', $dashboardToken)
-            ->orderBy('participant.createdAt', 'ASC')
+            ->andWhere('campaign.archivedAt IS NULL')
+            ->setParameter('dashboardToken',$dashboardToken,)
+            ->orderBy('participant.createdAt','ASC',)
             ->getQuery()
             ->getResult();
     }

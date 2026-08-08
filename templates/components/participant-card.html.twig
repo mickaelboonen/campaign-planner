@@ -33,67 +33,32 @@
     </div>
 
     <footer class="participant-card__footer">
-
         <div class="participant-card__actions">
-
-            <a
-                href="{{ path('participant_edit', {
-                    id: participant.campaign.id,
-                    participant: participant.id
-                }) }}"
-                class="button button--secondary"
-            >
-                Modifier
-            </a>
-
             <button
-                class="button button--secondary"
                 type="button"
+                class="button button--secondary"
                 data-controller="clipboard"
                 data-action="clipboard#copy"
                 data-clipboard-value-value="{{ url('participant_dashboard', {
                     token: participant.dashboardToken
                 }) }}"
             >
-                Copier Dashboard
+                Copier dashboard
             </button>
 
-            <button
-                type="button"
-                class="button button--secondary"
-                data-controller="clipboard"
-                data-action="clipboard#copy"
-                data-clipboard-value-value="{{ url('participant_availability_show', {
-                    token: participant.accessToken
-                }) }}"
-            >
-                Copier Calendrier
-            </button>
+            {% if not readOnly %}
+                <a ...>
+                    Modifier
+                </a>
 
-            <form
-                method="post"
-                action="{{ path('participant_archive', {
-                    id: participant.campaign.id,
-                    participant: participant.id
-                }) }}"
-                onsubmit="return confirm('Archiver ce participant ?');"
-            >
-                <input
-                    type="hidden"
-                    name="_token"
-                    value="{{ csrf_token(
-                        'archive-participant-' ~ participant.id
-                    ) }}"
-                >
-
-                <button
-                    type="submit"
-                    class="button button--ghost"
-                >
-                    Archiver
+                <button ...>
+                    Copier calendrier
                 </button>
-            </form>
-        </div>
 
+                <form ...>
+                    ...
+                </form>
+            {% endif %}
+        </div>
     </footer>
 </article>

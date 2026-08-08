@@ -37,6 +37,11 @@ final class CalendarController extends BaseController
             $campaign,
         );
 
+        $this->denyArchivedCampaign(
+            $campaign,
+            'Le calendrier de cette campagne n’est plus disponible.',
+        );
+
         $requestedWeek = $request->query->get('week');
 
         try {
