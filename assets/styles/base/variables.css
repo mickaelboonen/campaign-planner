@@ -15,6 +15,13 @@
     --color-image-overlay-start: rgb(13 14 18 / 94%);
     --color-image-overlay-end: rgb(13 14 18 / 62%);
 
+    --participant-card-overlay:
+        linear-gradient(
+            to top,
+            rgb(13 14 18 / 88%),
+            rgb(13 14 18 / 5%) 70%
+        );
+
     --color-footer-start: #090c10;
     --color-footer-end: #06080b;
 
@@ -94,6 +101,13 @@
 
     --color-image-overlay-start: rgb(45 38 27 / 82%);
     --color-image-overlay-end: rgb(45 38 27 / 48%);
+
+    --participant-card-overlay:
+        linear-gradient(
+            to top,
+            rgb(45 38 27 / 72%),
+            rgb(45 38 27 / 3%) 70%
+        );
 
     --color-footer-start: #eee4d2;
     --color-footer-end: #e2d5bf;
