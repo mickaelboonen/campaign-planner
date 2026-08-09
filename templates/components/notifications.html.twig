@@ -1,0 +1,119 @@
+{% set notifications = gm_notifications() %}
+{% set unseenCount = gm_unseen_notification_count() %}
+
+{% if notifications is not empty %}
+    <details
+        class="notifications"
+        data-controller="notifications"
+        data-action="toggle->notifications#toggle"
+        data-notifications-mark-seen-url-value="{{ path('notifications_mark_seen') }}"
+        data-notifications-unseen-count-value="{{ unseenCount }}"
+    >
+        <summary
+            class="notifications__trigger"
+            aria-label="Notifications"
+            title="Notifications"
+        >
+            <span class="notifications__icon" aria-hidden="true">
+                <svg
+                    viewBox="0 0 24 24"
+                    width="22"
+                    height="22"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+                    <path d="M10 21h4"/>
+                </svg>
+            </span>
+
+            {% if unseenCount > 0 %}
+                <span
+                    class="notifications__badge"
+                    data-notifications-target="badge"
+                >
+                    {{ unseenCount }}
+                </span>
+            {% endif %}
+        </summary>
+
+        <div class="notifications__panel">
+            <header class="notifications__header">
+                <strong>Notifications</strong>
+
+                <div class="notifications__header-actions">
+                    <form
+                        method="post"
+                        action="{{ path('notifications_mark_all_read') }}"
+                    >
+                        <input
+                            type="hidden"
+                            name="_token"
+                            value="{{ csrf_token('notifications_mark_all_read') }}"
+                        >
+
+                        <button
+                            type="submit"
+                            class="notifications__mark-all"
+                        >
+                            Tout marquer comme lu
+                        </button>
+                    </form>
+
+                    <button
+                        type="button"
+                        class="notifications__close"
+                        aria-label="Fermer les notifications"
+                        data-action="notifications#close"
+                    >
+                        ×
+                    </button>
+                </div>
+            </header>
+
+            <div class="notifications__list">
+                {% for notification in notifications %}
+                    <form
+                        method="post"
+                        action="{{ path('notification_open', {
+                            id: notification.id
+                        }) }}"
+                    >
+                        <input
+                            type="hidden"
+                            name="_token"
+                            value="{{ csrf_token(
+                                'notification_open_' ~ notification.id
+                            ) }}"
+                        >
+
+                        <button
+                            type="submit"
+                            class="notifications__item"
+                        >
+                            <strong>
+                                {{ notification.participant.name }}
+                            </strong>
+
+                            <span>
+                                a mis à jour
+                                {{ notification.count }}
+                                disponibilité{{ notification.count > 1 ? 's' : '' }}
+                            </span>
+
+                            <small>
+                                Semaine du
+                                {{ notification.weekStart|date('d/m') }}
+                                au
+                                {{ notification.weekStart|date_modify('+6 days')|date('d/m') }}
+                            </small>
+                        </button>
+                    </form>
+                {% endfor %}
+            </div>
+        </div>
+    </details>
+{% endif %}
