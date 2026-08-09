@@ -257,42 +257,6 @@
         <div class="section-heading">
             <div>
                 <p class="page-eyebrow">
-                    Historique
-                </p>
-
-                <h2>
-                    Sessions passées
-                </h2>
-            </div>
-        </div>
-
-        {% if pastSessions is empty %}
-            <div class="campaign-sessions__empty">
-                <strong>
-                    Aucune session passée
-                </strong>
-            </div>
-        {% else %}
-            <div class="campaign-session-history">
-                {% for session in pastSessions %}
-                    <div class="campaign-session-history__item">
-                        <span>
-                            {{ session.date|date('d/m/Y') }}
-                        </span>
-
-                        <strong>
-                            {{ session.period.label() }}
-                        </strong>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-    </section>
-
-    <section class="content-section">
-        <div class="section-heading">
-            <div>
-                <p class="page-eyebrow">
                     Groupe de jeu
                 </p>
 
@@ -330,6 +294,42 @@
                         participant: participant,
                         readOnly: campaign.isArchived
                     } %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </section>
+
+    <section class="content-section">
+        <div class="section-heading">
+            <div>
+                <p class="page-eyebrow">
+                    Historique
+                </p>
+
+                <h2>
+                    Sessions passées
+                </h2>
+            </div>
+        </div>
+
+        {% if pastSessions is empty %}
+            <div class="campaign-sessions__empty">
+                <strong>
+                    Aucune session passée
+                </strong>
+            </div>
+        {% else %}
+            <div class="campaign-session-history">
+                {% for session in pastSessions %}
+                    <div class="campaign-session-history__item">
+                        <span>
+                            {{ session.date|date('d/m/Y') }}
+                        </span>
+
+                        <strong>
+                            {{ session.period.label() }}
+                        </strong>
+                    </div>
                 {% endfor %}
             </div>
         {% endif %}
