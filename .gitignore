@@ -17,5 +17,5 @@
 ###> symfony/asset-mapper ###
 /public/assets/
 /assets/vendor/
-/public/images/uploads/*
+/public/uploads/campaigns/*
 ###< symfony/asset-mapper ###
