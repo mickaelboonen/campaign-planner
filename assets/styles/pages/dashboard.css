@@ -132,8 +132,8 @@
     background:
         linear-gradient(
             90deg,
-            rgb(13 14 18 / 94%),
-            rgb(13 14 18 / 62%)
+            var(--color-image-overlay-start),
+            var(--color-image-overlay-end)
         );
 }
 

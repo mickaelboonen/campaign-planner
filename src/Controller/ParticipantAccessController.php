@@ -9,6 +9,7 @@ use App\Service\AvailabilityManager;
 use App\Service\CalendarSlotManager;
 use App\Service\CalendarViewBuilder;
 use App\Controller\BaseController;
+use App\Service\NotificationManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,7 @@ final class ParticipantAccessController extends BaseController
         private readonly CalendarSlotManager $calendarSlotManager,
         private readonly CalendarViewBuilder $calendarViewBuilder,
         private readonly AvailabilityManager $availabilityManager,
+        private readonly NotificationManager $notificationManager,
     ) {
     }
 
@@ -180,19 +182,15 @@ final class ParticipantAccessController extends BaseController
             );
         }
 
-        $submittedAvailabilities = $request->request->all(
-            'availabilities',
-        );
+        $submittedAvailabilities = $request->request->all('availabilities');
 
         try {
-            $this->availabilityManager->save(
-                $participant,
-                $submittedAvailabilities,
-            );
+            $changedCount = $this->availabilityManager->save($participant, $submittedAvailabilities);
+
+            $this->notificationManager->notifyAvailabilityUpdated($participant, $weekStart, $changedCount);
+
         } catch (\InvalidArgumentException $exception) {
-            throw $this->createNotFoundException(
-                $exception->getMessage(),
-            );
+            throw $this->createNotFoundException($exception->getMessage());
         }
 
         $this->addFlash(

@@ -317,12 +317,7 @@
     position: absolute;
     inset: 0;
 
-    background:
-        linear-gradient(
-            to top,
-            rgb(13 14 18 / 88%),
-            rgb(13 14 18 / 5%) 70%
-        );
+    background: var(--participant-card-overlay);
 }
 
 .participant-campaign-card__media img {

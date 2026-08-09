@@ -6,6 +6,7 @@
             class="app-layout"
             data-controller="mobile-navigation"
         >
+            {% include 'components/notifications.html.twig' %}
             <header class="mobile-header">
                 <button
                     class="mobile-header__toggle"
@@ -40,6 +41,8 @@
                 >
                     {% include 'components/brand.html.twig' %}
                 </a>
+
+                {% include 'components/theme-button.html.twig' %}
 
                 <nav
                     class="sidebar-nav"

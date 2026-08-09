@@ -6,12 +6,17 @@
     min-height: 6rem;
     padding: 1rem 2rem;
 
-    border-top: 1px solid rgb(201 168 92 / 18%);
+    border-top: 1px solid
+        color-mix(
+            in srgb,
+            var(--color-gold) 18%,
+            transparent
+        );
 
     background:
         linear-gradient(
             180deg,
-            #090c10,
-            #06080b
+            var(--color-footer-start),
+            var(--color-footer-end)
         );
 }

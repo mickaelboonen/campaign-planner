@@ -24,7 +24,7 @@ final readonly class AvailabilityManager
     public function save(
         Participant $participant,
         array $submittedAvailabilities,
-    ): void {
+    ): int {
         $normalizedValues = $this->normalizeValues(
             $submittedAvailabilities,
         );
@@ -62,6 +62,8 @@ final readonly class AvailabilityManager
             }
         }
 
+        $changedCount = 0;
+
         foreach ($slots as $slot) {
             $slotId = $slot->getId();
 
@@ -70,9 +72,9 @@ final readonly class AvailabilityManager
             }
 
             /*
-             * Un créneau bloqué ne doit pas être modifiable,
-             * même avec une requête fabriquée manuellement.
-             */
+            * Un créneau bloqué ne doit pas être modifiable,
+            * même avec une requête fabriquée manuellement.
+            */
             if ($slot->isBlocked()) {
                 continue;
             }
@@ -81,11 +83,12 @@ final readonly class AvailabilityManager
             $availability = $availabilityBySlotId[$slotId] ?? null;
 
             /*
-             * Une valeur vide représente l’absence de réponse.
-             */
+            * Une valeur vide représente l’absence de réponse.
+            */
             if ($status === null) {
                 if ($availability !== null) {
                     $this->entityManager->remove($availability);
+                    ++$changedCount;
                 }
 
                 continue;
@@ -95,14 +98,25 @@ final readonly class AvailabilityManager
                 $availability = new Availability();
                 $availability->setParticipant($participant);
                 $availability->setCalendarSlot($slot);
+                $availability->setStatus($status);
 
                 $this->entityManager->persist($availability);
+
+                ++$changedCount;
+
+                continue;
             }
 
-            $availability->setStatus($status);
+            if ($availability->getStatus() !== $status) {
+                $availability->setStatus($status);
+
+                ++$changedCount;
+            }
         }
 
         $this->entityManager->flush();
+
+        return $changedCount;
     }
 
     /**

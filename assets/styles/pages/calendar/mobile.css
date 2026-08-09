@@ -129,17 +129,9 @@
             }
 
             &.is-blocked {
-                color: #777b84;
-
-                background:
-                    repeating-linear-gradient(
-                        -45deg,
-                        rgb(255 255 255 / 2%),
-                        rgb(255 255 255 / 2%) 6px,
-                        transparent 6px,
-                        transparent 12px
-                    ),
-                    #17191f;
+                color: var(--color-blocked);
+                cursor: not-allowed;
+                background: var(--blocked-background);
             }
 
             small {
@@ -224,34 +216,24 @@
         }
 
         &.is-available {
-            color: #7fc89c;
-            background: rgb(111 185 143 / 8%);
+            color: var(--color-availability-available);
+            background: var(--color-availability-available-bg);
         }
 
         &.is-maybe {
-            color: var(--color-gold-light);
-            background: rgb(201 168 92 / 8%);
+            color: var(--color-availability-maybe);
+            background: var(--color-availability-maybe-bg);
         }
 
         &.is-unavailable {
-            color: #d98181;
-            background: rgb(207 117 117 / 8%);
+            color: var(--color-availability-unavailable);
+            background: var(--color-availability-unavailable-bg);
         }
 
         &.is-blocked {
-            color: #777b84;
-
+            color: var(--color-blocked);
             cursor: not-allowed;
-
-            background:
-                repeating-linear-gradient(
-                    -45deg,
-                    rgb(255 255 255 / 2%),
-                    rgb(255 255 255 / 2%) 6px,
-                    transparent 6px,
-                    transparent 12px
-                ),
-                #17191f;
+            background: var(--blocked-background);
         }
 
         .availability-cell__symbol {
@@ -306,17 +288,9 @@
         }
 
         &.is-blocked {
-            color: #777b84;
-
-            background:
-                repeating-linear-gradient(
-                    -45deg,
-                    rgb(255 255 255 / 2%),
-                    rgb(255 255 255 / 2%) 6px,
-                    transparent 6px,
-                    transparent 12px
-                ),
-                #17191f;
+            color: var(--color-blocked);
+            cursor: not-allowed;
+            background: var(--blocked-background);
         }
     }
 }

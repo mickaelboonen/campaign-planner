@@ -1,0 +1,31 @@
+<div
+    class="theme-switch"
+    data-controller="theme"
+>
+    <span
+        class="theme-switch__icon"
+        data-theme-target="icon"
+        aria-hidden="true"
+    >
+        ☀
+    </span>
+
+    <span
+        class="theme-switch__label"
+        data-theme-target="label"
+    >
+        Thème clair
+    </span>
+
+    <button
+        type="button"
+        class="theme-switch__button"
+        role="switch"
+        aria-checked="false"
+        aria-label="Changer de thème"
+        data-theme-target="button"
+        data-action="theme#toggle"
+    >
+        <span class="theme-switch__thumb"></span>
+    </button>
+</div>

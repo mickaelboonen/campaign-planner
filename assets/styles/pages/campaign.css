@@ -46,7 +46,7 @@
 
         aspect-ratio: 16 / 8;
 
-        background: #17191f;
+        background: var(--color-media-background);
 
         img {
             display: block;
@@ -76,7 +76,7 @@
                 ),
                 transparent 65%
             ),
-            #17191f;
+             var(--color-media-background);
 
         span {
             color: var(--campaign-color);
@@ -155,7 +155,7 @@
     border: 1px solid var(--color-border);
     border-radius: var(--radius-large);
 
-    background: #17191f;
+    background: var(--color-media-background);
     box-shadow: var(--shadow-card);
 
     .campaign-hero__media {
@@ -188,7 +188,7 @@
                 ),
                 transparent 65%
             ),
-            #17191f;
+             var(--color-media-background);
 
         font-size: 4rem;
     }
@@ -200,9 +200,9 @@
         background:
             linear-gradient(
                 90deg,
-                rgb(13 14 18 / 94%) 0%,
-                rgb(13 14 18 / 75%) 45%,
-                rgb(13 14 18 / 35%) 100%
+                var(--color-hero-overlay-start) 0%,
+                var(--color-hero-overlay-middle) 45%,
+                var(--color-hero-overlay-end) 100%
             );
     }
 
@@ -389,9 +389,9 @@
             background:
                 linear-gradient(
                     0deg,
-                    rgb(13 14 18 / 96%) 0%,
-                    rgb(13 14 18 / 70%) 65%,
-                    rgb(13 14 18 / 30%) 100%
+                    var(--color-hero-overlay-start) 0%,
+                    var(--color-hero-overlay-middle) 65%,
+                    var(--color-hero-overlay-end) 100%
                 );
         }
     }

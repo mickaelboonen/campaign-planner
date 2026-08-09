@@ -1,9 +1,29 @@
-:root {
+:root,
+[data-theme="dark"] {
     --color-background: #101116;
     --color-sidebar: #15171d;
     --color-surface: #1b1e26;
     --color-surface-hover: #232731;
     --color-border: #30343e;
+
+    --color-media-background: #17191f;
+
+    --color-hero-overlay-start: rgb(13 14 18 / 94%);
+    --color-hero-overlay-middle: rgb(13 14 18 / 75%);
+    --color-hero-overlay-end: rgb(13 14 18 / 35%);
+
+    --color-image-overlay-start: rgb(13 14 18 / 94%);
+    --color-image-overlay-end: rgb(13 14 18 / 62%);
+
+    --participant-card-overlay:
+        linear-gradient(
+            to top,
+            rgb(13 14 18 / 88%),
+            rgb(13 14 18 / 5%) 70%
+        );
+
+    --color-footer-start: #090c10;
+    --color-footer-end: #06080b;
 
     --color-gold: #c9a85c;
     --color-gold-light: #e2c87f;
@@ -15,6 +35,129 @@
     --color-success: #6fb98f;
     --color-danger: #cf7575;
 
+    --color-availability-available: #7fc89c;
+    --color-availability-available-bg: rgb(111 185 143 / 8%);
+    --color-availability-available-glow: rgb(111 185 143 / 20%);
+
+    --color-availability-maybe: var(--color-gold-light);
+    --color-availability-maybe-bg: rgb(201 168 92 / 8%);
+    --color-availability-maybe-glow: rgb(201 168 92 / 22%);
+
+    --color-availability-unavailable: #d98181;
+    --color-availability-unavailable-bg: rgb(207 117 117 / 8%);
+    --color-availability-unavailable-glow: rgb(207 117 117 / 20%);
+
+    --color-blocked: #777b84;
+    --color-blocked-stripe: rgb(255 255 255 / 2%);
+    --color-blocked-bg: #17191f;
+
+    --availability-available-background:
+        radial-gradient(
+            circle at center,
+            rgb(111 185 143 / 20%),
+            transparent 70%
+        ),
+        rgb(111 185 143 / 8%);
+
+    --availability-maybe-background:
+        radial-gradient(
+            circle at center,
+            rgb(201 168 92 / 22%),
+            transparent 70%
+        ),
+        rgb(201 168 92 / 8%);
+
+    --availability-unavailable-background:
+        radial-gradient(
+            circle at center,
+            rgb(207 117 117 / 20%),
+            transparent 70%
+        ),
+        rgb(207 117 117 / 8%);
+
+    --blocked-background:
+        repeating-linear-gradient(
+            -45deg,
+            rgb(255 255 255 / 2%),
+            rgb(255 255 255 / 2%) 8px,
+            transparent 8px,
+            transparent 16px
+        ),
+        #17191f;
+}
+
+[data-theme="light"] {
+    --color-background: #f4efe3;
+    --color-sidebar: #e9e0cf;
+    --color-surface: #fffaf0;
+    --color-surface-hover: #f1e7d4;
+    --color-border: #d2c3a5;
+
+    --color-media-background: #e8decb;
+
+    --color-hero-overlay-start: rgb(45 38 27 / 88%);
+    --color-hero-overlay-middle: rgb(45 38 27 / 58%);
+    --color-hero-overlay-end: rgb(45 38 27 / 18%);
+
+    --color-image-overlay-start: rgb(45 38 27 / 82%);
+    --color-image-overlay-end: rgb(45 38 27 / 48%);
+
+    --participant-card-overlay:
+        linear-gradient(
+            to top,
+            rgb(45 38 27 / 72%),
+            rgb(45 38 27 / 3%) 70%
+        );
+
+    --color-footer-start: #eee4d2;
+    --color-footer-end: #e2d5bf;
+
+    --color-gold: #9a762f;
+    --color-gold-light: #b48d3d;
+    --color-gold-dark: #705522;
+
+    --color-text: #29251f;
+    --color-text-muted: #70695e;
+
+    --color-success: #477b5c;
+    --color-danger: #a74f4f;
+
+    --color-availability-available: #357a50;
+    --color-availability-available-bg: rgb(71 123 92 / 20%);
+    --color-availability-available-glow: rgb(71 123 92 / 30%);
+
+    --color-availability-maybe: #8a6722;
+    --color-availability-maybe-bg: rgb(154 118 47 / 20%);
+    --color-availability-maybe-glow: rgb(154 118 47 / 30%);
+
+    --color-availability-unavailable: #9d4141;
+    --color-availability-unavailable-bg: rgb(167 79 79 / 18%);
+    --color-availability-unavailable-glow: rgb(167 79 79 / 28%);
+
+    --color-blocked: #777064;
+    --color-blocked-stripe: rgb(41 37 31 / 8%);
+    --color-blocked-bg: transparent;
+
+    --availability-available-background:
+        rgb(71 123 92 / 18%);
+
+    --availability-maybe-background:
+        rgb(154 118 47 / 18%);
+
+    --availability-unavailable-background:
+        rgb(167 79 79 / 16%);
+
+    --blocked-background:
+        repeating-linear-gradient(
+            -45deg,
+            rgb(41 37 31 / 8%),
+            rgb(41 37 31 / 8%) 8px,
+            transparent 8px,
+            transparent 16px
+        );
+}
+
+:root {
     --sidebar-width: 260px;
 
     --radius-small: 8px;
@@ -26,7 +169,6 @@
     --transition-fast: 150ms ease;
 
     --content-width: 1400px;
-
 
     --font-heading: 'Cinzel', serif;
     --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
