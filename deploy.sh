@@ -7,6 +7,9 @@ echo "🚀 Déploiement CampaignPlanner..."
 echo "→ Récupération des modifications"
 git pull --ff-only
 
+echo "→ Application des migrations"
+APP_ENV=prod APP_DEBUG=0 php bin/console doctrine:migrations:migrate --no-interaction
+
 echo "→ Compilation des assets"
 APP_ENV=prod APP_DEBUG=0 php bin/console asset-map:compile
 
