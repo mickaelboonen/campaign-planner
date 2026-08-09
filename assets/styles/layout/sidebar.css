@@ -9,7 +9,12 @@
 
     padding: 2rem 1.25rem;
     border-right: 1px solid var(--color-border);
-    background: rgb(21 23 29 / 96%);
+    background:
+        color-mix(
+            in srgb,
+            var(--color-sidebar) 96%,
+            transparent
+        );
 }
 
 .brand {
@@ -17,7 +22,7 @@
     align-items: center;
     gap: 0.8rem;
 
-    margin-bottom: 3rem;
+    margin-bottom: 1.25rem;
 
     font-size: 1.15rem;
     letter-spacing: 0.01em;
@@ -133,7 +138,12 @@
 
         border-bottom: 1px solid var(--color-border);
 
-        background: rgb(21 23 29 / 96%);
+        background:
+            color-mix(
+                in srgb,
+                var(--color-sidebar) 96%,
+                transparent
+            );
         backdrop-filter: blur(12px);
     }
 
