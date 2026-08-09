@@ -21,7 +21,7 @@ final readonly class EmailSessionNotifier implements SessionNotifierInterface
             }
 
             $email = (new TemplatedEmail())
-                ->from('noreply@campaign-planner.local')
+                ->from('campaign-planner@alwaysdata.net')
                 ->to($participant->getEmail())
                 ->subject($this->setMailSubject('Nouvelle session planifiée', $session))
                 ->htmlTemplate('emails/session_scheduled.html.twig')
@@ -43,7 +43,7 @@ final readonly class EmailSessionNotifier implements SessionNotifierInterface
             }
 
             $email = (new TemplatedEmail())
-                ->from('noreply@campaign-planner.local')
+                ->from('campaign-planner@alwaysdata.net')
                 ->to($participant->getEmail())
                 ->subject($this->setMailSubject('Session annulée', $session))
                 ->htmlTemplate('emails/session_cancelled.html.twig')
@@ -65,7 +65,7 @@ final readonly class EmailSessionNotifier implements SessionNotifierInterface
             }
 
             $email = (new TemplatedEmail())
-                ->from('noreply@campaign-planner.local')
+                ->from('campaign-planner@alwaysdata.net')
                 ->to($participant->getEmail())
                 ->subject($this->setMailSubject('Rappel — Session à venir', $session))
                 ->htmlTemplate('emails/session_reminder.html.twig')
