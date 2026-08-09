@@ -1,55 +1,50 @@
-<!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <meta charset="UTF-8">
+{% extends 'root.html.twig' %}
 
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1"
-        >
-
-        <title>
-            {% block title %}CampaignPlanner{% endblock %}
-            — CampaignPlanner
-        </title>
-
-        {% block stylesheets %}
-            {{ importmap('app') }}
-        {% endblock %}
-    </head>
-
+{% block layout %}
     <body>
-        <div class="app-layout" data-controller="mobile-navigation">
-          <header class="mobile-header">
-            <button
-                class="mobile-header__toggle"
-                type="button"
-                aria-label="Ouvrir la navigation"
-                data-action="mobile-navigation#toggle"
-            >
-                ☰
-            </button>
-
-            <a
-                class="mobile-header__brand"
-                href="{{ path('dashboard') }}"
-            >
-                CampaignPlanner
-            </a>
-        </header>
-
         <div
-            class="mobile-overlay"
-            data-mobile-navigation-target="overlay"
-            data-action="click->mobile-navigation#close"
-        ></div>
-            <aside class="sidebar" data-mobile-navigation-target="sidebar">
+            class="app-layout"
+            data-controller="mobile-navigation"
+        >
+            <header class="mobile-header">
+                <button
+                    class="mobile-header__toggle"
+                    type="button"
+                    aria-label="Ouvrir la navigation"
+                    data-action="mobile-navigation#toggle"
+                >
+                    ☰
+                </button>
 
-                <a class="brand" href="{{ path('dashboard') }}">
+                <a
+                    class="mobile-header__brand"
+                    href="{{ path('dashboard') }}"
+                >
+                    CampaignPlanner
+                </a>
+            </header>
+
+            <div
+                class="mobile-overlay"
+                data-mobile-navigation-target="overlay"
+                data-action="click->mobile-navigation#close"
+            ></div>
+
+            <aside
+                class="sidebar"
+                data-mobile-navigation-target="sidebar"
+            >
+                <a
+                    class="brand"
+                    href="{{ path('dashboard') }}"
+                >
                     {% include 'components/brand.html.twig' %}
                 </a>
 
-                <nav class="sidebar-nav" aria-label="Navigation principale">
+                <nav
+                    class="sidebar-nav"
+                    aria-label="Navigation principale"
+                >
                     <a
                         class="sidebar-nav__link {{ app.current_route == 'dashboard' ? 'is-active' }}"
                         href="{{ path('dashboard') }}"
@@ -78,7 +73,10 @@
                             {{ app.user.userIdentifier }}
                         </span>
 
-                        <a class="sidebar__logout" href="{{ path('app_logout') }}">
+                        <a
+                            class="sidebar__logout"
+                            href="{{ path('app_logout') }}"
+                        >
                             Déconnexion
                         </a>
                     {% endif %}
@@ -95,7 +93,7 @@
                 {% block body %}{% endblock %}
             </main>
 
-        {% include 'components/footer.html.twig' %}
+            {% include 'components/footer.html.twig' %}
         </div>
     </body>
-</html>
+{% endblock %}
