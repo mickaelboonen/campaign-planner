@@ -1,0 +1,71 @@
+{% extends 'emails/_layout.html.twig' %}
+
+{% block title %}
+    Tout le monde a répondu — {{ campaign.name }}
+{% endblock %}
+
+{% block heading %}
+    Tout le monde a répondu !
+{% endblock %}
+
+{% block content %}
+    <p
+        style="
+            margin: 0 0 16px;
+            color: #f3f3f3;
+            font-size: 16px;
+            line-height: 1.6;
+        "
+    >
+        Tous les joueurs de
+        <strong style="color: #e2c87f;">
+            {{ campaign.name }}
+        </strong>
+        ont renseigné au moins une disponibilité pour la semaine du
+        <strong>{{ weekStart|date('d/m/Y') }}</strong>
+        au
+        <strong>{{ weekEnd|date('d/m/Y') }}</strong>.
+    </p>
+
+    <p
+        style="
+            margin: 0 0 28px;
+            color: #a7a8ad;
+            font-size: 15px;
+            line-height: 1.6;
+        "
+    >
+        Vous pouvez maintenant consulter les disponibilités du groupe
+        et choisir votre prochain créneau.
+    </p>
+
+    <table
+        role="presentation"
+        cellspacing="0"
+        cellpadding="0"
+        border="0"
+        align="center"
+    >
+        <tr>
+            <td
+                align="center"
+                bgcolor="#c9a85c"
+                style="border-radius: 8px;"
+            >
+                <a
+                    href="{{ calendarUrl }}"
+                    style="
+                        display: inline-block;
+                        padding: 13px 24px;
+                        color: #111318;
+                        font-size: 15px;
+                        font-weight: 700;
+                        text-decoration: none;
+                    "
+                >
+                    Voir les disponibilités
+                </a>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

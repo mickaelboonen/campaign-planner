@@ -10,6 +10,8 @@ use App\Service\CalendarSlotManager;
 use App\Service\CalendarViewBuilder;
 use App\Controller\BaseController;
 use App\Service\NotificationManager;
+use App\Service\WeekAvailabilityCompletionChecker;
+use App\Service\Notification\EmailAvailabilityCompletionNotifier;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,6 +28,8 @@ final class ParticipantAccessController extends BaseController
         private readonly CalendarViewBuilder $calendarViewBuilder,
         private readonly AvailabilityManager $availabilityManager,
         private readonly NotificationManager $notificationManager,
+        private readonly WeekAvailabilityCompletionChecker $weekCompletionChecker,
+        private readonly EmailAvailabilityCompletionNotifier $emailAvailabilityCompletionNotifier,
     ) {
     }
 
@@ -184,6 +188,11 @@ final class ParticipantAccessController extends BaseController
 
         $submittedAvailabilities = $request->request->all('availabilities');
 
+        $wasComplete = $this->weekCompletionChecker->isComplete(
+            $campaign,
+            $weekStart,
+        );
+
         try {
             $changedCount = $this->availabilityManager->save($participant, $submittedAvailabilities);
 
@@ -191,6 +200,18 @@ final class ParticipantAccessController extends BaseController
 
         } catch (\InvalidArgumentException $exception) {
             throw $this->createNotFoundException($exception->getMessage());
+        }
+
+        $isComplete = $this->weekCompletionChecker->isComplete(
+            $campaign,
+            $weekStart,
+        );
+
+        if (!$wasComplete && $isComplete) {
+            $this->emailAvailabilityCompletionNotifier->notify(
+                $campaign,
+                $weekStart,
+            );
         }
 
         $this->addFlash(
