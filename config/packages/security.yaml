@@ -18,6 +18,7 @@ security:
             security: false
         main:
             lazy: true
+            user_checker: App\Security\UserChecker
             provider: app_user_provider
             form_login:
                 login_path: app_login
@@ -37,6 +38,7 @@ security:
     # Note: Only the *first* matching rule is applied
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/register, roles: PUBLIC_ACCESS }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/p/, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: ROLE_GAME_MASTER }

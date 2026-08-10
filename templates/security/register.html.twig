@@ -1,0 +1,85 @@
+{% extends 'login_base.html.twig' %}
+
+{% block title %}
+    Inscription
+{% endblock %}
+
+{% block body %}
+    <section class="login-page">
+        <div class="login-page__content">
+
+            <div class="login-page__brand">
+                {% include 'components/brand.html.twig' %}
+            </div>
+
+            <div
+                class="login-page__separator"
+                aria-hidden="true"
+            >
+                <span></span>
+                <span>◆</span>
+                <span></span>
+            </div>
+
+            <div class="login-page__form-container">
+                <h1>
+                    Inscription
+                </h1>
+
+                <p class="login-page__intro">
+                    Préparez votre prochaine aventure.
+                </p>
+
+                <nav class="auth-tabs">
+                    <a
+                        href="{{ path('app_login') }}"
+                        class="auth-tabs__item"
+                    >
+                        Connexion
+                    </a>
+
+                    <a
+                        href="{{ path('app_register') }}"
+                        class="auth-tabs__item is-active"
+                    >
+                        Inscription
+                    </a>
+                </nav>
+                {{ form_start(
+                    registrationForm,
+                    {
+                        attr: {
+                            class: 'login-form'
+                        }
+                    }
+                ) }}
+
+                    <div class="login-form__group">
+                        {{ form_label(registrationForm.email) }}
+                        {{ form_widget(registrationForm.email) }}
+                        {{ form_errors(registrationForm.email) }}
+                    </div>
+
+                    <div class="login-form__group">
+                        {{ form_label(registrationForm.plainPassword.first) }}
+                        {{ form_widget(registrationForm.plainPassword.first) }}
+                    </div>
+
+                    <div class="login-form__group">
+                        {{ form_label(registrationForm.plainPassword.second) }}
+                        {{ form_widget(registrationForm.plainPassword.second) }}
+                        {{ form_errors(registrationForm.plainPassword) }}
+                    </div>
+
+                    <button
+                        class="login-form__submit"
+                        type="submit"
+                    >
+                        Commencer l'aventure
+                    </button>
+
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}

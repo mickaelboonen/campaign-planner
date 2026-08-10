@@ -31,6 +31,22 @@
                     de l'autre côté.
                 </p>
 
+                <nav class="auth-tabs">
+                    <a
+                        href="{{ path('app_login') }}"
+                        class="auth-tabs__item is-active"
+                    >
+                        Connexion
+                    </a>
+
+                    <a
+                        href="{{ path('app_register') }}"
+                        class="auth-tabs__item"
+                    >
+                        Inscription
+                    </a>
+                </nav>
+
                 {% if error %}
                     <div
                         class="login-page__error"

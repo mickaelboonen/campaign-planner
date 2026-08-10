@@ -1,0 +1,114 @@
+{# templates/components/sidebar.html.twig #}
+
+{% set currentRoute = app.current_route %}
+{% set isAdminRoute = currentRoute starts with 'admin_' %}
+
+<aside
+    class="sidebar"
+    data-mobile-navigation-target="sidebar"
+>
+    <a
+        class="brand"
+        href="{{ path('dashboard') }}"
+    >
+        {% include 'components/brand.html.twig' %}
+    </a>
+
+    <div class="sidebar__theme">
+        {% include 'components/theme-button.html.twig' %}
+    </div>
+
+    <nav
+        class="sidebar-nav"
+        aria-label="Navigation principale"
+    >
+        <a
+            class="sidebar-nav__link {{ currentRoute == 'dashboard' ? 'is-active' }}"
+            href="{{ path('dashboard') }}"
+        >
+            <span>⌂</span>
+            Tableau de bord
+        </a>
+
+        <a
+            class="sidebar-nav__link {{ currentRoute starts with 'campaign_' ? 'is-active' }}"
+            href="{{ path('campaign_list') }}"
+        >
+            <span>◆</span>
+            Campagnes
+        </a>
+
+        <span class="sidebar-nav__link is-disabled">
+            <span>▦</span>
+            Calendrier
+        </span>
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <details
+                class="sidebar-section"
+                {{ isAdminRoute ? 'open' : '' }}
+            >
+                <summary class="sidebar-section__trigger">
+                    <span>⚙</span>
+                    Administration
+                </summary>
+
+                <div class="sidebar-section__submenu">
+                    <a
+                        class="sidebar-section__link {{ currentRoute == 'admin_dashboard' ? 'is-active' }}"
+                        href="{{ path('admin_dashboard') }}"
+                    >
+                        Vue d'ensemble
+                    </a>
+
+                    <a
+                        class="sidebar-section__link {{ currentRoute starts with 'admin_user_' ? 'is-active' }}"
+                        href="{{ path('admin_user_list') }}"
+                    >
+                        Utilisateurs
+                    </a>
+
+                    <span class="sidebar-section__link is-disabled">
+                        Campagnes
+                    </span>
+
+                    <span class="sidebar-section__link is-disabled">
+                        Logs
+                    </span>
+                </div>
+            </details>
+        {% endif %}
+
+        <details class="sidebar-section sidebar-section--account">
+            <summary class="sidebar-section__trigger">
+                <span>♙</span>
+                Compte
+            </summary>
+
+            <div class="sidebar-section__submenu">
+
+                <span
+                    class="sidebar-section__link is-disabled"
+                    title="Bientôt disponible"
+                >
+                    Contacter l'administrateur
+                </span>
+
+                <a
+                    class="sidebar-section__link"
+                    href="{{ path('app_logout') }}"
+                >
+                    Déconnexion
+                </a>
+            </div>
+        </details>
+    </nav>
+
+    {% if app.user %}
+        <div class="sidebar__footer">
+            <span class="sidebar__user">
+                {{ app.user.userIdentifier }}
+            </span>
+        </div>
+    {% endif %}
+</aside>
