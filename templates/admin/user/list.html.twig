@@ -1,0 +1,135 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block admin_title %}
+    Utilisateurs
+{% endblock %}
+
+{% block admin_content %}
+    <section class="admin-users">
+        <div class="admin-users__toolbar">
+            <form
+                method="get"
+                action="{{ path('admin_user_list') }}"
+                class="admin-users__search"
+            >
+                <input
+                    type="search"
+                    name="q"
+                    value="{{ search }}"
+                    placeholder="Rechercher par email..."
+                >
+
+                <button
+                    type="submit"
+                    class="button button--secondary"
+                >
+                    Rechercher
+                </button>
+
+                {% if search %}
+                    <a
+                        href="{{ path('admin_user_list') }}"
+                        class="button button--ghost"
+                    >
+                        Réinitialiser
+                    </a>
+                {% endif %}
+            </form>
+        </div>
+
+        <div class="admin-table-wrapper">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Utilisateur</th>
+                        <th>Plan</th>
+                        <th>Statut</th>
+                        <th>Campagnes</th>
+                        <th>Inscription</th>
+                        <th>Dernière connexion</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>
+                                <strong>
+                                    {{ user.email }}
+                                </strong>
+
+                                {% if 'ROLE_ADMIN' in user.roles %}
+                                    <span class="admin-badge admin-badge--admin">
+                                        Admin
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <span
+                                    class="
+                                        admin-badge
+                                        {{ user.subscriptionPlan.value == 'premium'
+                                            ? 'admin-badge--premium'
+                                            : ''
+                                        }}
+                                    "
+                                >
+                                    {{ user.subscriptionPlan.label() }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {% if user.active %}
+                                    <span class="admin-status admin-status--active">
+                                        Actif
+                                    </span>
+                                {% else %}
+                                    <span class="admin-status admin-status--inactive">
+                                        Désactivé
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {{ user.campaigns|length }}
+                            </td>
+
+                            <td>
+                                {{ user.createdAt|date('d/m/Y') }}
+                            </td>
+
+                            <td>
+                                {% if user.lastLoginAt %}
+                                    {{ user.lastLoginAt|date('d/m/Y H:i') }}
+                                {% else %}
+                                    <span class="text-muted">
+                                        Jamais
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <a
+                                    href="{{ path('admin_user_show', {
+                                        id: user.id
+                                    }) }}"
+                                    class="button button--ghost"
+                                >
+                                    Voir
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7">
+                                Aucun utilisateur trouvé.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock %}

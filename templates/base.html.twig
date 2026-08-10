@@ -68,6 +68,14 @@
                         <span>▦</span>
                         Calendrier
                     </span>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a
+                            class="sidebar__admin-link"
+                            href="{{ path('admin_dashboard') }}"
+                        >
+                            Administration
+                        </a>
+                    {% endif %}
                 </nav>
 
                 <div class="sidebar__footer">

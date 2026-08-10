@@ -15,6 +15,7 @@
 @import url("./components/brand.css");
 @import url("./components/footer.css");
 
+@import url("./pages/admin.css");
 @import url("./pages/login.css");
 @import url("./pages/error.css");
 @import url("./pages/dashboard.css");

@@ -1,0 +1,167 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block admin_title %}
+    {{ user.email }}
+{% endblock %}
+
+{% block admin_content %}
+    <div class="admin-user">
+        <section class="admin-user__summary">
+            <div class="admin-user__identity">
+                <div>
+                    <p class="page-eyebrow">
+                        Maître du Jeu
+                    </p>
+
+                    <h2>
+                        {{ user.email }}
+                    </h2>
+                </div>
+
+                <div class="admin-user__badges">
+                    {% if 'ROLE_ADMIN' in user.roles %}
+                        <span class="admin-badge admin-badge--admin">
+                            Admin
+                        </span>
+                    {% endif %}
+
+                    <span
+                        class="
+                            admin-badge
+                            {{ user.subscriptionPlan.value == 'premium'
+                                ? 'admin-badge--premium'
+                                : ''
+                            }}
+                        "
+                    >
+                        {{ user.subscriptionPlan.label() }}
+                    </span>
+
+                    <span
+                        class="
+                            admin-status
+                            {{ user.active
+                                ? 'admin-status--active'
+                                : 'admin-status--inactive'
+                            }}
+                        "
+                    >
+                        {{ user.active ? 'Actif' : 'Désactivé' }}
+                    </span>
+                </div>
+            </div>
+
+            <dl class="admin-user__meta">
+                <div>
+                    <dt>Inscription</dt>
+                    <dd>
+                        {{ user.createdAt|date('d/m/Y H:i') }}
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Dernière connexion</dt>
+                    <dd>
+                        {% if user.lastLoginAt %}
+                            {{ user.lastLoginAt|date('d/m/Y H:i') }}
+                        {% else %}
+                            Jamais
+                        {% endif %}
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Campagnes</dt>
+                    <dd>
+                        {{ user.campaigns|length }}
+                    </dd>
+                </div>
+            </dl>
+
+            {% if user != app.user %}
+                <form
+                    method="post"
+                    action="{{ path('admin_user_toggle_active', {
+                        id: user.id
+                    }) }}"
+                    onsubmit="return confirm(
+                        '{{ user.active
+                            ? 'Désactiver ce compte ?'
+                            : 'Réactiver ce compte ?'
+                        }}'
+                    );"
+                >
+                    <input
+                        type="hidden"
+                        name="_token"
+                        value="{{ csrf_token(
+                            'toggle-user-' ~ user.id
+                        ) }}"
+                    >
+
+                    <button
+                        type="submit"
+                        class="
+                            button
+                            {{ user.active
+                                ? 'button--ghost'
+                                : 'button--secondary'
+                            }}
+                        "
+                    >
+                        {{ user.active
+                            ? 'Désactiver le compte'
+                            : 'Réactiver le compte'
+                        }}
+                    </button>
+                </form>
+            {% endif %}
+        </section>
+
+        <section class="admin-user__campaigns">
+            <div class="section-heading">
+                <div>
+                    <p class="page-eyebrow">
+                        Activité
+                    </p>
+
+                    <h2>
+                        Campagnes
+                    </h2>
+                </div>
+            </div>
+
+            {% if user.campaigns is empty %}
+                <div class="admin-user__empty">
+                    Aucune campagne.
+                </div>
+            {% else %}
+                <div class="admin-user__campaign-list">
+                    {% for campaign in user.campaigns %}
+                        <article class="admin-user__campaign">
+                            <div>
+                                <strong>
+                                    {{ campaign.name }}
+                                </strong>
+
+                                <span>
+                                    Créée le
+                                    {{ campaign.createdAt|date('d/m/Y') }}
+                                </span>
+                            </div>
+
+                            <a
+                                href="{{ path('campaign_show', {
+                                    id: campaign.id
+                                }) }}"
+                                class="button button--ghost"
+                            >
+                                Voir
+                            </a>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </section>
+    </div>
+{% endblock %}

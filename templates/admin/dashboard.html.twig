@@ -1,0 +1,29 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block admin_title %}
+    Vue d'ensemble
+{% endblock %}
+
+{% block admin_content %}
+    <section class="admin-stats">
+        <article class="admin-stat">
+            <span class="admin-stat__label">
+                Maîtres du Jeu
+            </span>
+
+            <strong class="admin-stat__value">
+                {{ userCount }}
+            </strong>
+        </article>
+
+        <article class="admin-stat">
+            <span class="admin-stat__label">
+                Campagnes
+            </span>
+
+            <strong class="admin-stat__value">
+                {{ campaignCount }}
+            </strong>
+        </article>
+    </section>
+{% endblock %}

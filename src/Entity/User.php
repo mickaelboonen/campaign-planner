@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Enum\SubscriptionPlan;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -40,9 +41,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Campaign::class, mappedBy: 'owner')]
     private Collection $campaigns;
 
+    #[ORM\Column(enumType: SubscriptionPlan::class)]
+    private SubscriptionPlan $subscriptionPlan = SubscriptionPlan::FREE;
+
+    #[ORM\Column]
+    private bool $isActive = true;
+
+    #[ORM\Column]
+    private \DateTimeImmutable $createdAt;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $lastLoginAt = null;
+
     public function __construct()
     {
         $this->campaigns = new ArrayCollection();
+
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -152,6 +167,57 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $campaign->setOwner(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSubscriptionPlan(): SubscriptionPlan
+    {
+        return $this->subscriptionPlan;
+    }
+
+    public function setSubscriptionPlan(
+        SubscriptionPlan $subscriptionPlan,
+    ): static {
+        $this->subscriptionPlan = $subscriptionPlan;
+
+        return $this;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): static
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): \DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(
+        \DateTimeImmutable $createdAt,
+    ): static {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getLastLoginAt(): ?\DateTimeImmutable
+    {
+        return $this->lastLoginAt;
+    }
+
+    public function setLastLoginAt(
+        ?\DateTimeImmutable $lastLoginAt,
+    ): static {
+        $this->lastLoginAt = $lastLoginAt;
 
         return $this;
     }
