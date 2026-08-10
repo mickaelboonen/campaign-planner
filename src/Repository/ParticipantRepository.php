@@ -76,9 +76,12 @@ class ParticipantRepository extends ServiceEntityRepository
         string $email,
     ): ?Participant {
         return $this->createQueryBuilder('participant')
-            ->andWhere('participant.email = :email')
+            ->andWhere('LOWER(participant.email) = :email')
             ->andWhere('participant.archivedAt IS NULL')
-            ->setParameter('email', $email)
+            ->setParameter(
+                'email',
+                mb_strtolower(trim($email)),
+            )
             ->orderBy('participant.createdAt', 'ASC')
             ->setMaxResults(1)
             ->getQuery()
