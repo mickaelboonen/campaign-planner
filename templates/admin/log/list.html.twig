@@ -1,0 +1,66 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block admin_title %}
+    Logs système
+{% endblock %}
+
+{% block admin_content %}
+    <section class="admin-logs">
+        <header class="admin-logs__toolbar">
+            <div class="admin-logs__title">
+                <strong>
+                    Journal des erreurs
+                </strong>
+
+                <span>
+                    100 dernières erreurs applicatives
+                </span>
+            </div>
+
+            {% if logs is not empty %}
+                <span class="admin-logs__count">
+                    {{ logs|length }}
+                </span>
+            {% endif %}
+        </header>
+
+        {% if not logFileExists %}
+            <div class="admin-log-empty">
+                Aucun fichier de log disponible.
+            </div>
+
+        {% elseif logs is empty %}
+            <div class="admin-log-empty">
+                Aucune erreur récente.
+            </div>
+
+        {% else %}
+            <div class="admin-log-list">
+                {% for log in logs %}
+                    <article class="admin-log">
+                        <header class="admin-log__header">
+                            <span
+                                class="
+                                    admin-log__level
+                                    admin-log__level--{{ log.level|lower }}
+                                "
+                            >
+                                {{ log.level }}
+                            </span>
+
+                            <span class="admin-log__channel">
+                                {{ log.channel }}
+                            </span>
+
+                            <time>
+                                {{ log.date|date('d/m/Y H:i:s') }}
+                            </time>
+                        </header>
+
+                        <pre class="admin-log__message">{{ log.message }}</pre>
+                    </article>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}

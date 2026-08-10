@@ -72,9 +72,12 @@
                         Campagnes
                     </span>
 
-                    <span class="sidebar-section__link is-disabled">
+                    <a
+                        class="sidebar-section__link {{ currentRoute starts with 'admin_log_' ? 'is-active' }}"
+                        href="{{ path('admin_log_list') }}"
+                    >
                         Logs
-                    </span>
+                    </a>
                 </div>
             </details>
         {% endif %}
