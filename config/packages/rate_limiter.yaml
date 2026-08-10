@@ -1,0 +1,11 @@
+framework:
+    rate_limiter:
+        participant_recovery_ip:
+            policy: sliding_window
+            limit: 5
+            interval: '15 minutes'
+
+        participant_recovery_email:
+            policy: sliding_window
+            limit: 3
+            interval: '30 minutes'

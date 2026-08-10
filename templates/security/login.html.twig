@@ -22,14 +22,6 @@
             </div>
 
             <div class="login-page__form-container">
-                <h1>
-                    Connexion
-                </h1>
-
-                <p class="login-page__intro">
-                    Votre prochaine aventure vous attend
-                    de l'autre côté.
-                </p>
 
                 <nav class="auth-tabs">
                     <a
@@ -120,6 +112,14 @@
                         Franchir le portail
                     </button>
                 </form>
+
+                <div class="player-access-link">
+                    <span>Vous êtes joueur ?</span>
+
+                    <a href="{{ path('participant_recover') }}">
+                        Retrouver mon espace
+                    </a>
+                </div>
             </div>
         </div>
     </section>

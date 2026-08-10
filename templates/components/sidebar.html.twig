@@ -2,6 +2,8 @@
 
 {% set currentRoute = app.current_route %}
 {% set isAdminRoute = currentRoute starts with 'admin_' %}
+{% set playerDashboardUrl = player_dashboard_url() %}
+
 
 <aside
     class="sidebar"
@@ -96,6 +98,15 @@
                 >
                     Contacter l'administrateur
                 </span>
+
+                {% if playerDashboardUrl %}
+                    <a
+                        class="sidebar-section__link"
+                        href="{{ playerDashboardUrl }}"
+                    >
+                        Mon espace joueur
+                    </a>
+                {% endif %}
 
                 <a
                     class="sidebar-section__link"

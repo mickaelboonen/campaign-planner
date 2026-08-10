@@ -39,6 +39,7 @@ security:
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/player/recover, roles: PUBLIC_ACCESS }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/p/, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: ROLE_GAME_MASTER }

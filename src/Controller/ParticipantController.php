@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormError;
 use App\Entity\Campaign;
 use App\Form\ParticipantType;
 use App\Security\Voter\CampaignVoter;
+use App\Service\Notification\EmailParticipantAccessNotifier;
 use App\Service\ParticipantManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,6 +23,7 @@ final class ParticipantController extends BaseController
     public function __construct(
         private readonly ParticipantManager $participantManager,
         private readonly ParticipantRepository $participantRepository,
+        private readonly EmailParticipantAccessNotifier $emailParticipantAccessNotifier,
     ) {
     }
 
@@ -57,7 +59,9 @@ final class ParticipantController extends BaseController
                     )
                 );
             } else {
-                $this->participantManager->create($campaign, $data);
+                $participant = $this->participantManager->create($campaign, $data);
+
+                $this->emailParticipantAccessNotifier->notifyInvitation($participant);
 
                 $this->addFlash(
                     'success',
@@ -78,7 +82,7 @@ final class ParticipantController extends BaseController
             ]
         );
     }
-    
+
     #[Route('/{participant}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(
         Request $request,
