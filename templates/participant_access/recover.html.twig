@@ -21,23 +21,7 @@
         </p>
     </div>
 
-    {% for message in app.flashes('success') %}
-        <div
-            class="portal-message portal-message--success"
-            role="status"
-        >
-            {{ message }}
-        </div>
-    {% endfor %}
-
-    {% for message in app.flashes('error') %}
-        <div
-            class="portal-message portal-message--error"
-            role="alert"
-        >
-            {{ message }}
-        </div>
-    {% endfor %}
+    {% include 'components/flashes.html.twig' %}
 
     <form
         method="post"
@@ -71,7 +55,7 @@
         >
 
         <button
-            class="button button--primary"
+            class="button button--portal"
             type="submit"
         >
             Retrouver mon espace

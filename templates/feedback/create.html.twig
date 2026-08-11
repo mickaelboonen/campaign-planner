@@ -22,23 +22,9 @@
         </p>
     </div>
 
-    {% for message in app.flashes('success') %}
-        <div
-            class="portal-message portal-message--success"
-            role="status"
-        >
-            {{ message }}
-        </div>
-    {% endfor %}
+    {% include 'components/flashes.html.twig' %}
 
-    {{ form_start(
-        form,
-        {
-            attr: {
-                class: 'form'
-            }
-        }
-    ) }}
+    {{ form_start(form, { attr: { class: 'form' } }) }}
 
         <div class="form-row">
             {{ form_label(

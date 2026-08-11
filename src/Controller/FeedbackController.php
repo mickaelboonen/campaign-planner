@@ -6,6 +6,7 @@ use App\DTO\CreateFeedbackData;
 use App\Entity\User;
 use App\Form\FeedbackType;
 use App\Service\FeedbackManager;
+use App\Service\Notification\EmailFeedbackNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,6 +14,12 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class FeedbackController extends AbstractController
 {
+    public function __construct(
+        private readonly FeedbackManager $feedbackManager,
+        private readonly EmailFeedbackNotifier $emailFeedbackNotifier,
+    ) {
+    }
+
     #[Route(
         '/contact',
         name: 'feedback_create',
@@ -20,7 +27,6 @@ final class FeedbackController extends AbstractController
     )]
     public function create(
         Request $request,
-        FeedbackManager $feedbackManager,
     ): Response {
         $data = new CreateFeedbackData();
 
@@ -41,15 +47,17 @@ final class FeedbackController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $feedbackManager->create(
+            $feedback = $this->feedbackManager->create(
                 $data,
                 $user instanceof User ? $user : null,
                 $request->headers->get('referer'),
             );
 
+            $this->emailFeedbackNotifier->notify($feedback);
+
             $this->addFlash(
                 'success',
-                'Votre message a bien été envoyé.',
+                'Votre message a bien été transmis.',
             );
 
             return $this->redirectToRoute(

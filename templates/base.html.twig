@@ -16,11 +16,7 @@
             {% include 'components/sidebar.html.twig' %}
 
             <main class="main-content">
-                {% for message in app.flashes('success') %}
-                    <div class="flash flash--success">
-                        {{ message }}
-                    </div>
-                {% endfor %}
+                {% include 'components/flashes.html.twig' %}
 
                 {% block body %}{% endblock %}
             </main>
