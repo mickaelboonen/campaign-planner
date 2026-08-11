@@ -127,14 +127,17 @@
                 </span>
             </a>
 
-            <div class="campaign-navigation__item is-disabled">
-                <span class="campaign-navigation__icon">◈</span>
+            <a
+                class="campaign-navigation__item"
+                href="{{ path('campaign_notes', { id: campaign.id }) }}"
+            >
+                <span class="campaign-navigation__icon">✦</span>
 
                 <span>
-                    <strong>Sessions</strong>
-                    <small>Bientôt disponible</small>
+                    <strong>Notes MJ</strong>
+                    <small>Mémos privés de campagne</small>
                 </span>
-            </div>
+            </a>
         </nav>
     {% endif %}
 

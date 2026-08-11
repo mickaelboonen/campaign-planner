@@ -34,6 +34,9 @@ class Campaign
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $privateNotes = null;
+
     /**
      * @var Collection<int, Participant>
      */
@@ -175,6 +178,19 @@ class Campaign
                 $gameSession->setCampaign(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPrivateNotes(): ?string
+    {
+        return $this->privateNotes;
+    }
+
+    public function setPrivateNotes(?string $privateNotes): static
+    {
+        $privateNotes = trim((string) $privateNotes);
+        $this->privateNotes = $privateNotes !== '' ? $privateNotes : null;
 
         return $this;
     }

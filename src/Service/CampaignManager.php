@@ -6,6 +6,7 @@ use App\Entity\Campaign;
 use App\Entity\User;
 use App\DTO\CreateCampaignData;
 use App\DTO\EditCampaignData;
+use App\DTO\UpdateCampaignNotesData;
 use App\Repository\GameSessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -82,6 +83,15 @@ final readonly class CampaignManager
     public function restore(Campaign $campaign): void
     {
         $campaign->restore();
+
+        $this->entityManager->flush();
+    }
+
+    public function updateNotes(
+        Campaign $campaign,
+        UpdateCampaignNotesData $data,
+    ): void {
+        $campaign->setPrivateNotes($data->privateNotes);
 
         $this->entityManager->flush();
     }

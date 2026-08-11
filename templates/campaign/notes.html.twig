@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Notes — {{ campaign.name }}{% endblock %}
+
+{% block body %}
+    {% include 'components/breadcrumb.html.twig' with {
+        items: [
+            { label: 'Campagnes', path: path('campaign_list') },
+            { label: campaign.name, path: path('campaign_show', { id: campaign.id }) },
+            { label: 'Notes MJ' }
+        ]
+    } %}
+
+    <div class="section-heading">
+        <div>
+            <p class="page-eyebrow">Mémo MJ</p>
+            <h1>Notes privées</h1>
+            <p class="campaign-notes__subtitle">{{ campaign.name }}</p>
+        </div>
+    </div>
+
+    <nav class="campaign-navigation">
+        <a class="campaign-navigation__item" href="{{ path('campaign_show', { id: campaign.id }) }}">
+            <span class="campaign-navigation__icon">◆</span>
+            <span>
+                <strong>Participants</strong>
+                <small>Gérer le groupe de jeu</small>
+            </span>
+        </a>
+
+        <a class="campaign-navigation__item" href="{{ path('calendar_show', { id: campaign.id }) }}">
+            <span class="campaign-navigation__icon">▦</span>
+            <span>
+                <strong>Calendrier</strong>
+                <small>Disponibilités et créneaux</small>
+            </span>
+        </a>
+
+        <a class="campaign-navigation__item is-active" href="{{ path('campaign_notes', { id: campaign.id }) }}">
+            <span class="campaign-navigation__icon">✦</span>
+            <span>
+                <strong>Notes MJ</strong>
+                <small>Mémos privés de campagne</small>
+            </span>
+        </a>
+    </nav>
+
+    <section class="campaign-notes">
+        <div class="campaign-notes__editor">
+            <div class="campaign-notes__header">
+                <div>
+                    <h2>Édition</h2>
+                    <p>Ces notes ne sont visibles que par le MJ de la campagne.</p>
+                </div>
+            </div>
+
+            {{ form_start(form, { attr: { class: 'campaign-notes__form' } }) }}
+                <div class="campaign-notes__field">
+                    {{ form_label(form.privateNotes) }}
+                    {{ form_widget(form.privateNotes) }}
+                    {{ form_errors(form.privateNotes) }}
+                </div>
+
+                <div class="campaign-notes__help">
+                    Markdown disponible :
+                    <code>## Titre</code>,
+                    <code>**gras**</code>,
+                    <code>- liste</code>.
+                </div>
+
+                <div class="campaign-notes__actions">
+                    <a class="button button--secondary" href="{{ path('campaign_show', { id: campaign.id }) }}">
+                        Retour
+                    </a>
+
+                    <button class="button button--primary" type="submit">
+                        Enregistrer
+                    </button>
+                </div>
+            {{ form_end(form) }}
+        </div>
+
+        <aside class="campaign-notes__preview">
+            <div class="campaign-notes__header">
+                <div>
+                    <h2>Aperçu</h2>
+                    <p>Rendu actuel des notes.</p>
+                </div>
+            </div>
+
+            <div class="campaign-notes__rendered">
+                {{ campaign.privateNotes|markdown }}
+            </div>
+        </aside>
+    </section>
+{% endblock %}

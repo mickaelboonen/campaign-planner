@@ -6,6 +6,8 @@ use App\Entity\Campaign;
 use App\Repository\ParticipantRepository;
 use App\Security\Voter\CampaignVoter;
 use App\DTO\CreateCampaignData;
+use App\DTO\UpdateCampaignNotesData;
+use App\Form\CampaignNotesType;
 use App\DTO\EditCampaignData;
 use App\Form\CampaignType;
 use App\Repository\GameSessionRepository;
@@ -245,5 +247,32 @@ final class CampaignController extends BaseController
         }
 
         return $this->redirectToRoute('campaign_list');
+    }
+
+    #[Route('/{id}/notes', name: 'notes', methods: ['GET', 'POST'])]
+    public function notes(Campaign $campaign, Request $request): Response
+    {
+        $this->denyAccessUnlessGranted(CampaignVoter::EDIT, $campaign);
+
+        $data = new UpdateCampaignNotesData();
+        $data->privateNotes = $campaign->getPrivateNotes();
+
+        $form = $this->createForm(CampaignNotesType::class, $data);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->campaignManager->updateNotes($campaign, $data);
+
+            $this->addFlash('success', 'Les notes privées ont bien été enregistrées.');
+
+            return $this->redirectToRoute('campaign_notes', [
+                'id' => $campaign->getId(),
+            ]);
+        }
+
+        return $this->render('campaign/notes.html.twig', [
+            'campaign' => $campaign,
+            'form' => $form,
+        ]);
     }
 }

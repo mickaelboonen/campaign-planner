@@ -26,7 +26,9 @@
     {% include 'components/page-header.html.twig' with {
         eyebrow: 'Disponibilités',
         title: 'Calendrier',
-        description: 'Semaine du '
+        description: 'Semaine '
+            ~ calendar.start|date('W')
+            ~ ' — du '
             ~ calendar.start|date('d/m/Y')
             ~ ' au '
             ~ calendar.end|date('d/m/Y')
