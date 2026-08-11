@@ -75,6 +75,13 @@
                     </span>
 
                     <a
+                        class="sidebar-section__link {{ currentRoute starts with 'admin_feedback_' ? 'is-active' }}"
+                        href="{{ path('admin_feedback_index') }}"
+                    >
+                        Feedbacks
+                    </a>
+
+                    <a
                         class="sidebar-section__link {{ currentRoute starts with 'admin_log_' ? 'is-active' }}"
                         href="{{ path('admin_log_list') }}"
                     >

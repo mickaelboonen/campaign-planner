@@ -18,6 +18,7 @@
 @import url("./components/footer.css");
 
 @import url("./pages/admin.css");
+@import url("./pages/admin/feedback.css");
 @import url("./pages/login.css");
 @import url("./pages/feedback.css");
 @import url("./pages/error.css");

@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Feedbacks
+{% endblock %}
+
+{% block body %}
+    <div class="admin-feedbacks">
+        <div class="page-header">
+            <div>
+                <p class="page-eyebrow">
+                    Administration
+                </p>
+
+                <h1>
+                    Feedbacks
+                </h1>
+            </div>
+        </div>
+
+        {% if feedbacks is empty %}
+            <div class="admin-feedbacks__empty">
+                Aucun message pour le moment.
+            </div>
+        {% else %}
+            <div class="admin-feedbacks__table-wrapper">
+                <table class="admin-feedbacks__table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Utilisateur</th>
+                            <th>Message</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for feedback in feedbacks %}
+                            <tr>
+                                <td>
+                                    <span class="admin-feedbacks__type">
+                                        {{ feedback.type.label() }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="admin-feedbacks__author">
+                                        <span class="admin-feedbacks__email">
+                                            {{ feedback.email ?? 'Anonyme' }}
+                                        </span>
+
+                                        {% if feedback.user %}
+                                            <span class="admin-feedbacks__account">
+                                                Compte #{{ feedback.user.id }}
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="admin-feedbacks__message">
+                                        {{ feedback.message }}
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <span class="admin-feedbacks__date">
+                                        {{ feedback.createdAt|date('d/m/Y H:i') }}
+                                    </span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

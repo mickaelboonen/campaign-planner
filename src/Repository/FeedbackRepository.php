@@ -15,4 +15,17 @@ final class FeedbackRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Feedback::class);
     }
+
+    /**
+     * @return list<Feedback>
+     */
+    public function findForAdmin(): array
+    {
+        return $this->createQueryBuilder('feedback')
+            ->leftJoin('feedback.user', 'user')
+            ->addSelect('user')
+            ->orderBy('feedback.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }
