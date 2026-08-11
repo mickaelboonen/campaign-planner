@@ -6,8 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/logs', name: 'admin_log_')]
+#[IsGranted('ROLE_ADMIN')]
 final class LogController extends AbstractController
 {
     #[Route('', name: 'list', methods: ['GET'])]

@@ -18,4 +18,14 @@ enum FeedbackType: string
             self::OTHER => 'Autre',
         };
     }
+
+    public function defaultSubject(): string
+    {
+        return match ($this) {
+            self::BUG => 'Problème rencontré',
+            self::IDEA => 'Suggestion d’amélioration',
+            self::SUPPORT => 'Demande d’aide',
+            self::OTHER => 'Autre demande',
+        };
+    }
 }

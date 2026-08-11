@@ -1,0 +1,163 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Feedback #{{ feedback.id }}
+{% endblock %}
+
+{% block body %}
+    <div class="admin-feedback-detail">
+
+        <div class="page-header">
+            <div>
+                <p class="page-eyebrow">
+                    Administration
+                </p>
+
+                <h1>
+                    Feedback #{{ feedback.id }}
+                </h1>
+            </div>
+
+            <a
+                class="button button--secondary"
+                href="{{ path('admin_feedback_index') }}"
+            >
+                Retour à la liste
+            </a>
+        </div>
+
+        <div class="admin-feedback-detail__meta">
+            <div class="admin-feedback-detail__meta-item">
+                <span class="admin-feedback-detail__meta-label">
+                    Type
+                </span>
+
+                <strong class="admin-feedback-detail__type">
+                    {{ feedback.type.label() }}
+                </strong>
+            </div>
+
+            <div class="admin-feedback-detail__meta-item">
+                <span class="admin-feedback-detail__meta-label">
+                    Statut
+                </span>
+
+                <strong
+                    class="
+                        admin-feedback-detail__status
+                        admin-feedback-detail__status--{{ feedback.status.value }}
+                    "
+                >
+                    {{ feedback.status.label() }}
+                </strong>
+            </div>
+
+            <div class="admin-feedback-detail__meta-item">
+                <span class="admin-feedback-detail__meta-label">
+                    Reçu le
+                </span>
+
+                <strong>
+                    {{ feedback.createdAt|date('d/m/Y H:i') }}
+                </strong>
+            </div>
+        </div>
+
+        <section class="admin-feedback-detail__card">
+
+            <div class="admin-feedback-detail__section">
+                <h2>
+                    Expéditeur
+                </h2>
+
+                <div class="admin-feedback-detail__sender">
+                    <span>
+                        {{ feedback.email ?? 'Anonyme' }}
+                    </span>
+
+                    {% if feedback.user %}
+                        <span class="admin-feedback-detail__muted">
+                            Compte utilisateur #{{ feedback.user.id }}
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="admin-feedback-detail__section">
+                <h2>
+                    Message
+                </h2>
+
+                <div class="admin-feedback-detail__message">
+                    {{ feedback.message }}
+                </div>
+            </div>
+
+        </section>
+
+        <div class="admin-feedback-detail__actions">
+
+            {% if feedback.email %}
+                <a
+                    class="button button--secondary"
+                    href="mailto:{{ feedback.email }}"
+                >
+                    Répondre par e-mail
+                </a>
+            {% endif %}
+
+            {% if feedback.status.value == 'closed' %}
+                <form
+                    method="post"
+                    action="{{ path('admin_feedback_reopen', {
+                        id: feedback.id
+                    }) }}"
+                >
+                    <input
+                        type="hidden"
+                        name="_token"
+                        value="{{ csrf_token(
+                            'reopen-feedback-' ~ feedback.id
+                        ) }}"
+                    >
+
+                    <button
+                        type="submit"
+                        class="button button--primary"
+                    >
+                        Rouvrir
+                    </button>
+                </form>
+            {% else %}
+                <form
+                    method="post"
+                    action="{{ path('admin_feedback_close', {
+                        id: feedback.id
+                    }) }}"
+                    onsubmit="
+                        return confirm(
+                            'Clôturer ce feedback ?'
+                        );
+                    "
+                >
+                    <input
+                        type="hidden"
+                        name="_token"
+                        value="{{ csrf_token(
+                            'close-feedback-' ~ feedback.id
+                        ) }}"
+                    >
+
+                    <button
+                        type="submit"
+                        class="button button--primary"
+                    >
+                        Clôturer
+                    </button>
+                </form>
+            {% endif %}
+
+        </div>
+
+    </div>
+{% endblock %}

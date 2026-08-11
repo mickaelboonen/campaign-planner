@@ -2,24 +2,133 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Feedback;
 use App\Repository\FeedbackRepository;
+use App\Service\FeedbackManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 #[Route('/admin/feedbacks', name: 'admin_feedback_')]
+#[IsGranted('ROLE_ADMIN')]
 final class FeedbackController extends AbstractController
 {
+    public function __construct(
+        private readonly FeedbackRepository $feedbackRepository,
+        private readonly FeedbackManager $feedbackManager,
+    ) {
+    }
+
     #[Route('', name: 'index', methods: ['GET'])]
     public function index(
-        FeedbackRepository $feedbackRepository,
+        Request $request,
     ): Response {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $status = (string) $request->query->get(
+            'status',
+            'open',
+        );
+
+        $allowedStatuses = [
+            'open',
+            'new',
+            'read',
+            'closed',
+            'all',
+        ];
+
+        if (!in_array($status, $allowedStatuses, true)) {
+            $status = 'open';
+        }
 
         return $this->render(
             'admin/feedback/list.html.twig',
             [
-                'feedbacks' => $feedbackRepository->findForAdmin(),
+                'feedbacks' => $this->feedbackRepository
+                    ->findForAdmin($status),
+                'currentStatus' => $status,
+            ],
+        );
+    }
+
+    #[Route('/{id}', name: 'show', methods: ['GET'])]
+    public function show(
+        Feedback $feedback,
+    ): Response {
+        $this->feedbackManager->markAsRead($feedback);
+
+        return $this->render(
+            'admin/feedback/show.html.twig',
+            [
+                'feedback' => $feedback,
+            ],
+        );
+    }
+
+    #[Route(
+        '/{id}/close',
+        name: 'close',
+        methods: ['POST'],
+    )]
+    public function close(
+        Feedback $feedback,
+        Request $request,
+    ): RedirectResponse {
+        if (!$this->isCsrfTokenValid(
+            'close-feedback-'.$feedback->getId(),
+            (string) $request->request->get('_token'),
+        )) {
+            throw $this->createAccessDeniedException(
+                'Jeton CSRF invalide.',
+            );
+        }
+
+        $this->feedbackManager->close($feedback);
+
+        $this->addFlash(
+            'success',
+            'Le feedback a bien été clôturé.',
+        );
+
+        return $this->redirectToRoute(
+            'admin_feedback_show',
+            [
+                'id' => $feedback->getId(),
+            ],
+        );
+    }
+
+    #[Route(
+        '/{id}/reopen',
+        name: 'reopen',
+        methods: ['POST'],
+    )]
+    public function reopen(
+        Feedback $feedback,
+        Request $request,
+    ): RedirectResponse {
+        if (!$this->isCsrfTokenValid(
+            'reopen-feedback-'.$feedback->getId(),
+            (string) $request->request->get('_token'),
+        )) {
+            throw $this->createAccessDeniedException(
+                'Jeton CSRF invalide.',
+            );
+        }
+
+        $this->feedbackManager->reopen($feedback);
+
+        $this->addFlash(
+            'success',
+            'Le feedback a bien été rouvert.',
+        );
+
+        return $this->redirectToRoute(
+            'admin_feedback_show',
+            [
+                'id' => $feedback->getId(),
             ],
         );
     }

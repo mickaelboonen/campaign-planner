@@ -16,4 +16,11 @@ final class CreateFeedbackData
 
     #[Assert\Email]
     public ?string $email = null;
+
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 3,
+        max: 120,
+    )]
+    public ?string $subject = null;
 }

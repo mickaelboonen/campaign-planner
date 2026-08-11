@@ -178,3 +178,313 @@
         min-width: 16rem;
     }
 }
+
+
+/* ========================================
+   FEEDBACK DETAIL
+======================================== */
+
+.admin-feedback-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+
+/* ========================================
+   META
+======================================== */
+
+.admin-feedback-detail__meta {
+    display: grid;
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 1rem;
+}
+
+.admin-feedback-detail__meta-item {
+    padding: 1rem 1.25rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-medium);
+
+    background: var(--color-surface);
+}
+
+.admin-feedback-detail__meta-label {
+    display: block;
+
+    margin-bottom: 0.4rem;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.admin-feedback-detail__meta-item strong {
+    color: var(--color-text);
+
+    font-size: 0.95rem;
+}
+
+
+/* ========================================
+   TYPE
+======================================== */
+
+.admin-feedback-detail__type {
+    color: var(--color-gold-light) !important;
+}
+
+
+/* ========================================
+   STATUS
+======================================== */
+
+.admin-feedback-detail__status {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 0.25rem 0.5rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-small);
+
+    font-size: 0.8rem !important;
+}
+
+.admin-feedback-detail__status--new {
+    color: var(--color-gold-light) !important;
+
+    border-color: rgb(201 168 92 / 35%);
+
+    background: rgb(201 168 92 / 8%);
+}
+
+.admin-feedback-detail__status--read {
+    color: var(--color-text) !important;
+
+    background: var(--color-surface-hover);
+}
+
+.admin-feedback-detail__status--closed {
+    color: var(--color-text-muted) !important;
+
+    opacity: 0.8;
+}
+
+
+/* ========================================
+   CARD
+======================================== */
+
+.admin-feedback-detail__card {
+    overflow: hidden;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-medium);
+
+    background: var(--color-surface);
+}
+
+.admin-feedback-detail__section {
+    padding: 1.5rem;
+}
+
+.admin-feedback-detail__section
++ .admin-feedback-detail__section {
+    border-top: 1px solid var(--color-border);
+}
+
+.admin-feedback-detail__section h2 {
+    margin: 0 0 1rem;
+
+    color: var(--color-gold);
+
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+
+/* ========================================
+   SENDER
+======================================== */
+
+.admin-feedback-detail__sender {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+
+    color: var(--color-text);
+}
+
+.admin-feedback-detail__muted {
+    color: var(--color-text-muted);
+
+    font-size: 0.85rem;
+}
+
+
+/* ========================================
+   MESSAGE
+======================================== */
+
+.admin-feedback-detail__message {
+    color: var(--color-text);
+
+    font-size: 1rem;
+    line-height: 1.7;
+
+    overflow-wrap: anywhere;
+
+    white-space: pre-line;
+}
+
+
+/* ========================================
+   ACTIONS
+======================================== */
+
+.admin-feedback-detail__actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.75rem;
+
+    flex-wrap: wrap;
+}
+
+.admin-feedback-detail__actions form {
+    margin: 0;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 800px) {
+    .admin-feedback-detail__meta {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-feedback-detail__section {
+        padding: 1.25rem;
+    }
+
+    .admin-feedback-detail__actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .admin-feedback-detail__actions form,
+    .admin-feedback-detail__actions .button {
+        width: 100%;
+    }
+
+    .admin-feedback-detail__actions form .button {
+        width: 100%;
+    }
+}
+
+/* ========================================
+   LIST STATUS
+======================================== */
+
+.admin-feedbacks__row--new {
+    background: rgb(201 168 92 / 4%);
+}
+
+.admin-feedbacks__row--new
+.admin-feedbacks__email {
+    font-weight: 700;
+}
+
+.admin-feedbacks__status {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 0.25rem 0.5rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-small);
+
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+.admin-feedbacks__status--new {
+    color: var(--color-gold-light);
+
+    border-color: rgb(201 168 92 / 35%);
+
+    background: rgb(201 168 92 / 8%);
+}
+
+.admin-feedbacks__status--read {
+    color: var(--color-text);
+
+    background: var(--color-surface-hover);
+}
+
+.admin-feedbacks__status--closed {
+    color: var(--color-text-muted);
+
+    opacity: 0.75;
+}
+
+.admin-feedbacks__actions {
+    width: 1%;
+
+    text-align: right;
+    white-space: nowrap;
+}
+
+.admin-feedbacks__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.admin-feedbacks__filter {
+    padding: 0.5rem 0.8rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-small);
+
+    color: var(--color-text-muted);
+    background: var(--color-surface);
+
+    font-size: 0.82rem;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition:
+        color var(--transition-fast),
+        border-color var(--transition-fast),
+        background-color var(--transition-fast);
+}
+
+.admin-feedbacks__filter:hover {
+    color: var(--color-gold-light);
+    border-color: var(--color-gold-dark);
+}
+
+.admin-feedbacks__filter.is-active {
+    color: var(--color-gold-light);
+    border-color: var(--color-gold);
+
+    background: rgb(201 168 92 / 8%);
+}

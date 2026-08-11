@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Enum\FeedbackType as FeedbackTypeEnum;
 
 final class FeedbackController extends AbstractController
 {
@@ -29,6 +30,9 @@ final class FeedbackController extends AbstractController
         Request $request,
     ): Response {
         $data = new CreateFeedbackData();
+
+        $data->type = FeedbackTypeEnum::OTHER;
+        $data->subject = $data->type->defaultSubject();
 
         $user = $this->getUser();
 
@@ -50,7 +54,6 @@ final class FeedbackController extends AbstractController
             $feedback = $this->feedbackManager->create(
                 $data,
                 $user instanceof User ? $user : null,
-                $request->headers->get('referer'),
             );
 
             $this->emailFeedbackNotifier->notify($feedback);

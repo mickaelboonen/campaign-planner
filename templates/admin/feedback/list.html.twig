@@ -18,6 +18,71 @@
             </div>
         </div>
 
+        <nav
+    class="admin-feedbacks__filters"
+    aria-label="Filtrer les feedbacks"
+>
+    <a
+        class="
+            admin-feedbacks__filter
+            {{ currentStatus == 'open' ? 'is-active' }}
+        "
+        href="{{ path('admin_feedback_index', {
+            status: 'open'
+        }) }}"
+    >
+        À traiter
+    </a>
+
+    <a
+        class="
+            admin-feedbacks__filter
+            {{ currentStatus == 'new' ? 'is-active' }}
+        "
+        href="{{ path('admin_feedback_index', {
+            status: 'new'
+        }) }}"
+    >
+        Nouveaux
+    </a>
+
+    <a
+        class="
+            admin-feedbacks__filter
+            {{ currentStatus == 'read' ? 'is-active' }}
+        "
+        href="{{ path('admin_feedback_index', {
+            status: 'read'
+        }) }}"
+    >
+        Lus
+    </a>
+
+    <a
+        class="
+            admin-feedbacks__filter
+            {{ currentStatus == 'closed' ? 'is-active' }}
+        "
+        href="{{ path('admin_feedback_index', {
+            status: 'closed'
+        }) }}"
+    >
+        Clôturés
+    </a>
+
+    <a
+        class="
+            admin-feedbacks__filter
+            {{ currentStatus == 'all' ? 'is-active' }}
+        "
+        href="{{ path('admin_feedback_index', {
+            status: 'all'
+        }) }}"
+    >
+        Tous
+    </a>
+</nav>
+
         {% if feedbacks is empty %}
             <div class="admin-feedbacks__empty">
                 Aucun message pour le moment.
@@ -28,18 +93,42 @@
                     <thead>
                         <tr>
                             <th>Type</th>
+                            <th>Statut</th>
                             <th>Utilisateur</th>
                             <th>Message</th>
                             <th>Date</th>
+                            <th>
+                                <span class="sr-only">
+                                    Actions
+                                </span>
+                            </th>
                         </tr>
                     </thead>
 
                     <tbody>
                         {% for feedback in feedbacks %}
-                            <tr>
+                            <tr
+                                class="
+                                    admin-feedbacks__row
+                                    {% if feedback.status.value == 'new' %}
+                                        admin-feedbacks__row--new
+                                    {% endif %}
+                                "
+                            >
                                 <td>
                                     <span class="admin-feedbacks__type">
                                         {{ feedback.type.label() }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span
+                                        class="
+                                            admin-feedbacks__status
+                                            admin-feedbacks__status--{{ feedback.status.value }}
+                                        "
+                                    >
+                                        {{ feedback.status.label() }}
                                     </span>
                                 </td>
 
@@ -67,6 +156,17 @@
                                     <span class="admin-feedbacks__date">
                                         {{ feedback.createdAt|date('d/m/Y H:i') }}
                                     </span>
+                                </td>
+
+                                <td class="admin-feedbacks__actions">
+                                    <a
+                                        class="button button--secondary"
+                                        href="{{ path('admin_feedback_show', {
+                                            id: feedback.id
+                                        }) }}"
+                                    >
+                                        Voir
+                                    </a>
                                 </td>
                             </tr>
                         {% endfor %}

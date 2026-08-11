@@ -38,6 +38,9 @@ class Feedback
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
 
+    #[ORM\Column(length: 120)]
+    private string $subject;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -123,5 +126,17 @@ class Feedback
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    public function getSubject(): string
+    {
+        return $this->subject;
+    }
+
+    public function setSubject(string $subject): self
+    {
+        $this->subject = $subject;
+
+        return $this;
     }
 }

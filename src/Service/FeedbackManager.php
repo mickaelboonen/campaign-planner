@@ -5,6 +5,7 @@ namespace App\Service;
 use App\DTO\CreateFeedbackData;
 use App\Entity\Feedback;
 use App\Entity\User;
+use App\Enum\FeedbackStatus;
 use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class FeedbackManager
@@ -17,22 +18,54 @@ final readonly class FeedbackManager
     public function create(
         CreateFeedbackData $data,
         ?User $user = null,
-        ?string $pageUrl = null,
     ): Feedback {
         $feedback = new Feedback();
 
-        $feedback->setType($data->type);
-        $feedback->setMessage((string) $data->message);
-        $feedback->setPageUrl($pageUrl);
-        $feedback->setUser($user);
-
         $email = $user?->getEmail() ?? $data->email;
 
-        $feedback->setEmail($email);
+        $feedback
+            ->setType($data->type)
+            ->setSubject(trim((string) $data->subject))
+            ->setMessage(trim((string) $data->message))
+            ->setEmail($email)
+            ->setUser($user);
 
         $this->entityManager->persist($feedback);
         $this->entityManager->flush();
 
         return $feedback;
+    }
+
+    public function markAsRead(Feedback $feedback): void
+    {
+        if ($feedback->getStatus() !== FeedbackStatus::NEW) {
+            return;
+        }
+
+        $feedback->setStatus(FeedbackStatus::READ);
+
+        $this->entityManager->flush();
+    }
+
+    public function close(Feedback $feedback): void
+    {
+        if ($feedback->getStatus() === FeedbackStatus::CLOSED) {
+            return;
+        }
+
+        $feedback->setStatus(FeedbackStatus::CLOSED);
+
+        $this->entityManager->flush();
+    }
+
+    public function reopen(Feedback $feedback): void
+    {
+        if ($feedback->getStatus() !== FeedbackStatus::CLOSED) {
+            return;
+        }
+
+        $feedback->setStatus(FeedbackStatus::READ);
+
+        $this->entityManager->flush();
     }
 }
