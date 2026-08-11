@@ -299,6 +299,71 @@
         {% endif %}
     </section>
 
+{% if archivedParticipants is not empty %}
+    <details class="archived-participants">
+        <summary class="archived-participants__summary">
+            <span class="archived-participants__summary-label">
+                Participants archivés
+            </span>
+
+            <span class="archived-participants__count">
+                {{ archivedParticipants|length }}
+            </span>
+        </summary>
+
+        <div class="archived-participants__grid">
+            {% for participant in archivedParticipants %}
+                <article class="archived-participant-card">
+                    <div class="archived-participant-card__avatar">
+                        {{ participant.name|slice(0, 1)|upper }}
+                    </div>
+
+                    <div class="archived-participant-card__content">
+                        <div>
+                            <h3 class="archived-participant-card__name">
+                                {{ participant.name }}
+                            </h3>
+
+                            {% if participant.characterName %}
+                                <p class="archived-participant-card__character">
+                                    {{ participant.characterName }}
+                                </p>
+                            {% endif %}
+                        </div>
+
+                        <span class="archived-participant-card__email">
+                            {{ participant.email }}
+                        </span>
+                    </div>
+
+                    <form
+                        method="post"
+                        action="{{ path('participant_restore', {
+                            id: campaign.id,
+                            participant: participant.id
+                        }) }}"
+                    >
+                        <input
+                            type="hidden"
+                            name="_token"
+                            value="{{ csrf_token(
+                                'restore-participant-' ~ participant.id
+                            ) }}"
+                        >
+
+                        <button
+                            type="submit"
+                            class="button button--secondary"
+                        >
+                            Restaurer
+                        </button>
+                    </form>
+                </article>
+            {% endfor %}
+        </div>
+    </details>
+{% endif %}
+
     <section class="content-section">
         <div class="section-heading">
             <div>

@@ -79,6 +79,9 @@ final class CampaignController extends BaseController
         $participants = $this->participantRepository
             ->findActiveByCampaign($campaign);
 
+        $archivedParticipants = $this->participantRepository
+            ->findArchivedByCampaign($campaign);
+
         $upcomingSessions = $this->gameSessionRepository
             ->findUpcomingByCampaign($campaign);
 
@@ -90,6 +93,7 @@ final class CampaignController extends BaseController
             'participants' => $participants,
             'upcomingSessions' => $upcomingSessions,
             'pastSessions' => $pastSessions,
+            'archivedParticipants' => $archivedParticipants,
         ]);
     }
 

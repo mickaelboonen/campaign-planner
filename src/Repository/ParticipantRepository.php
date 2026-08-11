@@ -72,16 +72,12 @@ class ParticipantRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findOneActiveByEmail(
-        string $email,
-    ): ?Participant {
+    public function findOneActiveByEmail(string $email): ?Participant
+    {
         return $this->createQueryBuilder('participant')
             ->andWhere('LOWER(participant.email) = :email')
             ->andWhere('participant.archivedAt IS NULL')
-            ->setParameter(
-                'email',
-                mb_strtolower(trim($email)),
-            )
+            ->setParameter('email', mb_strtolower(trim($email)))
             ->orderBy('participant.createdAt', 'ASC')
             ->setMaxResults(1)
             ->getQuery()
@@ -98,6 +94,20 @@ class ParticipantRepository extends ServiceEntityRepository
             ->andWhere('campaign.archivedAt IS NULL')
             ->setParameter('dashboardToken',$dashboardToken,)
             ->orderBy('participant.createdAt','ASC',)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return list<Participant>
+     */
+    public function findArchivedByCampaign(Campaign $campaign): array
+    {
+        return $this->createQueryBuilder('participant')
+            ->andWhere('participant.campaign = :campaign')
+            ->andWhere('participant.archivedAt IS NOT NULL')
+            ->setParameter('campaign', $campaign)
+            ->orderBy('participant.name', 'ASC')
             ->getQuery()
             ->getResult();
     }

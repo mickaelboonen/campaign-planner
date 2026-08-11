@@ -47,18 +47,15 @@ final class ParticipantController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (
-                $this->participantRepository->existsByCampaignAndEmail(
-                    $campaign,
-                    (string) $data->email,
-                )
-            ) {
-                $form->get('email')->addError(
-                    new FormError(
-                        'Cette adresse email est déjà utilisée dans cette campagne.',
-                    )
-                );
-            } else {
+            $archivedParticipant = $this->participantRepository->findArchivedByCampaignAndEmail($campaign, (string) $data->email);
+
+            if ($archivedParticipant !== null) {
+                $form->get('email')->addError(new FormError('Ce participant existe déjà dans cette campagne mais est archivé. Vous pouvez le restaurer depuis la section « Participants archivés ».'));
+            }
+            elseif ($this->participantRepository->existsByCampaignAndEmail($campaign, (string) $data->email)) {
+                $form->get('email')->addError(new FormError('Cette adresse email est déjà utilisée dans cette campagne.'));
+            }
+            else {
                 $participant = $this->participantManager->create($campaign, $data);
 
                 $this->emailParticipantAccessNotifier->notifyInvitation($participant);
@@ -178,6 +175,46 @@ final class ParticipantController extends BaseController
         $this->addFlash(
             'success',
             'Le participant a bien été archivé.',
+        );
+
+        return $this->redirectToRoute('campaign_show', [
+            'id' => $campaign->getId(),
+        ]);
+    }
+
+    #[Route(
+        '/{participant}/restore',
+        name: 'restore',
+        methods: ['POST'],
+    )]
+    public function restore(
+        Request $request,
+        Campaign $campaign,
+        Participant $participant,
+    ): RedirectResponse {
+        $this->denyAccessUnlessGranted(
+            CampaignVoter::EDIT,
+            $campaign,
+        );
+
+        if ($participant->getCampaign() !== $campaign) {
+            throw $this->createNotFoundException();
+        }
+
+        if (!$this->isCsrfTokenValid(
+            'restore-participant-'.$participant->getId(),
+            (string) $request->request->get('_token'),
+        )) {
+            throw $this->createAccessDeniedException(
+                'Jeton CSRF invalide.',
+            );
+        }
+
+        $this->participantManager->restore($participant);
+
+        $this->addFlash(
+            'success',
+            'Le participant a bien été restauré.',
         );
 
         return $this->redirectToRoute('campaign_show', [
