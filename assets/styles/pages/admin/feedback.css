@@ -1,490 +1,571 @@
 /* ========================================
-   ADMIN FEEDBACKS
+   ADMIN FEEDBACKS — LIST
 ======================================== */
 
 .admin-feedbacks {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-}
+
+    /* ========================================
+       FILTERS
+    ======================================== */
+
+    .admin-feedbacks__filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .admin-feedbacks__filter {
+        padding: 0.5rem 0.8rem;
+
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-small);
+
+        color: var(--color-text-muted);
+        background: var(--color-surface);
+
+        font-size: 0.82rem;
+        font-weight: 600;
+        text-decoration: none;
+
+        transition:
+            color var(--transition-fast),
+            border-color var(--transition-fast),
+            background-color var(--transition-fast);
+
+        &:hover {
+            color: var(--color-gold-light);
+            border-color: var(--color-gold-dark);
+        }
+
+        &.is-active {
+            color: var(--color-gold-light);
+            border-color: var(--color-gold);
+            background: rgb(201 168 92 / 8%);
+        }
+    }
+
+    .admin-feedbacks__filter-count {
+        margin-left: 0.35rem;
+        padding: 0.1rem 0.4rem;
+
+        border-radius: 999px;
+
+        color: var(--color-gold-light);
+        background: rgb(201 168 92 / 10%);
+
+        font-size: 0.72rem;
+    }
 
 
-/* ========================================
-   TABLE
-======================================== */
+    /* ========================================
+       TABLE
+    ======================================== */
 
-.admin-feedbacks__table-wrapper {
-    overflow-x: auto;
-
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-medium);
-
-    background: var(--color-surface);
-}
-
-.admin-feedbacks__table {
-    width: 100%;
-
-    border-collapse: collapse;
-}
-
-.admin-feedbacks__table th,
-.admin-feedbacks__table td {
-    padding: 1rem 1.25rem;
-
-    border-bottom: 1px solid var(--color-border);
-
-    text-align: left;
-    vertical-align: top;
-}
-
-.admin-feedbacks__table th {
-    color: var(--color-gold);
-
-    font-family: var(--font-heading);
-    font-size: 0.75rem;
-    font-weight: 600;
-
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-
-    background: rgb(0 0 0 / 12%);
-}
-
-.admin-feedbacks__table tbody tr:last-child td {
-    border-bottom: 0;
-}
-
-.admin-feedbacks__table tbody tr {
-    transition: background-color var(--transition-fast);
-}
-
-.admin-feedbacks__table tbody tr:hover {
-    background: rgb(201 168 92 / 4%);
-}
-
-
-/* ========================================
-   TYPE
-======================================== */
-
-.admin-feedbacks__type {
-    display: inline-flex;
-    align-items: center;
-
-    padding: 0.3rem 0.55rem;
-
-    border: 1px solid rgb(201 168 92 / 30%);
-    border-radius: var(--radius-small);
-
-    color: var(--color-gold-light);
-    background: rgb(201 168 92 / 8%);
-
-    font-size: 0.75rem;
-    font-weight: 600;
-
-    white-space: nowrap;
-}
-
-
-/* ========================================
-   AUTHOR
-======================================== */
-
-.admin-feedbacks__author {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-
-    min-width: 12rem;
-}
-
-.admin-feedbacks__email {
-    color: var(--color-text);
-
-    font-weight: 500;
-}
-
-.admin-feedbacks__account {
-    color: var(--color-text-muted);
-
-    font-size: 0.8rem;
-}
-
-
-/* ========================================
-   MESSAGE
-======================================== */
-
-.admin-feedbacks__message {
-    max-width: 38rem;
-
-    color: var(--color-text);
-
-    line-height: 1.55;
-
-    overflow-wrap: anywhere;
-    white-space: pre-line;
-}
-
-
-/* ========================================
-   DATE
-======================================== */
-
-.admin-feedbacks__date {
-    color: var(--color-text-muted);
-
-    font-size: 0.85rem;
-
-    white-space: nowrap;
-}
-
-
-/* ========================================
-   EMPTY STATE
-======================================== */
-
-.admin-feedbacks__empty {
-    padding: 3rem 2rem;
-
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-medium);
-
-    color: var(--color-text-muted);
-    background: var(--color-surface);
-
-    text-align: center;
-}
-
-
-/* ========================================
-   MOBILE
-======================================== */
-
-@media (max-width: 800px) {
     .admin-feedbacks__table-wrapper {
-        border-right: 0;
-        border-left: 0;
-        border-radius: 0;
+        overflow-x: auto;
+
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-medium);
+
+        background: var(--color-surface);
     }
 
-    .admin-feedbacks__table th,
-    .admin-feedbacks__table td {
-        padding: 0.85rem 1rem;
+    .admin-feedbacks__table {
+        width: 100%;
+
+        border-collapse: collapse;
+
+        th,
+        td {
+            padding: 1rem 1.25rem;
+
+            border-bottom: 1px solid var(--color-border);
+
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            color: var(--color-gold);
+            background: rgb(0 0 0 / 12%);
+
+            font-family: var(--font-heading);
+            font-size: 0.75rem;
+            font-weight: 600;
+
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        tbody {
+            tr {
+                transition: background-color var(--transition-fast);
+
+                &:hover {
+                    background: rgb(201 168 92 / 4%);
+                }
+
+                &:last-child td {
+                    border-bottom: 0;
+                }
+            }
+        }
     }
 
-    .admin-feedbacks__message {
-        min-width: 16rem;
+
+    /* ========================================
+       ROW STATE
+    ======================================== */
+
+    .admin-feedbacks__row--new {
+        background: rgb(201 168 92 / 4%);
+
+        .admin-feedbacks__email {
+            font-weight: 700;
+        }
+    }
+
+
+    /* ========================================
+       TYPE
+    ======================================== */
+
+    .admin-feedbacks__type {
+        display: inline-flex;
+        align-items: center;
+
+        padding: 0.3rem 0.55rem;
+
+        border: 1px solid rgb(201 168 92 / 30%);
+        border-radius: var(--radius-small);
+
+        color: var(--color-gold-light);
+        background: rgb(201 168 92 / 8%);
+
+        font-size: 0.75rem;
+        font-weight: 600;
+
+        white-space: nowrap;
+    }
+
+
+    /* ========================================
+       STATUS
+    ======================================== */
+
+    .admin-feedbacks__status {
+        display: inline-flex;
+        align-items: center;
+
+        padding: 0.25rem 0.5rem;
+
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-small);
+
+        font-size: 0.75rem;
+        font-weight: 600;
+
+        white-space: nowrap;
+
+        &.admin-feedbacks__status--new {
+            color: var(--color-gold-light);
+            border-color: rgb(201 168 92 / 35%);
+            background: rgb(201 168 92 / 8%);
+        }
+
+        &.admin-feedbacks__status--read {
+            color: var(--color-text);
+            background: var(--color-surface-hover);
+        }
+
+        &.admin-feedbacks__status--closed {
+            color: var(--color-text-muted);
+            opacity: 0.75;
+        }
+    }
+
+
+    /* ========================================
+       AUTHOR
+    ======================================== */
+
+    .admin-feedbacks__author {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        min-width: 12rem;
+    }
+
+    .admin-feedbacks__email {
+        color: var(--color-text);
+
+        font-weight: 500;
+    }
+
+    .admin-feedbacks__account {
+        color: var(--color-text-muted);
+
+        font-size: 0.8rem;
+    }
+
+
+    /* ========================================
+       SUBJECT
+    ======================================== */
+
+    .admin-feedbacks__subject {
+        max-width: 28rem;
+
+        color: var(--color-text);
+
+        font-weight: 500;
+
+        overflow-wrap: anywhere;
+    }
+
+
+    /* ========================================
+       DATE
+    ======================================== */
+
+    .admin-feedbacks__date {
+        color: var(--color-text-muted);
+
+        font-size: 0.85rem;
+
+        white-space: nowrap;
+    }
+
+
+    /* ========================================
+       ACTIONS
+    ======================================== */
+
+    .admin-feedbacks__actions {
+        width: 1%;
+
+        text-align: right;
+        white-space: nowrap;
+    }
+
+
+    /* ========================================
+       EMPTY STATE
+    ======================================== */
+
+    .admin-feedbacks__empty {
+        padding: 3rem 2rem;
+
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-medium);
+
+        color: var(--color-text-muted);
+        background: var(--color-surface);
+
+        text-align: center;
+    }
+
+
+    /* ========================================
+       PAGINATION
+    ======================================== */
+
+    .admin-feedbacks__pagination {
+        display: flex;
+        justify-content: center;
+
+        margin-top: 1.5rem;
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+
+            a,
+            .current {
+                display: grid;
+                min-width: 2.2rem;
+                height: 2.2rem;
+                place-items: center;
+
+                padding: 0 0.55rem;
+
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-small);
+
+                color: var(--color-text-muted);
+                background: var(--color-surface);
+
+                font-size: 0.82rem;
+                font-weight: 600;
+                text-decoration: none;
+
+                transition:
+                    color var(--transition-fast),
+                    border-color var(--transition-fast),
+                    background-color var(--transition-fast);
+            }
+
+            a:hover {
+                color: var(--color-gold-light);
+                border-color: var(--color-gold-dark);
+                background: var(--color-surface-hover);
+            }
+
+            .current {
+                color: var(--color-gold-light);
+                border-color: var(--color-gold);
+                background: rgb(201 168 92 / 8%);
+            }
+        }
+    }
+
+
+    /* ========================================
+       RESPONSIVE
+    ======================================== */
+
+    @media (max-width: 800px) {
+        .admin-feedbacks__table-wrapper {
+            border-right: 0;
+            border-left: 0;
+            border-radius: 0;
+        }
+
+        .admin-feedbacks__table {
+            th,
+            td {
+                padding: 0.85rem 1rem;
+            }
+        }
+
+        .admin-feedbacks__subject {
+            min-width: 16rem;
+        }
     }
 }
 
 
 /* ========================================
-   FEEDBACK DETAIL
+   ADMIN FEEDBACK — DETAIL
 ======================================== */
 
 .admin-feedback-detail {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-}
 
 
-/* ========================================
-   META
-======================================== */
+    /* ========================================
+       META
+    ======================================== */
 
-.admin-feedback-detail__meta {
-    display: grid;
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
-    gap: 1rem;
-}
-
-.admin-feedback-detail__meta-item {
-    padding: 1rem 1.25rem;
-
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-medium);
-
-    background: var(--color-surface);
-}
-
-.admin-feedback-detail__meta-label {
-    display: block;
-
-    margin-bottom: 0.4rem;
-
-    color: var(--color-text-muted);
-
-    font-size: 0.75rem;
-    font-weight: 600;
-
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-}
-
-.admin-feedback-detail__meta-item strong {
-    color: var(--color-text);
-
-    font-size: 0.95rem;
-}
-
-
-/* ========================================
-   TYPE
-======================================== */
-
-.admin-feedback-detail__type {
-    color: var(--color-gold-light) !important;
-}
-
-
-/* ========================================
-   STATUS
-======================================== */
-
-.admin-feedback-detail__status {
-    display: inline-flex;
-    align-items: center;
-
-    padding: 0.25rem 0.5rem;
-
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-small);
-
-    font-size: 0.8rem !important;
-}
-
-.admin-feedback-detail__status--new {
-    color: var(--color-gold-light) !important;
-
-    border-color: rgb(201 168 92 / 35%);
-
-    background: rgb(201 168 92 / 8%);
-}
-
-.admin-feedback-detail__status--read {
-    color: var(--color-text) !important;
-
-    background: var(--color-surface-hover);
-}
-
-.admin-feedback-detail__status--closed {
-    color: var(--color-text-muted) !important;
-
-    opacity: 0.8;
-}
-
-
-/* ========================================
-   CARD
-======================================== */
-
-.admin-feedback-detail__card {
-    overflow: hidden;
-
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-medium);
-
-    background: var(--color-surface);
-}
-
-.admin-feedback-detail__section {
-    padding: 1.5rem;
-}
-
-.admin-feedback-detail__section
-+ .admin-feedback-detail__section {
-    border-top: 1px solid var(--color-border);
-}
-
-.admin-feedback-detail__section h2 {
-    margin: 0 0 1rem;
-
-    color: var(--color-gold);
-
-    font-family: var(--font-heading);
-    font-size: 0.9rem;
-    font-weight: 600;
-
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
-
-/* ========================================
-   SENDER
-======================================== */
-
-.admin-feedback-detail__sender {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-
-    color: var(--color-text);
-}
-
-.admin-feedback-detail__muted {
-    color: var(--color-text-muted);
-
-    font-size: 0.85rem;
-}
-
-
-/* ========================================
-   MESSAGE
-======================================== */
-
-.admin-feedback-detail__message {
-    color: var(--color-text);
-
-    font-size: 1rem;
-    line-height: 1.7;
-
-    overflow-wrap: anywhere;
-
-    white-space: pre-line;
-}
-
-
-/* ========================================
-   ACTIONS
-======================================== */
-
-.admin-feedback-detail__actions {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 0.75rem;
-
-    flex-wrap: wrap;
-}
-
-.admin-feedback-detail__actions form {
-    margin: 0;
-}
-
-
-/* ========================================
-   RESPONSIVE
-======================================== */
-
-@media (max-width: 800px) {
     .admin-feedback-detail__meta {
-        grid-template-columns: 1fr;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+    }
+
+    .admin-feedback-detail__meta-item {
+        padding: 1rem 1.25rem;
+
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-medium);
+
+        background: var(--color-surface);
+
+        strong {
+            color: var(--color-text);
+
+            font-size: 0.95rem;
+        }
+    }
+
+    .admin-feedback-detail__meta-label {
+        display: block;
+
+        margin-bottom: 0.4rem;
+
+        color: var(--color-text-muted);
+
+        font-size: 0.75rem;
+        font-weight: 600;
+
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+    }
+
+
+    /* ========================================
+       TYPE
+    ======================================== */
+
+    .admin-feedback-detail__type {
+        color: var(--color-gold-light) !important;
+    }
+
+
+    /* ========================================
+       STATUS
+    ======================================== */
+
+    .admin-feedback-detail__status {
+        display: inline-flex;
+        align-items: center;
+
+        padding: 0.25rem 0.5rem;
+
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-small);
+
+        font-size: 0.8rem !important;
+
+        &.admin-feedback-detail__status--new {
+            color: var(--color-gold-light) !important;
+            border-color: rgb(201 168 92 / 35%);
+            background: rgb(201 168 92 / 8%);
+        }
+
+        &.admin-feedback-detail__status--read {
+            color: var(--color-text) !important;
+            background: var(--color-surface-hover);
+        }
+
+        &.admin-feedback-detail__status--closed {
+            color: var(--color-text-muted) !important;
+            opacity: 0.8;
+        }
+    }
+
+
+    /* ========================================
+       CARD
+    ======================================== */
+
+    .admin-feedback-detail__card {
+        overflow: hidden;
+
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-medium);
+
+        background: var(--color-surface);
     }
 
     .admin-feedback-detail__section {
-        padding: 1.25rem;
+        padding: 1.5rem;
+
+        & + .admin-feedback-detail__section {
+            border-top: 1px solid var(--color-border);
+        }
+
+        h2 {
+            margin: 0 0 1rem;
+
+            color: var(--color-gold);
+
+            font-family: var(--font-heading);
+            font-size: 0.9rem;
+            font-weight: 600;
+
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
     }
+
+
+    /* ========================================
+       SENDER
+    ======================================== */
+
+    .admin-feedback-detail__sender {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+
+        color: var(--color-text);
+    }
+
+    .admin-feedback-detail__muted {
+        color: var(--color-text-muted);
+
+        font-size: 0.85rem;
+    }
+
+
+    /* ========================================
+       SUBJECT
+    ======================================== */
+
+    .admin-feedback-detail__subject {
+        color: var(--color-text);
+
+        font-size: 1.05rem;
+        font-weight: 600;
+        line-height: 1.5;
+    }
+
+
+    /* ========================================
+       MESSAGE
+    ======================================== */
+
+    .admin-feedback-detail__message {
+        color: var(--color-text);
+
+        font-size: 1rem;
+        line-height: 1.7;
+
+        overflow-wrap: anywhere;
+        white-space: pre-line;
+    }
+
+
+    /* ========================================
+       ACTIONS
+    ======================================== */
 
     .admin-feedback-detail__actions {
-        align-items: stretch;
-        flex-direction: column;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+
+        form {
+            margin: 0;
+        }
     }
 
-    .admin-feedback-detail__actions form,
-    .admin-feedback-detail__actions .button {
-        width: 100%;
+
+    /* ========================================
+       RESPONSIVE
+    ======================================== */
+
+    @media (max-width: 800px) {
+        .admin-feedback-detail__meta {
+            grid-template-columns: 1fr;
+        }
+
+        .admin-feedback-detail__section {
+            padding: 1.25rem;
+        }
+
+        .admin-feedback-detail__actions {
+            align-items: stretch;
+            flex-direction: column;
+
+            form,
+            .button {
+                width: 100%;
+            }
+
+            form .button {
+                width: 100%;
+            }
+        }
     }
-
-    .admin-feedback-detail__actions form .button {
-        width: 100%;
-    }
-}
-
-/* ========================================
-   LIST STATUS
-======================================== */
-
-.admin-feedbacks__row--new {
-    background: rgb(201 168 92 / 4%);
-}
-
-.admin-feedbacks__row--new
-.admin-feedbacks__email {
-    font-weight: 700;
-}
-
-.admin-feedbacks__status {
-    display: inline-flex;
-    align-items: center;
-
-    padding: 0.25rem 0.5rem;
-
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-small);
-
-    font-size: 0.75rem;
-    font-weight: 600;
-
-    white-space: nowrap;
-}
-
-.admin-feedbacks__status--new {
-    color: var(--color-gold-light);
-
-    border-color: rgb(201 168 92 / 35%);
-
-    background: rgb(201 168 92 / 8%);
-}
-
-.admin-feedbacks__status--read {
-    color: var(--color-text);
-
-    background: var(--color-surface-hover);
-}
-
-.admin-feedbacks__status--closed {
-    color: var(--color-text-muted);
-
-    opacity: 0.75;
-}
-
-.admin-feedbacks__actions {
-    width: 1%;
-
-    text-align: right;
-    white-space: nowrap;
-}
-
-.admin-feedbacks__filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.admin-feedbacks__filter {
-    padding: 0.5rem 0.8rem;
-
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-small);
-
-    color: var(--color-text-muted);
-    background: var(--color-surface);
-
-    font-size: 0.82rem;
-    font-weight: 600;
-
-    text-decoration: none;
-
-    transition:
-        color var(--transition-fast),
-        border-color var(--transition-fast),
-        background-color var(--transition-fast);
-}
-
-.admin-feedbacks__filter:hover {
-    color: var(--color-gold-light);
-    border-color: var(--color-gold-dark);
-}
-
-.admin-feedbacks__filter.is-active {
-    color: var(--color-gold-light);
-    border-color: var(--color-gold);
-
-    background: rgb(201 168 92 / 8%);
 }

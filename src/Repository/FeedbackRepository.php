@@ -6,6 +6,7 @@ use App\Entity\Feedback;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Enum\FeedbackStatus;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * @extends ServiceEntityRepository<Feedback>
@@ -17,12 +18,8 @@ final class FeedbackRepository extends ServiceEntityRepository
         parent::__construct($registry, Feedback::class);
     }
 
-    /**
-     * @return list<Feedback>
-     */
-    public function findForAdmin(
-        string $status = 'open',
-    ): array {
+    public function createAdminQuery(string $status = 'open'): QueryBuilder
+    {
         $qb = $this->createQueryBuilder('feedback')
             ->leftJoin('feedback.user', 'user')
             ->addSelect('user')
@@ -45,8 +42,30 @@ final class FeedbackRepository extends ServiceEntityRepository
                 ->setParameter('closed', FeedbackStatus::CLOSED),
         };
 
-        return $qb
+        return $qb;
+    }
+
+    public function countByStatus(): array
+    {
+        $rows = $this->createQueryBuilder('feedback')
+            ->select('feedback.status AS status, COUNT(feedback.id) AS total')
+            ->groupBy('feedback.status')
             ->getQuery()
-            ->getResult();
+            ->getArrayResult();
+
+        $counts = [
+            'new' => 0,
+            'read' => 0,
+            'closed' => 0,
+        ];
+
+        foreach ($rows as $row) {
+            $counts[$row['status']->value] = (int) $row['total'];
+        }
+
+        $counts['open'] = $counts['new'] + $counts['read'];
+        $counts['all'] = $counts['open'] + $counts['closed'];
+
+        return $counts;
     }
 }

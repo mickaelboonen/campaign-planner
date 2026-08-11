@@ -68,20 +68,6 @@
                 {{ feedback.user.userIdentifier }}
             </p>
         {% endif %}
-
-        {% if feedback.pageUrl %}
-            <p
-                style="
-                    margin: 0;
-                    color: #a7a8ad;
-                    font-size: 14px;
-                    line-height: 1.6;
-                "
-            >
-                Page :
-                {{ feedback.pageUrl }}
-            </p>
-        {% endif %}
     </div>
 
     <div
@@ -92,6 +78,17 @@
             background: #191b21;
         "
     >
+        <div
+            style="
+                margin-bottom: 18px;
+                color: #ffffff;
+                font-size: 18px;
+                font-weight: 700;
+                line-height: 1.5;
+            "
+        >
+            {{ feedback.subject }}
+        </div>
         <div
             style="
                 margin-bottom: 12px;

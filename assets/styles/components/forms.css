@@ -105,3 +105,14 @@ input[type="color"].form-control {
         width: 100%;
     }
 }
+
+.form-label.required::after {
+    margin-left: 0.25rem;
+    color: var(--color-danger);
+    content: '*';
+}
+.form-label.required::after {
+    margin-left: 0.25rem;
+    color: var(--color-danger);
+    content: '*';
+}

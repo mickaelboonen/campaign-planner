@@ -23,9 +23,15 @@ final readonly class FeedbackManager
 
         $email = $user?->getEmail() ?? $data->email;
 
+        $subject = trim((string) $data->subject);
+
+        if ($subject === '') {
+            $subject = $data->type->defaultSubject();
+        }
+
         $feedback
             ->setType($data->type)
-            ->setSubject(trim((string) $data->subject))
+            ->setSubject($subject)
             ->setMessage(trim((string) $data->message))
             ->setEmail($email)
             ->setUser($user);

@@ -31,9 +31,6 @@ final class FeedbackController extends AbstractController
     ): Response {
         $data = new CreateFeedbackData();
 
-        $data->type = FeedbackTypeEnum::OTHER;
-        $data->subject = $data->type->defaultSubject();
-
         $user = $this->getUser();
 
         if ($user instanceof User) {

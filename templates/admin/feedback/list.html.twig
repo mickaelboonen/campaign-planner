@@ -8,80 +8,26 @@
     <div class="admin-feedbacks">
         <div class="page-header">
             <div>
-                <p class="page-eyebrow">
-                    Administration
-                </p>
-
-                <h1>
-                    Feedbacks
-                </h1>
+                <p class="page-eyebrow">Administration</p>
+                <h1>Feedbacks</h1>
             </div>
         </div>
+        <nav class="admin-feedbacks__filters">
+            {% set filters = {
+                open: 'À traiter',
+                new: 'Nouveaux',
+                read: 'Lus',
+                closed: 'Clôturés',
+                all: 'Tous'
+            } %}
 
-        <nav
-    class="admin-feedbacks__filters"
-    aria-label="Filtrer les feedbacks"
->
-    <a
-        class="
-            admin-feedbacks__filter
-            {{ currentStatus == 'open' ? 'is-active' }}
-        "
-        href="{{ path('admin_feedback_index', {
-            status: 'open'
-        }) }}"
-    >
-        À traiter
-    </a>
-
-    <a
-        class="
-            admin-feedbacks__filter
-            {{ currentStatus == 'new' ? 'is-active' }}
-        "
-        href="{{ path('admin_feedback_index', {
-            status: 'new'
-        }) }}"
-    >
-        Nouveaux
-    </a>
-
-    <a
-        class="
-            admin-feedbacks__filter
-            {{ currentStatus == 'read' ? 'is-active' }}
-        "
-        href="{{ path('admin_feedback_index', {
-            status: 'read'
-        }) }}"
-    >
-        Lus
-    </a>
-
-    <a
-        class="
-            admin-feedbacks__filter
-            {{ currentStatus == 'closed' ? 'is-active' }}
-        "
-        href="{{ path('admin_feedback_index', {
-            status: 'closed'
-        }) }}"
-    >
-        Clôturés
-    </a>
-
-    <a
-        class="
-            admin-feedbacks__filter
-            {{ currentStatus == 'all' ? 'is-active' }}
-        "
-        href="{{ path('admin_feedback_index', {
-            status: 'all'
-        }) }}"
-    >
-        Tous
-    </a>
-</nav>
+            {% for value, label in filters %}
+                <a class="admin-feedbacks__filter {{ currentStatus == value ? 'is-active' }}" href="{{ path('admin_feedback_index', { status: value }) }}" >
+                    {{ label }}
+                    <span class="admin-feedbacks__filter-count">{{ counts[value] }}</span>
+                </a>
+            {% endfor %}
+        </nav>
 
         {% if feedbacks is empty %}
             <div class="admin-feedbacks__empty">
@@ -95,76 +41,40 @@
                             <th>Type</th>
                             <th>Statut</th>
                             <th>Utilisateur</th>
-                            <th>Message</th>
+                            <th>Sujet</th>
                             <th>Date</th>
-                            <th>
-                                <span class="sr-only">
-                                    Actions
-                                </span>
-                            </th>
+                            <th><span class="sr-only">Actions</span></th>
                         </tr>
                     </thead>
-
                     <tbody>
                         {% for feedback in feedbacks %}
-                            <tr
-                                class="
-                                    admin-feedbacks__row
-                                    {% if feedback.status.value == 'new' %}
-                                        admin-feedbacks__row--new
-                                    {% endif %}
-                                "
-                            >
+                            <tr class="admin-feedbacks__row {% if feedback.status.value == 'new' %} admin-feedbacks__row--new {% endif %} ">
                                 <td>
-                                    <span class="admin-feedbacks__type">
-                                        {{ feedback.type.label() }}
-                                    </span>
+                                    <span class="admin-feedbacks__type">{{ feedback.type.label() }}</span>
                                 </td>
-
                                 <td>
-                                    <span
-                                        class="
-                                            admin-feedbacks__status
-                                            admin-feedbacks__status--{{ feedback.status.value }}
-                                        "
-                                    >
+                                    <span class="admin-feedbacks__status admin-feedbacks__status--{{ feedback.status.value }}">
                                         {{ feedback.status.label() }}
                                     </span>
                                 </td>
-
                                 <td>
                                     <div class="admin-feedbacks__author">
-                                        <span class="admin-feedbacks__email">
-                                            {{ feedback.email ?? 'Anonyme' }}
-                                        </span>
+                                        <span class="admin-feedbacks__email">{{ feedback.email ?? 'Anonyme' }}</span>
 
                                         {% if feedback.user %}
-                                            <span class="admin-feedbacks__account">
-                                                Compte #{{ feedback.user.id }}
-                                            </span>
+                                            <span class="admin-feedbacks__account">Compte #{{ feedback.user.id }}</span>
                                         {% endif %}
                                     </div>
                                 </td>
-
                                 <td>
-                                    <div class="admin-feedbacks__message">
-                                        {{ feedback.message }}
-                                    </div>
+                                    <div class="admin-feedbacks__subject">{{ feedback.subject }}</div>
                                 </td>
-
                                 <td>
-                                    <span class="admin-feedbacks__date">
-                                        {{ feedback.createdAt|date('d/m/Y H:i') }}
-                                    </span>
+                                    <span class="admin-feedbacks__date">{{ feedback.createdAt|date('d/m/Y H:i') }}</span>
                                 </td>
 
                                 <td class="admin-feedbacks__actions">
-                                    <a
-                                        class="button button--secondary"
-                                        href="{{ path('admin_feedback_show', {
-                                            id: feedback.id
-                                        }) }}"
-                                    >
+                                    <a class="button button--secondary" href="{{ path('admin_feedback_show', { id: feedback.id }) }}" >
                                         Voir
                                     </a>
                                 </td>
@@ -172,6 +82,9 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {% if feedbacks.pageCount > 1 %}
+                    <div class="admin-feedbacks__pagination">{{ knp_pagination_render(feedbacks) }}</div>
+                {% endif %}
             </div>
         {% endif %}
     </div>

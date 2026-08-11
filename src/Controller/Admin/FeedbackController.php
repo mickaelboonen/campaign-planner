@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Knp\Component\Pager\PaginatorInterface;
 
 #[Route('/admin/feedbacks', name: 'admin_feedback_')]
 #[IsGranted('ROLE_ADMIN')]
@@ -19,38 +20,30 @@ final class FeedbackController extends AbstractController
     public function __construct(
         private readonly FeedbackRepository $feedbackRepository,
         private readonly FeedbackManager $feedbackManager,
+        private readonly PaginatorInterface $paginator,
     ) {
     }
 
     #[Route('', name: 'index', methods: ['GET'])]
-    public function index(
-        Request $request,
-    ): Response {
-        $status = (string) $request->query->get(
-            'status',
-            'open',
-        );
+    public function index(Request $request): Response
+    {
+        $status = (string) $request->query->get('status', 'open');
 
-        $allowedStatuses = [
-            'open',
-            'new',
-            'read',
-            'closed',
-            'all',
-        ];
-
-        if (!in_array($status, $allowedStatuses, true)) {
+        if (!in_array($status, ['open', 'new', 'read', 'closed', 'all'], true)) {
             $status = 'open';
         }
 
-        return $this->render(
-            'admin/feedback/list.html.twig',
-            [
-                'feedbacks' => $this->feedbackRepository
-                    ->findForAdmin($status),
-                'currentStatus' => $status,
-            ],
+        $feedbacks = $this->paginator->paginate(
+            $this->feedbackRepository->createAdminQuery($status),
+            max(1, $request->query->getInt('page', 1)),
+            20,
         );
+
+        return $this->render('admin/feedback/list.html.twig', [
+            'feedbacks' => $feedbacks,
+            'currentStatus' => $status,
+            'counts' => $this->feedbackRepository->countByStatus(),
+        ]);
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'])]

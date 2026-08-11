@@ -22,9 +22,6 @@ class Feedback
     #[ORM\Column(type: Types::TEXT)]
     private string $message;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $pageUrl = null;
-
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private ?User $user = null;
@@ -71,18 +68,6 @@ class Feedback
     public function setMessage(string $message): self
     {
         $this->message = $message;
-
-        return $this;
-    }
-
-    public function getPageUrl(): ?string
-    {
-        return $this->pageUrl;
-    }
-
-    public function setPageUrl(?string $pageUrl): self
-    {
-        $this->pageUrl = $pageUrl;
 
         return $this;
     }

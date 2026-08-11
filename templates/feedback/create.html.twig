@@ -50,6 +50,12 @@
         </div>
 
         <div class="form-row">
+            {{ form_label(form.subject, null, { label_attr: { class: 'form-label' } }) }}
+            {{ form_widget(form.subject, { attr: { class: 'form-control' } }) }}
+            {{ form_errors(form.subject) }}
+        </div>
+
+        <div class="form-row">
             {{ form_label(
                 form.email,
                 null,

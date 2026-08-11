@@ -21,6 +21,7 @@ final class FeedbackType extends AbstractType
         $builder
             ->add('type', ChoiceType::class, [
                 'label' => 'Type de demande',
+                'placeholder' => 'Choisissez un type',
                 'choices' => FeedbackTypeEnum::cases(),
                 'choice_label' => static fn (FeedbackTypeEnum $type) => $type->label(),
                 'choice_value' => static fn (?FeedbackTypeEnum $type) => $type?->value,
@@ -38,9 +39,8 @@ final class FeedbackType extends AbstractType
             ])
             ->add('subject', TextType::class, [
                 'label' => 'Sujet',
-                'attr' => [
-                    'maxlength' => 120,
-                ],
+                'required' => false,
+                'attr' => ['maxlength' => 120, 'placeholder' => 'Facultatif'],
             ]);
     }
 
