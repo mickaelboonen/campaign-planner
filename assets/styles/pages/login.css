@@ -1,6 +1,6 @@
 /* ========================================
-   LOGIN LAYOUT
-   ======================================== */
+   AUTH / LOGIN LAYOUT
+======================================== */
 
 .login-body {
     height: 100vh;
@@ -22,7 +22,7 @@
 
 /* ========================================
    LOGIN PAGE
-   ======================================== */
+======================================== */
 
 .login-page {
     position: relative;
@@ -48,7 +48,7 @@
             rgb(4 7 10 / 12%) 60%,
             transparent 75%
         ),
-        url('/images/login.png')
+        url('../../images/login.png')
         center / cover no-repeat;
 
     box-shadow:
@@ -58,13 +58,14 @@
 
     /* ========================================
        CONTENT
-       ======================================== */
+    ======================================== */
 
     .login-page__content {
         position: relative;
         z-index: 1;
 
         display: flex;
+        min-height: 0;
         flex-direction: column;
         justify-content: center;
 
@@ -80,7 +81,11 @@
 
     /* ========================================
        BRAND
-       ======================================== */
+    ======================================== */
+
+    .login-page__brand {
+        flex: none;
+    }
 
     .app-brand {
         .app-brand__logo {
@@ -94,6 +99,7 @@
 
         .app-brand__tagline {
             margin-top: 0.2rem;
+
             font-size: 0.65rem;
         }
     }
@@ -101,10 +107,11 @@
 
     /* ========================================
        SEPARATOR
-       ======================================== */
+    ======================================== */
 
     .login-page__separator {
         display: flex;
+        flex: none;
         align-items: center;
         gap: 0.75rem;
 
@@ -140,8 +147,8 @@
 
 
     /* ========================================
-       LOGIN CONTENT
-       ======================================== */
+       CONTENT / TITLES
+    ======================================== */
 
     .login-page__form-container {
         h1 {
@@ -176,7 +183,7 @@
 
     /* ========================================
        ERROR
-       ======================================== */
+    ======================================== */
 
     .login-page__error {
         margin-bottom: 1rem;
@@ -192,7 +199,7 @@
 
     /* ========================================
        FORM
-       ======================================== */
+    ======================================== */
 
     .login-form {
         display: flex;
@@ -211,7 +218,9 @@
                 font-weight: 500;
             }
 
-            input {
+            input,
+            select,
+            textarea {
                 width: 100%;
 
                 padding: 0.85rem 0.95rem;
@@ -245,6 +254,34 @@
                     box-shadow:
                         0 0 0 2px rgb(201 168 92 / 12%);
                 }
+
+                &:disabled {
+                    color: var(--color-text-muted);
+                    background: rgb(4 7 10 / 48%);
+
+                    cursor: not-allowed;
+                    opacity: 0.75;
+                }
+            }
+
+            select {
+                cursor: pointer;
+            }
+
+            textarea {
+                line-height: 1.5;
+                resize: vertical;
+            }
+
+            ul {
+                margin: 0.25rem 0 0;
+                padding: 0;
+
+                color: #efc0bc;
+
+                font-size: 0.8rem;
+
+                list-style: none;
             }
         }
     }
@@ -252,7 +289,7 @@
 
     /* ========================================
        SUBMIT
-       ======================================== */
+    ======================================== */
 
     .login-form__submit {
         width: 100%;
@@ -302,69 +339,13 @@
 
 
 /* ========================================
-   RESPONSIVE
-   ======================================== */
-
-@media (max-width: 800px) {
-    .login-layout {
-        height: calc(100vh - 6rem);
-
-        padding: 0;
-    }
-
-    .login-page {
-        width: 100vw;
-        height: 100%;
-
-        aspect-ratio: auto;
-
-        border-right: 0;
-        border-left: 0;
-        border-radius: 0;
-
-        background:
-            linear-gradient(
-                rgb(4 7 10 / 68%),
-                rgb(4 7 10 / 80%)
-            ),
-            url('/images/login.png')
-            68% center / cover no-repeat;
-
-        .login-page__content {
-            justify-content: center;
-
-            width: min(100%, 32rem);
-            height: 100%;
-
-            margin: 0 auto;
-            padding: 1.5rem;
-        }
-
-        .login-page__separator {
-            margin: 1.25rem 0;
-        }
-
-        .login-page__form-container {
-            h1 {
-                font-size: clamp(
-                    1.6rem,
-                    7vw,
-                    2.2rem
-                );
-            }
-        }
-
-        .login-page__intro {
-            font-size: 0.9rem;
-        }
-    }
-}
+   AUTH TABS
+======================================== */
 
 .auth-tabs {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0;
 
     width: 100%;
     margin-bottom: 1.5rem;
@@ -438,8 +419,15 @@
         }
     }
 }
+
+
+/* ========================================
+   PLAYER RECOVERY
+======================================== */
+
 .player-recovery__heading {
     margin-bottom: 1.5rem;
+
     text-align: center;
 
     h1 {
@@ -450,6 +438,7 @@
         font-family: var(--font-heading);
         font-size: 1.35rem;
         font-weight: 600;
+
         letter-spacing: 0.06em;
         text-transform: uppercase;
     }
@@ -474,34 +463,147 @@
         font-size: 0.9rem;
         text-decoration: none;
 
-        transition: color var(--transition-fast);
+        transition:
+            color var(--transition-fast);
 
         &:hover {
             color: var(--color-gold-light);
         }
     }
 }
+
+
+/* ========================================
+   FEEDBACK
+======================================== */
+
+.login-page--feedback {
+    background:
+        linear-gradient(
+            90deg,
+            rgb(4 7 10 / 72%) 0%,
+            rgb(4 7 10 / 50%) 32%,
+            rgb(4 7 10 / 12%) 60%,
+            transparent 75%
+        ),
+        url('../../images/feedback.png')
+        center / cover no-repeat;
+
+    .login-page__content {
+        min-height: 0;
+    }
+}
+
+
+/* ========================================
+   FEEDBACK SCROLL AREA
+======================================== */
+
+.feedback-form-container {
+    min-height: 0;
+    flex: 1;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    padding-right: 0.55rem;
+    padding-bottom: 0.5rem;
+
+    scrollbar-color:
+        var(--color-gold-dark)
+        transparent;
+    scrollbar-width: thin;
+}
+
+.feedback-form-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.feedback-form-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.feedback-form-container::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+
+    background: var(--color-gold-dark);
+}
+
+.feedback-form-container::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gold);
+}
+
+
+/* ========================================
+   FEEDBACK HEADING
+======================================== */
+
+.feedback-form__heading {
+    margin-bottom: 1.5rem;
+
+    text-align: center;
+
+    h1 {
+        margin-bottom: 0.75rem;
+
+        color: var(--color-gold-light);
+
+        font-family: var(--font-heading);
+        font-size: 1.35rem;
+        font-weight: 600;
+
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    p {
+        margin: 0;
+
+        color: #ded7ca;
+
+        font-size: 0.9rem;
+        line-height: 1.5;
+
+        text-shadow:
+            0 2px 10px rgb(0 0 0 / 90%);
+    }
+}
+
+
+/* ========================================
+   SUCCESS
+======================================== */
+
 .login-page__success {
     margin-bottom: 1.25rem;
     padding: 0.9rem 1rem;
 
-    border: 1px solid color-mix(
-        in srgb,
-        var(--color-success) 45%,
-        var(--color-border)
-    );
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--color-success) 45%,
+            var(--color-border)
+        );
+
     border-radius: var(--radius-small);
 
     color: var(--color-success);
-    background: color-mix(
-        in srgb,
-        var(--color-success) 8%,
-        transparent
-    );
+
+    background:
+        color-mix(
+            in srgb,
+            var(--color-success) 8%,
+            transparent
+        );
 
     font-size: 0.9rem;
     line-height: 1.5;
 }
+
+
+/* ========================================
+   PLAYER ACCESS
+======================================== */
 
 .player-access-link {
     display: flex;
@@ -522,5 +624,95 @@
         &:hover {
             color: var(--color-gold-light);
         }
+    }
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 800px) {
+    .login-layout {
+        height: calc(100vh - 6rem);
+
+        padding: 0;
+    }
+
+    .login-page {
+        width: 100vw;
+        height: 100%;
+
+        aspect-ratio: auto;
+
+        border-right: 0;
+        border-left: 0;
+        border-radius: 0;
+
+        background:
+            linear-gradient(
+                rgb(4 7 10 / 68%),
+                rgb(4 7 10 / 80%)
+            ),
+            url('../../images/login.png')
+            68% center / cover no-repeat;
+
+        .login-page__content {
+            justify-content: center;
+
+            width: min(100%, 32rem);
+            height: 100%;
+            min-height: 0;
+
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .login-page__separator {
+            margin: 1.25rem 0;
+        }
+
+        .login-page__form-container {
+            h1 {
+                font-size:
+                    clamp(
+                        1.6rem,
+                        7vw,
+                        2.2rem
+                    );
+            }
+        }
+
+        .login-page__intro {
+            font-size: 0.9rem;
+        }
+    }
+
+
+    /* ========================================
+       FEEDBACK MOBILE
+    ======================================== */
+
+    .login-page--feedback {
+        background:
+            linear-gradient(
+                rgb(4 7 10 / 68%),
+                rgb(4 7 10 / 80%)
+            ),
+            url('../../images/feedback.png')
+            68% center / cover no-repeat;
+
+        .login-page__content {
+            min-height: 0;
+        }
+    }
+
+    .feedback-form-container {
+        min-height: 0;
+        flex: 1;
+
+        overflow-y: auto;
+
+        padding-right: 0.4rem;
     }
 }

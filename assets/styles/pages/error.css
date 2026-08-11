@@ -265,7 +265,7 @@
             rgb(5 8 12 / 18%) 72%,
             rgb(5 8 12 / 6%) 100%
         ),
-        url('/images/errors/404.png');
+        url('../../images/errors/404.png');
 }
 
 
@@ -285,7 +285,7 @@
             rgb(5 8 12 / 15%) 72%,
             rgb(5 8 12 / 8%) 100%
         ),
-        url('/images/errors/403.webp');
+        url('../../images/errors/403.webp');
 }
 
 
@@ -305,7 +305,7 @@
             rgb(5 8 14 / 18%) 72%,
             rgb(5 8 14 / 8%) 100%
         ),
-        url('/images/errors/500.png');
+        url('../../images/errors/500.png');
 }
 
 

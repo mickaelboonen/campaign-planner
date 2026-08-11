@@ -1,126 +1,110 @@
-{% extends 'login_base.html.twig' %}
+{% extends 'portal_base.html.twig' %}
 
 {% block title %}
     Connexion
 {% endblock %}
 
-{% block body %}
-    <section class="login-page">
-        <div class="login-page__content">
+{% block portal_class %}
+    portal-page--auth
+{% endblock %}
 
-            <div class="login-page__brand">
-                {% include 'components/brand.html.twig' %}
-            </div>
+{% block portal_content %}
+    <nav class="auth-tabs">
+        <a
+            href="{{ path('app_login') }}"
+            class="auth-tabs__item is-active"
+        >
+            Connexion
+        </a>
 
-            <div
-                class="login-page__separator"
-                aria-hidden="true"
-            >
-                <span></span>
-                <span>◆</span>
-                <span></span>
-            </div>
+        <a
+            href="{{ path('app_register') }}"
+            class="auth-tabs__item"
+        >
+            Inscription
+        </a>
+    </nav>
 
-            <div class="login-page__form-container">
-
-                <nav class="auth-tabs">
-                    <a
-                        href="{{ path('app_login') }}"
-                        class="auth-tabs__item is-active"
-                    >
-                        Connexion
-                    </a>
-
-                    <a
-                        href="{{ path('app_register') }}"
-                        class="auth-tabs__item"
-                    >
-                        Inscription
-                    </a>
-                </nav>
-
-                {% if error %}
-                    <div
-                        class="login-page__error"
-                        role="alert"
-                    >
-                        {{ error.messageKey|trans(
-                            error.messageData,
-                            'security'
-                        ) }}
-                    </div>
-                {% endif %}
-
-                {% if app.user %}
-                    <div class="login-page__logged">
-                        Vous êtes connecté en tant que
-                        <strong>
-                            {{ app.user.userIdentifier }}
-                        </strong>.
-
-                        <a href="{{ logout_path() }}">
-                            Se déconnecter
-                        </a>
-                    </div>
-                {% endif %}
-
-                <form
-                    method="post"
-                    class="login-form"
-                >
-                    <div class="login-form__group">
-                        <label for="username">
-                            Adresse e-mail
-                        </label>
-
-                        <input
-                            type="email"
-                            value="{{ last_username }}"
-                            name="_username"
-                            id="username"
-                            autocomplete="email"
-                            required
-                            autofocus
-                        >
-                    </div>
-
-                    <div class="login-form__group">
-                        <label for="password">
-                            Mot de passe
-                        </label>
-
-                        <input
-                            type="password"
-                            name="_password"
-                            id="password"
-                            autocomplete="current-password"
-                            required
-                        >
-                    </div>
-
-                    <input
-                        type="hidden"
-                        name="_csrf_token"
-                        data-controller="csrf-protection"
-                        value="{{ csrf_token('authenticate') }}"
-                    >
-
-                    <button
-                        class="login-form__submit"
-                        type="submit"
-                    >
-                        Franchir le portail
-                    </button>
-                </form>
-
-                <div class="player-access-link">
-                    <span>Vous êtes joueur ?</span>
-
-                    <a href="{{ path('participant_recover') }}">
-                        Retrouver mon espace
-                    </a>
-                </div>
-            </div>
+    {% if error %}
+        <div
+            class="portal-message portal-message--error"
+            role="alert"
+        >
+            {{ error.messageKey|trans(
+                error.messageData,
+                'security'
+            ) }}
         </div>
-    </section>
+    {% endif %}
+
+    <form
+        method="post"
+        class="form"
+    >
+        <div class="form-row">
+            <label
+                class="form-label"
+                for="username"
+            >
+                Adresse e-mail
+            </label>
+
+            <input
+                class="form-control"
+                type="email"
+                value="{{ last_username }}"
+                name="_username"
+                id="username"
+                autocomplete="email"
+                required
+                autofocus
+            >
+        </div>
+
+        <div class="form-row">
+            <label
+                class="form-label"
+                for="password"
+            >
+                Mot de passe
+            </label>
+
+            <input
+                class="form-control"
+                type="password"
+                name="_password"
+                id="password"
+                autocomplete="current-password"
+                required
+            >
+        </div>
+
+        <input
+            type="hidden"
+            name="_csrf_token"
+            data-controller="csrf-protection"
+            value="{{ csrf_token('authenticate') }}"
+        >
+
+        <button
+            class="button button--portal"
+            type="submit"
+        >
+            Franchir le portail
+        </button>
+    </form>
+
+    <div class="player-access-link">
+        <span>Vous êtes joueur ?</span>
+
+        <a href="{{ path('participant_recover') }}">
+            Retrouver mon espace
+        </a>
+    </div>
+
+    <div class="portal-secondary-link">
+        <a href="{{ path('feedback_create') }}">
+            Un problème ? Contacter l'administrateur
+        </a>
+    </div>
 {% endblock %}

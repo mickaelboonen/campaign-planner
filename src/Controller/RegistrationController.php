@@ -23,6 +23,11 @@ final class RegistrationController extends AbstractController
         UserPasswordHasherInterface $passwordHasher,
         EntityManagerInterface $entityManager,
     ): Response {
+
+        if ($this->getUser() !== null) {
+            return $this->redirectToRoute('dashboard');
+        }
+
         $user = new User();
 
         $form = $this->createForm(

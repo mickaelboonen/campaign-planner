@@ -3,6 +3,8 @@
 @import url("./base/typography.css");
 
 @import url("./layout/app-layout.css");
+@import url("./layout/portal-layout.css");
+@import url("./layout/portal/variants.css");
 @import url("./layout/public-layout.css");
 @import url("./layout/sidebar.css");
 
@@ -17,6 +19,7 @@
 
 @import url("./pages/admin.css");
 @import url("./pages/login.css");
+@import url("./pages/feedback.css");
 @import url("./pages/error.css");
 @import url("./pages/dashboard.css");
 @import url("./pages/campaign.css");

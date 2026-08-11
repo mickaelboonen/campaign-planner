@@ -92,12 +92,12 @@
 
             <div class="sidebar-section__submenu">
 
-                <span
-                    class="sidebar-section__link is-disabled"
-                    title="Bientôt disponible"
+               <a
+                    class="sidebar-section__link"
+                    href="{{ path('feedback_create') }}"
                 >
                     Contacter l'administrateur
-                </span>
+                </a>
 
                 {% if playerDashboardUrl %}
                     <a

@@ -1,32 +1,38 @@
 {% extends 'portal_base.html.twig' %}
 
 {% block title %}
-    Inscription
+    Pierre de communication
 {% endblock %}
 
 {% block portal_class %}
-    portal-page--auth
+    portal-page--feedback
 {% endblock %}
 
 {% block portal_content %}
-    <nav class="auth-tabs">
-        <a
-            href="{{ path('app_login') }}"
-            class="auth-tabs__item"
-        >
-            Connexion
-        </a>
+    <div class="portal-heading">
+        <h1>
+            Pierre de communication
+        </h1>
 
-        <a
-            href="{{ path('app_register') }}"
-            class="auth-tabs__item is-active"
+        <p>
+            Une question, un problème ou une idée ?
+            <br>
+            Confiez votre message à la pierre.
+            Il parviendra à l'administrateur.
+        </p>
+    </div>
+
+    {% for message in app.flashes('success') %}
+        <div
+            class="portal-message portal-message--success"
+            role="status"
         >
-            Inscription
-        </a>
-    </nav>
+            {{ message }}
+        </div>
+    {% endfor %}
 
     {{ form_start(
-        registrationForm,
+        form,
         {
             attr: {
                 class: 'form'
@@ -36,7 +42,7 @@
 
         <div class="form-row">
             {{ form_label(
-                registrationForm.email,
+                form.type,
                 null,
                 {
                     label_attr: {
@@ -46,20 +52,20 @@
             ) }}
 
             {{ form_widget(
-                registrationForm.email,
+                form.type,
                 {
                     attr: {
-                        class: 'form-control'
+                        class: 'form-control form-control--select'
                     }
                 }
             ) }}
 
-            {{ form_errors(registrationForm.email) }}
+            {{ form_errors(form.type) }}
         </div>
 
         <div class="form-row">
             {{ form_label(
-                registrationForm.plainPassword.first,
+                form.email,
                 null,
                 {
                     label_attr: {
@@ -69,18 +75,21 @@
             ) }}
 
             {{ form_widget(
-                registrationForm.plainPassword.first,
+                form.email,
                 {
                     attr: {
-                        class: 'form-control'
+                        class: 'form-control',
+                        autocomplete: 'email'
                     }
                 }
             ) }}
+
+            {{ form_errors(form.email) }}
         </div>
 
         <div class="form-row">
             {{ form_label(
-                registrationForm.plainPassword.second,
+                form.message,
                 null,
                 {
                     label_attr: {
@@ -90,25 +99,30 @@
             ) }}
 
             {{ form_widget(
-                registrationForm.plainPassword.second,
+                form.message,
                 {
                     attr: {
-                        class: 'form-control'
+                        class: 'form-control form-control--textarea',
+                        placeholder: 'Décrivez votre problème ou votre idée…'
                     }
                 }
             ) }}
 
-            {{ form_errors(
-                registrationForm.plainPassword
-            ) }}
+            {{ form_errors(form.message) }}
         </div>
 
         <button
             class="button button--portal"
             type="submit"
         >
-            Commencer l'aventure
+            Transmettre le message
         </button>
 
-    {{ form_end(registrationForm) }}
+    {{ form_end(form) }}
+
+    <div class="portal-back-link">
+        <a href="{{ path('app_login') }}">
+            ← Retour
+        </a>
+    </div>
 {% endblock %}

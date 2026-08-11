@@ -1,0 +1,218 @@
+/* ========================================
+   PORTAL LAYOUT
+======================================== */
+
+.portal-body {
+    min-height: 100vh;
+
+    background: #07090c;
+}
+
+.portal-layout {
+    display: flex;
+    height: calc(100vh - 6rem);
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 1.25rem;
+}
+
+
+/* ========================================
+   PORTAL PAGE
+======================================== */
+
+.portal-page {
+    position: relative;
+
+    display: grid;
+    overflow: hidden;
+
+    width: min(
+        calc((100vh - 6rem - 2.5rem) * 1.5),
+        calc(100vw - 2.5rem)
+    );
+
+    aspect-ratio: 3 / 2;
+
+    border: 1px solid rgb(201 168 92 / 70%);
+    border-radius: 0.75rem;
+
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    box-shadow:
+        0 0 0 1px rgb(201 168 92 / 10%),
+        0 18px 55px rgb(0 0 0 / 45%);
+}
+
+
+/* ========================================
+   CONTENT COLUMN
+======================================== */
+
+.portal-page__content {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
+
+    width: min(44%, 34rem);
+    height: 100%;
+
+    margin-right: auto;
+    margin-left: 4%;
+
+    padding: clamp(1.5rem, 3vw, 3rem);
+}
+
+
+/* ========================================
+   BRAND
+======================================== */
+
+.portal-page__brand {
+    flex: none;
+}
+
+.portal-page__brand .app-brand__logo {
+    width: 3.5rem;
+    height: 3.5rem;
+}
+
+.portal-page__brand .app-brand__title {
+    font-size: 1.25rem;
+}
+
+.portal-page__brand .app-brand__tagline {
+    margin-top: 0.2rem;
+
+    font-size: 0.65rem;
+}
+
+
+/* ========================================
+   SEPARATOR
+======================================== */
+
+.portal-page__separator {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 0.75rem;
+
+    width: 100%;
+    margin: 1.75rem 0;
+
+    color: var(--color-gold);
+}
+
+.portal-page__separator > span:first-child,
+.portal-page__separator > span:last-child {
+    flex: 1;
+    height: 1px;
+}
+
+.portal-page__separator > span:first-child {
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--color-gold)
+        );
+}
+
+.portal-page__separator > span:last-child {
+    background:
+        linear-gradient(
+            90deg,
+            var(--color-gold),
+            transparent
+        );
+}
+
+
+/* ========================================
+   PAGE BODY
+======================================== */
+
+.portal-page__body {
+    min-height: 0;
+    flex: 1;
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 800px) {
+    .portal-layout {
+        min-height: calc(100vh - 6rem);
+
+        align-items: stretch;
+
+        padding: 0;
+    }
+
+    .portal-page {
+        width: 100vw;
+        min-height: calc(100vh - 6rem);
+
+        aspect-ratio: auto;
+
+        border-right: 0;
+        border-left: 0;
+        border-radius: 0;
+    }
+
+    .portal-page__content {
+        width: min(100%, 32rem);
+        height: auto;
+        min-height: calc(100vh - 6rem);
+
+        margin: 0 auto;
+
+        padding: 1.5rem;
+    }
+
+    .portal-page__separator {
+        margin: 1.25rem 0;
+    }
+}
+
+
+/* ========================================
+   CONTACT LINK
+======================================== */
+
+.portal-secondary-link {
+    margin-top: 0.75rem;
+
+    text-align: center;
+}
+
+.portal-secondary-link a {
+    color: var(--color-text-muted);
+
+    font-size: 0.82rem;
+    text-decoration: none;
+
+    transition:
+        color var(--transition-fast),
+        text-shadow var(--transition-fast);
+}
+
+.portal-secondary-link a:hover,
+.portal-secondary-link a:focus-visible {
+    outline: none;
+
+    color: var(--color-gold-light);
+
+    text-shadow:
+        0 0 12px rgb(201 168 92 / 20%);
+}

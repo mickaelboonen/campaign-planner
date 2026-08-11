@@ -1,0 +1,277 @@
+/* ========================================
+   LOGIN / REGISTER / RECOVERY
+======================================== */
+
+.portal-page--auth {
+    background:
+        linear-gradient(
+            90deg,
+            rgb(4 7 10 / 72%) 0%,
+            rgb(4 7 10 / 50%) 32%,
+            rgb(4 7 10 / 12%) 60%,
+            transparent 75%
+        ),
+        url('../../../images/login.png')
+        center / cover no-repeat;
+}
+
+
+/* ========================================
+   FEEDBACK
+======================================== */
+
+.portal-page--feedback {
+    background:
+        linear-gradient(
+            90deg,
+            rgb(4 7 10 / 72%) 0%,
+            rgb(4 7 10 / 50%) 32%,
+            rgb(4 7 10 / 12%) 60%,
+            transparent 75%
+        ),
+        url('../../../images/feedback.png')
+        center / cover no-repeat;
+}
+
+
+/* ========================================
+   ERRORS
+======================================== */
+
+.portal-page--403 {
+    background:
+        linear-gradient(
+            rgb(4 7 10 / 62%),
+            rgb(4 7 10 / 78%)
+        ),
+        url('../../../images/errors/403.webp')
+        center / cover no-repeat;
+}
+
+.portal-page--404 {
+    background:
+        linear-gradient(
+            rgb(4 7 10 / 62%),
+            rgb(4 7 10 / 78%)
+        ),
+        url('../../../images/errors/404.png')
+        center / cover no-repeat;
+}
+
+.portal-page--500 {
+    background:
+        linear-gradient(
+            rgb(4 7 10 / 62%),
+            rgb(4 7 10 / 78%)
+        ),
+        url('../../../images/errors/500.png')
+        center / cover no-repeat;
+}
+
+
+/* ========================================
+   MOBILE BACKGROUNDS
+======================================== */
+
+@media (max-width: 800px) {
+    .portal-page--auth {
+        background:
+            linear-gradient(
+                rgb(4 7 10 / 68%),
+                rgb(4 7 10 / 80%)
+            ),
+            url('../../../images/login.png')
+            68% center / cover no-repeat;
+    }
+
+    .portal-page--feedback {
+        background:
+            linear-gradient(
+                rgb(4 7 10 / 68%),
+                rgb(4 7 10 / 80%)
+            ),
+            url('../../../images/feedback.png')
+            68% center / cover no-repeat;
+    }
+}
+
+
+/* ========================================
+   PORTAL FIELDS
+======================================== */
+
+
+.portal-page .form-control {
+    border-color: rgb(201 168 92 / 45%);
+
+    color: #f3eee6;
+    background: rgb(4 7 10 / 72%);
+
+    backdrop-filter: blur(4px);
+}
+
+.portal-page .form-control:hover {
+    border-color: rgb(201 168 92 / 70%);
+}
+
+.portal-page .form-control:focus {
+    border-color: var(--color-gold);
+    background: rgb(4 7 10 / 86%);
+
+    box-shadow:
+        0 0 0 2px rgb(201 168 92 / 12%);
+}
+
+.portal-page .form-label {
+    color: #ddd5c6;
+}
+
+.portal-page .form-control:disabled {
+    color: var(--color-text-muted);
+    background: rgb(4 7 10 / 48%);
+
+    cursor: not-allowed;
+    opacity: 0.75;
+}
+
+.portal-page--feedback {
+    .portal-page__content {
+        min-height: 0;
+    }
+
+    .portal-page__body {
+        min-height: 0;
+        flex: 1;
+
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        padding-right: 0.5rem;
+
+        scrollbar-width: thin;
+        scrollbar-color:
+            var(--color-gold-dark)
+            transparent;
+    }
+
+    .portal-page__body::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .portal-page__body::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .portal-page__body::-webkit-scrollbar-thumb {
+        border-radius: 999px;
+        background: var(--color-gold-dark);
+    }
+
+    .portal-page__body::-webkit-scrollbar-thumb:hover {
+        background: var(--color-gold);
+    }
+}
+
+.portal-heading {
+    margin-bottom: 1.5rem;
+
+    text-align: center;
+}
+
+.portal-heading h1 {
+    margin: 0 0 0.75rem;
+
+    color: var(--color-gold-light);
+
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 600;
+
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+
+    text-shadow:
+        0 3px 16px rgb(0 0 0 / 85%);
+}
+
+.portal-heading p {
+    margin: 0;
+
+    color: #ded7ca;
+
+    font-size: 0.9rem;
+    line-height: 1.55;
+
+    text-shadow:
+        0 2px 10px rgb(0 0 0 / 90%);
+}
+
+.button--portal {
+    width: 100%;
+
+    margin-top: 0.5rem;
+    padding: 0.9rem 1.25rem;
+
+    border: 1px solid var(--color-gold);
+    border-radius: var(--radius-small);
+
+    color: var(--color-gold);
+    background: rgb(8 9 10 / 78%);
+
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    box-shadow:
+        inset 0 0 0 1px rgb(201 168 92 / 12%),
+        0 0 12px rgb(201 168 92 / 8%);
+
+    backdrop-filter: blur(4px);
+
+    transition:
+        color 180ms ease,
+        border-color 180ms ease,
+        background-color 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms ease;
+}
+
+.button--portal:hover,
+.button--portal:focus-visible {
+    outline: none;
+
+    border-color: var(--color-gold-light);
+
+    color: #090a0c;
+    background: var(--color-gold);
+
+    box-shadow:
+        0 0 24px rgb(201 168 92 / 25%);
+}
+
+.button--portal:active {
+    transform: translateY(1px);
+}
+.portal-back-link {
+    margin-top: 2rem;
+
+    text-align: center;
+}
+
+.portal-back-link a {
+    color: var(--color-text-muted);
+
+    font-size: 0.9rem;
+    text-decoration: none;
+
+    transition: color var(--transition-fast);
+}
+
+.portal-back-link a:hover {
+    color: var(--color-gold-light);
+}
+
+

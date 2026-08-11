@@ -1,0 +1,34 @@
+.feedback-form__heading {
+    margin-bottom: 1.5rem;
+
+    text-align: center;
+
+    h1 {
+        margin-bottom: 0.75rem;
+
+        color: var(--color-gold-light);
+
+        font-family: var(--font-heading);
+        font-size: 1.35rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    p {
+        margin: 0;
+
+        color: var(--color-text-muted);
+
+        line-height: 1.6;
+    }
+}
+
+.login-body--feedback {
+    background:
+        linear-gradient(
+            rgb(10 12 16 / 65%),
+            rgb(10 12 16 / 85%)
+        ),
+        url('/images/feedback.png') center / cover no-repeat;
+}
