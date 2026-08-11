@@ -1,0 +1,111 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block admin_title %}Campagnes{% endblock %}
+
+{% block admin_content %}
+    <section class="admin-campaigns">
+        <header class="admin-page-header">
+            <div>
+                <h2>Campagnes</h2>
+                <p>Vue globale des campagnes créées sur CampaignPlanner.</p>
+            </div>
+        </header>
+
+        <div class="admin-campaigns__toolbar">
+            <nav class="admin-campaigns__filters" aria-label="Filtrer les campagnes">
+                {% set filters = {
+                    active: 'Actives',
+                    archived: 'Archivées',
+                    all: 'Toutes'
+                } %}
+
+                {% for value, label in filters %}
+                    <a
+                        class="admin-campaigns__filter {{ currentStatus == value ? 'is-active' }}"
+                        href="{{ path('admin_campaign_index', { status: value, q: search }) }}"
+                    >
+                        {{ label }}
+                    </a>
+                {% endfor %}
+            </nav>
+
+            <form class="admin-campaigns__search" method="get">
+                <input type="hidden" name="status" value="{{ currentStatus }}">
+
+                <input
+                    type="search"
+                    name="q"
+                    value="{{ search }}"
+                    placeholder="Campagne ou maître du jeu…"
+                    aria-label="Rechercher une campagne"
+                >
+
+                <button class="button button--secondary" type="submit">
+                    Rechercher
+                </button>
+
+                {% if search %}
+                    <a class="admin-campaigns__search-reset" href="{{ path('admin_campaign_index', { status: currentStatus }) }}">
+                        Effacer
+                    </a>
+                {% endif %}
+            </form>
+        </div>
+        {% if campaigns is empty %}
+            <div class="admin-empty-state">Aucune campagne trouvée.</div>
+        {% else %}
+            <div class="admin-campaigns__table-wrapper">
+                <table class="admin-campaigns__table">
+                    <thead>
+                        <tr>
+                            <th>Campagne</th>
+                            <th>Maître du Jeu</th>
+                            <th>Participants</th>
+                            <th>Créée le</th>
+                            <th>Statut</th>
+                            <th><span class="sr-only">Actions</span></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for campaign in campaigns %}
+                            <tr>
+                                <td>
+                                    <div class="admin-campaigns__campaign">
+                                        {% if campaign.image %}
+                                            <img src="{{ asset('uploads/campaigns/' ~ campaign.image) }}" alt="" loading="lazy"  decoding="async" >
+                                        {% endif %}
+
+                                        <strong>{{ campaign.name }}</strong>
+                                    </div>
+                                </td>
+
+                                <td>{{ campaign.owner.userIdentifier }}</td>
+                                <td>{{ campaign.participants|length }}</td>
+                                <td>{{ campaign.createdAt|date('d/m/Y') }}</td>
+
+                                <td>
+                                    <span class="admin-campaign-status {{ campaign.archived ? 'is-archived' : 'is-active' }}">
+                                        {{ campaign.archived ? 'Archivée' : 'Active' }}
+                                    </span>
+                                </td>
+
+                                <td class="admin-campaigns__actions">
+                                    <a class="button button--secondary" href="{{ path('admin_campaign_show', { id: campaign.id }) }}">
+                                        Voir
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if campaigns.pageCount > 1 %}
+                <div class="admin-campaigns__pagination">
+                    {{ knp_pagination_render(campaigns) }}
+                </div>
+            {% endif %}
+        {% endif %}
+    </section>
+{% endblock %}

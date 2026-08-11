@@ -1,18 +1,12 @@
+```twig
 {# templates/components/sidebar.html.twig #}
 
 {% set currentRoute = app.current_route %}
 {% set isAdminRoute = currentRoute starts with 'admin_' %}
 {% set playerDashboardUrl = player_dashboard_url() %}
 
-
-<aside
-    class="sidebar"
-    data-mobile-navigation-target="sidebar"
->
-    <a
-        class="brand"
-        href="{{ path('dashboard') }}"
-    >
+<aside class="sidebar" data-mobile-navigation-target="sidebar">
+    <a class="brand" href="{{ path('dashboard') }}">
         {% include 'components/brand.html.twig' %}
     </a>
 
@@ -20,22 +14,13 @@
         {% include 'components/theme-button.html.twig' %}
     </div>
 
-    <nav
-        class="sidebar-nav"
-        aria-label="Navigation principale"
-    >
-        <a
-            class="sidebar-nav__link {{ currentRoute == 'dashboard' ? 'is-active' }}"
-            href="{{ path('dashboard') }}"
-        >
+    <nav class="sidebar-nav" aria-label="Navigation principale">
+        <a class="sidebar-nav__link {{ currentRoute == 'dashboard' ? 'is-active' }}" href="{{ path('dashboard') }}">
             <span>⌂</span>
             Tableau de bord
         </a>
 
-        <a
-            class="sidebar-nav__link {{ currentRoute starts with 'campaign_' ? 'is-active' }}"
-            href="{{ path('campaign_list') }}"
-        >
+        <a class="sidebar-nav__link {{ currentRoute starts with 'campaign_' ? 'is-active' }}" href="{{ path('campaign_list') }}">
             <span>◆</span>
             Campagnes
         </a>
@@ -46,45 +31,30 @@
         </span>
 
         {% if is_granted('ROLE_ADMIN') %}
-            <details
-                class="sidebar-section"
-                {{ isAdminRoute ? 'open' : '' }}
-            >
+            <details class="sidebar-section" {{ isAdminRoute ? 'open' : '' }}>
                 <summary class="sidebar-section__trigger">
                     <span>⚙</span>
                     Administration
                 </summary>
 
                 <div class="sidebar-section__submenu">
-                    <a
-                        class="sidebar-section__link {{ currentRoute == 'admin_dashboard' ? 'is-active' }}"
-                        href="{{ path('admin_dashboard') }}"
-                    >
+                    <a class="sidebar-section__link {{ currentRoute == 'admin_dashboard' ? 'is-active' }}" href="{{ path('admin_dashboard') }}">
                         Vue d'ensemble
                     </a>
 
-                    <a
-                        class="sidebar-section__link {{ currentRoute starts with 'admin_user_' ? 'is-active' }}"
-                        href="{{ path('admin_user_list') }}"
-                    >
+                    <a class="sidebar-section__link {{ currentRoute starts with 'admin_user_' ? 'is-active' }}" href="{{ path('admin_user_list') }}">
                         Utilisateurs
                     </a>
 
-                    <span class="sidebar-section__link is-disabled">
+                    <a class="sidebar-section__link {{ currentRoute starts with 'admin_campaign_' ? 'is-active' }}" href="{{ path('admin_campaign_index') }}">
                         Campagnes
-                    </span>
+                    </a>
 
-                    <a
-                        class="sidebar-section__link {{ currentRoute starts with 'admin_feedback_' ? 'is-active' }}"
-                        href="{{ path('admin_feedback_index') }}"
-                    >
+                    <a class="sidebar-section__link {{ currentRoute starts with 'admin_feedback_' ? 'is-active' }}" href="{{ path('admin_feedback_index') }}">
                         Feedbacks
                     </a>
 
-                    <a
-                        class="sidebar-section__link {{ currentRoute starts with 'admin_log_' ? 'is-active' }}"
-                        href="{{ path('admin_log_list') }}"
-                    >
+                    <a class="sidebar-section__link {{ currentRoute starts with 'admin_log_' ? 'is-active' }}" href="{{ path('admin_log_list') }}">
                         Logs
                     </a>
                 </div>
@@ -98,27 +68,17 @@
             </summary>
 
             <div class="sidebar-section__submenu">
-
-               <a
-                    class="sidebar-section__link"
-                    href="{{ path('feedback_create') }}"
-                >
+                <a class="sidebar-section__link" href="{{ path('feedback_create') }}">
                     Contacter l'administrateur
                 </a>
 
                 {% if playerDashboardUrl %}
-                    <a
-                        class="sidebar-section__link"
-                        href="{{ playerDashboardUrl }}"
-                    >
+                    <a class="sidebar-section__link" href="{{ playerDashboardUrl }}">
                         Mon espace joueur
                     </a>
                 {% endif %}
 
-                <a
-                    class="sidebar-section__link"
-                    href="{{ path('app_logout') }}"
-                >
+                <a class="sidebar-section__link" href="{{ path('app_logout') }}">
                     Déconnexion
                 </a>
             </div>
@@ -127,9 +87,8 @@
 
     {% if app.user %}
         <div class="sidebar__footer">
-            <span class="sidebar__user">
-                {{ app.user.userIdentifier }}
-            </span>
+            <span class="sidebar__user">{{ app.user.userIdentifier }}</span>
         </div>
     {% endif %}
 </aside>
+```
