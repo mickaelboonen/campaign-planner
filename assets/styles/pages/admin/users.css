@@ -1,0 +1,350 @@
+/* ========================================
+   USERS LIST
+======================================== */
+
+.admin-users {
+    display: grid;
+    gap: 1rem;
+
+    .admin-users__toolbar {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .admin-users__search {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        input {
+            min-width: 18rem;
+            padding: 0.75rem 0.9rem;
+
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-small);
+
+            color: var(--color-text);
+            background: var(--color-surface);
+
+            font: inherit;
+
+            transition:
+                border-color var(--transition-fast),
+                background-color var(--transition-fast);
+
+            &:hover {
+                border-color: var(--color-gold-dark);
+            }
+
+            &:focus {
+                outline: none;
+
+                border-color: var(--color-gold);
+
+                background: var(--color-surface-hover);
+            }
+        }
+    }
+}
+
+
+/* ========================================
+   ADMIN TABLE
+======================================== */
+
+.admin-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-medium);
+
+    background: var(--color-surface);
+
+    box-shadow: var(--shadow-card);
+}
+
+.admin-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    th,
+    td {
+        padding: 0.85rem 1rem;
+
+        border-bottom: 1px solid var(--color-border);
+
+        text-align: left;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+    th {
+        color: var(--color-text-muted);
+
+        font-size: 0.7rem;
+        font-weight: 700;
+
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    tbody {
+        tr {
+            transition:
+                background-color var(--transition-fast);
+
+            &:hover {
+                background: var(--color-surface-hover);
+            }
+
+            &:last-child {
+                td {
+                    border-bottom: 0;
+                }
+            }
+        }
+    }
+}
+
+
+/* ========================================
+   BADGES / STATUS
+======================================== */
+
+.admin-badge,
+.admin-status {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 0.25rem 0.5rem;
+
+    border-radius: 999px;
+
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+
+.admin-badge {
+    border: 1px solid var(--color-border);
+
+    color: var(--color-text-muted);
+
+    &.admin-badge--premium {
+        border-color:
+            color-mix(
+                in srgb,
+                var(--color-gold) 50%,
+                var(--color-border)
+            );
+
+        background:
+            color-mix(
+                in srgb,
+                var(--color-gold) 10%,
+                transparent
+            );
+
+        color: var(--color-gold-light);
+    }
+
+    &.admin-badge--admin {
+        margin-left: 0.4rem;
+
+        border-color:
+            color-mix(
+                in srgb,
+                var(--color-gold) 40%,
+                var(--color-border)
+            );
+
+        color: var(--color-gold);
+    }
+}
+
+.admin-status {
+    &.admin-status--active {
+        background:
+            color-mix(
+                in srgb,
+                var(--color-success) 12%,
+                transparent
+            );
+
+        color: var(--color-success);
+    }
+
+    &.admin-status--inactive {
+        background:
+            color-mix(
+                in srgb,
+                var(--color-danger) 12%,
+                transparent
+            );
+
+        color: var(--color-danger);
+    }
+}
+
+
+/* ========================================
+   USER DETAIL
+======================================== */
+
+.admin-user {
+    display: grid;
+    gap: 1.5rem;
+
+    .admin-user__summary,
+    .admin-user__campaigns {
+        padding: 1.5rem;
+
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-large);
+
+        background: var(--color-surface);
+
+        box-shadow: var(--shadow-card);
+    }
+
+    .admin-user__identity {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+
+        margin-bottom: 1.5rem;
+
+        h2 {
+            margin: 0.2rem 0 0;
+
+            color: var(--color-text);
+
+            font-family: var(--font-heading);
+        }
+    }
+
+    .admin-user__badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+
+    .admin-user__meta {
+        display: grid;
+        grid-template-columns:
+            repeat(auto-fit, minmax(160px, 1fr));
+        gap: 1rem;
+
+        margin: 0 0 1.5rem;
+
+        div {
+            padding: 1rem;
+
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-medium);
+
+            background: var(--color-background);
+        }
+
+        dt {
+            margin-bottom: 0.35rem;
+
+            color: var(--color-text-muted);
+
+            font-size: 0.7rem;
+            font-weight: 700;
+
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        dd {
+            margin: 0;
+
+            color: var(--color-text);
+
+            font-weight: 600;
+        }
+    }
+
+    .admin-user__campaign-list {
+        display: grid;
+        gap: 0.75rem;
+    }
+
+    .admin-user__campaign {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+
+        padding: 1rem;
+
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-medium);
+
+        background: var(--color-background);
+
+        > div {
+            display: grid;
+            gap: 0.2rem;
+        }
+
+        strong {
+            color: var(--color-text);
+        }
+
+        span {
+            color: var(--color-text-muted);
+
+            font-size: 0.75rem;
+        }
+    }
+
+    .admin-user__empty {
+        padding: 1.5rem;
+
+        border: 1px dashed var(--color-border);
+        border-radius: var(--radius-medium);
+
+        color: var(--color-text-muted);
+
+        text-align: center;
+    }
+}
+
+@media (max-width: 700px) {
+    .admin-users {
+        .admin-users__toolbar {
+            display: block;
+        }
+
+        .admin-users__search {
+            display: grid;
+
+            input {
+                width: 100%;
+                min-width: 0;
+            }
+        }
+    }
+
+    .admin-user {
+        .admin-user__identity,
+        .admin-user__campaign {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .admin-user__campaign {
+            display: flex;
+
+            .button {
+                width: 100%;
+            }
+        }
+    }
+}

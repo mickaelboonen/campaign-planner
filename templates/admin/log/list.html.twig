@@ -1,59 +1,87 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block admin_title %}
-    Logs système
+{% block admin_title %}Logs système{% endblock %}
+
+{% block admin_breadcrumb %}
+    {% include 'components/breadcrumb.html.twig' with {
+        items: [
+            { label: 'Administration', path: path('admin_dashboard') },
+            { label: 'Logs système' }
+        ]
+    } %}
 {% endblock %}
 
 {% block admin_content %}
     <section class="admin-logs">
-        <header class="admin-logs__toolbar">
+        <header class="admin-logs__header">
             <div class="admin-logs__title">
-                <strong>
-                    Journal des erreurs
-                </strong>
-
-                <span>
-                    100 dernières erreurs applicatives
-                </span>
+                <strong>Journal des erreurs</strong>
+                <span>Erreurs du {{ selectedDate|date('d/m/Y') }}</span>
             </div>
 
-            {% if logs is not empty %}
-                <span class="admin-logs__count">
-                    {{ logs|length }}
-                </span>
-            {% endif %}
+            <div class="admin-logs__navigation">
+                <a
+                    class="button button--secondary"
+                    href="{{ path('admin_log_list', { date: previousDate|date('Y-m-d') }) }}"
+                    aria-label="Jour précédent"
+                >
+                    ←
+                </a>
+
+                <form method="get" class="admin-logs__date-picker">
+                    <label class="sr-only" for="admin-log-date">Choisir une date</label>
+
+                    <input
+                        id="admin-log-date"
+                        type="date"
+                        name="date"
+                        value="{{ selectedDate|date('Y-m-d') }}"
+                        max="{{ "now"|date('Y-m-d') }}"
+                        onchange="this.form.submit()"
+                    >
+                </form>
+
+                {% if nextDate|date('Y-m-d') <= "now"|date('Y-m-d') %}
+                    <a
+                        class="button button--secondary"
+                        href="{{ path('admin_log_list', { date: nextDate|date('Y-m-d') }) }}"
+                        aria-label="Jour suivant"
+                    >
+                        →
+                    </a>
+                {% else %}
+                    <span class="button button--secondary is-disabled" aria-hidden="true">→</span>
+                {% endif %}
+
+                {% if selectedDate|date('Y-m-d') != "now"|date('Y-m-d') %}
+                    <a class="admin-logs__today" href="{{ path('admin_log_list') }}">
+                        Aujourd’hui
+                    </a>
+                {% endif %}
+            </div>
         </header>
 
         {% if not logFileExists %}
             <div class="admin-log-empty">
-                Aucun fichier de log disponible.
+                Aucun fichier de log pour cette date.
             </div>
-
         {% elseif logs is empty %}
             <div class="admin-log-empty">
-                Aucune erreur récente.
+                Aucune erreur enregistrée ce jour-là.
             </div>
-
         {% else %}
             <div class="admin-log-list">
                 {% for log in logs %}
                     <article class="admin-log">
                         <header class="admin-log__header">
-                            <span
-                                class="
-                                    admin-log__level
-                                    admin-log__level--{{ log.level|lower }}
-                                "
-                            >
+                            <span class="admin-log__level admin-log__level--{{ log.level|lower }}">
                                 {{ log.level }}
                             </span>
 
-                            <span class="admin-log__channel">
-                                {{ log.channel }}
-                            </span>
+                            <span class="admin-log__channel">{{ log.channel }}</span>
 
-                            <time>
-                                {{ log.date|date('d/m/Y H:i:s') }}
+                            <time datetime="{{ log.date|date('c') }}">
+                                {{ log.date|date('H:i:s') }}
                             </time>
                         </header>
 

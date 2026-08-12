@@ -10,6 +10,8 @@ when@dev:
                 path: "%kernel.logs_dir%/%kernel.environment%.log"
                 level: debug
                 channels: ["!event"]
+                formatter: monolog.formatter.json
+
             console:
                 type: console
                 process_psr_3_messages: false

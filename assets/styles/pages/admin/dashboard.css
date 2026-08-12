@@ -1,0 +1,39 @@
+/* ========================================
+   DASHBOARD STATS
+======================================== */
+
+.admin-stats {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+
+    .admin-stat {
+        padding: 1.5rem;
+
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-medium);
+
+        background: var(--color-surface);
+
+        box-shadow: var(--shadow-card);
+
+        .admin-stat__label {
+            display: block;
+
+            margin-bottom: 0.5rem;
+
+            color: var(--color-text-muted);
+
+            font-size: 0.85rem;
+        }
+
+        .admin-stat__value {
+            color: var(--color-gold-light);
+
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 600;
+        }
+    }
+}
