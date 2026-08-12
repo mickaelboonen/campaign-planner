@@ -26,15 +26,6 @@ final class CampaignType extends AbstractType
             ->add('imageFile', FileType::class, [
                 'label' => 'Image de la campagne',
                 'required' => false,
-            ])
-            ->add('privateNotes', TextareaType::class, [
-                'label' => 'Notes privées',
-                'required' => false,
-                'attr' => [
-                    'rows' => 8,
-                    'maxlength' => 5000,
-                    'placeholder' => "## Joueurs\n- **Alice** : enfants les semaines paires\n- **Bob** : indisponible le premier week-end du mois",
-                ],
             ]);
     }
 
