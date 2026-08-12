@@ -111,4 +111,18 @@ class ParticipantRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findArchivedByCampaignAndEmail(
+        Campaign $campaign,
+        string $email,
+    ): ?Participant {
+        return $this->createQueryBuilder('participant')
+            ->andWhere('participant.campaign = :campaign')
+            ->andWhere('LOWER(participant.email) = :email')
+            ->andWhere('participant.archivedAt IS NOT NULL')
+            ->setParameter('campaign', $campaign)
+            ->setParameter('email', mb_strtolower(trim($email)))
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
