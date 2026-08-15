@@ -30,6 +30,12 @@ class GameSession
     #[ORM\Column(enumType: DayPeriod::class)]
     private ?DayPeriod $period = null;
 
+    #[ORM\Column(type: Types::TIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $startTime = null;
+
+    #[ORM\Column(type: Types::TIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $endTime = null;
+
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
 
@@ -40,6 +46,9 @@ class GameSession
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $reminderSentAt = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $name = null;
 
     public function __construct()
     {
@@ -99,6 +108,30 @@ class GameSession
         return $this;
     }
 
+    public function getStartTime(): ?\DateTimeImmutable
+    {
+        return $this->startTime;
+    }
+
+    public function setStartTime(?\DateTimeImmutable $startTime): static
+    {
+        $this->startTime = $startTime;
+
+        return $this;
+    }
+
+    public function getEndTime(): ?\DateTimeImmutable
+    {
+        return $this->endTime;
+    }
+
+    public function setEndTime(?\DateTimeImmutable $endTime): static
+    {
+        $this->endTime = $endTime;
+
+        return $this;
+    }
+
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
@@ -136,6 +169,18 @@ class GameSession
     public function complete(): static
     {
         $this->status = GameSessionStatus::COMPLETED;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): static
+    {
+        $this->name = $name;
 
         return $this;
     }

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Planifier une session — {{ campaign.name }}
+{% endblock %}
+
+{% block body %}
+    {% include 'components/breadcrumb.html.twig' with {
+        items: [
+            {
+                label: 'Campagnes',
+                path: path('campaign_list')
+            },
+            {
+                label: campaign.name,
+                path: path('campaign_show', {
+                    id: campaign.id
+                })
+            },
+            {
+                label: 'Planifier une session'
+            }
+        ]
+    } %}
+
+    {% include 'components/page-header.html.twig' with {
+        eyebrow: campaign.name,
+        title: 'Planifier une session',
+        description: 'Définissez les horaires de la session avant de la confirmer.'
+    } %}
+
+    {% include 'game_session/_form.html.twig' with {
+        campaign: campaign,
+        form: form,
+        sessionDate: slot.date,
+        sessionPeriod: slot.period,
+        submitLabel: 'Créer la session'
+    } %}
+{% endblock %}

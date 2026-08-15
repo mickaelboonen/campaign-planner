@@ -20,38 +20,46 @@ final readonly class SessionManager
 
     public function scheduleFromSlot(
         CalendarSlot $slot,
+        ?string $name,
+        \DateTimeImmutable $startTime,
+        \DateTimeImmutable $endTime,
     ): GameSession {
         $this->guardSlotCanBeScheduled($slot);
 
         return $this->entityManager->wrapInTransaction(
-            function () use ($slot): GameSession {
+            function () use ($slot, $name, $startTime, $endTime): GameSession {
                 $session = new GameSession();
 
-                $session->setCampaign(
-                    $slot->getCampaign(),
-                );
-
-                $session->setCalendarSlot(
-                    $slot,
-                );
-
-                $session->setDate(
-                    $slot->getDate(),
-                );
-
-                $session->setPeriod(
-                    $slot->getPeriod(),
-                );
+                $session
+                    ->setCampaign($slot->getCampaign())
+                    ->setCalendarSlot($slot)
+                    ->setDate($slot->getDate())
+                    ->setPeriod($slot->getPeriod())
+                    ->setName($name)
+                    ->setStartTime($startTime)
+                    ->setEndTime($endTime);
 
                 $slot->select();
 
-                $this->entityManager->persist(
-                    $session,
-                );
+                $this->entityManager->persist($session);
 
                 return $session;
             },
         );
+    }
+
+    public function update(
+        GameSession $session,
+        ?string $name,
+        \DateTimeImmutable $startTime,
+        \DateTimeImmutable $endTime,
+    ): void {
+        $session
+            ->setName($name)
+            ->setStartTime($startTime)
+            ->setEndTime($endTime);
+
+        $this->entityManager->flush();
     }
 
     private function guardSlotCanBeScheduled(

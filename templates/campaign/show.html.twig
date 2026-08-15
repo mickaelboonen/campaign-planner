@@ -210,13 +210,32 @@
                         </div>
 
                         <div class="campaign-session-card__content">
-                            <strong>
-                                {{ session.date|date('d/m/Y') }}
-                            </strong>
+                            {% if session.name %}
+                                <strong class="campaign-session-card__title">
+                                    {{ session.name }}
+                                </strong>
+                            {% else %}
+                                <strong>
+                                    {{ session.date|date('d/m/Y') }}
+                                </strong>
+                            {% endif %}
 
                             <span>
-                                {{ session.period.label() }}
+                                {{ session.date|date('d/m/Y') }}
+                                — {{ session.period.label() }}
                             </span>
+
+                            {% if session.startTime and session.endTime %}
+                                <span class="campaign-session-card__time">
+                                    {{ session.startTime|date('H:i', false) }}
+                                    →
+                                    {{ session.endTime|date('H:i', false) }}
+                                </span>
+                            {% else %}
+                                <span class="campaign-session-card__time is-missing">
+                                    Horaire non défini
+                                </span>
+                            {% endif %}
                         </div>
 
                         {% if loop.first %}
@@ -225,31 +244,46 @@
                             </span>
                         {% endif %}
 
-                        <form
-                            method="post"
-                            action="{{ path('campaign_session_cancel', {
-                                id: campaign.id,
-                                session: session.id
-                            }) }}"
-                            onsubmit="return confirm(
-                                'Voulez-vous vraiment annuler cette session ?'
-                            );"
-                        >
-                            <input
-                                type="hidden"
-                                name="_token"
-                                value="{{ csrf_token(
-                                    'cancel-session-' ~ session.id
-                                ) }}"
+                        <div class="campaign-session-card__actions">
+                            <a
+                                class="button button--secondary"
+                                href="{{ path('campaign_session_edit', {
+                                    id: campaign.id,
+                                    session: session.id
+                                }) }}"
                             >
+                                {{ session.startTime and session.endTime
+                                    ? 'Modifier'
+                                    : 'Définir l’horaire'
+                                }}
+                            </a>
 
-                            <button
-                                type="submit"
-                                class="button button--ghost"
+                            <form
+                                method="post"
+                                action="{{ path('campaign_session_cancel', {
+                                    id: campaign.id,
+                                    session: session.id
+                                }) }}"
+                                onsubmit="return confirm(
+                                    'Voulez-vous vraiment annuler cette session ?'
+                                );"
                             >
-                                Annuler la session
-                            </button>
-                        </form>
+                                <input
+                                    type="hidden"
+                                    name="_token"
+                                    value="{{ csrf_token(
+                                        'cancel-session-' ~ session.id
+                                    ) }}"
+                                >
+
+                                <button
+                                    type="submit"
+                                    class="button button--ghost"
+                                >
+                                    Annuler la session
+                                </button>
+                            </form>
+                        </div>
                     </article>
                 {% endfor %}
             </div>

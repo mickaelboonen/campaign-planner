@@ -1,0 +1,52 @@
+<section class="game-session-form">
+    <div class="game-session-form__summary">
+        <span class="game-session-form__label">Date</span>
+        <strong>{{ sessionDate|date('d/m/Y') }}</strong>
+
+        <span class="game-session-form__label">Créneau</span>
+        <strong>{{ sessionPeriod.label() }}</strong>
+    </div>
+
+    {{ form_start(form, {
+        method: 'POST',
+        attr: {
+            'data-turbo': 'false'
+        }
+    }) }}
+
+        {{ form_errors(form) }}
+
+        <div class="game-session-form__fields">
+            <div class="game-session-form__field game-session-form__field--full">
+                {{ form_row(form.name) }}
+            </div>
+
+            <div class="game-session-form__field">
+                {{ form_row(form.startTime) }}
+            </div>
+
+            <div class="game-session-form__field">
+                {{ form_row(form.endTime) }}
+            </div>
+        </div>
+
+        <div class="game-session-form__actions">
+            <a
+                class="button button--secondary"
+                href="{{ path('campaign_show', {
+                    id: campaign.id
+                }) }}"
+            >
+                Annuler
+            </a>
+
+            <button
+                type="submit"
+                class="button button--primary"
+            >
+                {{ submitLabel }}
+            </button>
+        </div>
+
+    {{ form_end(form) }}
+</section>

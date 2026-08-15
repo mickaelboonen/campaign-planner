@@ -1,45 +1,27 @@
-<div
-    style="
-        margin-bottom: 28px;
-        padding: 22px;
-        border-left: 4px solid {{ accentColor }};
-        border-radius: 8px;
-        background: #242832;
-    "
->
-    <div
-        style="
-            margin-bottom: 14px;
-            color: {{ accentColor }};
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        "
-    >
+<div style=" margin-bottom: 28px; padding: 22px; border-left: 4px solid {{ accentColor }}; border-radius: 8px; background: #242832;" >
+    <div style=" margin-bottom: 14px; color: {{ accentColor }}; font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; ">
         Campagne
     </div>
 
-    <div
-        style="
-            margin-bottom: 20px;
-            color: #ffffff;
-            font-size: 24px;
-            font-weight: 700;
-        "
-    >
+    <div style=" margin-bottom: 20px; color: #ffffff; font-size: 24px; font-weight: 700; ">
         {{ campaign.name }}
     </div>
 
+    {% if session.name %}
+        <p style="     margin: 0 0 14px;     color: #ffffff;     font-size: 18px;     font-weight: 700; " >
+            🎲 {{ session.name }}
+        </p>
+    {% endif %}
+
     <p style="margin: 0 0 10px;">
-        📅
-        {{ session.date|format_date(
-            pattern: 'EEEE d MMMM yyyy',
-            locale: 'fr'
-        ) }}
+        📅 {{ session.date|format_date( pattern: 'EEEE d MMMM yyyy', locale: 'fr' ) }}
     </p>
 
-    <p style="margin: 0;">
+    <p style="margin: 0 0 10px;">
         🕒 {{ session.period.label() }}
     </p>
+
+    {% if session.startTime and session.endTime %}
+        <p style="margin: 0;"> ⏰ {{ session.startTime|date('H:i', false) }} — {{ session.endTime|date('H:i', false) }} </p>
+    {% endif %}
 </div>

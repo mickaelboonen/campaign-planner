@@ -25,5 +25,6 @@
 @import url("./pages/campaign/campaign.css");
 @import url("./pages/calendar/calendar.css");
 @import url("./pages/public/participant.css");
+@import url("./pages/game-session.css");
 
 @import url("./components/content-components.css");

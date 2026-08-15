@@ -1,0 +1,75 @@
+.game-session-form {
+    display: grid;
+    gap: 1.5rem;
+
+    max-width: 42rem;
+
+    padding: 1.5rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-large);
+
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+}
+
+.game-session-form__summary {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.35rem 1rem;
+
+    padding-bottom: 1rem;
+
+    border-bottom: 1px solid var(--color-border);
+
+    strong {
+        color: var(--color-text);
+    }
+}
+
+.game-session-form__label {
+    color: var(--color-text-muted);
+
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.game-session-form__fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.game-session-form__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+
+    margin-top: 1rem;
+}
+
+@media (max-width: 700px) {
+    .game-session-form__fields {
+        grid-template-columns: 1fr;
+    }
+
+    .game-session-form__actions {
+        align-items: stretch;
+        flex-direction: column-reverse;
+
+        .button {
+            width: 100%;
+        }
+    }
+}
+
+.game-session-form__fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.game-session-form__field--full {
+    grid-column: 1 / -1;
+}

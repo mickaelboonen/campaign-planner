@@ -14,21 +14,9 @@
                     Session prévue
                 </span>
             {% else %}
-                <button
-                    type="submit"
-                    class="availability-table__schedule-button"
-                    formaction="{{ path('calendar_slot_schedule', {
-                        id: campaign.id,
-                        slot: day.afternoonSlot.id
-                    }) }}"
-                    formmethod="post"
-                    name="schedule_token"
-                    value="{{ csrf_token(
-                        'schedule-slot-' ~ day.afternoonSlot.id
-                    ) }}"
-                >
+                <a class="availability-table__schedule-button" href="{{ path('campaign_session_new', { id: campaign.id, slot: day.afternoonSlot.id }) }}" >
                     ✓ Valider
-                </button>
+                </a>
             {% endif %}
         </div>
 
@@ -42,21 +30,9 @@
                     Session prévue
                 </span>
             {% else %}
-                <button
-                    type="submit"
-                    class="availability-table__schedule-button"
-                    formaction="{{ path('calendar_slot_schedule', {
-                        id: campaign.id,
-                        slot: day.eveningSlot.id
-                    }) }}"
-                    formmethod="post"
-                    name="schedule_token"
-                    value="{{ csrf_token(
-                        'schedule-slot-' ~ day.eveningSlot.id
-                    ) }}"
-                >
+                <a class="availability-table__schedule-button" href="{{ path('campaign_session_new', { id: campaign.id, slot: day.eveningSlot.id }) }}" >
                     ✓ Valider
-                </button>
+                </a>
             {% endif %}
         </div>
     </div>

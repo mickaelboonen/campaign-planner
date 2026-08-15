@@ -152,3 +152,62 @@
         }
     }
 }
+
+.campaign-session-card__content {
+    display: grid;
+    flex: 1;
+    gap: 0.2rem;
+}
+
+.campaign-session-card__title {
+    color: var(--color-text);
+
+    font-family: var(--font-heading);
+    font-size: 1rem;
+}
+
+.campaign-session-card__content > span {
+    color: var(--color-text-muted);
+
+    font-size: 0.85rem;
+}
+
+.campaign-session-card__time {
+    color: var(--color-gold-light) !important;
+
+    font-weight: 700;
+
+    &.is-missing {
+        color: var(--color-text-muted) !important;
+
+        font-weight: 400;
+        font-style: italic;
+    }
+}
+
+.campaign-session-card__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-left: auto;
+
+    form {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .campaign-session-card__actions {
+        width: 100%;
+        margin-left: 0;
+
+        .button,
+        form {
+            flex: 1;
+        }
+
+        form .button {
+            width: 100%;
+        }
+    }
+}
