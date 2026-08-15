@@ -49,13 +49,26 @@
 
                     <div class="dashboard-card__content">
                         <h2>
-                            {{ nextSession.campaign.name }}
+                            {{ nextSession.name ?: nextSession.campaign.name }}
                         </h2>
+
+                        {% if nextSession.name %}
+                            <p class="dashboard-card__campaign">
+                                {{ nextSession.campaign.name }}
+                            </p>
+                        {% endif %}
 
                         <p class="dashboard-card__session-date">
                             {{ nextSession.date|date('d/m/Y') }}
                             ·
                             {{ nextSession.period.label() }}
+
+                            {% if nextSession.startTime and nextSession.endTime %}
+                                ·
+                                {{ nextSession.startTime|date('H:i', false) }}
+                                →
+                                {{ nextSession.endTime|date('H:i', false) }}
+                            {% endif %}
                         </p>
                     </div>
 
@@ -167,11 +180,26 @@
 
                         <div class="dashboard-session-card__content">
                             <strong>
-                                {{ session.campaign.name }}
+                                {{ session.name ?: session.campaign.name }}
                             </strong>
 
+                            {% if session.name %}
+                                <span class="dashboard-session-card__campaign">
+                                    {{ session.campaign.name }}
+                                </span>
+                            {% endif %}
+
                             <span>
+                                {{ session.date|date('d/m/Y') }}
+                                ·
                                 {{ session.period.label() }}
+
+                                {% if session.startTime and session.endTime %}
+                                    ·
+                                    {{ session.startTime|date('H:i', false) }}
+                                    →
+                                    {{ session.endTime|date('H:i', false) }}
+                                {% endif %}
                             </span>
                         </div>
 

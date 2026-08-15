@@ -209,3 +209,12 @@
 .dashboard-session-card__arrow {
     color: var(--color-gold);
 }
+.dashboard-card__campaign,
+.dashboard-session-card__campaign {
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+}
+
+.dashboard-card__campaign {
+    margin: 0 0 0.35rem;
+}

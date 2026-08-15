@@ -35,8 +35,14 @@
 
             {% if nextSession %}
                 <h2>
-                    {{ nextSession.campaign.name }}
+                    {{ nextSession.name ?: nextSession.campaign.name }}
                 </h2>
+
+                {% if nextSession.name %}
+                    <p class="participant-dashboard-card__campaign">
+                        {{ nextSession.campaign.name }}
+                    </p>
+                {% endif %}
 
                 <p class="participant-dashboard-card__date">
                     {{ nextSession.date|format_date(
@@ -45,8 +51,16 @@
                     ) }}
                 </p>
 
+
                 <p class="participant-dashboard-card__period">
                     {{ nextSession.period.label() }}
+
+                    {% if nextSession.startTime and nextSession.endTime %}
+                        ·
+                        {{ nextSession.startTime|date('H:i', false) }}
+                        →
+                        {{ nextSession.endTime|date('H:i', false) }}
+                    {% endif %}
                 </p>
             {% else %}
                 <h2>
@@ -106,8 +120,14 @@
 
                         <div class="participant-session-card__content">
                             <strong>
-                                {{ session.campaign.name }}
+                                {{ session.name ?: session.campaign.name }}
                             </strong>
+
+                            {% if session.name %}
+                                <span class="participant-session-card__campaign">
+                                    {{ session.campaign.name }}
+                                </span>
+                            {% endif %}
 
                             <span>
                                 {{ session.date|format_date(
@@ -116,6 +136,13 @@
                                 ) }}
                                 ·
                                 {{ session.period.label() }}
+
+                                {% if session.startTime and session.endTime %}
+                                    ·
+                                    {{ session.startTime|date('H:i', false) }}
+                                    →
+                                    {{ session.endTime|date('H:i', false) }}
+                                {% endif %}
                             </span>
                         </div>
                     </article>
