@@ -63,4 +63,14 @@ class AvailabilityRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function existsByParticipant(Participant $participant): bool
+    {
+        return (bool) $this->createQueryBuilder('availability')
+            ->select('COUNT(availability.id)')
+            ->andWhere('availability.participant = :participant')
+            ->setParameter('participant', $participant)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

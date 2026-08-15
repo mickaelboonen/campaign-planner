@@ -1,49 +1,61 @@
 {% if not isPastWeek %}
     <section class="availability-editor">
-        <div class="availability-editor__status">
+       <div class="availability-editor__status">
             <span class="availability-editor__label">
                 Statut à appliquer
             </span>
 
-            <button
-                type="button"
-                class="availability-status-button is-available"
-                data-availability-grid-target="statusButton"
-                data-action="availability-grid#selectStatus"
-                data-status="available"
-            >
-                ✓ Disponible
-            </button>
+            <div class="availability-editor__status-row">
+                <div class="availability-editor__status-buttons">
+                    <button
+                        type="button"
+                        class="availability-status-button is-available"
+                        data-availability-grid-target="statusButton"
+                        data-action="availability-grid#selectStatus"
+                        data-status="available"
+                    >
+                        ✓ Disponible
+                    </button>
 
-            <button
-                type="button"
-                class="availability-status-button is-maybe"
-                data-availability-grid-target="statusButton"
-                data-action="availability-grid#selectStatus"
-                data-status="maybe"
-            >
-                ? Peut-être
-            </button>
+                    <button
+                        type="button"
+                        class="availability-status-button is-maybe"
+                        data-availability-grid-target="statusButton"
+                        data-action="availability-grid#selectStatus"
+                        data-status="maybe"
+                    >
+                        ? Peut-être
+                    </button>
 
-            <button
-                type="button"
-                class="availability-status-button is-unavailable"
-                data-availability-grid-target="statusButton"
-                data-action="availability-grid#selectStatus"
-                data-status="unavailable"
-            >
-                × Indisponible
-            </button>
+                    <button
+                        type="button"
+                        class="availability-status-button is-unavailable"
+                        data-availability-grid-target="statusButton"
+                        data-action="availability-grid#selectStatus"
+                        data-status="unavailable"
+                    >
+                        × Indisponible
+                    </button>
 
-            <button
-                type="button"
-                class="availability-status-button is-empty"
-                data-availability-grid-target="statusButton"
-                data-action="availability-grid#selectStatus"
-                data-status=""
-            >
-                — Effacer
-            </button>
+                    <button
+                        type="button"
+                        class="availability-status-button is-empty"
+                        data-availability-grid-target="statusButton"
+                        data-action="availability-grid#selectStatus"
+                        data-status=""
+                    >
+                        — Effacer
+                    </button>
+                </div>
+
+                <button
+                    type="button"
+                    class="button button--secondary calendar-help-button"
+                    data-action="calendar-help#open"
+                >
+                    ? Aide
+                </button>
+            </div>
         </div>
 
         <div class="availability-editor__shortcuts">

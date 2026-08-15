@@ -10,7 +10,29 @@
 
     background: var(--color-surface);
 
-    .availability-editor__status,
+    .availability-editor__status {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        width: 100%;
+    }
+
+    .availability-editor__status-row {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .availability-editor__status-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
     .availability-editor__shortcuts {
         display: flex;
         flex-wrap: wrap;
@@ -19,6 +41,8 @@
     }
 
     .availability-editor__label {
+        flex-shrink: 0;
+
         margin-right: 0.25rem;
 
         color: var(--color-text-muted);
@@ -65,16 +89,43 @@
         }
     }
 
+    .calendar-help-button {
+        flex-shrink: 0;
+    }
+
     @media (max-width: 700px) {
-        .availability-editor__status,
-        .availability-editor__shortcuts {
+        .availability-editor__status {
             align-items: stretch;
             flex-direction: column;
         }
 
-        .availability-status-button,
-        .availability-editor__shortcuts .button {
+        .availability-editor__status-row {
+            align-items: stretch;
+            flex-direction: column;
+
             width: 100%;
+        }
+
+        .availability-editor__status-buttons {
+            width: 100%;
+        }
+
+        .availability-editor__status-buttons
+            .availability-status-button {
+            width: 100%;
+        }
+
+        .availability-editor__shortcuts {
+            align-items: stretch;
+            flex-direction: column;
+
+            .button {
+                width: 100%;
+            }
+        }
+
+        .calendar-help-button {
+            align-self: flex-end;
         }
     }
 }
@@ -91,6 +142,7 @@
         margin: 0;
 
         color: var(--color-text-muted);
+
         font-size: 0.85rem;
     }
 
@@ -106,6 +158,8 @@
 
 .button:disabled {
     cursor: not-allowed;
+
     opacity: 0.45;
+
     transform: none;
 }

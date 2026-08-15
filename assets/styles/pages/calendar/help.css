@@ -1,0 +1,261 @@
+/* ========================================
+   CALENDAR HELP
+======================================== */
+
+.calendar-help[hidden] {
+    display: none;
+}
+
+.calendar-help {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+
+    isolation: isolate;
+
+    pointer-events: none;
+}
+
+
+/* ========================================
+   BACKDROP
+======================================== */
+
+.calendar-help__backdrop {
+    position: absolute;
+    z-index: 1000;
+    inset: 0;
+
+    background: transparent;
+
+    pointer-events: auto;
+}
+
+
+/* ========================================
+   PANEL
+======================================== */
+
+.calendar-help__panel {
+    position: fixed;
+    z-index: 1;
+    top: 1.5rem;
+    right: 1.5rem;
+
+    width: min(26rem, calc(100vw - 3rem));
+    padding: 1.25rem;
+
+    border: 1px solid var(--color-gold);
+    border-radius: var(--radius-large);
+
+    color: var(--color-text);
+    background: var(--color-surface);
+
+    box-shadow:
+        0 0 0 3px var(--color-gold),
+        0 0 24px rgb(201 168 92 / 22%);
+
+    pointer-events: auto;
+
+    h2 {
+        margin: 0.25rem 0 0.75rem;
+
+        color: var(--color-text);
+
+        font-family: var(--font-heading);
+        font-size: 1.25rem;
+    }
+
+    p:last-child {
+        margin-bottom: 0;
+
+        color: var(--color-text-muted);
+
+        line-height: 1.6;
+    }
+}
+
+
+/* ========================================
+   HEADER
+======================================== */
+
+.calendar-help__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    margin-bottom: 1rem;
+}
+
+.calendar-help__counter {
+    color: var(--color-gold);
+
+    font-size: 0.75rem;
+    font-weight: 700;
+
+    letter-spacing: 0.05em;
+}
+
+.calendar-help__close {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+
+    padding: 0;
+
+    border: 0;
+    border-radius: 50%;
+
+    color: var(--color-text-muted);
+    background: transparent;
+
+    font: inherit;
+    font-size: 1.5rem;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        color var(--transition-fast),
+        background-color var(--transition-fast);
+
+    &:hover {
+        color: var(--color-text);
+        background: var(--color-surface-hover);
+    }
+}
+
+
+/* ========================================
+   ACTIONS
+======================================== */
+
+.calendar-help__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+
+    margin-top: 1.5rem;
+}
+
+
+/* ========================================
+   HIGHLIGHT / SPOTLIGHT
+======================================== */
+
+.calendar-help-highlight {
+    position: relative;
+    z-index: 1001;
+
+    border-radius: var(--radius-medium);
+
+    background: var(--color-surface);
+
+    padding: 0.5rem;
+
+    box-shadow:
+        0 0 0 3px var(--color-gold),
+        0 0 24px rgb(201 168 92 / 22%),
+        0 0 0 9999px rgb(0 0 0 / 55%);
+
+    transition:
+        box-shadow var(--transition-fast),
+        border-color var(--transition-fast),
+        background-color var(--transition-fast);
+}
+
+
+/* ========================================
+   PAGE STATE
+======================================== */
+
+body.has-calendar-help {
+    overflow: hidden;
+}
+
+
+/* ========================================
+   HELP BUTTON
+======================================== */
+
+.calendar-help-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 700px) {
+    .calendar-help__panel {
+        top: 0.75rem;
+        right: 0.75rem;
+        left: auto;
+
+        width: min(20rem, calc(100vw - 1.5rem));
+        padding: 0.85rem 1rem;
+
+        h2 {
+            margin: 0.15rem 0 0.45rem;
+
+            font-size: 1.05rem;
+        }
+
+        p {
+            margin-top: 0.35rem;
+
+            font-size: 0.85rem;
+            line-height: 1.45;
+        }
+    }
+
+    .calendar-help__header {
+        margin-bottom: 0.5rem;
+    }
+
+    .calendar-help__actions {
+        gap: 0.5rem;
+
+        margin-top: 0.85rem;
+
+        .button {
+            flex: 1;
+
+            padding: 0.55rem 0.7rem;
+
+            font-size: 0.8rem;
+        }
+    }
+
+    .calendar-help__desktop-text {
+        display: none;
+    }
+
+    .calendar-help__mobile-text {
+        display: block;
+    }
+}
+
+
+.calendar-help__mobile-text {
+    display: none;
+}
+
+@media (max-width: 700px) {
+    .calendar-help__desktop-text {
+        display: none;
+    }
+
+    .calendar-help__mobile-text {
+        display: block;
+    }
+}
+

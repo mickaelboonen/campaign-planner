@@ -115,6 +115,8 @@ final class ParticipantAccessController extends BaseController
             availabilities: $availabilities,
         );
 
+        $shouldAutoOpenHelp = !$isPastWeek && !$this->availabilityRepository->existsByParticipant($participant);
+
         return $this->render(
             'participant_access/calendar.html.twig',
             [
@@ -123,6 +125,7 @@ final class ParticipantAccessController extends BaseController
                 'calendar' => $calendar,
                 'isPastWeek' => $isPastWeek,
                 'availableWeeks' => $availableWeeks,
+                'shouldAutoOpenHelp' => $shouldAutoOpenHelp,
             ],
         );
     }
