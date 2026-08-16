@@ -1,18 +1,15 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-    static targets = [
-        'slot',
-        'input',
-        'modeButton',
-        'saveButton',
-    ];
+    static targets = ['slot', 'input', 'modeButton', 'saveButton'];
 
     static values = {
         activeMode: {
             type: String,
             default: 'blocked',
         },
+        blockedLabel: String,
+        unsavedChangesMessage: String,
     };
 
     connect() {
@@ -33,7 +30,7 @@ export default class extends Controller {
             }
 
             const shouldLeave = window.confirm(
-                'Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter cette page ?',
+                this.unsavedChangesMessageValue,
             );
 
             if (!shouldLeave) {
@@ -41,30 +38,16 @@ export default class extends Controller {
             }
         };
 
-        window.addEventListener(
-            'beforeunload',
-            this.beforeUnloadHandler,
-        );
-
-        document.addEventListener(
-            'turbo:before-visit',
-            this.beforeVisitHandler,
-        );
+        window.addEventListener('beforeunload', this.beforeUnloadHandler);
+        document.addEventListener('turbo:before-visit', this.beforeVisitHandler);
 
         this.updateModeButtons();
         this.updateSaveButton();
     }
 
     disconnect() {
-        window.removeEventListener(
-            'beforeunload',
-            this.beforeUnloadHandler,
-        );
-
-        document.removeEventListener(
-            'turbo:before-visit',
-            this.beforeVisitHandler,
-        );
+        window.removeEventListener('beforeunload', this.beforeUnloadHandler);
+        document.removeEventListener('turbo:before-visit', this.beforeVisitHandler);
     }
 
     submit() {
@@ -83,19 +66,6 @@ export default class extends Controller {
         this.applySlotState(slot, status);
         this.updateHiddenInput(slot.dataset.slotId, status);
         this.updateSaveButton();
-
-        console.log(
-    'slotId',
-    slot.dataset.slotId,
-    'status',
-    status,
-    'inputs',
-    this.inputTargets.map((input) => ({
-        slotId: input.dataset.slotId,
-        value: input.value,
-        initial: input.dataset.initialValue,
-    })),
-);
     }
 
     applyShortcut(event) {
@@ -133,9 +103,10 @@ export default class extends Controller {
         );
 
         if (label) {
-            label.textContent = status === 'blocked'
-                ? 'Bloqué'
-                : slot.dataset.label;
+            label.textContent =
+                status === 'blocked'
+                    ? this.blockedLabelValue
+                    : slot.dataset.label;
         }
 
         this.element

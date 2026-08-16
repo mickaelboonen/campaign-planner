@@ -99,3 +99,9 @@ recover:
     email: Email address
     submit: Find my player space
     back: Back to sign in
+
+calendar:
+    unsaved_changes: Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter cette page ?
+
+help:
+    finish: Finisj

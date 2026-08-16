@@ -55,3 +55,7 @@ navigation:
 
 public_sidebar:
     lost_access: I lost my access link
+
+clipboard:
+    copied: Copied
+    prompt: "Copy this link:"

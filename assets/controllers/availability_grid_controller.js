@@ -1,18 +1,18 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-    static targets = [
-        'cell',
-        'statusButton',
-        'input',
-        'saveButton',
-    ];
+    static targets = ['cell', 'statusButton', 'input', 'saveButton'];
 
     static values = {
         activeStatus: {
             type: String,
             default: 'available',
         },
+        availableLabel: String,
+        maybeLabel: String,
+        unavailableLabel: String,
+        unansweredLabel: String,
+        unsavedChangesMessage: String,
     };
 
     connect() {
@@ -33,7 +33,7 @@ export default class extends Controller {
             }
 
             const shouldLeave = window.confirm(
-                'Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter cette page ?',
+                this.unsavedChangesMessageValue,
             );
 
             if (!shouldLeave) {
@@ -41,30 +41,16 @@ export default class extends Controller {
             }
         };
 
-        window.addEventListener(
-            'beforeunload',
-            this.beforeUnloadHandler,
-        );
-
-        document.addEventListener(
-            'turbo:before-visit',
-            this.beforeVisitHandler,
-        );
+        window.addEventListener('beforeunload', this.beforeUnloadHandler);
+        document.addEventListener('turbo:before-visit', this.beforeVisitHandler);
 
         this.updateStatusButtons();
         this.updateSaveButton();
     }
 
     disconnect() {
-        window.removeEventListener(
-            'beforeunload',
-            this.beforeUnloadHandler,
-        );
-
-        document.removeEventListener(
-            'turbo:before-visit',
-            this.beforeVisitHandler,
-        );
+        window.removeEventListener('beforeunload', this.beforeUnloadHandler);
+        document.removeEventListener('turbo:before-visit', this.beforeVisitHandler);
     }
 
     submit() {
@@ -102,12 +88,10 @@ export default class extends Controller {
                     return false;
                 }
 
-                return scope === 'all'
-                    || cell.dataset.period === scope;
+                return scope === 'all' || cell.dataset.period === scope;
             })
             .forEach((cell) => {
                 cell.dataset.status = status;
-
                 this.applyCellAppearance(cell, status);
                 this.updateHiddenInput(cell, status);
             });
@@ -123,9 +107,7 @@ export default class extends Controller {
             'is-unavailable',
         );
 
-        const symbol = cell.querySelector(
-            '.availability-cell__symbol',
-        );
+        const symbol = cell.querySelector('.availability-cell__symbol');
 
         if (!symbol) {
             return;
@@ -134,25 +116,25 @@ export default class extends Controller {
         switch (status) {
             case 'available':
                 cell.classList.add('is-available');
-                cell.title = 'Disponible';
+                cell.title = this.availableLabelValue;
                 symbol.textContent = '✓';
                 break;
 
             case 'maybe':
                 cell.classList.add('is-maybe');
-                cell.title = 'Peut-être';
+                cell.title = this.maybeLabelValue;
                 symbol.textContent = '?';
                 break;
 
             case 'unavailable':
                 cell.classList.add('is-unavailable');
-                cell.title = 'Indisponible';
+                cell.title = this.unavailableLabelValue;
                 symbol.textContent = '×';
                 break;
 
             default:
                 cell.classList.add('is-empty');
-                cell.title = 'Non renseigné';
+                cell.title = this.unansweredLabelValue;
                 symbol.textContent = '—';
         }
     }

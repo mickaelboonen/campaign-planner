@@ -51,3 +51,5 @@ mobile:
 save:
     hint: Les modifications ne sont enregistrées qu’après validation.
     submit: Enregistrer les créneaux
+
+unsaved_changes: Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter cette page ?

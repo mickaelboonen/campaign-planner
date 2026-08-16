@@ -51,3 +51,5 @@ mobile:
 save:
     hint: Changes are only saved after confirmation.
     submit: Save time slots
+
+unsaved_changes: You have unsaved changes. Are you sure you want to leave this page?

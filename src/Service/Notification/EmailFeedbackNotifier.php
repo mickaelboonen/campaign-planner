@@ -6,6 +6,7 @@ use App\Entity\Feedback;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class EmailFeedbackNotifier
 {
@@ -14,6 +15,7 @@ final readonly class EmailFeedbackNotifier
 
     public function __construct(
         private MailerInterface $mailer,
+        private readonly TranslatorInterface $translator,
         private string $adminEmail,
     ) {
     }
@@ -28,7 +30,7 @@ final readonly class EmailFeedbackNotifier
             ->to($this->adminEmail)
             ->subject(sprintf(
                 '[%s] Nouveau message CampaignPlanner',
-                $feedback->getType()->label(),
+                $this->translator->trans($feedback->getType()->translationKey(), domain: 'enums')
             ))
             ->htmlTemplate(
                 'emails/feedback_received.html.twig',

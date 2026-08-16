@@ -8,3 +8,9 @@ form:
     character_name:
         label: Character
     cancel: Cancel
+
+calendar:
+    unsaved_changes: Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter cette page ?
+
+help:
+    finish: Terminer
