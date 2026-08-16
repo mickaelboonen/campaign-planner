@@ -1,98 +1,63 @@
+{% trans_default_domain 'participant_access' %}
+
 {% if not isPastWeek %}
-    <section class="availability-editor">
-       <div class="availability-editor__status">
-            <span class="availability-editor__label">
-                Statut à appliquer
-            </span>
+<section class="availability-editor">
+    <div class="availability-editor__status">
+        <span class="availability-editor__label">{{ 'calendar.editor.status'|trans }}</span>
 
-            <div class="availability-editor__status-row">
-                <div class="availability-editor__status-buttons">
-                    <button
-                        type="button"
-                        class="availability-status-button is-available"
+        <div class="availability-editor__status-row">
+            <div class="availability-editor__status-buttons">
+                <button type="button" class="availability-status-button is-available"
                         data-availability-grid-target="statusButton"
                         data-action="availability-grid#selectStatus"
-                        data-status="available"
-                    >
-                        ✓ Disponible
-                    </button>
+                        data-status="available">
+                    ✓ {{ 'calendar.editor.available'|trans }}
+                </button>
 
-                    <button
-                        type="button"
-                        class="availability-status-button is-maybe"
+                <button type="button" class="availability-status-button is-maybe"
                         data-availability-grid-target="statusButton"
                         data-action="availability-grid#selectStatus"
-                        data-status="maybe"
-                    >
-                        ? Peut-être
-                    </button>
+                        data-status="maybe">
+                    ? {{ 'calendar.editor.maybe'|trans }}
+                </button>
 
-                    <button
-                        type="button"
-                        class="availability-status-button is-unavailable"
+                <button type="button" class="availability-status-button is-unavailable"
                         data-availability-grid-target="statusButton"
                         data-action="availability-grid#selectStatus"
-                        data-status="unavailable"
-                    >
-                        × Indisponible
-                    </button>
+                        data-status="unavailable">
+                    × {{ 'calendar.editor.unavailable'|trans }}
+                </button>
 
-                    <button
-                        type="button"
-                        class="availability-status-button is-empty"
+                <button type="button" class="availability-status-button is-empty"
                         data-availability-grid-target="statusButton"
                         data-action="availability-grid#selectStatus"
-                        data-status=""
-                    >
-                        — Effacer
-                    </button>
-                </div>
-
-                <button
-                    type="button"
-                    class="button button--secondary calendar-help-button"
-                    data-action="calendar-help#open"
-                >
-                    ? Aide
+                        data-status="">
+                    — {{ 'calendar.editor.clear'|trans }}
                 </button>
             </div>
-        </div>
 
-        <div class="availability-editor__shortcuts">
-            <span class="availability-editor__label">
-                Actions rapides
-            </span>
-
-            <button
-                type="button"
-                class="button button--secondary"
-                data-action="availability-grid#applyToAll"
-                data-scope="all"
-            >
-                Toute la semaine
-            </button>
-
-            <button
-                type="button"
-                class="button button--secondary"
-                data-action="availability-grid#applyToAll"
-                data-scope="afternoon"
-            >
-                Tous les après-midi
-            </button>
-
-            <button
-                type="button"
-                class="button button--secondary"
-                data-action="availability-grid#applyToAll"
-                data-scope="evening"
-            >
-                Tous les soirs
+            <button type="button" class="button button--secondary calendar-help-button" data-action="calendar-help#open">
+                ? {{ 'calendar.editor.help'|trans }}
             </button>
         </div>
-    </section>
-{% else %}
-    <div class="calendar-readonly-notice">
-        Cette semaine est passée et ne peut plus être modifiée.
     </div>
+
+    <div class="availability-editor__shortcuts">
+        <span class="availability-editor__label">{{ 'calendar.editor.shortcuts'|trans }}</span>
+
+        <button type="button" class="button button--secondary" data-action="availability-grid#applyToAll" data-scope="all">
+            {{ 'calendar.editor.all_week'|trans }}
+        </button>
+
+        <button type="button" class="button button--secondary" data-action="availability-grid#applyToAll" data-scope="afternoon">
+            {{ 'calendar.editor.all_afternoons'|trans }}
+        </button>
+
+        <button type="button" class="button button--secondary" data-action="availability-grid#applyToAll" data-scope="evening">
+            {{ 'calendar.editor.all_evenings'|trans }}
+        </button>
+    </div>
+</section>
+{% else %}
+    <div class="calendar-readonly-notice">{{ 'calendar.editor.readonly'|trans }}</div>
 {% endif %}

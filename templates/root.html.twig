@@ -1,27 +1,17 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
-    <head>
-        <meta charset="UTF-8">
+<html lang="{{ app.request.locale }}" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1"
-        >
+    <title>{% block title %}CampaignPlanner{% endblock %}</title>
 
-        <title>
-            {% block title %}CampaignPlanner{% endblock %}
-        </title>
+    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
 
-        <link
-            rel="icon"
-            type="image/png"
-            href="{{ asset('images/favicon.png') }}"
-        >
+    {% block stylesheets %}
+        {{ importmap('app') }}
+    {% endblock %}
+</head>
 
-        {% block stylesheets %}
-            {{ importmap('app') }}
-        {% endblock %}
-    </head>
-
-    {% block layout %}{% endblock %}
+{% block layout %}{% endblock %}
 </html>

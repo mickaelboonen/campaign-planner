@@ -19,17 +19,17 @@ final class ParticipantType extends AbstractType
     ): void {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom ou pseudo',
+                'label' => 'form.name.label',
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Adresse email',
+                'label' => 'form.email.label',
             ])
             ->add('phone', TelType::class, [
-                'label' => 'Téléphone',
+                'label' => 'form.phone.label',
                 'required' => false,
             ])
             ->add('characterName', TextType::class, [
-                'label' => 'Personnage',
+                'label' => 'form.character_name.label',
                 'required' => false,
             ]);
     }
@@ -38,6 +38,7 @@ final class ParticipantType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => CreateParticipantData::class,
+            'translation_domain' => 'participant',
         ]);
 
         $resolver->setAllowedValues('data_class', [

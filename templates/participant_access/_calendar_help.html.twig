@@ -1,119 +1,60 @@
-<button
-    type="button"
-    class="button button--secondary calendar-help-button"
-    data-action="calendar-help#open"
->
-    ? Aide
+{% trans_default_domain 'participant_access' %}
+
+<button type="button" class="button button--secondary calendar-help-button" data-action="calendar-help#open">
+    ? {{ 'help.button'|trans }}
 </button>
 
-<div
-    class="calendar-help"
-    data-calendar-help-target="overlay"
-    hidden
->
-    <aside
-        class="calendar-help__panel"
-        role="dialog"
-        aria-modal="true"
-        aria-label="Aide du calendrier"
-    >
+<div class="calendar-help" data-calendar-help-target="overlay" hidden>
+    <aside class="calendar-help__panel" role="dialog" aria-modal="true" aria-label="{{ 'help.dialog'|trans }}">
         <header class="calendar-help__header">
-            <span
-                class="calendar-help__counter"
-                data-calendar-help-target="counter"
-            ></span>
-
-            <button
-                type="button"
-                class="calendar-help__close"
-                data-action="calendar-help#close"
-                aria-label="Fermer l’aide"
-            >
-                ×
-            </button>
+            <span class="calendar-help__counter" data-calendar-help-target="counter"></span>
+            <button type="button" class="calendar-help__close" data-action="calendar-help#close" aria-label="{{ 'help.close'|trans }}">×</button>
         </header>
 
-        <div
-            data-calendar-help-target="step"
-            data-highlight-desktop=".availability-editor__status"
-            data-highlight-mobile=".availability-editor__status"
-        >
-            <p class="page-eyebrow">Vos disponibilités</p>
-            <h2>Choisissez un statut</h2>
-
-            <p>
-                Commencez par choisir si vous êtes disponible,
-                peut-être disponible ou indisponible.
-            </p>
+        <div data-calendar-help-target="step"
+             data-highlight-desktop=".availability-editor__status"
+             data-highlight-mobile=".availability-editor__status">
+            <p class="page-eyebrow">{{ 'help.availability.eyebrow'|trans }}</p>
+            <h2>{{ 'help.availability.title'|trans }}</h2>
+            <p>{{ 'help.availability.description'|trans }}</p>
         </div>
 
-        <div
-            data-calendar-help-target="step"
-            data-highlight-desktop=".calendar-card"
-            data-highlight-mobile=".calendar-mobile-day"
-            hidden
-        >
-            <p class="page-eyebrow">Le calendrier</p>
-            <h2>Indiquez vos créneaux</h2>
-
-            <p class="calendar-help__desktop-text">
-                Cliquez sur vos créneaux pour leur appliquer le statut
-                sélectionné. Seule votre propre ligne est modifiable.
-            </p>
-
-            <p class="calendar-help__mobile-text">
-                Parcourez les journées et appuyez sur vos créneaux
-                pour leur appliquer le statut sélectionné.
-            </p>
+        <div data-calendar-help-target="step"
+             data-highlight-desktop=".calendar-card"
+             data-highlight-mobile=".calendar-mobile-day" hidden>
+            <p class="page-eyebrow">{{ 'help.calendar.eyebrow'|trans }}</p>
+            <h2>{{ 'help.calendar.title'|trans }}</h2>
+            <p class="calendar-help__desktop-text">{{ 'help.calendar.desktop'|trans }}</p>
+            <p class="calendar-help__mobile-text">{{ 'help.calendar.mobile'|trans }}</p>
         </div>
 
-        <div
-            data-calendar-help-target="step"
-            data-highlight-desktop=".availability-editor__shortcuts"
-            data-highlight-mobile=".availability-editor__shortcuts"
-            hidden
-        >
-            <p class="page-eyebrow">Actions rapides</p>
-            <h2>Gagnez du temps</h2>
-
-            <p>
-                Appliquez le statut choisi à toute la semaine,
-                à tous les après-midi ou à tous les soirs.
-            </p>
+        <div data-calendar-help-target="step"
+             data-highlight-desktop=".availability-editor__shortcuts"
+             data-highlight-mobile=".availability-editor__shortcuts" hidden>
+            <p class="page-eyebrow">{{ 'help.shortcuts.eyebrow'|trans }}</p>
+            <h2>{{ 'help.shortcuts.title'|trans }}</h2>
+            <p>{{ 'help.shortcuts.description'|trans }}</p>
         </div>
 
-        <div
-            data-calendar-help-target="step"
-            data-highlight-desktop=".availability-save"
-            data-highlight-mobile=".availability-save"
-            hidden
-        >
-            <p class="page-eyebrow">Dernière étape</p>
-            <h2>Enregistrez vos réponses</h2>
-
-            <p>
-                Vos modifications ne sont prises en compte qu’après
-                avoir enregistré vos disponibilités.
-            </p>
+        <div data-calendar-help-target="step"
+             data-highlight-desktop=".availability-save"
+             data-highlight-mobile=".availability-save" hidden>
+            <p class="page-eyebrow">{{ 'help.save.eyebrow'|trans }}</p>
+            <h2>{{ 'help.save.title'|trans }}</h2>
+            <p>{{ 'help.save.description'|trans }}</p>
         </div>
 
         <footer class="calendar-help__actions">
-            <button
-                type="button"
-                class="button button--secondary"
-                data-calendar-help-target="previousButton"
-                data-action="calendar-help#previous"
-            >
-                ← Précédent
+            <button type="button" class="button button--secondary"
+                    data-calendar-help-target="previousButton"
+                    data-action="calendar-help#previous">
+                ← {{ 'help.previous'|trans }}
             </button>
 
-            <button
-                type="button"
-                class="button button--primary"
-                data-calendar-help-target="nextButton"
-                data-action="calendar-help#next"
-            >
-                Suivant →
+            <button type="button" class="button button--primary"
+                    data-calendar-help-target="nextButton"
+                    data-action="calendar-help#next">
+                {{ 'help.next'|trans }} →
             </button>
         </footer>
     </aside>

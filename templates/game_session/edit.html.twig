@@ -1,20 +1,34 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier la session — {{ campaign.name }}{% endblock %}
+{% trans_default_domain 'game_session' %}
+
+{% block title %}
+    {{ 'edit.title'|trans }} — {{ campaign.name }}
+{% endblock %}
 
 {% block body %}
     {% include 'components/breadcrumb.html.twig' with {
         items: [
-            { label: 'Campagnes', path: path('campaign_list') },
-            { label: campaign.name, path: path('campaign_show', { id: campaign.id }) },
-            { label: 'Modifier la session' }
+            {
+                label: 'breadcrumb.campaigns'|trans({}, 'campaign'),
+                path: path('campaign_list')
+            },
+            {
+                label: campaign.name,
+                path: path('campaign_show', {
+                    id: campaign.id
+                })
+            },
+            {
+                label: 'edit.title'|trans
+            }
         ]
     } %}
 
     {% include 'components/page-header.html.twig' with {
         eyebrow: campaign.name,
-        title: 'Modifier la session',
-        description: 'Modifiez les horaires de cette session.'
+        title: 'edit.title'|trans,
+        description: 'edit.description'|trans
     } %}
 
     {% include 'game_session/_form.html.twig' with {
@@ -22,6 +36,6 @@
         form: form,
         sessionDate: session.date,
         sessionPeriod: session.period,
-        submitLabel: 'Enregistrer les modifications'
+        submitLabel: 'edit.submit'|trans
     } %}
 {% endblock %}

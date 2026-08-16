@@ -1,0 +1,10 @@
+form:
+    name:
+        label: Name or nickname
+    email:
+        label: Email address
+    phone:
+        label: Phone
+    character_name:
+        label: Character
+    cancel: Cancel

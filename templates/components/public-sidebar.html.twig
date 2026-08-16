@@ -1,0 +1,45 @@
+{% trans_default_domain 'common' %}
+
+<aside class="sidebar" data-mobile-navigation-target="sidebar">
+    <a class="brand" href="{{ path('dashboard') }}">
+        {% include 'components/brand.html.twig' %}
+    </a>
+
+    {% include 'components/theme-button.html.twig' %}
+
+    <nav class="sidebar-nav" aria-label="{{ 'navigation.main'|trans }}">
+        <a class="sidebar-nav__link {{ app.current_route == 'dashboard' ? 'is-active' }}"
+           href="{{ path('dashboard') }}">
+            <span>⌂</span>
+            {{ 'sidebar.dashboard'|trans }}
+        </a>
+
+        <a class="sidebar-nav__link {{ app.current_route starts with 'campaign_' ? 'is-active' }}"
+           href="{{ path('campaign_list') }}">
+            <span>◆</span>
+            {{ 'sidebar.campaigns'|trans }}
+        </a>
+
+        <span class="sidebar-nav__link is-disabled">
+            <span>▦</span>
+            {{ 'sidebar.calendar'|trans }}
+        </span>
+
+        <a class="sidebar-nav__link" href="{{ path('participant_recover') }}">
+            <span>↺</span>
+            {{ 'public_sidebar.lost_access'|trans }}
+        </a>
+    </nav>
+
+    <div class="sidebar__footer">
+        {% if app.user %}
+            <span class="sidebar__user">
+                {{ app.user.userIdentifier }}
+            </span>
+
+            <a class="sidebar__logout" href="{{ path('app_logout') }}">
+                {{ 'sidebar.account.logout'|trans }}
+            </a>
+        {% endif %}
+    </div>
+</aside>

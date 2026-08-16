@@ -1,0 +1,27 @@
+breadcrumb:
+    campaigns: Campagnes
+
+eyebrow: Participants
+
+new:
+    title: Nouveau participant
+    heading: Ajouter un participant
+    description: Invitez un nouveau joueur dans cette campagne.
+    submit: Ajouter un participant
+
+edit:
+    title: Modifier %name%
+    heading: Modifier le participant
+    description: Mettez à jour les informations de %name%.
+    submit: Enregistrer
+
+form:
+    name:
+        label: Nom ou pseudo
+    email:
+        label: Adresse email
+    phone:
+        label: Téléphone
+    character_name:
+        label: Personnage
+    cancel: Annuler

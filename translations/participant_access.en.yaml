@@ -1,0 +1,101 @@
+dashboard:
+    title: My player space
+    eyebrow: Player space
+    hello: Hello %name%
+    description: Find your campaigns, upcoming sessions and availability calendars.
+
+    next_session:
+        eyebrow: Next session
+        empty_title: No session scheduled
+        empty_description: No GM has confirmed an upcoming date yet.
+
+    campaigns:
+        eyebrow: Campaigns
+        singular: Active campaign
+        plural: Active campaigns
+
+    upcoming:
+        eyebrow: Schedule
+        title: Other upcoming sessions
+
+    access:
+        eyebrow: My campaigns
+        title: Calendar access
+        campaign: Campaign
+        button: View my availability
+
+calendar:
+    title: My availability — %campaign%
+    hello: Hello %name%
+    description: Enter your availability for the week from %start% to %end%. Other participants' answers are visible.
+
+    toolbar:
+        previous: Previous week
+        current: This week
+        next: Next week
+        choose: Choose a week
+
+    table:
+        participant: Participant
+        player: Player
+        you: You —
+        afternoon: Afternoon
+        evening: Evening
+        blocked: Blocked
+        no_participant: No active participants.
+        no_participant_campaign: No active participants in this campaign.
+        no_slot: No time slots available for this week.
+
+    editor:
+        status: Status to apply
+        available: Available
+        maybe: Maybe
+        unavailable: Unavailable
+        clear: Clear
+        help: Help
+        shortcuts: Quick actions
+        all_week: Entire week
+        all_afternoons: All afternoons
+        all_evenings: All evenings
+        readonly: This week has passed and can no longer be edited.
+
+    save:
+        hint: Changes are only saved after confirmation.
+        submit: Save my availability
+
+help:
+    button: Help
+    dialog: Calendar help
+    close: Close help
+
+    availability:
+        eyebrow: Your availability
+        title: Choose a status
+        description: Start by choosing whether you are available, maybe available or unavailable.
+
+    calendar:
+        eyebrow: The calendar
+        title: Enter your time slots
+        desktop: Click your time slots to apply the selected status. Only your own row can be edited.
+        mobile: Browse through the days and tap your time slots to apply the selected status.
+
+    shortcuts:
+        eyebrow: Quick actions
+        title: Save time
+        description: Apply the selected status to the entire week, all afternoons or all evenings.
+
+    save:
+        eyebrow: Final step
+        title: Save your answers
+        description: Your changes only take effect once you save your availability.
+
+    previous: Previous
+    next: Next
+
+recover:
+    title: Find my player space
+    heading: Player space
+    description: Lost your access link? Enter the email address used for your campaigns.
+    email: Email address
+    submit: Find my player space
+    back: Back to sign in

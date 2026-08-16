@@ -1,10 +1,22 @@
+{% trans_default_domain 'game_session' %}
+
 <section class="game-session-form">
     <div class="game-session-form__summary">
-        <span class="game-session-form__label">Date</span>
-        <strong>{{ sessionDate|date('d/m/Y') }}</strong>
+        <span class="game-session-form__label">
+            {{ 'form.date'|trans }}
+        </span>
 
-        <span class="game-session-form__label">Créneau</span>
-        <strong>{{ sessionPeriod.label() }}</strong>
+        <strong>
+            {{ sessionDate|date('d/m/Y') }}
+        </strong>
+
+        <span class="game-session-form__label">
+            {{ 'form.period'|trans }}
+        </span>
+
+        <strong>
+            {{ sessionPeriod.translationKey()|trans({}, 'enums') }}
+        </strong>
     </div>
 
     {{ form_start(form, {
@@ -37,7 +49,7 @@
                     id: campaign.id
                 }) }}"
             >
-                Annuler
+                {{ 'form.cancel'|trans }}
             </a>
 
             <button

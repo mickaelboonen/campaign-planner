@@ -1,15 +1,9 @@
-{% for dayIndex, day in calendar.days %}
-    {% set isDayBlocked =
-        day.afternoonSlot.blocked
-        and day.eveningSlot.blocked
-    %}
+{% trans_default_domain 'participant_access' %}
 
-    <article
-        class="
-            calendar-mobile-day
-            {{ isDayBlocked ? 'is-blocked' }}
-        "
-    >
+{% for dayIndex, day in calendar.days %}
+    {% set isDayBlocked = day.afternoonSlot.blocked and day.eveningSlot.blocked %}
+
+    <article class="calendar-mobile-day {{ isDayBlocked ? 'is-blocked' }}">
         <header class="calendar-mobile-day__header">
             <div class="calendar-mobile-day__identity">
                 <strong>{{ day.label }}</strong>
@@ -17,167 +11,69 @@
             </div>
 
             {% if isDayBlocked %}
-                <span class="calendar-mobile-day__blocked">
-                    Bloqué
-                </span>
+                <span class="calendar-mobile-day__blocked">{{ 'calendar.table.blocked'|trans }}</span>
             {% endif %}
         </header>
 
         {% if not isDayBlocked %}
             <div class="calendar-mobile-grid">
-                <div class="calendar-mobile-grid__header is-name">
-                    Joueur
+                <div class="calendar-mobile-grid__header is-name">{{ 'calendar.table.player'|trans }}</div>
+
+                <div class="calendar-mobile-grid__header is-afternoon {{ day.afternoonSlot.blocked ? 'is-blocked' }}">
+                    <span>{{ 'calendar.table.afternoon'|trans }}</span>
+                    {% if day.afternoonSlot.blocked %}<small>{{ 'calendar.table.blocked'|trans }}</small>{% endif %}
                 </div>
 
-                <div
-                    class="
-                        calendar-mobile-grid__header
-                        is-afternoon
-                        {{ day.afternoonSlot.blocked
-                            ? 'is-blocked'
-                        }}
-                    "
-                >
-                    <span>Après-midi</span>
-
-                    {% if day.afternoonSlot.blocked %}
-                        <small>Bloqué</small>
-                    {% endif %}
-                </div>
-
-                <div
-                    class="
-                        calendar-mobile-grid__header
-                        is-evening
-                        {{ day.eveningSlot.blocked
-                            ? 'is-blocked'
-                        }}
-                    "
-                >
-                    <span>Soir</span>
-
-                    {% if day.eveningSlot.blocked %}
-                        <small>Bloqué</small>
-                    {% endif %}
+                <div class="calendar-mobile-grid__header is-evening {{ day.eveningSlot.blocked ? 'is-blocked' }}">
+                    <span>{{ 'calendar.table.evening'|trans }}</span>
+                    {% if day.eveningSlot.blocked %}<small>{{ 'calendar.table.blocked'|trans }}</small>{% endif %}
                 </div>
 
                 {% for row in calendar.rows %}
-                    {% set isCurrentParticipant =
-                        row.participant.id == participant.id
-                    %}
+                    {% set isCurrentParticipant = row.participant.id == participant.id %}
+                    {% set isEditable = isCurrentParticipant and not isPastWeek %}
+                    {% set afternoonCell = row.cells[dayIndex * 2] %}
+                    {% set eveningCell = row.cells[(dayIndex * 2) + 1] %}
 
-                    {% set isEditable =
-                        isCurrentParticipant
-                        and not isPastWeek
-                    %}
-
-                    {% set afternoonCell =
-                        row.cells[dayIndex * 2]
-                    %}
-
-                    {% set eveningCell =
-                        row.cells[(dayIndex * 2) + 1]
-                    %}
-
-                    <div
-                        class="
-                            calendar-mobile-grid__participant
-                            is-name
-                            {{ isCurrentParticipant
-                                ? 'is-current-participant'
-                            }}
-                        "
-                    >
+                    <div class="calendar-mobile-grid__participant is-name {{ isCurrentParticipant ? 'is-current-participant' }}">
                         <strong>
-                            {% if isCurrentParticipant %}
-                                Vous —
-                            {% endif %}
-
+                            {% if isCurrentParticipant %}{{ 'calendar.table.you'|trans }}{% endif %}
                             {{ row.participant.name }}
                         </strong>
-
-                        {% if row.participant.characterName %}
-                            <span>
-                                {{ row.participant.characterName }}
-                            </span>
-                        {% endif %}
+                        {% if row.participant.characterName %}<span>{{ row.participant.characterName }}</span>{% endif %}
                     </div>
 
-                    <div
-                        class="
-                            calendar-mobile-status
-                            is-afternoon
-                            {{ afternoonCell.cssClass }}
-                            {{ isEditable
-                                ? 'is-editable'
-                            }}
-                        "
-                        title="{{ afternoonCell.label }}"
-
-                        {% if isEditable %}
-                            data-availability-grid-target="cell"
-                            data-action="click->availability-grid#updateCell"
-                            data-slot-id="{{ afternoonCell.slot.id }}"
-                            data-period="afternoon"
-                            data-status="{{
-                                afternoonCell.status
-                                    ? afternoonCell.status.value
-                                    : ''
-                            }}"
-                            data-blocked="{{
-                                afternoonCell.blocked
-                                    ? 'true'
-                                    : 'false'
-                            }}"
-                        {% endif %}
-                    >
-                        <span class="availability-cell__symbol">
-                            {{ afternoonCell.symbol }}
-                        </span>
+                    <div class="calendar-mobile-status is-afternoon {{ afternoonCell.cssClass }} {{ isEditable ? 'is-editable' }}"
+                         title="{{ afternoonCell.translationKey|trans({}, 'enums') }}"
+                         {% if isEditable %}
+                             data-availability-grid-target="cell"
+                             data-action="click->availability-grid#updateCell"
+                             data-slot-id="{{ afternoonCell.slot.id }}"
+                             data-period="afternoon"
+                             data-status="{{ afternoonCell.status ? afternoonCell.status.value : '' }}"
+                             data-blocked="{{ afternoonCell.blocked ? 'true' : 'false' }}"
+                         {% endif %}>
+                        <span class="availability-cell__symbol">{{ afternoonCell.symbol }}</span>
                     </div>
 
-                    <div
-                        class="
-                            calendar-mobile-status
-                            is-evening
-                            {{ eveningCell.cssClass }}
-                            {{ isEditable
-                                ? 'is-editable'
-                            }}
-                        "
-                        title="{{ eveningCell.label }}"
-
-                        {% if isEditable %}
-                            data-availability-grid-target="cell"
-                            data-action="click->availability-grid#updateCell"
-                            data-slot-id="{{ eveningCell.slot.id }}"
-                            data-period="evening"
-                            data-status="{{
-                                eveningCell.status
-                                    ? eveningCell.status.value
-                                    : ''
-                            }}"
-                            data-blocked="{{
-                                eveningCell.blocked
-                                    ? 'true'
-                                    : 'false'
-                            }}"
-                        {% endif %}
-                    >
-                        <span class="availability-cell__symbol">
-                            {{ eveningCell.symbol }}
-                        </span>
+                    <div class="calendar-mobile-status is-evening {{ eveningCell.cssClass }} {{ isEditable ? 'is-editable' }}"
+                         title="{{ eveningCell.translationKey|trans({}, 'enums') }}"
+                         {% if isEditable %}
+                             data-availability-grid-target="cell"
+                             data-action="click->availability-grid#updateCell"
+                             data-slot-id="{{ eveningCell.slot.id }}"
+                             data-period="evening"
+                             data-status="{{ eveningCell.status ? eveningCell.status.value : '' }}"
+                             data-blocked="{{ eveningCell.blocked ? 'true' : 'false' }}"
+                         {% endif %}>
+                        <span class="availability-cell__symbol">{{ eveningCell.symbol }}</span>
                     </div>
                 {% else %}
-                    <div class="calendar-mobile-empty">
-                        Aucun participant actif.
-                    </div>
+                    <div class="calendar-mobile-empty">{{ 'calendar.table.no_participant'|trans }}</div>
                 {% endfor %}
             </div>
         {% endif %}
     </article>
 {% else %}
-    <div class="calendar-mobile-empty">
-        Aucun créneau disponible pour cette semaine.
-    </div>
+    <div class="calendar-mobile-empty">{{ 'calendar.table.no_slot'|trans }}</div>
 {% endfor %}

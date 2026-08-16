@@ -1,70 +1,32 @@
 {% extends 'portal_base.html.twig' %}
+{% trans_default_domain 'participant_access' %}
 
-{% block title %}
-    Retrouver mon espace joueur
-{% endblock %}
-
-{% block portal_class %}
-    portal-page--auth
-{% endblock %}
+{% block title %}{{ 'recover.title'|trans }}{% endblock %}
+{% block portal_class %}portal-page--auth{% endblock %}
 
 {% block portal_content %}
-    <div class="portal-heading">
-        <h1>
-            Espace joueur
-        </h1>
+<div class="portal-heading">
+    <h1>{{ 'recover.heading'|trans }}</h1>
+    <p>{{ 'recover.description'|trans }}</p>
+</div>
 
-        <p>
-            Vous avez perdu votre lien d'accès ?
-            Saisissez l'adresse e-mail utilisée
-            pour vos campagnes.
-        </p>
+{% include 'components/flashes.html.twig' %}
+
+<form method="post" class="form">
+    <div class="form-row">
+        <label class="form-label" for="email">{{ 'recover.email'|trans }}</label>
+        <input class="form-control" type="email" name="email" id="email"
+               autocomplete="email" required autofocus>
     </div>
 
-    {% include 'components/flashes.html.twig' %}
+    <input type="hidden" name="_token" value="{{ csrf_token('participant-recover') }}">
 
-    <form
-        method="post"
-        class="form"
-    >
-        <div class="form-row">
-            <label
-                class="form-label"
-                for="email"
-            >
-                Adresse e-mail
-            </label>
+    <button class="button button--portal" type="submit">
+        {{ 'recover.submit'|trans }}
+    </button>
+</form>
 
-            <input
-                class="form-control"
-                type="email"
-                name="email"
-                id="email"
-                autocomplete="email"
-                required
-                autofocus
-            >
-        </div>
-
-        <input
-            type="hidden"
-            name="_token"
-            value="{{ csrf_token(
-                'participant-recover'
-            ) }}"
-        >
-
-        <button
-            class="button button--portal"
-            type="submit"
-        >
-            Retrouver mon espace
-        </button>
-    </form>
-
-    <div class="portal-back-link">
-        <a href="{{ path('app_login') }}">
-            ← Retour à la connexion
-        </a>
-    </div>
+<div class="portal-back-link">
+    <a href="{{ path('app_login') }}">← {{ 'recover.back'|trans }}</a>
+</div>
 {% endblock %}

@@ -48,3 +48,10 @@ theme:
     light: Thème clair
     dark: Thème sombre
     toggle: Changer de thème
+
+navigation:
+    open: Ouvrir la navigation
+    main: Navigation principale
+
+public_sidebar:
+    lost_access: J'ai perdu mon lien d'accès

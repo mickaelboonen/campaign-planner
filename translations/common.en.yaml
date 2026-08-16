@@ -48,3 +48,10 @@ theme:
     light: Light theme
     dark: Dark theme
     toggle: Change theme
+
+navigation:
+    open: Open navigation
+    main: Main navigation
+
+public_sidebar:
+    lost_access: I lost my access link

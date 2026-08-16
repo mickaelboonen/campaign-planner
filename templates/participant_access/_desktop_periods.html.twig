@@ -1,6 +1,8 @@
+{% trans_default_domain 'participant_access' %}
+
 {% for day in calendar.days %}
     <div class="availability-table__periods">
-        <span>Après-midi</span>
-        <span>Soir</span>
+        <span>{{ 'calendar.table.afternoon'|trans }}</span>
+        <span>{{ 'calendar.table.evening'|trans }}</span>
     </div>
 {% endfor %}

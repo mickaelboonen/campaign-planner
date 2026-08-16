@@ -1,14 +1,16 @@
 {% extends 'base.html.twig' %}
 
+{% trans_default_domain 'game_session' %}
+
 {% block title %}
-    Planifier une session — {{ campaign.name }}
+    {{ 'new.title'|trans }} — {{ campaign.name }}
 {% endblock %}
 
 {% block body %}
     {% include 'components/breadcrumb.html.twig' with {
         items: [
             {
-                label: 'Campagnes',
+                label: 'breadcrumb.campaigns'|trans({}, 'campaign'),
                 path: path('campaign_list')
             },
             {
@@ -18,15 +20,15 @@
                 })
             },
             {
-                label: 'Planifier une session'
+                label: 'new.title'|trans
             }
         ]
     } %}
 
     {% include 'components/page-header.html.twig' with {
         eyebrow: campaign.name,
-        title: 'Planifier une session',
-        description: 'Définissez les horaires de la session avant de la confirmer.'
+        title: 'new.title'|trans,
+        description: 'new.description'|trans
     } %}
 
     {% include 'game_session/_form.html.twig' with {
@@ -34,6 +36,6 @@
         form: form,
         sessionDate: slot.date,
         sessionPeriod: slot.period,
-        submitLabel: 'Créer la session'
+        submitLabel: 'new.submit'|trans
     } %}
 {% endblock %}

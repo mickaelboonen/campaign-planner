@@ -1,72 +1,26 @@
 {% extends 'base.html.twig' %}
+{% trans_default_domain 'participant' %}
 
-{% block title %}
-    Nouveau participant
-{% endblock %}
+{% block title %}{{ 'new.title'|trans }}{% endblock %}
 
 {% block body %}
-
     {% include 'components/breadcrumb.html.twig' with {
         items: [
-            {
-                label: 'Campagnes',
-                path: path('campaign_list')
-            },
-            {
-                label: campaign.name,
-                path: path('campaign_show', {
-                    id: campaign.id
-                })
-            },
-            {
-                label: 'Nouveau participant'
-            }
+            { label: 'breadcrumb.campaigns'|trans({}, 'campaign'), path: path('campaign_list') },
+            { label: campaign.name, path: path('campaign_show', { id: campaign.id }) },
+            { label: 'new.title'|trans }
         ]
     } %}
 
     {% include 'components/page-header.html.twig' with {
-        eyebrow: 'Participants',
-        title: 'Ajouter un participant',
-        description: 'Invitez un nouveau joueur dans cette campagne.'
+        eyebrow: 'eyebrow'|trans,
+        title: 'new.heading'|trans,
+        description: 'new.description'|trans
     } %}
 
-    <section class="card card--form">
-
-        {{ form_start(form, {
-            attr: {
-                class: 'form',
-                'data-turbo': 'false'
-            }
-        }) }}
-
-            {{ form_row(form.name) }}
-
-            {{ form_row(form.email) }}
-
-            {{ form_row(form.phone) }}
-
-            {{ form_row(form.characterName) }}
-
-            <div class="form-actions">
-
-                <a
-                    href="{{ path('campaign_show', {
-                        id: campaign.id
-                    }) }}"
-                    class="button button--secondary"
-                >
-                    Annuler
-                </a>
-                <button
-                    class="button button--primary"
-                >
-                    Ajouter un participant
-                </button>
-
-            </div>
-
-        {{ form_end(form) }}
-
-    </section>
-
+    {% include 'participant/_form.html.twig' with {
+        form: form,
+        campaign: campaign,
+        submitLabel: 'new.submit'|trans
+    } %}
 {% endblock %}

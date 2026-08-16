@@ -1,0 +1,9 @@
+create:
+    title: Pierre de communication
+    intro:
+        question: Une question, un problème ou une idée ?
+        message: Confiez votre message à la pierre.
+        destination: Il parviendra à l'administrateur.
+    message_placeholder: Décrivez votre problème ou votre idée…
+    submit: Transmettre le message
+    back: Retour

@@ -1,51 +1,42 @@
 {% extends 'public_base.html.twig' %}
+{% trans_default_domain 'participant_access' %}
 
-{% block title %}
-    Mes disponibilités — {{ campaign.name }}
-{% endblock %}
+{% block title %}{{ 'calendar.title'|trans({ '%campaign%': campaign.name }) }}{% endblock %}
 
 {% block body %}
-    <div
-        data-controller="calendar-help"
-        data-calendar-help-auto-open-value="{{ shouldAutoOpenHelp ? 'true' : 'false' }}"
+<div data-controller="calendar-help" data-calendar-help-auto-open-value="{{ shouldAutoOpenHelp ? 'true' : 'false' }}">
+    {% include 'components/page-header.html.twig' with {
+        eyebrow: campaign.name,
+        title: 'calendar.hello'|trans({ '%name%': participant.name }),
+        description: 'calendar.description'|trans({
+            '%start%': calendar.start|date('d/m/Y'),
+            '%end%': calendar.end|date('d/m/Y')
+        })
+    } %}
+
+    {% include 'participant_access/_toolbar.html.twig' %}
+
+    <form
+        {% if not isPastWeek %}
+            method="post"
+            action="{{ path('participant_availability_save', { token: participant.accessToken }) }}"
+            data-controller="availability-grid"
+            data-action="submit->availability-grid#submit"
+        {% endif %}
     >
-        {% include 'components/page-header.html.twig' with {
-            eyebrow: campaign.name,
-            title: 'Bonjour ' ~ participant.name,
-            description: 'Indiquez vos disponibilités pour la semaine du '
-                ~ calendar.start|date('d/m/Y')
-                ~ ' au '
-                ~ calendar.end|date('d/m/Y')
-                ~ '. Les réponses des autres participants sont visibles.'
-        } %}
+        {% if not isPastWeek %}
+            <input type="hidden" name="_token" value="{{ csrf_token('save-availabilities-' ~ participant.id) }}">
+            <input type="hidden" name="week" value="{{ calendar.start|date('Y-m-d') }}">
+        {% endif %}
 
-        {% include 'participant_access/_toolbar.html.twig' %}
+        {% include 'participant_access/_editor.html.twig' %}
 
-        <form
-            {% if not isPastWeek %}
-                method="post"
-                action="{{ path('participant_availability_save', { token: participant.accessToken }) }}"
-                data-controller="availability-grid"
-                data-action="submit->availability-grid#submit"
-            {% endif %}
-        >
-            {% if not isPastWeek %}
-                <input type="hidden" name="_token"  value="{{ csrf_token( 'save-availabilities-' ~ participant.id ) }}" >
-                <input type="hidden" name="week" value="{{ calendar.start|date('Y-m-d') }}" >
-            {% endif %}
+        <div class="calendar-desktop">{% include 'participant_access/_desktop.html.twig' %}</div>
+        <div class="calendar-mobile">{% include 'participant_access/_mobile.html.twig' %}</div>
 
-            {% include 'participant_access/_editor.html.twig' %}
+        {% include 'participant_access/_save.html.twig' %}
+    </form>
 
-            <div class="calendar-desktop">
-                {% include 'participant_access/_desktop.html.twig' %}
-            </div>
-
-            <div class="calendar-mobile">
-                {% include 'participant_access/_mobile.html.twig' %}
-            </div>
-
-            {% include 'participant_access/_save.html.twig' %}
-
-        </form>
-    </div>
+    {% include 'participant_access/_calendar_help.html.twig' %}
+</div>
 {% endblock %}
