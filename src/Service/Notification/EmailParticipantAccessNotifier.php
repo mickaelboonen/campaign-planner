@@ -8,6 +8,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class EmailParticipantAccessNotifier
 {
@@ -17,6 +18,7 @@ final readonly class EmailParticipantAccessNotifier
     public function __construct(
         private MailerInterface $mailer,
         private RouterInterface $router,
+        private TranslatorInterface $translator,
     ) {
     }
 
@@ -27,22 +29,23 @@ final readonly class EmailParticipantAccessNotifier
             return;
         }
 
-        $dashboardUrl = $this->getDashboardUrl($participant);
+        $campaign = $participant->getCampaign();
 
         $email = (new TemplatedEmail())
             ->from($this->getSender())
             ->to($participant->getEmail())
-            ->subject(sprintf(
-                'Vous avez été ajouté à %s',
-                $participant->getCampaign()->getName(),
-            ))
-            ->htmlTemplate(
-                'emails/participant_access.html.twig',
+            ->subject(
+                $this->translator->trans(
+                    'participant_access.subject',
+                    ['%campaign%' => $campaign->getName()],
+                    'emails',
+                ),
             )
+            ->htmlTemplate('emails/participant_access.html.twig')
             ->context([
                 'participant' => $participant,
-                'campaign' => $participant->getCampaign(),
-                'dashboardUrl' => $dashboardUrl,
+                'campaign' => $campaign,
+                'dashboardUrl' => $this->getDashboardUrl($participant),
             ]);
 
         $this->mailer->send($email);
@@ -55,20 +58,21 @@ final readonly class EmailParticipantAccessNotifier
             return;
         }
 
-        $dashboardUrl = $this->getDashboardUrl($participant);
-
         $email = (new TemplatedEmail())
             ->from($this->getSender())
             ->to($participant->getEmail())
             ->subject(
-                'Votre lien d’accès CampaignPlanner',
+                $this->translator->trans(
+                    'participant_access_recovery.subject',
+                    domain: 'emails',
+                ),
             )
             ->htmlTemplate(
                 'emails/participant_access_recovery.html.twig',
             )
             ->context([
                 'participant' => $participant,
-                'dashboardUrl' => $dashboardUrl,
+                'dashboardUrl' => $this->getDashboardUrl($participant),
             ]);
 
         $this->mailer->send($email);

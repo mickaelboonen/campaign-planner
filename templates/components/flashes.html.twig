@@ -1,10 +1,9 @@
-{% for type in ['success', 'error', 'warning', 'info'] %}
-    {% for message in app.flashes(type) %}
-        <div
-            class="flash flash--{{ type }}"
-            role="{{ type == 'error' ? 'alert' : 'status' }}"
-        >
-            {{ message }}
+{% trans_default_domain 'flashes' %}
+
+{% for type, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="flash flash--{{ type }}">
+            {{ message|trans }}
         </div>
     {% endfor %}
 {% endfor %}

@@ -58,7 +58,13 @@ final class GameSessionController extends BaseController
                     'id' => $campaign->getId(),
                 ]);
             } catch (\DomainException $exception) {
-                $this->addFlash('error', $exception->getMessage());
+                $this->addFlash(
+                    'error',
+                    $translator->trans(
+                        $exception->getMessage(),
+                        domain: 'error',
+                    ),
+                );
             }
         }
 

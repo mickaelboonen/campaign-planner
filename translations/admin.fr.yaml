@@ -114,6 +114,7 @@ logs:
     breadcrumb_admin: Administration
     journal: Journal des erreurs
     errors_for: "Erreurs du %date%"
+    unknown_error: Erreur inconnue
 
     navigation:
         previous: Jour précédent

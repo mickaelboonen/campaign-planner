@@ -13,12 +13,12 @@ final class CampaignNotesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('privateNotes', TextareaType::class, [
-            'label' => 'Notes privées',
+            'label' => 'notes.form.label',
             'required' => false,
             'attr' => [
                 'rows' => 16,
                 'maxlength' => 5000,
-                'placeholder' => "## Joueurs\n- **Alice** : enfants les semaines paires\n- **Bob** : indisponible le premier week-end du mois",
+                'placeholder' => 'notes.form.placeholder',
             ],
         ]);
     }
@@ -27,6 +27,7 @@ final class CampaignNotesType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => UpdateCampaignNotesData::class,
+            'translation_domain' => 'campaign',
         ]);
     }
 }

@@ -4,8 +4,8 @@ namespace App\Form;
 
 use App\DTO\GameSessionData;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,16 +15,16 @@ final class GameSessionType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom de la session',
+                'label' => 'form.name.label',
                 'required' => false,
             ])
             ->add('startTime', TimeType::class, [
-                'label' => 'Heure de début',
+                'label' => 'form.start_time.label',
                 'input' => 'datetime_immutable',
                 'widget' => 'single_text',
             ])
             ->add('endTime', TimeType::class, [
-                'label' => 'Heure de fin',
+                'label' => 'form.end_time.label',
                 'input' => 'datetime_immutable',
                 'widget' => 'single_text',
             ]);
@@ -34,6 +34,7 @@ final class GameSessionType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => GameSessionData::class,
+            'translation_domain' => 'game_session',
         ]);
     }
 }

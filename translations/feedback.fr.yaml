@@ -7,3 +7,15 @@ create:
     message_placeholder: Décrivez votre problème ou votre idée…
     submit: Transmettre le message
     back: Retour
+
+form:
+    type:
+        label: Type de demande
+        placeholder: Choisissez un type
+    email:
+        label: Adresse e-mail
+    message:
+        label: Message
+    subject:
+        label: Sujet
+        placeholder: Facultatif

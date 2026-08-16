@@ -2,25 +2,27 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\BaseController;
 use App\Entity\Feedback;
 use App\Repository\FeedbackRepository;
 use App\Service\FeedbackManager;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/admin/feedbacks', name: 'admin_feedback_')]
 #[IsGranted('ROLE_ADMIN')]
-final class FeedbackController extends AbstractController
+final class FeedbackController extends BaseController
 {
     public function __construct(
         private readonly FeedbackRepository $feedbackRepository,
         private readonly FeedbackManager $feedbackManager,
         private readonly PaginatorInterface $paginator,
+        private readonly TranslatorInterface $translator,
     ) {
     }
 
@@ -47,82 +49,50 @@ final class FeedbackController extends AbstractController
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'])]
-    public function show(
-        Feedback $feedback,
-    ): Response {
+    public function show(Feedback $feedback): Response
+    {
         $this->feedbackManager->markAsRead($feedback);
 
-        return $this->render(
-            'admin/feedback/show.html.twig',
-            [
-                'feedback' => $feedback,
-            ],
-        );
+        return $this->render('admin/feedback/show.html.twig', [
+            'feedback' => $feedback,
+        ]);
     }
 
-    #[Route(
-        '/{id}/close',
-        name: 'close',
-        methods: ['POST'],
-    )]
+    #[Route('/{id}/close', name: 'close', methods: ['POST'])]
     public function close(
         Feedback $feedback,
         Request $request,
     ): RedirectResponse {
-        if (!$this->isCsrfTokenValid(
+        $this->denyInvalidCsrf(
             'close-feedback-'.$feedback->getId(),
-            (string) $request->request->get('_token'),
-        )) {
-            throw $this->createAccessDeniedException(
-                'Jeton CSRF invalide.',
-            );
-        }
+            $request->request->get('_token'),
+            $this->translator,
+        );
 
         $this->feedbackManager->close($feedback);
+        $this->addFlash('success', 'admin.feedback.closed');
 
-        $this->addFlash(
-            'success',
-            'Le feedback a bien été clôturé.',
-        );
-
-        return $this->redirectToRoute(
-            'admin_feedback_show',
-            [
-                'id' => $feedback->getId(),
-            ],
-        );
+        return $this->redirectToRoute('admin_feedback_show', [
+            'id' => $feedback->getId(),
+        ]);
     }
 
-    #[Route(
-        '/{id}/reopen',
-        name: 'reopen',
-        methods: ['POST'],
-    )]
+    #[Route('/{id}/reopen', name: 'reopen', methods: ['POST'])]
     public function reopen(
         Feedback $feedback,
         Request $request,
     ): RedirectResponse {
-        if (!$this->isCsrfTokenValid(
+        $this->denyInvalidCsrf(
             'reopen-feedback-'.$feedback->getId(),
-            (string) $request->request->get('_token'),
-        )) {
-            throw $this->createAccessDeniedException(
-                'Jeton CSRF invalide.',
-            );
-        }
+            $request->request->get('_token'),
+            $this->translator,
+        );
 
         $this->feedbackManager->reopen($feedback);
+        $this->addFlash('success', 'admin.feedback.reopened');
 
-        $this->addFlash(
-            'success',
-            'Le feedback a bien été rouvert.',
-        );
-
-        return $this->redirectToRoute(
-            'admin_feedback_show',
-            [
-                'id' => $feedback->getId(),
-            ],
-        );
+        return $this->redirectToRoute('admin_feedback_show', [
+            'id' => $feedback->getId(),
+        ]);
     }
 }

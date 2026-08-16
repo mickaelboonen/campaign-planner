@@ -2,29 +2,35 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\BaseController;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/admin/users', name: 'admin_user_')]
 #[IsGranted('ROLE_ADMIN')]
-final class UserController extends AbstractController
+final class UserController extends BaseController
 {
+    public function __construct(
+        private readonly UserRepository $userRepository,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly TranslatorInterface $translator,
+    ) {
+    }
+
     #[Route('', name: 'list', methods: ['GET'])]
-    public function list(
-        Request $request,
-        UserRepository $userRepository,
-    ): Response {
+    public function list(Request $request): Response
+    {
         $search = trim((string) $request->query->get('q', ''));
 
         return $this->render('admin/user/list.html.twig', [
-            'users' => $userRepository->findForAdmin($search),
+            'users' => $this->userRepository->findForAdmin($search),
             'search' => $search,
         ]);
     }
@@ -45,25 +51,17 @@ final class UserController extends AbstractController
     public function toggleActive(
         User $user,
         Request $request,
-        EntityManagerInterface $entityManager,
     ): RedirectResponse {
-        if (!$this->isCsrfTokenValid(
+        $this->denyInvalidCsrf(
             'toggle-user-'.$user->getId(),
             $request->request->get('_token'),
-        )) {
-            throw $this->createAccessDeniedException(
-                'Jeton CSRF invalide.',
-            );
-        }
+            $this->translator,
+        );
 
-        /*
-         * Empêche un admin de désactiver son propre compte
-         * par accident.
-         */
         if ($user === $this->getUser()) {
             $this->addFlash(
                 'error',
-                'Vous ne pouvez pas désactiver votre propre compte.',
+                'admin.user.cannot_disable_self',
             );
 
             return $this->redirectToRoute('admin_user_show', [
@@ -72,14 +70,13 @@ final class UserController extends AbstractController
         }
 
         $user->setIsActive(!$user->isActive());
-
-        $entityManager->flush();
+        $this->entityManager->flush();
 
         $this->addFlash(
             'success',
             $user->isActive()
-                ? 'Le compte a été réactivé.'
-                : 'Le compte a été désactivé.',
+                ? 'admin.user.activated'
+                : 'admin.user.deactivated',
         );
 
         return $this->redirectToRoute('admin_user_show', [

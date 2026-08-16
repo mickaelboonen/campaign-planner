@@ -51,3 +51,25 @@ controller:
 
     recovery:
         rate_limited: Too many requests have been made. Please try again later.
+
+availability:
+    invalid_slots: One or more time slots are invalid.
+    invalid_slot_id: Invalid time slot identifier.
+    invalid_status: Invalid availability status.
+    unknown_status: Unknown availability status.
+
+calendar:
+    invalid_slot_id: Invalid time slot identifier.
+    invalid_slot_state: Invalid time slot state.
+    unknown_slot_state: Unknown time slot state.
+    invalid_slots: One or more time slots are invalid.
+
+campaign:
+    already_archived: This campaign is already archived.
+    has_upcoming_sessions: This campaign still has upcoming sessions.
+
+session:
+    slot_not_open: Only an open time slot can be scheduled as a session.
+    slot_in_past: A session cannot be created from a past time slot.
+    already_exists: A session already exists for this time slot.
+    already_cancelled: This session is already cancelled.

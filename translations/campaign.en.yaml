@@ -129,3 +129,7 @@ notes:
     preview:
         title: Preview
         description: Current rendering of the notes.
+
+    form:
+        label: Private notes
+        placeholder: "## Players\n- **Alice**: children on even-numbered weeks\n- **Bob**: unavailable on the first weekend of the month"

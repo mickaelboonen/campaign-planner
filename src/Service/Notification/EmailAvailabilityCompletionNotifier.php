@@ -8,6 +8,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class EmailAvailabilityCompletionNotifier
 {
@@ -17,6 +18,7 @@ final readonly class EmailAvailabilityCompletionNotifier
     public function __construct(
         private MailerInterface $mailer,
         private RouterInterface $router,
+        private TranslatorInterface $translator,
     ) {
     }
 
@@ -47,13 +49,14 @@ final readonly class EmailAvailabilityCompletionNotifier
                 self::FROM_NAME,
             ))
             ->to($gm->getEmail())
-            ->subject(sprintf(
-                'Tout le monde a répondu — %s',
-                $campaign->getName(),
-            ))
-            ->htmlTemplate(
-                'emails/availability_complete.html.twig',
+            ->subject(
+                $this->translator->trans(
+                    'availability_complete.subject',
+                    ['%campaign%' => $campaign->getName()],
+                    'emails',
+                ),
             )
+            ->htmlTemplate('emails/availability_complete.html.twig')
             ->context([
                 'campaign' => $campaign,
                 'weekStart' => $weekStart,

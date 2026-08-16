@@ -4,12 +4,13 @@ namespace App\Service\Notification;
 
 use App\Entity\GameSession;
 use App\Entity\Participant;
+use App\Repository\ParticipantRepository;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
-use App\Repository\ParticipantRepository;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class EmailSessionNotifier implements SessionNotifierInterface
 {
@@ -20,6 +21,7 @@ final readonly class EmailSessionNotifier implements SessionNotifierInterface
         private MailerInterface $mailer,
         private RouterInterface $router,
         private ParticipantRepository $participantRepository,
+        private TranslatorInterface $translator,
     ) {
     }
 
@@ -34,8 +36,8 @@ final readonly class EmailSessionNotifier implements SessionNotifierInterface
                 ->from($this->getSender())
                 ->to($participant->getEmail())
                 ->subject(
-                    $this->setMailSubject(
-                        'Nouvelle session planifiée',
+                    $this->getSubject(
+                        'session_scheduled.subject',
                         $session,
                     ),
                 )
@@ -59,8 +61,8 @@ final readonly class EmailSessionNotifier implements SessionNotifierInterface
                 ->from($this->getSender())
                 ->to($participant->getEmail())
                 ->subject(
-                    $this->setMailSubject(
-                        'Session annulée',
+                    $this->getSubject(
+                        'session_cancelled.subject',
                         $session,
                     ),
                 )
@@ -84,8 +86,8 @@ final readonly class EmailSessionNotifier implements SessionNotifierInterface
                 ->from($this->getSender())
                 ->to($participant->getEmail())
                 ->subject(
-                    $this->setMailSubject(
-                        'Rappel — Session à venir',
+                    $this->getSubject(
+                        'session_reminder.subject',
                         $session,
                     ),
                 )
@@ -96,6 +98,21 @@ final readonly class EmailSessionNotifier implements SessionNotifierInterface
 
             $this->mailer->send($email);
         }
+    }
+
+    private function getSubject(
+        string $key,
+        GameSession $session,
+    ): string {
+        return $this->translator->trans(
+            $key,
+            [
+                '%campaign%' => $session
+                    ->getCampaign()
+                    ->getName(),
+            ],
+            'emails',
+        );
     }
 
     private function getContext(
@@ -110,25 +127,15 @@ final readonly class EmailSessionNotifier implements SessionNotifierInterface
         ];
     }
 
-    private function getDashboardUrl(Participant $participant): string
-    {
+    private function getDashboardUrl(
+        Participant $participant,
+    ): string {
         return $this->router->generate(
             'participant_dashboard',
             [
                 'token' => $participant->getDashboardToken(),
             ],
             UrlGeneratorInterface::ABSOLUTE_URL,
-        );
-    }
-
-    private function setMailSubject(
-        string $type,
-        GameSession $session,
-    ): string {
-        return sprintf(
-            '%s — %s',
-            $type,
-            $session->getCampaign()->getName(),
         );
     }
 
@@ -143,8 +150,9 @@ final readonly class EmailSessionNotifier implements SessionNotifierInterface
     private function getActiveParticipants(
         GameSession $session,
     ): array {
-        return $this->participantRepository->findActiveByCampaign(
-            $session->getCampaign(),
-        );
+        return $this->participantRepository
+            ->findActiveByCampaign(
+                $session->getCampaign(),
+            );
     }
 }

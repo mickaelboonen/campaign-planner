@@ -2,3 +2,13 @@ registration:
     password_mismatch: Les mots de passe ne correspondent pas.
     password_required: Veuillez saisir un mot de passe.
     password_min_length: Votre mot de passe doit contenir au moins {{ limit }} caractères.
+
+campaign:
+    color:
+        invalid_format: La couleur doit être au format hexadécimal.
+    image:
+        invalid_type: Veuillez sélectionner une image JPG, PNG ou WebP.
+
+participant:
+    phone:
+        invalid_format: Le numéro de téléphone doit contenir exactement 10 chiffres.

@@ -219,7 +219,10 @@ final class ParticipantAccessController extends BaseController
             );
         } catch (\InvalidArgumentException $exception) {
             throw $this->createNotFoundException(
-                $exception->getMessage(),
+                $translator->trans(
+                    $exception->getMessage(),
+                    domain: 'error',
+                ),
             );
         }
 

@@ -129,3 +129,7 @@ notes:
     preview:
         title: Aperçu
         description: Rendu actuel des notes.
+
+    form:
+        label: Notes privées
+        placeholder: "## Joueurs\n- **Alice** : enfants les semaines paires\n- **Bob** : indisponible le premier week-end du mois"

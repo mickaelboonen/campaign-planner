@@ -30,3 +30,13 @@ recovery:
 
 registration:
     success: Votre compte a été créé. Vous pouvez maintenant vous connecter.
+
+admin:
+    feedback:
+        closed: Le feedback a bien été clôturé.
+        reopened: Le feedback a bien été rouvert.
+
+    user:
+        cannot_disable_self: Vous ne pouvez pas désactiver votre propre compte.
+        activated: Le compte a été réactivé.
+        deactivated: Le compte a été désactivé.

@@ -30,3 +30,13 @@ recovery:
 
 registration:
     success: Your account has been created. You can now sign in.
+
+admin:
+    feedback:
+        closed: The feedback has been closed.
+        reopened: The feedback has been reopened.
+
+    user:
+        cannot_disable_self: You cannot disable your own account.
+        activated: The account has been reactivated.
+        deactivated: The account has been deactivated.

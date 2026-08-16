@@ -14,8 +14,10 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class LogController extends AbstractController
 {
     #[Route('', name: 'list', methods: ['GET'])]
-    public function list(Request $request, KernelInterface $kernel): Response
-    {
+    public function list(
+        Request $request,
+        KernelInterface $kernel,
+    ): Response {
         $date = $request->query->get('date');
 
         try {
@@ -59,7 +61,7 @@ final class LogController extends AbstractController
                     'date' => new \DateTimeImmutable($entry['datetime']),
                     'channel' => $entry['channel'] ?? 'app',
                     'level' => $entry['level_name'] ?? 'ERROR',
-                    'message' => $entry['message'] ?? 'Erreur inconnue',
+                    'message' => $entry['message'] ?? null,
                 ];
             }
         }

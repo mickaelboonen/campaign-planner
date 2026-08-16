@@ -151,7 +151,13 @@ final class CampaignController extends BaseController
             $sessionNotificationManager->notifySessionCancelled($session);
             $this->addFlash('success', 'session.cancelled');
         } catch (\DomainException $exception) {
-            $this->addFlash('error', $exception->getMessage());
+            $this->addFlash(
+                'error',
+                $translator->trans(
+                    $exception->getMessage(),
+                    domain: 'error',
+                ),
+            );
         }
 
         return $this->redirectToRoute('campaign_show', [
@@ -177,7 +183,13 @@ final class CampaignController extends BaseController
             $this->campaignManager->archive($campaign);
             $this->addFlash('success', 'campaign.archived');
         } catch (\DomainException $exception) {
-            $this->addFlash('error', $exception->getMessage());
+            $this->addFlash(
+                'error',
+                $translator->trans(
+                    $exception->getMessage(),
+                    domain: 'error',
+                ),
+            );
         }
 
         return $this->redirectToRoute('campaign_list');

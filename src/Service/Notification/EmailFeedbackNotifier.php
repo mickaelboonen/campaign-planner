@@ -15,26 +15,32 @@ final readonly class EmailFeedbackNotifier
 
     public function __construct(
         private MailerInterface $mailer,
-        private readonly TranslatorInterface $translator,
+        private TranslatorInterface $translator,
         private string $adminEmail,
     ) {
     }
 
     public function notify(Feedback $feedback): void
     {
+        $type = $this->translator->trans(
+            $feedback->getType()->translationKey(),
+            domain: 'enums',
+        );
+
+        $subject = $this->translator->trans(
+            'feedback_received.subject',
+            ['%type%' => $type],
+            'emails',
+        );
+
         $email = (new TemplatedEmail())
             ->from(new Address(
                 self::FROM_EMAIL,
                 self::FROM_NAME,
             ))
             ->to($this->adminEmail)
-            ->subject(sprintf(
-                '[%s] Nouveau message CampaignPlanner',
-                $this->translator->trans($feedback->getType()->translationKey(), domain: 'enums')
-            ))
-            ->htmlTemplate(
-                'emails/feedback_received.html.twig',
-            )
+            ->subject($subject)
+            ->htmlTemplate('emails/feedback_received.html.twig')
             ->context([
                 'feedback' => $feedback,
             ]);

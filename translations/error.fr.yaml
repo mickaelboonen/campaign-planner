@@ -50,3 +50,25 @@ controller:
 
     recovery:
         rate_limited: Trop de demandes ont été effectuées. Veuillez réessayer plus tard.
+
+availability:
+    invalid_slots: Un ou plusieurs créneaux sont invalides.
+    invalid_slot_id: Identifiant de créneau invalide.
+    invalid_status: Statut de disponibilité invalide.
+    unknown_status: Statut de disponibilité inconnu.
+
+calendar:
+    invalid_slot_id: Identifiant de créneau invalide.
+    invalid_slot_state: État de créneau invalide.
+    unknown_slot_state: État de créneau inconnu.
+    invalid_slots: Un ou plusieurs créneaux sont invalides.
+
+campaign:
+    already_archived: Cette campagne est déjà archivée.
+    has_upcoming_sessions: Cette campagne possède encore des sessions à venir.
+
+session:
+    slot_not_open: Seul un créneau ouvert peut être validé comme session.
+    slot_in_past: Impossible de créer une session à partir d’un créneau passé.
+    already_exists: Une session existe déjà pour ce créneau.
+    already_cancelled: Cette session est déjà annulée.
