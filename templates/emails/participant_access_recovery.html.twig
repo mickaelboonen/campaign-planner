@@ -1,65 +1,35 @@
 {% extends 'emails/_layout.html.twig' %}
 
+{% trans_default_domain 'emails' %}
+
 {% block title %}
-    Votre accès Campaign Planner
+    {{ 'participant_access_recovery.title'|trans }}
 {% endblock %}
 
 {% block heading %}
-    🔑 Votre espace joueur
+    {{ 'participant_access_recovery.heading'|trans }}
 {% endblock %}
 
 {% block content %}
-    <p
-        style="
-            margin: 0 0 20px;
-            color: #d4d7dd;
-            font-size: 16px;
-            line-height: 1.7;
-        "
-    >
-        Bonjour <strong>{{ participant.name }}</strong>,
+    <p class="email-text">
+        {{ 'participant_access_recovery.greeting'|trans({
+            '%name%': participant.name
+        }) }}
     </p>
 
-    <p
-        style="
-            margin: 0 0 24px;
-            color: #d4d7dd;
-            font-size: 16px;
-            line-height: 1.7;
-        "
-    >
-        Une demande a été effectuée pour retrouver
-        le lien d'accès à votre espace joueur Campaign Planner.
+    <p class="email-text">
+        {{ 'participant_access_recovery.request'|trans }}
     </p>
 
-    <p
-        style="
-            margin: 0 0 28px;
-            color: #a7a8ad;
-            font-size: 15px;
-            line-height: 1.7;
-        "
-    >
-        Vous pouvez y retrouver toutes vos campagnes,
-        vos prochaines sessions et vos disponibilités.
+    <p class="email-text email-text--muted email-text--large-gap">
+        {{ 'participant_access_recovery.description'|trans }}
     </p>
 
     {% include 'emails/_dashboard_button.html.twig' with {
         dashboardUrl: dashboardUrl
     } %}
 
-    <p
-        style="
-            margin: 28px 0 0;
-            padding-top: 20px;
-            border-top: 1px solid #2c3038;
-            color: #7d828d;
-            font-size: 13px;
-            line-height: 1.6;
-        "
-    >
-        Si vous n'êtes pas à l'origine de cette demande,
-        aucune action n'est nécessaire. Vous pouvez simplement
-        ignorer cet email.
+    <p class="email-text email-text--separator">
+        {{ 'participant_access_recovery.ignored'|trans }}
     </p>
 {% endblock %}

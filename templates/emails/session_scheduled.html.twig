@@ -1,28 +1,32 @@
 {% extends 'emails/_layout.html.twig' %}
 
+{% trans_default_domain 'emails' %}
+
 {% block title %}
-    Nouvelle session - {{ campaign.name }}
+    {{ 'session_scheduled.title'|trans({
+        '%campaign%': campaign.name
+    }) }}
 {% endblock %}
 
 {% block heading %}
-    🎲 Nouvelle session
+    {{ 'session_scheduled.heading'|trans }}
 {% endblock %}
 
 {% block content %}
-    <p style="margin: 0 0 20px; color: #d4d7dd; font-size: 16px; line-height: 1.7;">
-        Bonjour <strong>{{ participant.name }}</strong>,
+    <p class="email-text">
+        {{ 'session_scheduled.greeting'|trans({
+            '%name%': participant.name
+        }) }}
     </p>
 
-    <p style="margin: 0 0 24px; color: #d4d7dd; font-size: 16px; line-height: 1.7;">
-        Une nouvelle session vient d’être validée pour votre campagne :
+    <p class="email-text">
+        {{ 'session_scheduled.intro'|trans }}
     </p>
 
-    {% include 'emails/_session_details.html.twig' with {
-        accentColor: '#c9a85c'
-    } %}
+    {% include 'emails/_session_details.html.twig' %}
 
-    <p style="margin: 0 0 30px; color: #d4d7dd; font-size: 15px; line-height: 1.7;">
-        Pensez à vérifier vos disponibilités si nécessaire et préparez vos dés !
+    <p class="email-text email-text--large-gap">
+        {{ 'session_scheduled.prepare'|trans }}
     </p>
 
     {% include 'emails/_dashboard_button.html.twig' %}

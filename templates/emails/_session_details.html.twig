@@ -1,27 +1,50 @@
-<div style=" margin-bottom: 28px; padding: 22px; border-left: 4px solid {{ accentColor }}; border-radius: 8px; background: #242832;" >
-    <div style=" margin-bottom: 14px; color: {{ accentColor }}; font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; ">
-        Campagne
+{% trans_default_domain 'emails' %}
+
+<div
+    class="
+        email-panel
+        {{ danger|default(false)
+            ? 'email-panel--danger'
+            : 'email-panel--accent'
+        }}
+    "
+>
+    <div class="email-panel__label">
+        {{ 'session_details.campaign'|trans }}
     </div>
 
-    <div style=" margin-bottom: 20px; color: #ffffff; font-size: 24px; font-weight: 700; ">
+    <div class="email-panel__title">
         {{ campaign.name }}
     </div>
 
     {% if session.name %}
-        <p style="     margin: 0 0 14px;     color: #ffffff;     font-size: 18px;     font-weight: 700; " >
+        <p class="email-panel__subtitle">
             🎲 {{ session.name }}
         </p>
     {% endif %}
 
-    <p style="margin: 0 0 10px;">
-        📅 {{ session.date|format_date( pattern: 'EEEE d MMMM yyyy', locale: 'fr' ) }}
+    <p class="email-panel__line">
+        📅
+        {{ session.date|format_date(
+            pattern: 'EEEE d MMMM yyyy'
+        ) }}
     </p>
 
-    <p style="margin: 0 0 10px;">
-        🕒 {{ session.period.translationKey()|trans }}
+    <p class="email-panel__line">
+        🕒
+        {{
+            session.period
+                .translationKey()
+                |trans({}, 'enums')
+        }}
     </p>
 
     {% if session.startTime and session.endTime %}
-        <p style="margin: 0;"> ⏰ {{ session.startTime|date('H:i', false) }} — {{ session.endTime|date('H:i', false) }} </p>
+        <p class="email-panel__line">
+            ⏰
+            {{ session.startTime|date('H:i', false) }}
+            —
+            {{ session.endTime|date('H:i', false) }}
+        </p>
     {% endif %}
 </div>
