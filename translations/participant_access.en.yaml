@@ -28,6 +28,7 @@ calendar:
     title: My availability — %campaign%
     hello: Hello %name%
     description: Enter your availability for the week from %start% to %end%. Other participants' answers are visible.
+    unsaved_changes: Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter cette page ?
 
     toolbar:
         previous: Previous week
@@ -67,6 +68,7 @@ help:
     button: Help
     dialog: Calendar help
     close: Close help
+    finish: Finish
 
     availability:
         eyebrow: Your availability
@@ -99,9 +101,3 @@ recover:
     email: Email address
     submit: Find my player space
     back: Back to sign in
-
-calendar:
-    unsaved_changes: Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter cette page ?
-
-help:
-    finish: Finisj
