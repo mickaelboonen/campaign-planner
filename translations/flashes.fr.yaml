@@ -1,0 +1,32 @@
+campaign:
+    created: La campagne a bien été créée.
+    updated: La campagne a bien été modifiée.
+    archived: La campagne a bien été archivée.
+    notes_saved: Les notes privées ont bien été enregistrées.
+
+calendar:
+    slots_updated: Les créneaux ont bien été mis à jour.
+
+session:
+    scheduled: La session a bien été planifiée.
+    updated: Les horaires de la session ont bien été modifiés.
+    cancelled: La session a bien été annulée.
+
+participant:
+    created: Le participant a bien été ajouté.
+    updated: Le participant a bien été modifié.
+    archived: Le participant a bien été archivé.
+    restored: Le participant a bien été restauré.
+
+availability:
+    saved: Vos disponibilités ont bien été enregistrées.
+
+feedback:
+    sent: Votre message a bien été transmis.
+
+recovery:
+    rate_limited: Trop de demandes ont été effectuées. Veuillez patienter avant de demander un nouveau lien.
+    sent: Si cette adresse est associée à un joueur CampaignPlanner, un lien d’accès vient de lui être envoyé.
+
+registration:
+    success: Votre compte a été créé. Vous pouvez maintenant vous connecter.

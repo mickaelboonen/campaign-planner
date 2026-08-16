@@ -27,3 +27,26 @@ server:
     subtitle: WILD MAGIC SURGE
     message_line_1: Une erreur inattendue est survenue.
     message_line_2: Même le MJ ne l’avait pas préparée.
+
+controller:
+    campaign:
+        calendar_unavailable: Le calendrier de cette campagne n’est plus disponible.
+
+    calendar:
+        invalid_requested_week: La semaine demandée est invalide.
+        invalid_submitted_week: La semaine envoyée est invalide.
+        past_week: Une semaine passée ne peut plus être modifiée.
+
+    session:
+        wrong_campaign: Cette session n’appartient pas à cette campagne.
+        slot_wrong_campaign: Ce créneau n’appartient pas à cette campagne.
+
+    participant:
+        invalid_access_link: Ce lien de participation est invalide ou n’est plus actif.
+        invalid_dashboard_link: Ce lien joueur est invalide ou n’est plus actif.
+
+    security:
+        invalid_csrf: Jeton CSRF invalide.
+
+    recovery:
+        rate_limited: Trop de demandes ont été effectuées. Veuillez réessayer plus tard.

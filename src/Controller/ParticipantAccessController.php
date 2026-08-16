@@ -8,14 +8,14 @@ use App\Repository\ParticipantRepository;
 use App\Service\AvailabilityManager;
 use App\Service\CalendarSlotManager;
 use App\Service\CalendarViewBuilder;
-use App\Controller\BaseController;
+use App\Service\Notification\EmailAvailabilityCompletionNotifier;
 use App\Service\NotificationManager;
 use App\Service\WeekAvailabilityCompletionChecker;
-use App\Service\Notification\EmailAvailabilityCompletionNotifier;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/p/{token}', name: 'participant_')]
 final class ParticipantAccessController extends BaseController
@@ -33,20 +33,21 @@ final class ParticipantAccessController extends BaseController
     ) {
     }
 
-    #[Route(
-        '/availability',
-        name: 'availability_show',
-        methods: ['GET'],
-    )]
+    #[Route('/availability', name: 'availability_show', methods: ['GET'])]
     public function show(
         Request $request,
         string $token,
+        TranslatorInterface $translator,
     ): Response {
-        $participant = $this->participantRepository->findActiveByAccessToken($token);
+        $participant = $this->participantRepository
+            ->findActiveByAccessToken($token);
 
         if ($participant === null) {
             throw $this->createNotFoundException(
-                'Ce lien de participation est invalide ou n’est plus actif.',
+                $translator->trans(
+                    'controller.participant.invalid_access_link',
+                    domain: 'error',
+                ),
             );
         }
 
@@ -54,7 +55,10 @@ final class ParticipantAccessController extends BaseController
 
         $this->denyArchivedCampaign(
             $campaign,
-            'Le calendrier de cette campagne n’est plus disponible.',
+            $translator->trans(
+                'controller.campaign.calendar_unavailable',
+                domain: 'error',
+            ),
         );
 
         $requestedWeek = $request->query->get('week');
@@ -65,20 +69,19 @@ final class ParticipantAccessController extends BaseController
                 : new \DateTimeImmutable();
         } catch (\Exception) {
             throw $this->createNotFoundException(
-                'La semaine demandée est invalide.',
+                $translator->trans(
+                    'controller.calendar.invalid_requested_week',
+                    domain: 'error',
+                ),
             );
         }
 
-        $weekStart = $date
-            ->modify('monday this week')
-            ->setTime(0, 0);
-
+        $weekStart = $date->modify('monday this week')->setTime(0, 0);
         $currentWeekStart = (new \DateTimeImmutable())
             ->modify('monday this week')
             ->setTime(0, 0);
 
         $availableWeeks = [];
-
         $limit = $currentWeekStart->modify('+6 months');
 
         for (
@@ -103,10 +106,7 @@ final class ParticipantAccessController extends BaseController
             ->findActiveByCampaign($campaign);
 
         $availabilities = $this->availabilityRepository
-            ->findByCampaignAndWeek(
-                $campaign,
-                $weekStart,
-            );
+            ->findByCampaignAndWeek($campaign, $weekStart);
 
         $calendar = $this->calendarViewBuilder->build(
             weekStart: $weekStart,
@@ -115,19 +115,19 @@ final class ParticipantAccessController extends BaseController
             availabilities: $availabilities,
         );
 
-        $shouldAutoOpenHelp = !$isPastWeek && !$this->availabilityRepository->existsByParticipant($participant);
+        $shouldAutoOpenHelp =
+            !$isPastWeek
+            && !$this->availabilityRepository
+                ->existsByParticipant($participant);
 
-        return $this->render(
-            'participant_access/calendar.html.twig',
-            [
-                'participant' => $participant,
-                'campaign' => $campaign,
-                'calendar' => $calendar,
-                'isPastWeek' => $isPastWeek,
-                'availableWeeks' => $availableWeeks,
-                'shouldAutoOpenHelp' => $shouldAutoOpenHelp,
-            ],
-        );
+        return $this->render('participant_access/calendar.html.twig', [
+            'participant' => $participant,
+            'campaign' => $campaign,
+            'calendar' => $calendar,
+            'isPastWeek' => $isPastWeek,
+            'availableWeeks' => $availableWeeks,
+            'shouldAutoOpenHelp' => $shouldAutoOpenHelp,
+        ]);
     }
 
     #[Route(
@@ -138,13 +138,17 @@ final class ParticipantAccessController extends BaseController
     public function save(
         Request $request,
         string $token,
+        TranslatorInterface $translator,
     ): RedirectResponse {
         $participant = $this->participantRepository
             ->findActiveByAccessToken($token);
 
         if ($participant === null) {
             throw $this->createNotFoundException(
-                'Ce lien de participation est invalide ou n’est plus actif.',
+                $translator->trans(
+                    'controller.participant.invalid_access_link',
+                    domain: 'error',
+                ),
             );
         }
 
@@ -152,18 +156,17 @@ final class ParticipantAccessController extends BaseController
 
         $this->denyArchivedCampaign(
             $campaign,
-            'Le calendrier de cette campagne n’est plus disponible.',
+            $translator->trans(
+                'controller.campaign.calendar_unavailable',
+                domain: 'error',
+            ),
         );
 
-
-        if (!$this->isCsrfTokenValid(
-            'save-availabilities-' . $participant->getId(),
-            (string) $request->request->get('_token'),
-        )) {
-            throw $this->createAccessDeniedException(
-                'Jeton CSRF invalide.',
-            );
-        }
+        $this->denyInvalidCsrf(
+            'save-availabilities-'.$participant->getId(),
+            $request->request->get('_token'),
+            $translator,
+        );
 
         $week = (string) $request->request->get('week');
 
@@ -171,7 +174,10 @@ final class ParticipantAccessController extends BaseController
             $weekStart = new \DateTimeImmutable($week);
         } catch (\Exception) {
             throw $this->createNotFoundException(
-                'La semaine envoyée est invalide.',
+                $translator->trans(
+                    'controller.calendar.invalid_submitted_week',
+                    domain: 'error',
+                ),
             );
         }
 
@@ -185,11 +191,15 @@ final class ParticipantAccessController extends BaseController
 
         if ($weekStart < $currentWeekStart) {
             throw $this->createAccessDeniedException(
-                'Une semaine passée ne peut plus être modifiée.',
+                $translator->trans(
+                    'controller.calendar.past_week',
+                    domain: 'error',
+                ),
             );
         }
 
-        $submittedAvailabilities = $request->request->all('availabilities');
+        $submittedAvailabilities =
+            $request->request->all('availabilities');
 
         $wasComplete = $this->weekCompletionChecker->isComplete(
             $campaign,
@@ -197,12 +207,20 @@ final class ParticipantAccessController extends BaseController
         );
 
         try {
-            $changedCount = $this->availabilityManager->save($participant, $submittedAvailabilities);
+            $changedCount = $this->availabilityManager->save(
+                $participant,
+                $submittedAvailabilities,
+            );
 
-            $this->notificationManager->notifyAvailabilityUpdated($participant, $weekStart, $changedCount);
-
+            $this->notificationManager->notifyAvailabilityUpdated(
+                $participant,
+                $weekStart,
+                $changedCount,
+            );
         } catch (\InvalidArgumentException $exception) {
-            throw $this->createNotFoundException($exception->getMessage());
+            throw $this->createNotFoundException(
+                $exception->getMessage(),
+            );
         }
 
         $isComplete = $this->weekCompletionChecker->isComplete(
@@ -217,10 +235,7 @@ final class ParticipantAccessController extends BaseController
             );
         }
 
-        $this->addFlash(
-            'success',
-            'Vos disponibilités ont bien été enregistrées.',
-        );
+        $this->addFlash('success', 'availability.saved');
 
         return $this->redirectToRoute(
             'participant_availability_show',
@@ -234,18 +249,21 @@ final class ParticipantAccessController extends BaseController
     #[Route('', name: 'dashboard', methods: ['GET'])]
     public function dashboard(
         string $token,
+        TranslatorInterface $translator,
     ): Response {
         $participations = $this->participantRepository
             ->findActiveByDashboardToken($token);
 
         if ($participations === []) {
             throw $this->createNotFoundException(
-                'Ce lien joueur est invalide ou n’est plus actif.',
+                $translator->trans(
+                    'controller.participant.invalid_dashboard_link',
+                    domain: 'error',
+                ),
             );
         }
 
         $referenceParticipant = $participations[0];
-
         $campaigns = [];
         $upcomingSessions = [];
 

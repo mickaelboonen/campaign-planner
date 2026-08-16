@@ -25,3 +25,7 @@ form:
     character_name:
         label: Character
     cancel: Cancel
+
+errors:
+    archived_email: This participant already exists in this campaign but is archived. You can restore them from the archived participants section.
+    email_used: This email address is already used in this campaign.

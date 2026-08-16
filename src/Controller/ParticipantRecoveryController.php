@@ -4,15 +4,15 @@ namespace App\Controller;
 
 use App\Repository\ParticipantRepository;
 use App\Service\Notification\EmailParticipantAccessNotifier;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class ParticipantRecoveryController extends AbstractController
+final class ParticipantRecoveryController extends BaseController
 {
     #[Route(
         '/player/recover',
@@ -23,20 +23,18 @@ final class ParticipantRecoveryController extends AbstractController
         Request $request,
         ParticipantRepository $participantRepository,
         EmailParticipantAccessNotifier $emailParticipantAccessNotifier,
+        TranslatorInterface $translator,
         #[Target('participant_recovery_ip')]
         RateLimiterFactoryInterface $participantRecoveryIpLimiter,
         #[Target('participant_recovery_email')]
         RateLimiterFactoryInterface $participantRecoveryEmailLimiter,
     ): Response {
         if ($request->isMethod('POST')) {
-            if (!$this->isCsrfTokenValid(
+            $this->denyInvalidCsrf(
                 'participant-recover',
-                (string) $request->request->get('_token'),
-            )) {
-                throw $this->createAccessDeniedException(
-                    'Jeton CSRF invalide.',
-                );
-            }
+                $request->request->get('_token'),
+                $translator,
+            );
 
             $email = trim(
                 mb_strtolower(
@@ -52,17 +50,15 @@ final class ParticipantRecoveryController extends AbstractController
                 ->create(hash('sha256', $email))
                 ->consume();
 
-            if (
-                !$ipLimit->isAccepted()
-                || !$emailLimit->isAccepted()
-            ) {
-                $this->addFlash(
-                    'error',
-                    'Trop de demandes ont été effectuées. Veuillez patienter avant de demander un nouveau lien.',
-                );
+            if (!$ipLimit->isAccepted() || !$emailLimit->isAccepted()) {
+                $this->addFlash('error', 'recovery.rate_limited');
+
                 throw new TooManyRequestsHttpException(
                     null,
-                    'Trop de demandes ont été effectuées. Veuillez réessayer plus tard.',
+                    $translator->trans(
+                        'controller.recovery.rate_limited',
+                        domain: 'error',
+                    ),
                 );
             }
 
@@ -76,14 +72,9 @@ final class ParticipantRecoveryController extends AbstractController
                 }
             }
 
-            $this->addFlash(
-                'success',
-                'Si cette adresse est associée à un joueur CampaignPlanner, un lien d’accès vient de lui être envoyé.',
-            );
+            $this->addFlash('success', 'recovery.sent');
 
-            return $this->redirectToRoute(
-                'participant_recover',
-            );
+            return $this->redirectToRoute('participant_recover');
         }
 
         return $this->render(

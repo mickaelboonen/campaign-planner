@@ -28,3 +28,26 @@ server:
     subtitle: WILD MAGIC SURGE
     message_line_1: An unexpected error occurred.
     message_line_2: Even the GM had not prepared for this.
+
+controller:
+    campaign:
+        calendar_unavailable: This campaign calendar is no longer available.
+
+    calendar:
+        invalid_requested_week: The requested week is invalid.
+        invalid_submitted_week: The submitted week is invalid.
+        past_week: A past week can no longer be modified.
+
+    session:
+        wrong_campaign: This session does not belong to this campaign.
+        slot_wrong_campaign: This time slot does not belong to this campaign.
+
+    participant:
+        invalid_access_link: This participation link is invalid or no longer active.
+        invalid_dashboard_link: This player link is invalid or no longer active.
+
+    security:
+        invalid_csrf: Invalid CSRF token.
+
+    recovery:
+        rate_limited: Too many requests have been made. Please try again later.

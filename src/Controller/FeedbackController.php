@@ -11,7 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Enum\FeedbackType as FeedbackTypeEnum;
 
 final class FeedbackController extends AbstractController
 {
@@ -26,11 +25,9 @@ final class FeedbackController extends AbstractController
         name: 'feedback_create',
         methods: ['GET', 'POST'],
     )]
-    public function create(
-        Request $request,
-    ): Response {
+    public function create(Request $request): Response
+    {
         $data = new CreateFeedbackData();
-
         $user = $this->getUser();
 
         if ($user instanceof User) {
@@ -40,9 +37,7 @@ final class FeedbackController extends AbstractController
         $form = $this->createForm(
             FeedbackType::class,
             $data,
-            [
-                'authenticated' => $user instanceof User,
-            ],
+            ['authenticated' => $user instanceof User],
         );
 
         $form->handleRequest($request);
@@ -54,22 +49,13 @@ final class FeedbackController extends AbstractController
             );
 
             $this->emailFeedbackNotifier->notify($feedback);
+            $this->addFlash('success', 'feedback.sent');
 
-            $this->addFlash(
-                'success',
-                'Votre message a bien été transmis.',
-            );
-
-            return $this->redirectToRoute(
-                'feedback_create',
-            );
+            return $this->redirectToRoute('feedback_create');
         }
 
-        return $this->render(
-            'feedback/create.html.twig',
-            [
-                'form' => $form,
-            ],
-        );
+        return $this->render('feedback/create.html.twig', [
+            'form' => $form,
+        ]);
     }
 }
