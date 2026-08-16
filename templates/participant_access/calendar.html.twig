@@ -4,7 +4,12 @@
 {% block title %}{{ 'calendar.title'|trans({ '%campaign%': campaign.name }) }}{% endblock %}
 
 {% block body %}
-<div data-controller="calendar-help" data-calendar-help-auto-open-value="{{ shouldAutoOpenHelp ? 'true' : 'false' }}">
+<div
+    data-controller="calendar-help"
+    data-calendar-help-auto-open-value="{{ shouldAutoOpenHelp ? 'true' : 'false' }}"
+    data-calendar-help-next-label-value="{{ 'help.next'|trans }}"
+    data-calendar-help-finish-label-value="{{ 'help.finish'|trans }}"
+>
     {% include 'components/page-header.html.twig' with {
         eyebrow: campaign.name,
         title: 'calendar.hello'|trans({ '%name%': participant.name }),
@@ -22,6 +27,11 @@
             action="{{ path('participant_availability_save', { token: participant.accessToken }) }}"
             data-controller="availability-grid"
             data-action="submit->availability-grid#submit"
+            data-availability-grid-available-label-value="{{ 'availability_status.available'|trans({}, 'enums') }}"
+            data-availability-grid-maybe-label-value="{{ 'availability_status.maybe'|trans({}, 'enums') }}"
+            data-availability-grid-unavailable-label-value="{{ 'availability_status.unavailable'|trans({}, 'enums') }}"
+            data-availability-grid-unanswered-label-value="{{ 'availability_status.unanswered'|trans({}, 'enums') }}"
+            data-availability-grid-unsaved-changes-message-value="{{ 'calendar.unsaved_changes'|trans }}"
         {% endif %}
     >
         {% if not isPastWeek %}

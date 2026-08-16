@@ -52,12 +52,9 @@
                     class="button button--secondary"
                     data-controller="clipboard"
                     data-action="clipboard#copy"
-                    data-clipboard-value-value="{{ url(
-                        'participant_availability_show',
-                        {
-                            token: participant.accessToken
-                        }
-                    ) }}"
+                    data-clipboard-value-value="{{ url('participant_availability_show', { token: participant.accessToken }) }}"
+                    data-clipboard-copied-label-value="{{ 'clipboard.copied'|trans }}"
+                    data-clipboard-fallback-prompt-value="{{ 'clipboard.prompt'|trans }}"
                 >
                     {{ 'participant_card.copy_calendar'|trans }}
                 </button>

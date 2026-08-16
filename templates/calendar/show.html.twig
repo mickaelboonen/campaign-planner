@@ -51,6 +51,8 @@
             }) }}"
             data-controller="calendar-slot-grid"
             data-action="submit->calendar-slot-grid#submit"
+            data-calendar-slot-grid-blocked-label-value="{{ 'availability_status.blocked'|trans({}, 'enums') }}"
+            data-calendar-slot-grid-unsaved-changes-message-value="{{ 'unsaved_changes'|trans }}"
         {% endif %}
     >
         {% if not isPastWeek %}
