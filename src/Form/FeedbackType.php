@@ -23,8 +23,9 @@ final class FeedbackType extends AbstractType
                 'label' => 'Type de demande',
                 'placeholder' => 'Choisissez un type',
                 'choices' => FeedbackTypeEnum::cases(),
-                'choice_label' => static fn (FeedbackTypeEnum $type) => $type->label(),
+                'choice_label' => static fn (FeedbackTypeEnum $type) => $type->translationKey(),
                 'choice_value' => static fn (?FeedbackTypeEnum $type) => $type?->value,
+                'choice_translation_domain' => 'enums',
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Adresse e-mail',

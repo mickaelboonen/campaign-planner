@@ -9,23 +9,23 @@ enum FeedbackType: string
     case SUPPORT = 'support';
     case OTHER = 'other';
 
-    public function label(): string
+    public function translationKey(): string
     {
         return match ($this) {
-            self::BUG => 'Bug',
-            self::IDEA => 'Idée',
-            self::SUPPORT => 'Support',
-            self::OTHER => 'Autre',
+            self::BUG => 'feedback_type.bug',
+            self::IDEA => 'feedback_type.idea',
+            self::SUPPORT => 'feedback_type.support',
+            self::OTHER => 'feedback_type.other',
         };
     }
 
-    public function defaultSubject(): string
+    public function defaultSubjectTranslationKey(): string
     {
         return match ($this) {
-            self::BUG => 'Problème rencontré',
-            self::IDEA => 'Suggestion d’amélioration',
-            self::SUPPORT => 'Demande d’aide',
-            self::OTHER => 'Autre demande',
+            self::BUG => 'feedback_type.default_subject.bug',
+            self::IDEA => 'feedback_type.default_subject.idea',
+            self::SUPPORT => 'feedback_type.default_subject.support',
+            self::OTHER => 'feedback_type.default_subject.other',
         };
     }
 }

@@ -7,6 +7,11 @@ export default class extends Controller {
         'button',
     ];
 
+    static values = {
+        lightLabel: String,
+        darkLabel: String,
+    };
+
     connect() {
         const savedTheme =
             localStorage.getItem('theme') ?? 'dark';
@@ -37,7 +42,7 @@ export default class extends Controller {
             isLight ? '☾' : '☀';
 
         this.labelTarget.textContent =
-            isLight ? 'Thème sombre' : 'Thème clair';
+            isLight ? this.darkLabelValue : this.lightLabelValue;
 
         this.buttonTarget.setAttribute(
             'aria-checked',

@@ -1,7 +1,9 @@
 {% extends 'portal_base.html.twig' %}
 
+{% trans_default_domain 'auth' %}
+
 {% block title %}
-    Connexion
+    {{ 'login.title'|trans }}
 {% endblock %}
 
 {% block portal_class %}
@@ -14,14 +16,14 @@
             href="{{ path('app_login') }}"
             class="auth-tabs__item is-active"
         >
-            Connexion
+            {{ 'tabs.login'|trans }}
         </a>
 
         <a
             href="{{ path('app_register') }}"
             class="auth-tabs__item"
         >
-            Inscription
+            {{ 'tabs.register'|trans }}
         </a>
     </nav>
 
@@ -46,7 +48,7 @@
                 class="form-label"
                 for="username"
             >
-                Adresse e-mail
+                {{ 'login.email'|trans }}
             </label>
 
             <input
@@ -66,7 +68,7 @@
                 class="form-label"
                 for="password"
             >
-                Mot de passe
+                {{ 'login.password'|trans }}
             </label>
 
             <input
@@ -90,21 +92,23 @@
             class="button button--portal"
             type="submit"
         >
-            Franchir le portail
+            {{ 'login.submit'|trans }}
         </button>
     </form>
 
     <div class="player-access-link">
-        <span>Vous êtes joueur ?</span>
+        <span>
+            {{ 'login.player_question'|trans }}
+        </span>
 
         <a href="{{ path('participant_recover') }}">
-            Retrouver mon espace
+            {{ 'login.player_recover'|trans }}
         </a>
     </div>
 
     <div class="portal-secondary-link">
         <a href="{{ path('feedback_create') }}">
-            Un problème ? Contacter l'administrateur
+            {{ 'login.contact_admin'|trans }}
         </a>
     </div>
 {% endblock %}

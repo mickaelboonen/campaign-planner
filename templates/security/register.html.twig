@@ -1,7 +1,9 @@
 {% extends 'portal_base.html.twig' %}
 
+{% trans_default_domain 'auth' %}
+
 {% block title %}
-    Inscription
+    {{ 'register.title'|trans }}
 {% endblock %}
 
 {% block portal_class %}
@@ -14,14 +16,14 @@
             href="{{ path('app_login') }}"
             class="auth-tabs__item"
         >
-            Connexion
+            {{ 'tabs.login'|trans }}
         </a>
 
         <a
             href="{{ path('app_register') }}"
             class="auth-tabs__item is-active"
         >
-            Inscription
+            {{ 'tabs.register'|trans }}
         </a>
     </nav>
 
@@ -107,7 +109,7 @@
             class="button button--portal"
             type="submit"
         >
-            Commencer l'aventure
+            {{ 'register.submit'|trans }}
         </button>
 
     {{ form_end(registrationForm) }}

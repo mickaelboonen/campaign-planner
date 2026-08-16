@@ -18,7 +18,7 @@
     </p>
 
     <p style="margin: 0 0 10px;">
-        🕒 {{ session.period.label() }}
+        🕒 {{ session.period.translationKey()|trans }}
     </p>
 
     {% if session.startTime and session.endTime %}

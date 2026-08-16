@@ -8,12 +8,12 @@ enum AvailabilityStatus: string
     case MAYBE = 'maybe';
     case UNAVAILABLE = 'unavailable';
 
-    public function label(): string
+    public function translationKey(): string
     {
         return match ($this) {
-            self::AVAILABLE => 'Disponible',
-            self::MAYBE => 'Peut-être',
-            self::UNAVAILABLE => 'Indisponible',
+            self::AVAILABLE => 'availability_status.available',
+            self::MAYBE => 'availability_status.maybe',
+            self::UNAVAILABLE => 'availability_status.unavailable',
         };
     }
 

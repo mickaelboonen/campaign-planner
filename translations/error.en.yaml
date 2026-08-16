@@ -1,0 +1,30 @@
+
+common:
+    home: Back to home
+
+generic:
+    title: An error occurred
+    eyebrow: Error
+    heading: Unable to process this request.
+    message: An error occurred.
+
+forbidden:
+    title: Access forbidden
+    heading: Access forbidden
+    subtitle: TPK ahead
+    message_line_1: This territory is beyond your reach.
+    message_line_2: Even the bravest are not invited here.
+
+not_found:
+    title: Page not found
+    heading: "Survival Check: Natural 1"
+    subtitle: Lost in the mist
+    message_line_1: The Mists have erased the path.
+    message_line_2: This page remains nowhere to be found.
+
+server:
+    title: Server error
+    heading: PLAN DISRUPTED
+    subtitle: WILD MAGIC SURGE
+    message_line_1: An unexpected error occurred.
+    message_line_2: Even the GM had not prepared for this.

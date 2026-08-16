@@ -1,7 +1,9 @@
 {% extends 'error_base.html.twig' %}
 
+{% trans_default_domain 'error' %}
+
 {% block title %}
-    Erreur serveur
+    {{ 'server.title'|trans }}
 {% endblock %}
 
 {% block body %}
@@ -18,16 +20,16 @@
             </div>
 
             <h1>
-                PLAN PRÉVISIONNEL PERTURBÉ
+                {{ 'server.heading'|trans }}
             </h1>
 
             <div class="error-page__subtitle error-page__subtitle--arcane">
-                WILD MAGIC SURGE
+                {{ 'server.subtitle'|trans }}
             </div>
 
             <p class="error-page__message">
-                Une erreur inattendue est survenue.<br>
-                Même le MJ ne l’avait pas préparée.
+                {{ 'server.message_line_1'|trans }}<br>
+                {{ 'server.message_line_2'|trans }}
             </p>
 
             <a
@@ -38,7 +40,7 @@
                     ◈
                 </span>
 
-                Retour à l’accueil
+                {{ 'common.home'|trans }}
             </a>
         </div>
     </section>

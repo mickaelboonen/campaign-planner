@@ -8,12 +8,12 @@ enum CalendarSlotStatus: string
     case BLOCKED = 'blocked';
     case SELECTED = 'selected';
 
-    public function label(): string
+    public function translationKey(): string
     {
         return match ($this) {
-            self::OPEN => 'Ouvert',
-            self::BLOCKED => 'Bloqué',
-            self::SELECTED => 'Sélectionné',
+            self::OPEN => 'calendar_slot_status.open',
+            self::BLOCKED => 'calendar_slot_status.blocked',
+            self::SELECTED => 'calendar_slot_status.selected',
         };
     }
 }

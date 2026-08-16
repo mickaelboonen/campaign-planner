@@ -1,9 +1,7 @@
+{% trans_default_domain 'common' %}
+
 <div class="app-brand">
-    <img
-        src="{{ asset('images/logo.png') }}"
-        alt=""
-        class="app-brand__logo"
-    >
+    <img src="{{ asset('images/logo.png') }}" alt="" class="app-brand__logo" />
 
     <div class="app-brand__text">
         <strong class="app-brand__title">
@@ -11,7 +9,7 @@
         </strong>
 
         <span class="app-brand__tagline">
-            Organisez vos légendes.
+            {{ 'brand.tagline'|trans }}
         </span>
     </div>
 </div>

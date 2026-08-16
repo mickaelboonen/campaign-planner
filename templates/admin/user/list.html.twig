@@ -1,7 +1,9 @@
 {% extends 'admin/base.html.twig' %}
 
+{% trans_default_domain 'admin' %}
+
 {% block admin_title %}
-    Utilisateurs
+    {{ 'user.title'|trans }}
 {% endblock %}
 
 {% block admin_content %}
@@ -16,14 +18,14 @@
                     type="search"
                     name="q"
                     value="{{ search }}"
-                    placeholder="Rechercher par email..."
+                    placeholder="{{ 'user.search.placeholder'|trans }}"
                 >
 
                 <button
                     type="submit"
                     class="button button--secondary"
                 >
-                    Rechercher
+                    {{ 'user.search.submit'|trans }}
                 </button>
 
                 {% if search %}
@@ -31,7 +33,7 @@
                         href="{{ path('admin_user_list') }}"
                         class="button button--ghost"
                     >
-                        Réinitialiser
+                        {{ 'user.search.reset'|trans }}
                     </a>
                 {% endif %}
             </form>
@@ -41,12 +43,12 @@
             <table class="admin-table">
                 <thead>
                     <tr>
-                        <th>Utilisateur</th>
-                        <th>Plan</th>
-                        <th>Statut</th>
-                        <th>Campagnes</th>
-                        <th>Inscription</th>
-                        <th>Dernière connexion</th>
+                        <th>{{ 'user.table.user'|trans }}</th>
+                        <th>{{ 'user.table.plan'|trans }}</th>
+                        <th>{{ 'user.table.status'|trans }}</th>
+                        <th>{{ 'user.table.campaigns'|trans }}</th>
+                        <th>{{ 'user.table.registered_at'|trans }}</th>
+                        <th>{{ 'user.table.last_login'|trans }}</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -60,8 +62,13 @@
                                 </strong>
 
                                 {% if 'ROLE_ADMIN' in user.roles %}
-                                    <span class="admin-badge admin-badge--admin">
-                                        Admin
+                                    <span
+                                        class="
+                                            admin-badge
+                                            admin-badge--admin
+                                        "
+                                    >
+                                        {{ 'user.table.admin'|trans }}
                                     </span>
                                 {% endif %}
                             </td>
@@ -70,24 +77,39 @@
                                 <span
                                     class="
                                         admin-badge
-                                        {{ user.subscriptionPlan.value == 'premium'
-                                            ? 'admin-badge--premium'
-                                            : ''
+                                        {{ user.subscriptionPlan.value
+                                            == 'premium'
+                                                ? 'admin-badge--premium'
+                                                : ''
                                         }}
                                     "
                                 >
-                                    {{ user.subscriptionPlan.label() }}
+                                    {{
+                                        user.subscriptionPlan
+                                            .translationKey()
+                                            |trans({}, 'enums')
+                                    }}
                                 </span>
                             </td>
 
                             <td>
                                 {% if user.active %}
-                                    <span class="admin-status admin-status--active">
-                                        Actif
+                                    <span
+                                        class="
+                                            admin-status
+                                            admin-status--active
+                                        "
+                                    >
+                                        {{ 'user.table.active'|trans }}
                                     </span>
                                 {% else %}
-                                    <span class="admin-status admin-status--inactive">
-                                        Désactivé
+                                    <span
+                                        class="
+                                            admin-status
+                                            admin-status--inactive
+                                        "
+                                    >
+                                        {{ 'user.table.disabled'|trans }}
                                     </span>
                                 {% endif %}
                             </td>
@@ -102,10 +124,13 @@
 
                             <td>
                                 {% if user.lastLoginAt %}
-                                    {{ user.lastLoginAt|date('d/m/Y H:i') }}
+                                    {{
+                                        user.lastLoginAt
+                                        |date('d/m/Y H:i')
+                                    }}
                                 {% else %}
                                     <span class="text-muted">
-                                        Jamais
+                                        {{ 'user.table.never'|trans }}
                                     </span>
                                 {% endif %}
                             </td>
@@ -117,14 +142,14 @@
                                     }) }}"
                                     class="button button--ghost"
                                 >
-                                    Voir
+                                    {{ 'user.table.view'|trans }}
                                 </a>
                             </td>
                         </tr>
                     {% else %}
                         <tr>
                             <td colspan="7">
-                                Aucun utilisateur trouvé.
+                                {{ 'user.table.empty'|trans }}
                             </td>
                         </tr>
                     {% endfor %}

@@ -1,7 +1,9 @@
 {% extends 'error_base.html.twig' %}
 
+{% trans_default_domain 'error' %}
+
 {% block title %}
-    Page introuvable
+    {{ 'not_found.title'|trans }}
 {% endblock %}
 
 {% block body %}
@@ -18,16 +20,16 @@
             </div>
 
             <h1>
-                Jet de Survie : 1 naturel
+                {{ 'not_found.heading'|trans }}
             </h1>
 
             <div class="error-page__subtitle error-page__subtitle--mist">
-                Lost in the mist
+                {{ 'not_found.subtitle'|trans }}
             </div>
 
             <p class="error-page__message">
-                Les Brumes ont effacé le chemin.<br>
-                Cette page demeure introuvable.
+                {{ 'not_found.message_line_1'|trans }}<br>
+                {{ 'not_found.message_line_2'|trans }}
             </p>
 
             <a
@@ -38,7 +40,7 @@
                     ◈
                 </span>
 
-                Retour à l’accueil
+                {{ 'common.home'|trans }}
             </a>
         </div>
     </section>

@@ -1,3 +1,5 @@
+{% trans_default_domain 'common' %}
+
 <article class="participant-card">
     <header class="participant-card__header">
         <div class="participant-card__avatar">
@@ -34,7 +36,6 @@
 
     <footer class="participant-card__footer">
         <div class="participant-card__actions">
-
             {% if not readOnly %}
                 <a
                     href="{{ path('participant_edit', {
@@ -43,7 +44,7 @@
                     }) }}"
                     class="button button--secondary"
                 >
-                    Modifier
+                    {{ 'participant_card.edit'|trans }}
                 </a>
 
                 <button
@@ -51,11 +52,14 @@
                     class="button button--secondary"
                     data-controller="clipboard"
                     data-action="clipboard#copy"
-                    data-clipboard-value-value="{{ url('participant_availability_show', {
-                        token: participant.accessToken
-                    }) }}"
+                    data-clipboard-value-value="{{ url(
+                        'participant_availability_show',
+                        {
+                            token: participant.accessToken
+                        }
+                    ) }}"
                 >
-                    Copier calendrier
+                    {{ 'participant_card.copy_calendar'|trans }}
                 </button>
 
                 <form
@@ -64,13 +68,19 @@
                         id: participant.campaign.id,
                         participant: participant.id
                     }) }}"
-                    onsubmit="return confirm('Archiver ce participant ?');"
+                    onsubmit="return confirm(
+                        '{{ 'participant_card.archive_confirm'
+                            |trans
+                            |e('js')
+                        }}'
+                    );"
                 >
                     <input
                         type="hidden"
                         name="_token"
                         value="{{ csrf_token(
-                            'archive-participant-' ~ participant.id
+                            'archive-participant-'
+                            ~ participant.id
                         ) }}"
                     >
 
@@ -78,7 +88,7 @@
                         type="submit"
                         class="button button--ghost"
                     >
-                        Archiver
+                        {{ 'participant_card.archive'|trans }}
                     </button>
                 </form>
             {% endif %}

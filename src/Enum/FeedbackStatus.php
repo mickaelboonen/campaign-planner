@@ -8,12 +8,12 @@ enum FeedbackStatus: string
     case READ = 'read';
     case CLOSED = 'closed';
 
-    public function label(): string
+    public function translationKey(): string
     {
         return match ($this) {
-            self::NEW => 'Nouveau',
-            self::READ => 'Lu',
-            self::CLOSED => 'Clôturé',
+            self::NEW => 'feedback_status.new',
+            self::READ => 'feedback_status.read',
+            self::CLOSED => 'feedback_status.closed',
         };
     }
 }

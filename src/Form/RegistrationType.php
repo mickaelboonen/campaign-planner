@@ -20,27 +20,35 @@ final class RegistrationType extends AbstractType
     ): void {
         $builder
             ->add('email', EmailType::class, [
-                'label' => 'Adresse e-mail',
+                'label' => 'register.form.email',
+                'translation_domain' => 'auth',
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'mapped' => false,
+
                 'first_options' => [
-                    'label' => 'Mot de passe',
+                    'label' => 'register.form.password',
+                    'translation_domain' => 'auth',
                 ],
+
                 'second_options' => [
-                    'label' => 'Confirmer le mot de passe',
+                    'label' => 'register.form.password_confirm',
+                    'translation_domain' => 'auth',
                 ],
+
                 'invalid_message' =>
-                    'Les mots de passe ne correspondent pas.',
+                    'registration.password_mismatch',
+
                 'constraints' => [
                     new NotBlank(
-                        message: 'Veuillez saisir un mot de passe.',
+                        message: 'registration.password_required',
                     ),
+
                     new Length(
                         min: 8,
                         minMessage:
-                            'Votre mot de passe doit contenir au moins {{ limit }} caractères.',
+                            'registration.password_min_length',
                     ),
                 ],
             ]);

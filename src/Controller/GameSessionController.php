@@ -36,15 +36,6 @@ final class GameSessionController extends BaseController
         $data = new GameSessionData();
         $form = $this->createForm(GameSessionType::class, $data);
         $form->handleRequest($request);
-dump([
-    'method' => $request->getMethod(),
-    'form_name' => $form->getName(),
-    'request_keys' => array_keys($request->request->all()),
-    'request_data' => $request->request->all(),
-]);
-    dump($form->getErrors(true, true));
-    dump($form->isSubmitted() );
-    dump($form->isSubmitted() && $form->isValid());
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {

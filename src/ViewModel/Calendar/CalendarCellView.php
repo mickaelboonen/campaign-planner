@@ -38,15 +38,6 @@ final readonly class CalendarCellView
         };
     }
 
-    public function getLabel(): string
-    {
-        if ($this->isBlocked()) {
-            return 'Bloqué';
-        }
-
-        return $this->getStatus()?->label() ?? 'Non renseigné';
-    }
-
     public function getSymbol(): string
     {
         if ($this->isBlocked()) {
@@ -59,5 +50,15 @@ final readonly class CalendarCellView
             AvailabilityStatus::UNAVAILABLE => '×',
             null => '—',
         };
+    }
+
+    public function getTranslationKey(): string
+    {
+        if ($this->isBlocked()) {
+            return 'availability_status.blocked';
+        }
+
+        return $this->getStatus()?->translationKey()
+            ?? 'availability_status.unanswered';
     }
 }

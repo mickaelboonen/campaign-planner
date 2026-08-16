@@ -1,89 +1,171 @@
 {% extends 'base.html.twig' %}
 
+{% trans_default_domain 'admin' %}
+
 {% block title %}
-    Feedbacks
+    {{ 'feedback.title'|trans }}
 {% endblock %}
 
 {% block body %}
     <div class="admin-feedbacks">
         <div class="page-header">
             <div>
-                <p class="page-eyebrow">Administration</p>
-                <h1>Feedbacks</h1>
+                <p class="page-eyebrow">
+                    {{ 'feedback.eyebrow'|trans }}
+                </p>
+
+                <h1>
+                    {{ 'feedback.title'|trans }}
+                </h1>
             </div>
         </div>
+
         <nav class="admin-feedbacks__filters">
             {% set filters = {
-                open: 'À traiter',
-                new: 'Nouveaux',
-                read: 'Lus',
-                closed: 'Clôturés',
-                all: 'Tous'
+                open: 'feedback.filters.open'|trans,
+                new: 'feedback.filters.new'|trans,
+                read: 'feedback.filters.read'|trans,
+                closed: 'feedback.filters.closed'|trans,
+                all: 'feedback.filters.all'|trans
             } %}
 
             {% for value, label in filters %}
-                <a class="admin-feedbacks__filter {{ currentStatus == value ? 'is-active' }}" href="{{ path('admin_feedback_index', { status: value }) }}" >
+                <a
+                    class="
+                        admin-feedbacks__filter
+                        {{ currentStatus == value ? 'is-active' }}
+                    "
+                    href="{{ path('admin_feedback_index', {
+                        status: value
+                    }) }}"
+                >
                     {{ label }}
-                    <span class="admin-feedbacks__filter-count">{{ counts[value] }}</span>
+
+                    <span class="admin-feedbacks__filter-count">
+                        {{ counts[value] }}
+                    </span>
                 </a>
             {% endfor %}
         </nav>
 
         {% if feedbacks is empty %}
             <div class="admin-feedbacks__empty">
-                Aucun message pour le moment.
+                {{ 'feedback.empty'|trans }}
             </div>
         {% else %}
             <div class="admin-feedbacks__table-wrapper">
                 <table class="admin-feedbacks__table">
                     <thead>
                         <tr>
-                            <th>Type</th>
-                            <th>Statut</th>
-                            <th>Utilisateur</th>
-                            <th>Sujet</th>
-                            <th>Date</th>
-                            <th><span class="sr-only">Actions</span></th>
+                            <th>{{ 'feedback.table.type'|trans }}</th>
+                            <th>{{ 'feedback.table.status'|trans }}</th>
+                            <th>{{ 'feedback.table.user'|trans }}</th>
+                            <th>{{ 'feedback.table.subject'|trans }}</th>
+                            <th>{{ 'feedback.table.date'|trans }}</th>
+
+                            <th>
+                                <span class="sr-only">
+                                    {{ 'feedback.table.actions'|trans }}
+                                </span>
+                            </th>
                         </tr>
                     </thead>
+
                     <tbody>
                         {% for feedback in feedbacks %}
-                            <tr class="admin-feedbacks__row {% if feedback.status.value == 'new' %} admin-feedbacks__row--new {% endif %} ">
+                            <tr
+                                class="
+                                    admin-feedbacks__row
+                                    {% if feedback.status.value == 'new' %}
+                                        admin-feedbacks__row--new
+                                    {% endif %}
+                                "
+                            >
                                 <td>
-                                    <span class="admin-feedbacks__type">{{ feedback.type.label() }}</span>
-                                </td>
-                                <td>
-                                    <span class="admin-feedbacks__status admin-feedbacks__status--{{ feedback.status.value }}">
-                                        {{ feedback.status.label() }}
+                                    <span class="admin-feedbacks__type">
+                                        {{
+                                            feedback.type
+                                                .translationKey()
+                                                |trans({}, 'enums')
+                                        }}
                                     </span>
                                 </td>
+
+                                <td>
+                                    <span
+                                        class="
+                                            admin-feedbacks__status
+                                            admin-feedbacks__status--{{ feedback.status.value }}
+                                        "
+                                    >
+                                        {{
+                                            feedback.status
+                                                .translationKey()
+                                                |trans({}, 'enums')
+                                        }}
+                                    </span>
+                                </td>
+
                                 <td>
                                     <div class="admin-feedbacks__author">
-                                        <span class="admin-feedbacks__email">{{ feedback.email ?? 'Anonyme' }}</span>
+                                        <span class="admin-feedbacks__email">
+                                            {{
+                                                feedback.email
+                                                ?? 'feedback.table.anonymous'|trans
+                                            }}
+                                        </span>
 
                                         {% if feedback.user %}
-                                            <span class="admin-feedbacks__account">Compte #{{ feedback.user.id }}</span>
+                                            <span class="admin-feedbacks__account">
+                                                {{
+                                                    'feedback.table.account'
+                                                    |trans({
+                                                        '%id%':
+                                                            feedback.user.id
+                                                    })
+                                                }}
+                                            </span>
                                         {% endif %}
                                     </div>
                                 </td>
+
                                 <td>
-                                    <div class="admin-feedbacks__subject">{{ feedback.subject }}</div>
+                                    <div class="admin-feedbacks__subject">
+                                        {{ feedback.subject }}
+                                    </div>
                                 </td>
+
                                 <td>
-                                    <span class="admin-feedbacks__date">{{ feedback.createdAt|date('d/m/Y H:i') }}</span>
+                                    <span class="admin-feedbacks__date">
+                                        {{
+                                            feedback.createdAt
+                                            |date('d/m/Y H:i')
+                                        }}
+                                    </span>
                                 </td>
 
                                 <td class="admin-feedbacks__actions">
-                                    <a class="button button--secondary" href="{{ path('admin_feedback_show', { id: feedback.id }) }}" >
-                                        Voir
+                                    <a
+                                        class="button button--secondary"
+                                        href="{{ path(
+                                            'admin_feedback_show',
+                                            {
+                                                id: feedback.id
+                                            }
+                                        ) }}"
+                                    >
+                                        {{ 'feedback.table.view'|trans }}
                                     </a>
                                 </td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
+
                 {% if feedbacks.pageCount > 1 %}
-                    <div class="admin-feedbacks__pagination">{{ knp_pagination_render(feedbacks) }}</div>
+                    <div class="admin-feedbacks__pagination">
+                        {{ knp_pagination_render(feedbacks) }}
+                    </div>
                 {% endif %}
             </div>
         {% endif %}

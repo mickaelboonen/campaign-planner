@@ -1,14 +1,16 @@
 {% extends 'base.html.twig' %}
 
+{% trans_default_domain 'calendar' %}
+
 {% block title %}
-    Calendrier — {{ campaign.name }}
+    {{ 'title'|trans }} — {{ campaign.name }}
 {% endblock %}
 
 {% block body %}
     {% include 'components/breadcrumb.html.twig' with {
         items: [
             {
-                label: 'Campagnes',
+                label: 'breadcrumb.campaigns'|trans,
                 path: path('campaign_list')
             },
             {
@@ -18,27 +20,27 @@
                 })
             },
             {
-                label: 'Calendrier'
+                label: 'breadcrumb.calendar'|trans
             }
         ]
     } %}
 
     {% include 'components/page-header.html.twig' with {
-        eyebrow: 'Disponibilités',
-        title: 'Calendrier',
-        description: 'Semaine '
-            ~ calendar.start|date('W')
-            ~ ' — du '
-            ~ calendar.start|date('d/m/Y')
-            ~ ' au '
-            ~ calendar.end|date('d/m/Y')
+        eyebrow: 'header.eyebrow'|trans,
+        title: 'title'|trans,
+        description: 'header.description'|trans({
+            '%week%': calendar.start|date('W'),
+            '%start%': calendar.start|date('d/m/Y'),
+            '%end%': calendar.end|date('d/m/Y')
+        })
     } %}
 
     {% if campaign.isArchived %}
         <div class="campaign-readonly-notice">
-            Cette campagne est archivée. Le calendrier est disponible en lecture seule.
+            {{ 'readonly.archived'|trans }}
         </div>
     {% endif %}
+
     {% include 'calendar/_toolbar.html.twig' %}
 
     <form

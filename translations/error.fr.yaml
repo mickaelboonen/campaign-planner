@@ -1,0 +1,29 @@
+common:
+    home: Retour à l’accueil
+
+generic:
+    title: Une erreur est survenue
+    eyebrow: Erreur
+    heading: Impossible de traiter cette demande.
+    message: Une erreur est survenue.
+
+forbidden:
+    title: Accès interdit
+    heading: Accès interdit
+    subtitle: TPK ahead
+    message_line_1: Ce territoire est hors de votre portée.
+    message_line_2: Même les plus braves n’y sont pas invités.
+
+not_found:
+    title: Page introuvable
+    heading: "Jet de Survie : 1 naturel"
+    subtitle: Lost in the mist
+    message_line_1: Les Brumes ont effacé le chemin.
+    message_line_2: Cette page demeure introuvable.
+
+server:
+    title: Erreur serveur
+    heading: PLAN PRÉVISIONNEL PERTURBÉ
+    subtitle: WILD MAGIC SURGE
+    message_line_1: Une erreur inattendue est survenue.
+    message_line_2: Même le MJ ne l’avait pas préparée.

@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% trans_default_domain 'campaign' %}
+
 {% block title %}
     {{ campaign.name }}
 {% endblock %}
@@ -8,7 +10,7 @@
     {% include 'components/breadcrumb.html.twig' with {
         items: [
             {
-                label: 'Campagnes',
+                label: 'breadcrumb.campaigns'|trans,
                 path: path('campaign_list')
             },
             {
@@ -19,7 +21,10 @@
 
     <section
         class="campaign-hero"
-        style="--campaign-color: {{ campaign.color ?? '#c9a85c' }}"
+        style="
+            --campaign-color:
+            {{ campaign.color ?? '#c9a85c' }}
+        "
     >
         <div class="campaign-hero__media">
             {% if campaign.image %}
@@ -41,7 +46,7 @@
         <div class="campaign-hero__content">
             <div>
                 <p class="page-eyebrow">
-                    Campagne active
+                    {{ 'show.active'|trans }}
                 </p>
 
                 <h1>
@@ -49,7 +54,7 @@
                 </h1>
 
                 <p class="campaign-hero__meta">
-                    Créée le
+                    {{ 'show.created_at'|trans }}
                     {{ campaign.createdAt|date('d/m/Y') }}
                 </p>
             </div>
@@ -61,9 +66,8 @@
                         id: campaign.id
                     }) }}"
                 >
-                    Modifier
+                    {{ 'show.edit'|trans }}
                 </a>
-
 
                 <form
                     method="post"
@@ -71,7 +75,7 @@
                         id: campaign.id
                     }) }}"
                     onsubmit="return confirm(
-                        'Archiver cette campagne ?'
+                        '{{ 'show.archive_confirm'|trans|e('js') }}'
                     );"
                 >
                     <input
@@ -86,12 +90,12 @@
                         type="submit"
                         class="button button--ghost"
                     >
-                        Archiver
+                        {{ 'show.archive'|trans }}
                     </button>
                 </form>
             {% else %}
                 <span class="campaign-archive-badge">
-                    Campagne archivée
+                    {{ 'show.archived'|trans }}
                 </span>
             {% endif %}
         </div>
@@ -108,8 +112,13 @@
                 <span class="campaign-navigation__icon">◆</span>
 
                 <span>
-                    <strong>Participants</strong>
-                    <small>Gérer le groupe de jeu</small>
+                    <strong>
+                        {{ 'navigation.participants.title'|trans }}
+                    </strong>
+
+                    <small>
+                        {{ 'navigation.participants.description'|trans }}
+                    </small>
                 </span>
             </a>
 
@@ -122,20 +131,32 @@
                 <span class="campaign-navigation__icon">▦</span>
 
                 <span>
-                    <strong>Calendrier</strong>
-                    <small>Disponibilités et créneaux</small>
+                    <strong>
+                        {{ 'navigation.calendar.title'|trans }}
+                    </strong>
+
+                    <small>
+                        {{ 'navigation.calendar.description'|trans }}
+                    </small>
                 </span>
             </a>
 
             <a
                 class="campaign-navigation__item"
-                href="{{ path('campaign_notes', { id: campaign.id }) }}"
+                href="{{ path('campaign_notes', {
+                    id: campaign.id
+                }) }}"
             >
                 <span class="campaign-navigation__icon">✦</span>
 
                 <span>
-                    <strong>Notes MJ</strong>
-                    <small>Mémos privés de campagne</small>
+                    <strong>
+                        {{ 'navigation.notes.title'|trans }}
+                    </strong>
+
+                    <small>
+                        {{ 'navigation.notes.description'|trans }}
+                    </small>
                 </span>
             </a>
         </nav>
@@ -143,21 +164,24 @@
 
     <section class="stat-grid">
         {% include 'components/stat-card.html.twig' with {
-            label: 'Participants',
+            label: 'show.stats.participants.label'|trans,
             value: participants|length,
-            description: 'Participants actifs'
+            description:
+                'show.stats.participants.description'|trans
         } %}
 
         {% include 'components/stat-card.html.twig' with {
-            label: 'Sessions à venir',
+            label: 'show.stats.upcoming.label'|trans,
             value: upcomingSessions|length,
-            description: 'Sessions planifiées'
+            description:
+                'show.stats.upcoming.description'|trans
         } %}
 
         {% include 'components/stat-card.html.twig' with {
-            label: 'Sessions jouées',
+            label: 'show.stats.played.label'|trans,
             value: pastSessions|length,
-            description: 'Historique de la campagne'
+            description:
+                'show.stats.played.description'|trans
         } %}
     </section>
 
@@ -165,11 +189,11 @@
         <div class="section-heading">
             <div>
                 <p class="page-eyebrow">
-                    Planning
+                    {{ 'show.upcoming.eyebrow'|trans }}
                 </p>
 
                 <h2>
-                    Sessions à venir
+                    {{ 'show.upcoming.title'|trans }}
                 </h2>
             </div>
 
@@ -180,7 +204,7 @@
                         id: campaign.id
                     }) }}"
                 >
-                    Voir le calendrier
+                    {{ 'show.upcoming.calendar'|trans }}
                 </a>
             {% endif %}
         </div>
@@ -188,11 +212,11 @@
         {% if upcomingSessions is empty %}
             <div class="campaign-sessions__empty">
                 <strong>
-                    Aucune session planifiée
+                    {{ 'show.upcoming.empty.title'|trans }}
                 </strong>
 
                 <span>
-                    Consultez les disponibilités pour choisir une prochaine date.
+                    {{ 'show.upcoming.empty.description'|trans }}
                 </span>
             </div>
         {% else %}
@@ -211,7 +235,9 @@
 
                         <div class="campaign-session-card__content">
                             {% if session.name %}
-                                <strong class="campaign-session-card__title">
+                                <strong
+                                    class="campaign-session-card__title"
+                                >
                                     {{ session.name }}
                                 </strong>
                             {% else %}
@@ -222,50 +248,76 @@
 
                             <span>
                                 {{ session.date|date('d/m/Y') }}
-                                — {{ session.period.label() }}
+                                —
+                                {{
+                                    session.period
+                                        .translationKey()
+                                        |trans({}, 'enums')
+                                }}
                             </span>
 
                             {% if session.startTime and session.endTime %}
-                                <span class="campaign-session-card__time">
-                                    {{ session.startTime|date('H:i', false) }}
+                                <span
+                                    class="campaign-session-card__time"
+                                >
+                                    {{
+                                        session.startTime
+                                        |date('H:i', false)
+                                    }}
                                     →
-                                    {{ session.endTime|date('H:i', false) }}
+                                    {{
+                                        session.endTime
+                                        |date('H:i', false)
+                                    }}
                                 </span>
                             {% else %}
-                                <span class="campaign-session-card__time is-missing">
-                                    Horaire non défini
+                                <span
+                                    class="
+                                        campaign-session-card__time
+                                        is-missing
+                                    "
+                                >
+                                    {{ 'show.upcoming.time_missing'|trans }}
                                 </span>
                             {% endif %}
                         </div>
 
                         {% if loop.first %}
                             <span class="campaign-session-card__badge">
-                                Prochaine session
+                                {{ 'show.upcoming.next'|trans }}
                             </span>
                         {% endif %}
 
                         <div class="campaign-session-card__actions">
                             <a
                                 class="button button--secondary"
-                                href="{{ path('campaign_session_edit', {
-                                    id: campaign.id,
-                                    session: session.id
-                                }) }}"
+                                href="{{ path(
+                                    'campaign_session_edit',
+                                    {
+                                        id: campaign.id,
+                                        session: session.id
+                                    }
+                                ) }}"
                             >
-                                {{ session.startTime and session.endTime
-                                    ? 'Modifier'
-                                    : 'Définir l’horaire'
+                                {{
+                                    session.startTime
+                                    and session.endTime
+                                        ? 'show.upcoming.edit'|trans
+                                        : 'show.upcoming.define_time'|trans
                                 }}
                             </a>
 
                             <form
                                 method="post"
-                                action="{{ path('campaign_session_cancel', {
-                                    id: campaign.id,
-                                    session: session.id
-                                }) }}"
+                                action="{{ path(
+                                    'campaign_session_cancel',
+                                    {
+                                        id: campaign.id,
+                                        session: session.id
+                                    }
+                                ) }}"
                                 onsubmit="return confirm(
-                                    'Voulez-vous vraiment annuler cette session ?'
+                                    '{{ 'show.upcoming.cancel_confirm'|trans|e('js') }}'
                                 );"
                             >
                                 <input
@@ -280,7 +332,7 @@
                                     type="submit"
                                     class="button button--ghost"
                                 >
-                                    Annuler la session
+                                    {{ 'show.upcoming.cancel'|trans }}
                                 </button>
                             </form>
                         </div>
@@ -294,11 +346,11 @@
         <div class="section-heading">
             <div>
                 <p class="page-eyebrow">
-                    Groupe de jeu
+                    {{ 'show.participants.eyebrow'|trans }}
                 </p>
 
                 <h2>
-                    Participants
+                    {{ 'show.participants.title'|trans }}
                 </h2>
             </div>
 
@@ -309,7 +361,7 @@
                         id: campaign.id
                     }) }}"
                 >
-                    Ajouter un participant
+                    {{ 'show.participants.add'|trans }}
                 </a>
             {% endif %}
         </div>
@@ -317,9 +369,10 @@
         {% if participants is empty %}
             {% include 'components/empty-state.html.twig' with {
                 icon: '◆',
-                title: 'Aucun participant',
-                message: 'Ajoutez votre premier joueur afin de commencer à préparer le calendrier de cette campagne.',
-                action_label: 'Ajouter un participant',
+                title: 'show.participants.empty.title'|trans,
+                message:
+                    'show.participants.empty.description'|trans,
+                action_label: 'show.participants.add'|trans,
                 action_path: path('participant_new', {
                     id: campaign.id
                 })
@@ -336,80 +389,96 @@
         {% endif %}
     </section>
 
-{% if archivedParticipants is not empty %}
-    <details class="archived-participants">
-        <summary class="archived-participants__summary">
-            <span class="archived-participants__summary-label">
-                Participants archivés
-            </span>
+    {% if archivedParticipants is not empty %}
+        <details class="archived-participants">
+            <summary class="archived-participants__summary">
+                <span class="archived-participants__summary-label">
+                    {{ 'show.participants.archived'|trans }}
+                </span>
 
-            <span class="archived-participants__count">
-                {{ archivedParticipants|length }}
-            </span>
-        </summary>
+                <span class="archived-participants__count">
+                    {{ archivedParticipants|length }}
+                </span>
+            </summary>
 
-        <div class="archived-participants__grid">
-            {% for participant in archivedParticipants %}
-                <article class="archived-participant-card">
-                    <div class="archived-participant-card__avatar">
-                        {{ participant.name|slice(0, 1)|upper }}
-                    </div>
-
-                    <div class="archived-participant-card__content">
-                        <div>
-                            <h3 class="archived-participant-card__name">
-                                {{ participant.name }}
-                            </h3>
-
-                            {% if participant.characterName %}
-                                <p class="archived-participant-card__character">
-                                    {{ participant.characterName }}
-                                </p>
-                            {% endif %}
+            <div class="archived-participants__grid">
+                {% for participant in archivedParticipants %}
+                    <article class="archived-participant-card">
+                        <div class="archived-participant-card__avatar">
+                            {{ participant.name|slice(0, 1)|upper }}
                         </div>
 
-                        <span class="archived-participant-card__email">
-                            {{ participant.email }}
-                        </span>
-                    </div>
+                        <div class="archived-participant-card__content">
+                            <div>
+                                <h3
+                                    class="
+                                        archived-participant-card__name
+                                    "
+                                >
+                                    {{ participant.name }}
+                                </h3>
 
-                    <form
-                        method="post"
-                        action="{{ path('participant_restore', {
-                            id: campaign.id,
-                            participant: participant.id
-                        }) }}"
-                    >
-                        <input
-                            type="hidden"
-                            name="_token"
-                            value="{{ csrf_token(
-                                'restore-participant-' ~ participant.id
+                                {% if participant.characterName %}
+                                    <p
+                                        class="
+                                            archived-participant-card__character
+                                        "
+                                    >
+                                        {{ participant.characterName }}
+                                    </p>
+                                {% endif %}
+                            </div>
+
+                            <span
+                                class="
+                                    archived-participant-card__email
+                                "
+                            >
+                                {{ participant.email }}
+                            </span>
+                        </div>
+
+                        <form
+                            method="post"
+                            action="{{ path(
+                                'participant_restore',
+                                {
+                                    id: campaign.id,
+                                    participant: participant.id
+                                }
                             ) }}"
                         >
+                            <input
+                                type="hidden"
+                                name="_token"
+                                value="{{ csrf_token(
+                                    'restore-participant-'
+                                    ~ participant.id
+                                ) }}"
+                            >
 
-                        <button
-                            type="submit"
-                            class="button button--secondary"
-                        >
-                            Restaurer
-                        </button>
-                    </form>
-                </article>
-            {% endfor %}
-        </div>
-    </details>
-{% endif %}
+                            <button
+                                type="submit"
+                                class="button button--secondary"
+                            >
+                                {{ 'show.participants.restore'|trans }}
+                            </button>
+                        </form>
+                    </article>
+                {% endfor %}
+            </div>
+        </details>
+    {% endif %}
 
     <section class="content-section">
         <div class="section-heading">
             <div>
                 <p class="page-eyebrow">
-                    Historique
+                    {{ 'show.history.eyebrow'|trans }}
                 </p>
 
                 <h2>
-                    Sessions passées
+                    {{ 'show.history.title'|trans }}
                 </h2>
             </div>
         </div>
@@ -417,7 +486,7 @@
         {% if pastSessions is empty %}
             <div class="campaign-sessions__empty">
                 <strong>
-                    Aucune session passée
+                    {{ 'show.history.empty'|trans }}
                 </strong>
             </div>
         {% else %}
@@ -429,7 +498,11 @@
                         </span>
 
                         <strong>
-                            {{ session.period.label() }}
+                            {{
+                                session.period
+                                    .translationKey()
+                                    |trans({}, 'enums')
+                            }}
                         </strong>
                     </div>
                 {% endfor %}

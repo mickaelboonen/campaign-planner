@@ -1,8 +1,10 @@
+{% trans_default_domain 'calendar' %}
+
 {% if not isPastWeek %}
     <section class="availability-editor">
         <div class="availability-editor__status">
             <span class="availability-editor__label">
-                Action à appliquer
+                {{ 'editor.action'|trans }}
             </span>
 
             <button
@@ -12,7 +14,7 @@
                 data-action="calendar-slot-grid#selectMode"
                 data-mode="blocked"
             >
-                × Bloquer
+                × {{ 'editor.block'|trans }}
             </button>
 
             <button
@@ -22,13 +24,13 @@
                 data-action="calendar-slot-grid#selectMode"
                 data-mode="open"
             >
-                ✓ Ouvrir
+                ✓ {{ 'editor.open'|trans }}
             </button>
         </div>
 
         <div class="availability-editor__shortcuts">
             <span class="availability-editor__label">
-                Actions rapides
+                {{ 'editor.shortcuts.label'|trans }}
             </span>
 
             <button
@@ -37,7 +39,7 @@
                 data-action="calendar-slot-grid#applyShortcut"
                 data-scope="all"
             >
-                Toute la semaine
+                {{ 'editor.shortcuts.all_week'|trans }}
             </button>
 
             <button
@@ -46,7 +48,7 @@
                 data-action="calendar-slot-grid#applyShortcut"
                 data-scope="afternoon"
             >
-                Tous les après-midi
+                {{ 'editor.shortcuts.all_afternoons'|trans }}
             </button>
 
             <button
@@ -55,12 +57,12 @@
                 data-action="calendar-slot-grid#applyShortcut"
                 data-scope="evening"
             >
-                Tous les soirs
+                {{ 'editor.shortcuts.all_evenings'|trans }}
             </button>
         </div>
     </section>
 {% else %}
     <div class="calendar-readonly-notice">
-        Cette semaine est passée et ne peut plus être modifiée.
+        {{ 'readonly.past_week'|trans }}
     </div>
 {% endif %}

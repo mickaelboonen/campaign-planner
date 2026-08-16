@@ -1,7 +1,9 @@
 {% extends 'error_base.html.twig' %}
 
+{% trans_default_domain 'error' %}
+
 {% block title %}
-    Accès interdit
+    {{ 'forbidden.title'|trans }}
 {% endblock %}
 
 {% block body %}
@@ -18,16 +20,16 @@
             </div>
 
             <h1>
-                Accès interdit
+                {{ 'forbidden.heading'|trans }}
             </h1>
 
             <div class="error-page__subtitle">
-                TPK ahead
+                {{ 'forbidden.subtitle'|trans }}
             </div>
 
             <p class="error-page__message">
-                Ce territoire est hors de votre portée.<br>
-                Même les plus braves n’y sont pas invités.
+                {{ 'forbidden.message_line_1'|trans }}<br>
+                {{ 'forbidden.message_line_2'|trans }}
             </p>
 
             <a
@@ -38,7 +40,7 @@
                     ◈
                 </span>
 
-                Retour à l’accueil
+                {{ 'common.home'|trans }}
             </a>
         </div>
     </section>

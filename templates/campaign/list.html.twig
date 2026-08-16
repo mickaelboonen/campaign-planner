@@ -1,15 +1,17 @@
 {% extends 'base.html.twig' %}
 
+{% trans_default_domain 'campaign' %}
+
 {% block title %}
-    Mes campagnes
+    {{ 'list.title'|trans }}
 {% endblock %}
 
 {% block body %}
     {% include 'components/page-header.html.twig' with {
-        eyebrow: 'Organisation',
-        title: 'Mes campagnes',
-        description: 'Retrouvez toutes vos campagnes actives et accédez rapidement à leur gestion.',
-        action_label: 'Nouvelle campagne',
+        eyebrow: 'list.eyebrow'|trans,
+        title: 'list.title'|trans,
+        description: 'list.description'|trans,
+        action_label: 'list.new'|trans,
         action_path: path('campaign_create')
     } %}
 
@@ -22,9 +24,9 @@
     {% if campaigns is empty %}
         {% include 'components/empty-state.html.twig' with {
             icon: '◆',
-            title: 'Aucune campagne',
-            message: 'Créez votre première campagne pour commencer à organiser vos prochaines sessions.',
-            action_label: 'Créer une campagne',
+            title: 'list.empty.title'|trans,
+            message: 'list.empty.message'|trans,
+            action_label: 'list.empty.action'|trans,
             action_path: path('campaign_create')
         } %}
     {% else %}
@@ -32,7 +34,10 @@
             {% for campaign in campaigns %}
                 <article
                     class="campaign-card"
-                    style="--campaign-color: {{ campaign.color ?? '#c9a85c' }}"
+                    style="
+                        --campaign-color:
+                        {{ campaign.color ?? '#c9a85c' }}
+                    "
                 >
                     <a
                         class="campaign-card__cover"
@@ -43,7 +48,8 @@
                         {% if campaign.image %}
                             <img
                                 src="{{ asset(
-                                    'uploads/campaigns/' ~ campaign.image
+                                    'uploads/campaigns/'
+                                    ~ campaign.image
                                 ) }}"
                                 alt=""
                             >
@@ -68,7 +74,7 @@
                         </div>
 
                         <p class="campaign-card__meta">
-                            Créée le
+                            {{ 'list.created_at'|trans }}
                             {{ campaign.createdAt|date('d/m/Y') }}
                         </p>
 
@@ -79,7 +85,7 @@
                                     id: campaign.id
                                 }) }}"
                             >
-                                Modifier
+                                {{ 'list.edit'|trans }}
                             </a>
 
                             <a
@@ -88,7 +94,7 @@
                                     id: campaign.id
                                 }) }}"
                             >
-                                Ouvrir →
+                                {{ 'list.open'|trans }}
                             </a>
                         </div>
                     </div>

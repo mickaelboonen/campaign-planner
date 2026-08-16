@@ -1,14 +1,16 @@
 {% extends 'admin/base.html.twig' %}
 
+{% trans_default_domain 'admin' %}
+
 {% block admin_title %}
-    Vue d'ensemble
+    {{ 'dashboard.title'|trans }}
 {% endblock %}
 
 {% block admin_content %}
     <section class="admin-stats">
         <article class="admin-stat">
             <span class="admin-stat__label">
-                Maîtres du Jeu
+                {{ 'dashboard.game_masters'|trans }}
             </span>
 
             <strong class="admin-stat__value">
@@ -18,7 +20,7 @@
 
         <article class="admin-stat">
             <span class="admin-stat__label">
-                Campagnes
+                {{ 'dashboard.campaigns'|trans }}
             </span>
 
             <strong class="admin-stat__value">

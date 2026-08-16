@@ -1,0 +1,21 @@
+tabs:
+    login: Sign in
+    register: Sign up
+
+login:
+    title: Sign in
+    email: Email address
+    password: Password
+    submit: Enter the portal
+    player_question: Are you a player?
+    player_recover: Find my player space
+    contact_admin: Having a problem? Contact the administrator
+
+register:
+    title: Sign up
+    submit: Start the adventure
+
+    form:
+        email: Email address
+        password: Password
+        password_confirm: Confirm password

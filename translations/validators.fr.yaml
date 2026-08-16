@@ -1,0 +1,4 @@
+registration:
+    password_mismatch: Les mots de passe ne correspondent pas.
+    password_required: Veuillez saisir un mot de passe.
+    password_min_length: Votre mot de passe doit contenir au moins {{ limit }} caractères.

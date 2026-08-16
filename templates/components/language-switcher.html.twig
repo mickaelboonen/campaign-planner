@@ -1,0 +1,15 @@
+<a
+    href="{{ path('app_locale', { _locale: 'fr' }) }}"
+    class="{{ app.request.locale == 'fr' ? 'is-active' }}"
+>
+    FR
+</a>
+
+<span>·</span>
+
+<a
+    href="{{ path('app_locale', { _locale: 'en' }) }}"
+    class="{{ app.request.locale == 'en' ? 'is-active' }}"
+>
+    EN
+</a>

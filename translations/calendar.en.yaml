@@ -1,0 +1,53 @@
+title: Calendar
+breadcrumb:
+    campaigns: Campaigns
+    calendar: Calendar
+
+header:
+    eyebrow: Availability
+    description: "Week %week% — from %start% to %end%"
+
+readonly:
+    archived: This campaign is archived. The calendar is available in read-only mode.
+    past_week: This week has passed and can no longer be edited.
+
+toolbar:
+    previous_week: Previous week
+    current_week: This week
+    next_week: Next week
+    choose_week: Choose a week
+
+table:
+    participant: Participant
+    no_participant: No active participants in this campaign.
+
+period:
+    afternoon: Afternoon
+    evening: Evening
+    blocked: Blocked
+
+editor:
+    action: Action to apply
+    block: Block
+    open: Open
+
+    shortcuts:
+        label: Quick actions
+        all_week: Entire week
+        all_afternoons: All afternoons
+        all_evenings: All evenings
+
+decision:
+    title: Decision
+    scheduled: Session scheduled
+    validate: Confirm
+
+mobile:
+    participant: Participant
+    blocked: Blocked
+    no_participant: No active participants.
+    no_slot: No time slots available for this week.
+
+save:
+    hint: Changes are only saved after confirmation.
+    submit: Save time slots

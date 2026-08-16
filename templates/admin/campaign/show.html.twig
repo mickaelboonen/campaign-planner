@@ -1,102 +1,198 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block admin_title %}{{ campaign.name }}{% endblock %}
+{% trans_default_domain 'admin' %}
+
+{% block admin_title %}
+    {{ campaign.name }}
+{% endblock %}
+
 {% block admin_breadcrumb %}
     {% include 'components/breadcrumb.html.twig' with {
         items: [
-            { label: 'Administration', path: path('admin_dashboard') },
-            { label: 'Campagnes', path: path('admin_campaign_index') },
-            { label: campaign.name }
+            {
+                label: 'campaign.show.breadcrumb_admin'|trans,
+                path: path('admin_dashboard')
+            },
+            {
+                label: 'campaign.show.breadcrumb_campaigns'|trans,
+                path: path('admin_campaign_index')
+            },
+            {
+                label: campaign.name
+            }
         ]
     } %}
 {% endblock %}
 
 {% block admin_content %}
     <section class="admin-campaign-detail">
-
         <div class="admin-campaign-detail__grid">
             <article class="admin-campaign-detail__card">
-                <h3>Campagne</h3>
+                <h3>
+                    {{ 'campaign.show.campaign.title'|trans }}
+                </h3>
 
                 {% if campaign.image %}
-                    <img class="admin-campaign-detail__image" src="{{ asset('uploads/campaigns/' ~ campaign.image) }}" alt="">
+                    <img
+                        class="admin-campaign-detail__image"
+                        src="{{ asset(
+                            'uploads/campaigns/' ~ campaign.image
+                        ) }}"
+                        alt=""
+                    >
                 {% endif %}
 
                 <dl class="admin-campaign-detail__data">
                     <div>
-                        <dt>Nom</dt>
-                        <dd>{{ campaign.name }}</dd>
-                    </div>
-                    <div>
-                        <dt>Statut</dt>
+                        <dt>
+                            {{ 'campaign.show.campaign.name'|trans }}
+                        </dt>
+
                         <dd>
-                            <span class="admin-campaign-status {{ campaign.archived ? 'is-archived' : 'is-active' }}">
-                                {{ campaign.archived ? 'Archivée' : 'Active' }}
+                            {{ campaign.name }}
+                        </dd>
+                    </div>
+
+                    <div>
+                        <dt>
+                            {{ 'campaign.show.campaign.status'|trans }}
+                        </dt>
+
+                        <dd>
+                            <span
+                                class="
+                                    admin-campaign-status
+                                    {{ campaign.archived
+                                        ? 'is-archived'
+                                        : 'is-active'
+                                    }}
+                                "
+                            >
+                                {{
+                                    campaign.archived
+                                        ? 'campaign.status.archived'|trans
+                                        : 'campaign.status.active'|trans
+                                }}
                             </span>
                         </dd>
                     </div>
 
                     <div>
-                        <dt>Créée le</dt>
-                        <dd>{{ campaign.createdAt|date('d/m/Y à H:i') }}</dd>
+                        <dt>
+                            {{ 'campaign.show.campaign.created_at'|trans }}
+                        </dt>
+
+                        <dd>
+                            {{ campaign.createdAt|date('d/m/Y H:i') }}
+                        </dd>
                     </div>
 
                     <div>
-                        <dt>Participants</dt>
-                        <dd>{{ campaign.participants|length }}</dd>
+                        <dt>
+                            {{ 'campaign.show.campaign.participants'|trans }}
+                        </dt>
+
+                        <dd>
+                            {{ campaign.participants|length }}
+                        </dd>
                     </div>
 
                     <div>
-                        <dt>Sessions</dt>
-                        <dd>{{ campaign.gameSessions|length }}</dd>
+                        <dt>
+                            {{ 'campaign.show.campaign.sessions'|trans }}
+                        </dt>
+
+                        <dd>
+                            {{ campaign.gameSessions|length }}
+                        </dd>
                     </div>
                 </dl>
             </article>
 
             <article class="admin-campaign-detail__card">
-                <h3>Maître du Jeu</h3>
+                <h3>
+                    {{ 'campaign.show.owner.title'|trans }}
+                </h3>
 
                 <dl class="admin-campaign-detail__data">
                     <div>
-                        <dt>Compte</dt>
-                        <dd>{{ campaign.owner.userIdentifier }}</dd>
+                        <dt>
+                            {{ 'campaign.show.owner.account'|trans }}
+                        </dt>
+
+                        <dd>
+                            {{ campaign.owner.userIdentifier }}
+                        </dd>
                     </div>
 
                     <div>
-                        <dt>Statut du compte</dt>
-                        <dd>{{ campaign.owner.active ? 'Actif' : 'Désactivé' }}</dd>
+                        <dt>
+                            {{ 'campaign.show.owner.account_status'|trans }}
+                        </dt>
+
+                        <dd>
+                            {{
+                                campaign.owner.active
+                                    ? 'campaign.show.owner.active'|trans
+                                    : 'campaign.show.owner.disabled'|trans
+                            }}
+                        </dd>
                     </div>
 
                     <div>
-                        <dt>Plan</dt>
-                        <dd>{{ campaign.owner.subscriptionPlan.label() }}</dd>
+                        <dt>
+                            {{ 'campaign.show.owner.plan'|trans }}
+                        </dt>
+
+                        <dd>
+                            {{
+                                campaign.owner.subscriptionPlan
+                                    .translationKey()
+                                    |trans({}, 'enums')
+                            }}
+                        </dd>
                     </div>
                 </dl>
 
-                <a class="button button--secondary" href="{{ path('admin_user_show', { id: campaign.owner.id }) }}">
-                    Voir le compte
+                <a
+                    class="button button--secondary"
+                    href="{{ path('admin_user_show', {
+                        id: campaign.owner.id
+                    }) }}"
+                >
+                    {{ 'campaign.show.owner.view'|trans }}
                 </a>
             </article>
         </div>
 
         <article class="admin-campaign-detail__card">
-            <h3>Participants</h3>
+            <h3>
+                {{ 'campaign.show.participants.title'|trans }}
+            </h3>
 
             {% if campaign.participants is empty %}
-                <p class="admin-campaign-detail__empty">Aucun participant.</p>
+                <p class="admin-campaign-detail__empty">
+                    {{ 'campaign.show.participants.empty'|trans }}
+                </p>
             {% else %}
                 <div class="admin-campaign-detail__participants">
                     {% for participant in campaign.participants %}
                         <div class="admin-campaign-detail__participant">
                             <div>
-                                <strong>{{ participant.name }}</strong>
+                                <strong>
+                                    {{ participant.name }}
+                                </strong>
 
                                 {% if participant.characterName %}
-                                    <span>{{ participant.characterName }}</span>
+                                    <span>
+                                        {{ participant.characterName }}
+                                    </span>
                                 {% endif %}
                             </div>
 
-                            <span>{{ participant.email }}</span>
+                            <span>
+                                {{ participant.email }}
+                            </span>
                         </div>
                     {% endfor %}
                 </div>

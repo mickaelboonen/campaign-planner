@@ -135,7 +135,7 @@
                                     locale: 'fr'
                                 ) }}
                                 ·
-                                {{ session.period.label() }}
+                                {{ session.period.translationKey()|trans }}
 
                                 {% if session.startTime and session.endTime %}
                                     ·
