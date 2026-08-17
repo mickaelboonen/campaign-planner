@@ -415,3 +415,116 @@
 
     object-fit: contain;
 }
+
+
+/* ========================================
+   LANGUAGES
+======================================== */
+
+.account-language {
+    > summary {
+        list-style: none;
+
+        &::-webkit-details-marker {
+            display: none;
+        }
+    }
+
+    .account-language__trigger {
+        position: relative;
+
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+
+        padding-right: 2rem;
+
+        cursor: pointer;
+
+        &::after {
+            position: absolute;
+            right: 0.8rem;
+
+            color: var(--color-gold);
+
+            content: '›';
+
+            font-size: 1rem;
+            line-height: 1;
+
+            transition:
+                transform var(--transition-fast);
+        }
+    }
+
+    &[open] {
+        .account-language__trigger {
+            color: var(--color-text);
+
+            &::after {
+                transform: rotate(90deg);
+            }
+        }
+    }
+
+    .account-language__icon {
+        font-size: 0.85rem;
+    }
+
+    .account-language__current {
+        margin-left: auto;
+        padding-right: 0.5rem;
+
+        color: var(--color-text-muted);
+
+        font-size: 0.7rem;
+        font-weight: 600;
+    }
+
+    .account-language__menu {
+        display: grid;
+        gap: 0.1rem;
+
+        margin:
+            0.2rem
+            0
+            0.2rem
+            0.65rem;
+
+        padding-left: 0.4rem;
+
+        border-left: 1px solid var(--color-border);
+    }
+
+    .account-language__option {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+
+        padding:
+            0.5rem
+            0.7rem;
+
+        &.is-active {
+            color: var(--color-gold-light);
+
+            box-shadow:
+                inset 2px 0 0 var(--color-gold);
+        }
+    }
+
+    .account-language__code {
+        width: 1.6rem;
+
+        color: var(--color-text-muted);
+
+        font-size: 0.68rem;
+        font-weight: 700;
+    }
+
+    .account-language__check {
+        margin-left: auto;
+
+        color: var(--color-gold-light);
+    }
+}

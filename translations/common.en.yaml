@@ -68,3 +68,8 @@ days:
     friday: Friday
     saturday: Saturday
     sunday: Sunday
+
+language:
+    label: Language
+    french: French
+    english: English
