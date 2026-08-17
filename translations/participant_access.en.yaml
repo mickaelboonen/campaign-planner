@@ -28,7 +28,7 @@ calendar:
     title: My availability — %campaign%
     hello: Hello %name%
     description: Enter your availability for the week from %start% to %end%. Other participants' answers are visible.
-    unsaved_changes: Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter cette page ?
+    unsaved_changes: You have unsaved changes. Are you sure you want to leave this page?
 
     toolbar:
         previous: Previous week

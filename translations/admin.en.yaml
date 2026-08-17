@@ -3,169 +3,169 @@ base:
     eyebrow: Administration
 
 dashboard:
-    title: Vue d’ensemble
-    game_masters: Maîtres du Jeu
-    campaigns: Campagnes
+    title: Overview
+    game_masters: Game Masters
+    campaigns: Campaigns
 
 campaign:
-    title: Campagnes
-    description: Vue globale des campagnes créées sur CampaignPlanner.
+    title: Campaigns
+    description: Global overview of campaigns created on CampaignPlanner.
 
     filters:
-        aria: Filtrer les campagnes
-        active: Actives
-        archived: Archivées
-        all: Toutes
+        aria: Filter campaigns
+        active: Active
+        archived: Archived
+        all: All
 
     search:
-        placeholder: Campagne ou maître du jeu…
-        aria: Rechercher une campagne
-        submit: Rechercher
-        clear: Effacer
+        placeholder: Campaign or game master…
+        aria: Search for a campaign
+        submit: Search
+        clear: Clear
 
-    empty: Aucune campagne trouvée.
+    empty: No campaigns found.
 
     table:
-        campaign: Campagne
-        game_master: Maître du Jeu
+        campaign: Campaign
+        game_master: Game Master
         participants: Participants
-        created_at: Créée le
-        status: Statut
+        created_at: Created on
+        status: Status
         actions: Actions
-        view: Voir
+        view: View
 
     status:
         active: Active
-        archived: Archivée
+        archived: Archived
 
     show:
         breadcrumb_admin: Administration
-        breadcrumb_campaigns: Campagnes
+        breadcrumb_campaigns: Campaigns
 
         campaign:
-            title: Campagne
-            name: Nom
-            status: Statut
-            created_at: Créée le
+            title: Campaign
+            name: Name
+            status: Status
+            created_at: Created on
             participants: Participants
             sessions: Sessions
 
         owner:
-            title: Maître du Jeu
-            account: Compte
-            account_status: Statut du compte
+            title: Game Master
+            account: Account
+            account_status: Account status
             plan: Plan
-            active: Actif
-            disabled: Désactivé
-            view: Voir le compte
+            active: Active
+            disabled: Disabled
+            view: View account
 
         participants:
             title: Participants
-            empty: Aucun participant.
+            empty: No participants.
 
 feedback:
-    title: Feedbacks
+    title: Feedback
     eyebrow: Administration
 
     filters:
-        open: À traiter
-        new: Nouveaux
-        read: Lus
-        closed: Clôturés
-        all: Tous
+        open: To process
+        new: New
+        read: Read
+        closed: Closed
+        all: All
 
-    empty: Aucun message pour le moment.
+    empty: No messages yet.
 
     table:
         type: Type
-        status: Statut
-        user: Utilisateur
-        subject: Sujet
+        status: Status
+        user: User
+        subject: Subject
         date: Date
         actions: Actions
-        anonymous: Anonyme
-        account: "Compte #%id%"
-        view: Voir
+        anonymous: Anonymous
+        account: "Account #%id%"
+        view: View
 
     show:
         title: "Feedback #%id%"
-        back: Retour à la liste
+        back: Back to list
 
         meta:
             type: Type
-            status: Statut
-            received_at: Reçu le
+            status: Status
+            received_at: Received on
 
         sender:
-            title: Expéditeur
-            anonymous: Anonyme
-            account: "Compte utilisateur #%id%"
+            title: Sender
+            anonymous: Anonymous
+            account: "User account #%id%"
 
-        subject: Sujet
+        subject: Subject
         message: Message
 
-        reply: Répondre par e-mail
-        reopen: Rouvrir
-        close: Clôturer
-        close_confirm: Clôturer ce feedback ?
+        reply: Reply by email
+        reopen: Reopen
+        close: Close
+        close_confirm: Close this feedback?
 
 logs:
-    title: Logs système
+    title: System logs
     breadcrumb_admin: Administration
-    journal: Journal des erreurs
-    errors_for: "Erreurs du %date%"
+    journal: Error log
+    errors_for: "Errors for %date%"
     unknown_error: Unknown error
 
     navigation:
-        previous: Jour précédent
-        next: Jour suivant
-        choose_date: Choisir une date
-        today: Aujourd’hui
+        previous: Previous day
+        next: Next day
+        choose_date: Choose a date
+        today: Today
 
     empty:
-        no_file: Aucun fichier de log pour cette date.
-        no_errors: Aucune erreur enregistrée ce jour-là.
+        no_file: No log file for this date.
+        no_errors: No errors recorded on this day.
 
 user:
-    title: Utilisateurs
+    title: Users
 
     search:
-        placeholder: Rechercher par email...
-        submit: Rechercher
-        reset: Réinitialiser
+        placeholder: Search by email...
+        submit: Search
+        reset: Reset
 
     table:
-        user: Utilisateur
+        user: User
         plan: Plan
-        status: Statut
-        campaigns: Campagnes
-        registered_at: Inscription
-        last_login: Dernière connexion
+        status: Status
+        campaigns: Campaigns
+        registered_at: Registration
+        last_login: Last login
         admin: Admin
-        active: Actif
-        disabled: Désactivé
-        never: Jamais
-        view: Voir
-        empty: Aucun utilisateur trouvé.
+        active: Active
+        disabled: Disabled
+        never: Never
+        view: View
+        empty: No users found.
 
     show:
-        game_master: Maître du Jeu
+        game_master: Game Master
         admin: Admin
-        active: Actif
-        disabled: Désactivé
+        active: Active
+        disabled: Disabled
 
-        registered_at: Inscription
-        last_login: Dernière connexion
-        campaigns: Campagnes
-        never: Jamais
+        registered_at: Registration
+        last_login: Last login
+        campaigns: Campaigns
+        never: Never
 
-        disable_confirm: Désactiver ce compte ?
-        enable_confirm: Réactiver ce compte ?
-        disable: Désactiver le compte
-        enable: Réactiver le compte
+        disable_confirm: Disable this account?
+        enable_confirm: Reactivate this account?
+        disable: Disable account
+        enable: Reactivate account
 
-        activity: Activité
-        campaigns_title: Campagnes
-        campaigns_empty: Aucune campagne.
-        created_at: Créée le
-        view: Voir
+        activity: Activity
+        campaigns_title: Campaigns
+        campaigns_empty: No campaigns.
+        created_at: Created on
+        view: View

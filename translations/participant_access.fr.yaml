@@ -1,16 +1,103 @@
-form:
-    name:
-        label: Name or nickname
-    email:
-        label: Email address
-    phone:
-        label: Phone
-    character_name:
-        label: Character
-    cancel: Cancel
+dashboard:
+    title: Mon espace joueur
+    eyebrow: Espace joueur
+    hello: Bonjour %name%
+    description: Retrouvez vos campagnes, vos prochaines sessions et vos calendriers de disponibilités.
+
+    next_session:
+        eyebrow: Prochaine session
+        empty_title: Aucune session planifiée
+        empty_description: Aucun MJ n’a encore validé de prochaine date.
+
+    campaigns:
+        eyebrow: Campagnes
+        singular: Campagne active
+        plural: Campagnes actives
+
+    upcoming:
+        eyebrow: Planning
+        title: Autres sessions prévues
+
+    access:
+        eyebrow: Mes campagnes
+        title: Accès aux calendriers
+        campaign: Campagne
+        button: Voir mes disponibilités
 
 calendar:
+    title: Mes disponibilités — %campaign%
+    hello: Bonjour %name%
+    description: Indiquez vos disponibilités pour la semaine du %start% au %end%. Les réponses des autres participants sont visibles.
     unsaved_changes: Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter cette page ?
 
+    toolbar:
+        previous: Semaine précédente
+        current: Cette semaine
+        next: Semaine suivante
+        choose: Choisir une semaine
+
+    table:
+        participant: Participant
+        player: Joueur
+        you: Vous —
+        afternoon: Après-midi
+        evening: Soir
+        blocked: Bloqué
+        no_participant: Aucun participant actif.
+        no_participant_campaign: Aucun participant actif dans cette campagne.
+        no_slot: Aucun créneau disponible pour cette semaine.
+
+    editor:
+        status: Statut à appliquer
+        available: Disponible
+        maybe: Peut-être
+        unavailable: Indisponible
+        clear: Effacer
+        help: Aide
+        shortcuts: Actions rapides
+        all_week: Toute la semaine
+        all_afternoons: Tous les après-midi
+        all_evenings: Tous les soirs
+        readonly: Cette semaine est passée et ne peut plus être modifiée.
+
+    save:
+        hint: Les modifications ne sont enregistrées qu’après validation.
+        submit: Enregistrer mes disponibilités
+
 help:
+    button: Aide
+    dialog: Aide du calendrier
+    close: Fermer l’aide
+
+    availability:
+        eyebrow: Vos disponibilités
+        title: Choisissez un statut
+        description: Commencez par choisir si vous êtes disponible, peut-être disponible ou indisponible.
+
+    calendar:
+        eyebrow: Le calendrier
+        title: Indiquez vos créneaux
+        desktop: Cliquez sur vos créneaux pour leur appliquer le statut sélectionné. Seule votre propre ligne est modifiable.
+        mobile: Parcourez les journées et appuyez sur vos créneaux pour leur appliquer le statut sélectionné.
+
+    shortcuts:
+        eyebrow: Actions rapides
+        title: Gagnez du temps
+        description: Appliquez le statut choisi à toute la semaine, à tous les après-midi ou à tous les soirs.
+
+    save:
+        eyebrow: Dernière étape
+        title: Enregistrez vos réponses
+        description: Vos modifications ne sont prises en compte qu’après avoir enregistré vos disponibilités.
+
+    previous: Précédent
+    next: Suivant
     finish: Terminer
+
+recover:
+    title: Retrouver mon espace joueur
+    heading: Espace joueur
+    description: Vous avez perdu votre lien d'accès ? Saisissez l'adresse e-mail utilisée pour vos campagnes.
+    email: Adresse e-mail
+    submit: Retrouver mon espace
+    back: Retour à la connexion
