@@ -6,7 +6,7 @@
     <article class="calendar-mobile-day {{ isDayBlocked ? 'is-blocked' }}">
         <header class="calendar-mobile-day__header">
             <div class="calendar-mobile-day__identity">
-                <strong>{{ day.label }}</strong>
+                <strong>{{ day.translationKey|trans({}, 'common') }}</strong>
                 <span>{{ day.date|date('d/m') }}</span>
             </div>
 

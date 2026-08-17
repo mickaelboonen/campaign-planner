@@ -1,0 +1,21 @@
+participant_tokens:
+    description: Génère les dashboardToken des participants existants.
+    success: "%count% participant(s) traité(s)."
+
+sessions:
+    description: Traite les rappels et les sessions passées.
+    success: Traitement des sessions terminé.
+
+create_user:
+    description: Crée un compte de maître du jeu.
+    email:
+        question: "Adresse email : "
+        invalid: L’adresse email n’est pas valide.
+        exists: Un utilisateur existe déjà avec cette adresse.
+    password:
+        question: "Mot de passe : "
+        min_length: Le mot de passe doit contenir au moins 12 caractères.
+    password_confirmation:
+        question: "Confirme le mot de passe : "
+        mismatch: Les mots de passe ne correspondent pas.
+    success: Le compte %email% a bien été créé.

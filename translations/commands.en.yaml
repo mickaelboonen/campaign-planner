@@ -1,0 +1,21 @@
+participant_tokens:
+    description: Generates dashboard tokens for existing participants.
+    success: "%count% participant(s) processed."
+
+sessions:
+    description: Processes reminders and past sessions.
+    success: Session processing completed.
+
+create_user:
+    description: Creates a game master account.
+    email:
+        question: "Email address: "
+        invalid: The email address is invalid.
+        exists: A user already exists with this email address.
+    password:
+        question: "Password: "
+        min_length: The password must contain at least 12 characters.
+    password_confirmation:
+        question: "Confirm password: "
+        mismatch: The passwords do not match.
+    success: Account %email% has been created.

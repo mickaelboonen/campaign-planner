@@ -12,3 +12,9 @@ campaign:
 participant:
     phone:
         invalid_format: The phone number must contain exactly 10 digits.
+
+game_session:
+    start_time:
+        required: Start time is required.
+    end_time:
+        required: End time is required.

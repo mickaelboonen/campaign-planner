@@ -19,3 +19,6 @@ register:
         email: Adresse e-mail
         password: Mot de passe
         password_confirm: Confirmer le mot de passe
+
+account:
+    disabled: Votre compte CampaignPlanner a été désactivé. Veuillez contacter l’administrateur si vous pensez qu’il s’agit d’une erreur.

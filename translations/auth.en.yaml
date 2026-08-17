@@ -19,3 +19,6 @@ register:
         email: Email address
         password: Password
         password_confirm: Confirm password
+
+account:
+    disabled: Your CampaignPlanner account has been disabled. Please contact the administrator if you believe this is an error.

@@ -13,7 +13,7 @@ final class EditCampaignData
 
     #[Assert\Regex(
         pattern: '/^#[0-9A-Fa-f]{6}$/',
-        message: 'La couleur doit être au format hexadécimal.',
+        message: 'campaign.color.invalid_format',
     )]
     public ?string $color = null;
 
@@ -24,7 +24,7 @@ final class EditCampaignData
             'image/png',
             'image/webp',
         ],
-        mimeTypesMessage: 'Veuillez sélectionner une image JPG, PNG ou WebP.',
+        mimeTypesMessage: 'campaign.image.invalid_type',
     )]
     public ?UploadedFile $imageFile = null;
 }

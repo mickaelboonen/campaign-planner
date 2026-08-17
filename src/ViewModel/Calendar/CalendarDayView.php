@@ -16,16 +16,16 @@ final readonly class CalendarDayView
     ) {
     }
 
-    public function getLabel(): string
+    public function getTranslationKey(): string
     {
         return match ($this->date->format('N')) {
-            '1' => 'Lundi',
-            '2' => 'Mardi',
-            '3' => 'Mercredi',
-            '4' => 'Jeudi',
-            '5' => 'Vendredi',
-            '6' => 'Samedi',
-            '7' => 'Dimanche',
+            '1' => 'days.monday',
+            '2' => 'days.tuesday',
+            '3' => 'days.wednesday',
+            '4' => 'days.thursday',
+            '5' => 'days.friday',
+            '6' => 'days.saturday',
+            '7' => 'days.sunday',
         };
     }
 

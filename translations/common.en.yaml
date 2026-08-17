@@ -59,3 +59,12 @@ public_sidebar:
 clipboard:
     copied: Copied
     prompt: "Copy this link:"
+
+days:
+    monday: Monday
+    tuesday: Tuesday
+    wednesday: Wednesday
+    thursday: Thursday
+    friday: Friday
+    saturday: Saturday
+    sunday: Sunday

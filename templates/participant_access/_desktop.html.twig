@@ -7,7 +7,7 @@
         {% for day in calendar.days %}
             {% set hasSelectedSession = day.afternoonSlot.isSelected or day.eveningSlot.isSelected %}
             <div class="availability-table__day {{ hasSelectedSession ? 'has-session' }}">
-                <strong>{{ day.label }}</strong>
+                <strong>{{ day.translationKey|trans({}, 'common') }}</strong>
                 <span>{{ day.date|date('d/m') }}</span>
             </div>
         {% endfor %}
