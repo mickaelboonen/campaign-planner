@@ -32,6 +32,7 @@ final readonly class EmailAvailabilityCompletionNotifier
             return;
         }
 
+        $locale = $this->translator->getLocale();
         $weekEnd = $weekStart->modify('+6 days');
 
         $calendarUrl = $this->router->generate(
@@ -52,11 +53,17 @@ final readonly class EmailAvailabilityCompletionNotifier
             ->subject(
                 $this->translator->trans(
                     'availability_complete.subject',
-                    ['%campaign%' => $campaign->getName()],
+                    [
+                        '%campaign%' => $campaign->getName(),
+                    ],
                     'emails',
+                    $locale,
                 ),
             )
-            ->htmlTemplate('emails/availability_complete.html.twig')
+            ->htmlTemplate(
+                'emails/availability_complete.html.twig',
+            )
+            ->locale($locale)
             ->context([
                 'campaign' => $campaign,
                 'weekStart' => $weekStart,

@@ -27,56 +27,38 @@ final readonly class EmailSessionNotifier implements SessionNotifierInterface
 
     public function notify(GameSession $session): void
     {
-        foreach ($this->getActiveParticipants($session) as $participant) {
-            if (!$participant->getEmail()) {
-                continue;
-            }
-
-            $email = (new TemplatedEmail())
-                ->from($this->getSender())
-                ->to($participant->getEmail())
-                ->subject(
-                    $this->getSubject(
-                        'session_scheduled.subject',
-                        $session,
-                    ),
-                )
-                ->htmlTemplate('emails/session_scheduled.html.twig')
-                ->context(
-                    $this->getContext($session, $participant),
-                );
-
-            $this->mailer->send($email);
-        }
+        $this->sendToParticipants(
+            $session,
+            'session_scheduled.subject',
+            'emails/session_scheduled.html.twig',
+        );
     }
 
     public function notifyCancellation(GameSession $session): void
     {
-        foreach ($this->getActiveParticipants($session) as $participant) {
-            if (!$participant->getEmail()) {
-                continue;
-            }
-
-            $email = (new TemplatedEmail())
-                ->from($this->getSender())
-                ->to($participant->getEmail())
-                ->subject(
-                    $this->getSubject(
-                        'session_cancelled.subject',
-                        $session,
-                    ),
-                )
-                ->htmlTemplate('emails/session_cancelled.html.twig')
-                ->context(
-                    $this->getContext($session, $participant),
-                );
-
-            $this->mailer->send($email);
-        }
+        $this->sendToParticipants(
+            $session,
+            'session_cancelled.subject',
+            'emails/session_cancelled.html.twig',
+        );
     }
 
     public function notifyReminder(GameSession $session): void
     {
+        $this->sendToParticipants(
+            $session,
+            'session_reminder.subject',
+            'emails/session_reminder.html.twig',
+        );
+    }
+
+    private function sendToParticipants(
+        GameSession $session,
+        string $subjectKey,
+        string $template,
+    ): void {
+        $locale = $this->translator->getLocale();
+
         foreach ($this->getActiveParticipants($session) as $participant) {
             if (!$participant->getEmail()) {
                 continue;
@@ -87,11 +69,13 @@ final readonly class EmailSessionNotifier implements SessionNotifierInterface
                 ->to($participant->getEmail())
                 ->subject(
                     $this->getSubject(
-                        'session_reminder.subject',
+                        $subjectKey,
                         $session,
+                        $locale,
                     ),
                 )
-                ->htmlTemplate('emails/session_reminder.html.twig')
+                ->htmlTemplate($template)
+                ->locale($locale)
                 ->context(
                     $this->getContext($session, $participant),
                 );
@@ -103,6 +87,7 @@ final readonly class EmailSessionNotifier implements SessionNotifierInterface
     private function getSubject(
         string $key,
         GameSession $session,
+        string $locale,
     ): string {
         return $this->translator->trans(
             $key,
@@ -112,6 +97,7 @@ final readonly class EmailSessionNotifier implements SessionNotifierInterface
                     ->getName(),
             ],
             'emails',
+            $locale,
         );
     }
 

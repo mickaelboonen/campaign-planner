@@ -30,6 +30,7 @@ final readonly class EmailParticipantAccessNotifier
         }
 
         $campaign = $participant->getCampaign();
+        $locale = $this->translator->getLocale();
 
         $email = (new TemplatedEmail())
             ->from($this->getSender())
@@ -37,11 +38,15 @@ final readonly class EmailParticipantAccessNotifier
             ->subject(
                 $this->translator->trans(
                     'participant_access.subject',
-                    ['%campaign%' => $campaign->getName()],
+                    [
+                        '%campaign%' => $campaign->getName(),
+                    ],
                     'emails',
+                    $locale,
                 ),
             )
             ->htmlTemplate('emails/participant_access.html.twig')
+            ->locale($locale)
             ->context([
                 'participant' => $participant,
                 'campaign' => $campaign,
@@ -58,6 +63,8 @@ final readonly class EmailParticipantAccessNotifier
             return;
         }
 
+        $locale = $this->translator->getLocale();
+
         $email = (new TemplatedEmail())
             ->from($this->getSender())
             ->to($participant->getEmail())
@@ -65,11 +72,13 @@ final readonly class EmailParticipantAccessNotifier
                 $this->translator->trans(
                     'participant_access_recovery.subject',
                     domain: 'emails',
+                    locale: $locale,
                 ),
             )
             ->htmlTemplate(
                 'emails/participant_access_recovery.html.twig',
             )
+            ->locale($locale)
             ->context([
                 'participant' => $participant,
                 'dashboardUrl' => $this->getDashboardUrl($participant),

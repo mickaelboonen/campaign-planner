@@ -22,15 +22,19 @@ final readonly class EmailFeedbackNotifier
 
     public function notify(Feedback $feedback): void
     {
+        $locale = $this->translator->getLocale();
+
         $type = $this->translator->trans(
             $feedback->getType()->translationKey(),
             domain: 'enums',
+            locale: $locale,
         );
 
         $subject = $this->translator->trans(
             'feedback_received.subject',
             ['%type%' => $type],
             'emails',
+            $locale,
         );
 
         $email = (new TemplatedEmail())
@@ -41,6 +45,7 @@ final readonly class EmailFeedbackNotifier
             ->to($this->adminEmail)
             ->subject($subject)
             ->htmlTemplate('emails/feedback_received.html.twig')
+            ->locale($locale)
             ->context([
                 'feedback' => $feedback,
             ]);
