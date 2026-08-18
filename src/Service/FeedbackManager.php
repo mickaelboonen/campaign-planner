@@ -7,11 +7,13 @@ use App\Entity\Feedback;
 use App\Entity\User;
 use App\Enum\FeedbackStatus;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class FeedbackManager
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
+        private TranslatorInterface $translator,
     ) {
     }
 
@@ -20,13 +22,14 @@ final readonly class FeedbackManager
         ?User $user = null,
     ): Feedback {
         $feedback = new Feedback();
-
         $email = $user?->getEmail() ?? $data->email;
-
         $subject = trim((string) $data->subject);
 
         if ($subject === '') {
-            $subject = $data->type->defaultSubject();
+            $subject = $this->translator->trans(
+                $data->type->defaultSubjectTranslationKey(),
+                domain: 'enums',
+            );
         }
 
         $feedback
@@ -49,7 +52,6 @@ final readonly class FeedbackManager
         }
 
         $feedback->setStatus(FeedbackStatus::READ);
-
         $this->entityManager->flush();
     }
 
@@ -60,7 +62,6 @@ final readonly class FeedbackManager
         }
 
         $feedback->setStatus(FeedbackStatus::CLOSED);
-
         $this->entityManager->flush();
     }
 
@@ -71,7 +72,6 @@ final readonly class FeedbackManager
         }
 
         $feedback->setStatus(FeedbackStatus::READ);
-
         $this->entityManager->flush();
     }
 }
