@@ -26,7 +26,7 @@
 
     {% include 'components/flashes.html.twig' %}
 
-    {{ form_start(form, { attr: { class: 'form' } }) }}
+    {{ form_start(form, { attr: { class: 'form', 'data-turbo': 'false' } }) }}
 
         <div class="form-row">
             {{ form_label(
