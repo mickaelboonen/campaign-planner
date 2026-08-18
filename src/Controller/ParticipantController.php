@@ -4,18 +4,19 @@ namespace App\Controller;
 
 use App\DTO\CreateParticipantData;
 use App\DTO\EditParticipantData;
-use App\Entity\Participant;
-use Symfony\Component\Form\FormError;
 use App\Entity\Campaign;
+use App\Entity\Participant;
 use App\Form\ParticipantType;
+use App\Repository\ParticipantRepository;
 use App\Security\Voter\CampaignVoter;
 use App\Service\Notification\EmailParticipantAccessNotifier;
 use App\Service\ParticipantManager;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Repository\ParticipantRepository;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/campaign/{id}/participants', name: 'participant_')]
 final class ParticipantController extends BaseController
@@ -31,39 +32,53 @@ final class ParticipantController extends BaseController
     public function new(
         Request $request,
         Campaign $campaign,
+        TranslatorInterface $translator,
     ): Response {
-        $this->denyAccessUnlessGranted(
-            CampaignVoter::EDIT,
-            $campaign,
-        );
+        $this->denyAccessUnlessGranted(CampaignVoter::EDIT, $campaign);
 
         $data = new CreateParticipantData();
-
-        $form = $this->createForm(
-            ParticipantType::class,
-            $data,
-        );
-
+        $form = $this->createForm(ParticipantType::class, $data);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $archivedParticipant = $this->participantRepository->findArchivedByCampaignAndEmail($campaign, (string) $data->email);
+            $archivedParticipant = $this->participantRepository
+                ->findArchivedByCampaignAndEmail(
+                    $campaign,
+                    (string) $data->email,
+                );
 
             if ($archivedParticipant !== null) {
-                $form->get('email')->addError(new FormError('Ce participant existe déjà dans cette campagne mais est archivé. Vous pouvez le restaurer depuis la section « Participants archivés ».'));
-            }
-            elseif ($this->participantRepository->existsByCampaignAndEmail($campaign, (string) $data->email)) {
-                $form->get('email')->addError(new FormError('Cette adresse email est déjà utilisée dans cette campagne.'));
-            }
-            else {
-                $participant = $this->participantManager->create($campaign, $data);
-
-                $this->emailParticipantAccessNotifier->notifyInvitation($participant);
-
-                $this->addFlash(
-                    'success',
-                    'Le participant a bien été ajouté.',
+                $form->get('email')->addError(
+                    new FormError(
+                        $translator->trans(
+                            'errors.archived_email',
+                            domain: 'participant',
+                        ),
+                    ),
                 );
+            } elseif (
+                $this->participantRepository
+                    ->existsByCampaignAndEmail(
+                        $campaign,
+                        (string) $data->email,
+                    )
+            ) {
+                $form->get('email')->addError(
+                    new FormError(
+                        $translator->trans(
+                            'errors.email_used',
+                            domain: 'participant',
+                        ),
+                    ),
+                );
+            } else {
+                $participant = $this->participantManager
+                    ->create($campaign, $data);
+
+                $this->emailParticipantAccessNotifier
+                    ->notifyInvitation($participant);
+
+                $this->addFlash('success', 'participant.created');
 
                 return $this->redirectToRoute('campaign_show', [
                     'id' => $campaign->getId(),
@@ -71,13 +86,10 @@ final class ParticipantController extends BaseController
             }
         }
 
-        return $this->render(
-            'participant/new.html.twig',
-            [
-                'campaign' => $campaign,
-                'form' => $form,
-            ]
-        );
+        return $this->render('participant/new.html.twig', [
+            'campaign' => $campaign,
+            'form' => $form,
+        ]);
     }
 
     #[Route('/{participant}/edit', name: 'edit', methods: ['GET', 'POST'])]
@@ -85,11 +97,9 @@ final class ParticipantController extends BaseController
         Request $request,
         Campaign $campaign,
         Participant $participant,
+        TranslatorInterface $translator,
     ): Response {
-        $this->denyAccessUnlessGranted(
-            CampaignVoter::EDIT,
-            $campaign,
-        );
+        $this->denyAccessUnlessGranted(CampaignVoter::EDIT, $campaign);
 
         if ($participant->getCampaign() !== $campaign) {
             throw $this->createNotFoundException();
@@ -100,9 +110,7 @@ final class ParticipantController extends BaseController
         $form = $this->createForm(
             ParticipantType::class,
             $data,
-            [
-                'data_class' => EditParticipantData::class,
-            ],
+            ['data_class' => EditParticipantData::class],
         );
 
         $form->handleRequest($request);
@@ -118,16 +126,15 @@ final class ParticipantController extends BaseController
             if ($emailAlreadyUsed) {
                 $form->get('email')->addError(
                     new FormError(
-                        'Cette adresse email est déjà utilisée dans cette campagne.',
+                        $translator->trans(
+                            'errors.email_used',
+                            domain: 'participant',
+                        ),
                     ),
                 );
             } else {
                 $this->participantManager->update($participant, $data);
-
-                $this->addFlash(
-                    'success',
-                    'Le participant a bien été modifié.',
-                );
+                $this->addFlash('success', 'participant.updated');
 
                 return $this->redirectToRoute('campaign_show', [
                     'id' => $campaign->getId(),
@@ -151,31 +158,22 @@ final class ParticipantController extends BaseController
         Request $request,
         Campaign $campaign,
         Participant $participant,
+        TranslatorInterface $translator,
     ): RedirectResponse {
-        $this->denyAccessUnlessGranted(
-            CampaignVoter::EDIT,
-            $campaign,
-        );
+        $this->denyAccessUnlessGranted(CampaignVoter::EDIT, $campaign);
 
         if ($participant->getCampaign() !== $campaign) {
             throw $this->createNotFoundException();
         }
 
-        if (!$this->isCsrfTokenValid(
+        $this->denyInvalidCsrf(
             'archive-participant-'.$participant->getId(),
-            (string) $request->request->get('_token'),
-        )) {
-            throw $this->createAccessDeniedException(
-                'Jeton CSRF invalide.',
-            );
-        }
+            $request->request->get('_token'),
+            $translator,
+        );
 
         $this->participantManager->archive($participant);
-
-        $this->addFlash(
-            'success',
-            'Le participant a bien été archivé.',
-        );
+        $this->addFlash('success', 'participant.archived');
 
         return $this->redirectToRoute('campaign_show', [
             'id' => $campaign->getId(),
@@ -191,31 +189,22 @@ final class ParticipantController extends BaseController
         Request $request,
         Campaign $campaign,
         Participant $participant,
+        TranslatorInterface $translator,
     ): RedirectResponse {
-        $this->denyAccessUnlessGranted(
-            CampaignVoter::EDIT,
-            $campaign,
-        );
+        $this->denyAccessUnlessGranted(CampaignVoter::EDIT, $campaign);
 
         if ($participant->getCampaign() !== $campaign) {
             throw $this->createNotFoundException();
         }
 
-        if (!$this->isCsrfTokenValid(
+        $this->denyInvalidCsrf(
             'restore-participant-'.$participant->getId(),
-            (string) $request->request->get('_token'),
-        )) {
-            throw $this->createAccessDeniedException(
-                'Jeton CSRF invalide.',
-            );
-        }
+            $request->request->get('_token'),
+            $translator,
+        );
 
         $this->participantManager->restore($participant);
-
-        $this->addFlash(
-            'success',
-            'Le participant a bien été restauré.',
-        );
+        $this->addFlash('success', 'participant.restored');
 
         return $this->redirectToRoute('campaign_show', [
             'id' => $campaign->getId(),

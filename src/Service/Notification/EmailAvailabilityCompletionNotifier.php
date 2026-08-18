@@ -8,6 +8,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class EmailAvailabilityCompletionNotifier
 {
@@ -17,6 +18,7 @@ final readonly class EmailAvailabilityCompletionNotifier
     public function __construct(
         private MailerInterface $mailer,
         private RouterInterface $router,
+        private TranslatorInterface $translator,
     ) {
     }
 
@@ -30,6 +32,7 @@ final readonly class EmailAvailabilityCompletionNotifier
             return;
         }
 
+        $locale = $this->translator->getLocale();
         $weekEnd = $weekStart->modify('+6 days');
 
         $calendarUrl = $this->router->generate(
@@ -47,13 +50,20 @@ final readonly class EmailAvailabilityCompletionNotifier
                 self::FROM_NAME,
             ))
             ->to($gm->getEmail())
-            ->subject(sprintf(
-                'Tout le monde a répondu — %s',
-                $campaign->getName(),
-            ))
+            ->subject(
+                $this->translator->trans(
+                    'availability_complete.subject',
+                    [
+                        '%campaign%' => $campaign->getName(),
+                    ],
+                    'emails',
+                    $locale,
+                ),
+            )
             ->htmlTemplate(
                 'emails/availability_complete.html.twig',
             )
+            ->locale($locale)
             ->context([
                 'campaign' => $campaign,
                 'weekStart' => $weekStart,

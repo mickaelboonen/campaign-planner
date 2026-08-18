@@ -2,11 +2,11 @@
 
 namespace App\Service;
 
-use App\Entity\Campaign;
-use App\Entity\User;
 use App\DTO\CreateCampaignData;
 use App\DTO\EditCampaignData;
 use App\DTO\UpdateCampaignNotesData;
+use App\Entity\Campaign;
+use App\Entity\User;
 use App\Repository\GameSessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -62,7 +62,7 @@ final readonly class CampaignManager
     {
         if ($campaign->isArchived()) {
             throw new \DomainException(
-                'Cette campagne est déjà archivée.',
+                'campaign.already_archived',
             );
         }
 
@@ -71,19 +71,17 @@ final readonly class CampaignManager
 
         if ($upcomingSessions !== []) {
             throw new \DomainException(
-                'Cette campagne possède encore des sessions à venir.',
+                'campaign.has_upcoming_sessions',
             );
         }
 
         $campaign->archive();
-
         $this->entityManager->flush();
     }
 
     public function restore(Campaign $campaign): void
     {
         $campaign->restore();
-
         $this->entityManager->flush();
     }
 
@@ -92,7 +90,6 @@ final readonly class CampaignManager
         UpdateCampaignNotesData $data,
     ): void {
         $campaign->setPrivateNotes($data->privateNotes);
-
         $this->entityManager->flush();
     }
 }

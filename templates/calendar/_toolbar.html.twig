@@ -1,3 +1,5 @@
+{% trans_default_domain 'calendar' %}
+
 <section class="calendar-toolbar">
     <div class="calendar-toolbar__navigation">
         <a
@@ -6,10 +8,10 @@
                 id: campaign.id,
                 week: calendar.previousWeek|date('Y-m-d')
             }) }}"
-            aria-label="Semaine précédente"
+            aria-label="{{ 'toolbar.previous_week'|trans }}"
         >
             <span class="calendar-toolbar__desktop-label">
-                ← Semaine précédente
+                ← {{ 'toolbar.previous_week'|trans }}
             </span>
 
             <span class="calendar-toolbar__mobile-label">
@@ -23,7 +25,7 @@
                 id: campaign.id
             }) }}"
         >
-            Cette semaine
+            {{ 'toolbar.current_week'|trans }}
         </a>
 
         <a
@@ -32,10 +34,10 @@
                 id: campaign.id,
                 week: calendar.nextWeek|date('Y-m-d')
             }) }}"
-            aria-label="Semaine suivante"
+            aria-label="{{ 'toolbar.next_week'|trans }}"
         >
             <span class="calendar-toolbar__desktop-label">
-                Semaine suivante →
+                {{ 'toolbar.next_week'|trans }} →
             </span>
 
             <span class="calendar-toolbar__mobile-label">
@@ -55,7 +57,7 @@
             for="calendar-week-picker"
             class="sr-only"
         >
-            Choisir une semaine
+            {{ 'toolbar.choose_week'|trans }}
         </label>
 
         <select

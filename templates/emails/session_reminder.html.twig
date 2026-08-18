@@ -1,29 +1,29 @@
 {% extends 'emails/_layout.html.twig' %}
 
+{% trans_default_domain 'emails' %}
+
 {% block title %}
-    Rappel de session
+    {{ 'session_reminder.title'|trans }}
 {% endblock %}
 
 {% block content %}
-    <p>
-        Bonjour {{ participant.name }},
+    <p class="email-text">
+        {{ 'session_reminder.greeting'|trans({
+            '%name%': participant.name
+        }) }}
     </p>
 
-    <p>
-        Petit rappel concernant votre prochaine session de
-        <strong>{{ campaign.name }}</strong>.
+    <p class="email-text">
+        {{ 'session_reminder.intro'|trans({
+            '%campaign%': campaign.name
+        }) }}
     </p>
 
-    {% include 'emails/_session_details.html.twig' with {
-        accentColor: '#c9a85c'
-    } %}
+    {% include 'emails/_session_details.html.twig' %}
 
-    <p>
-        Pensez à préparer vos dés, vos fiches
-        et vos meilleurs jets de sauvegarde.
+    <p class="email-text">
+        {{ 'session_reminder.prepare'|trans }}
     </p>
 
-    {% include 'emails/_dashboard_button.html.twig' with {
-        participant: participant
-    } %}
+    {% include 'emails/_dashboard_button.html.twig' %}
 {% endblock %}

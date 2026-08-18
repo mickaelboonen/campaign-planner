@@ -1,6 +1,8 @@
+{% trans_default_domain 'common' %}
+
 {% if calendar.rows is not empty %}
     <div class="availability-table__results-label">
-        Résultats
+        {{ 'calendar_results.title'|trans }}
     </div>
 
     {% for day in calendar.days %}
@@ -8,7 +10,7 @@
             <div class="availability-table__result-slot">
                 {% if day.afternoonSlot.blocked %}
                     <span class="availability-table__result-blocked">
-                        Créneau bloqué
+                        {{ 'calendar_results.blocked'|trans }}
                     </span>
                 {% else %}
                     <span class="availability-table__summary-item is-available">
@@ -36,7 +38,7 @@
             <div class="availability-table__result-slot">
                 {% if day.eveningSlot.blocked %}
                     <span class="availability-table__result-blocked">
-                        Créneau bloqué
+                        {{ 'calendar_results.blocked'|trans }}
                     </span>
                 {% else %}
                     <span class="availability-table__summary-item is-available">

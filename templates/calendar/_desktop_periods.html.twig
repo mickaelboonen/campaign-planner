@@ -1,3 +1,5 @@
+{% trans_default_domain 'calendar' %}
+
 {% for day in calendar.days %}
     {% set afternoonStatus =
         day.afternoonSlot.blocked
@@ -26,13 +28,14 @@
                 data-action="calendar-slot-grid#updateSlot"
                 data-slot-id="{{ day.afternoonSlot.id }}"
                 data-period="afternoon"
-                data-label="Après-midi"
+                data-label="{{ 'period.afternoon'|trans }}"
                 data-status="{{ afternoonStatus }}"
             >
                 <span class="availability-table__period-label">
-                    {{ afternoonStatus == 'blocked'
-                        ? 'Bloqué'
-                        : 'Après-midi'
+                    {{
+                        afternoonStatus == 'blocked'
+                            ? 'period.blocked'|trans
+                            : 'period.afternoon'|trans
                     }}
                 </span>
             </button>
@@ -56,9 +59,10 @@
                 "
             >
                 <span class="availability-table__period-label">
-                    {{ afternoonStatus == 'blocked'
-                        ? 'Bloqué'
-                        : 'Après-midi'
+                    {{
+                        afternoonStatus == 'blocked'
+                            ? 'period.blocked'|trans
+                            : 'period.afternoon'|trans
                     }}
                 </span>
             </div>
@@ -78,13 +82,14 @@
                 data-action="calendar-slot-grid#updateSlot"
                 data-slot-id="{{ day.eveningSlot.id }}"
                 data-period="evening"
-                data-label="Soir"
+                data-label="{{ 'period.evening'|trans }}"
                 data-status="{{ eveningStatus }}"
             >
                 <span class="availability-table__period-label">
-                    {{ eveningStatus == 'blocked'
-                        ? 'Bloqué'
-                        : 'Soir'
+                    {{
+                        eveningStatus == 'blocked'
+                            ? 'period.blocked'|trans
+                            : 'period.evening'|trans
                     }}
                 </span>
             </button>
@@ -108,9 +113,10 @@
                 "
             >
                 <span class="availability-table__period-label">
-                    {{ eveningStatus == 'blocked'
-                        ? 'Bloqué'
-                        : 'Soir'
+                    {{
+                        eveningStatus == 'blocked'
+                            ? 'period.blocked'|trans
+                            : 'period.evening'|trans
                     }}
                 </span>
             </div>

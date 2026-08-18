@@ -1,0 +1,32 @@
+title: Tableau de bord
+eyebrow: Vue d’ensemble
+description: Planifiez facilement les prochaines sessions de vos campagnes.
+
+next_session:
+    label: Prochaine session
+    view_campaign: Voir la campagne
+
+    empty:
+        title: Aucune session planifiée
+        description: Consultez les calendriers de vos campagnes pour choisir votre prochaine date.
+
+campaigns:
+    active: Campagnes actives
+    view: Voir mes campagnes
+
+    create:
+        title: Nouvelle campagne
+        description: Créez une nouvelle table et préparez son calendrier.
+
+upcoming:
+    eyebrow: Planning
+    title: Sessions à venir
+
+quick_access:
+    eyebrow: Accès rapide
+    title: Mes campagnes
+    show_all: Tout afficher
+
+    campaign:
+        description: Consultez les participants et planifiez vos prochaines sessions.
+        open: Ouvrir la campagne

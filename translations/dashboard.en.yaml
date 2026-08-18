@@ -1,0 +1,32 @@
+title: Dashboard
+eyebrow: Overview
+description: Easily plan the next sessions of your campaigns.
+
+next_session:
+    label: Next session
+    view_campaign: View campaign
+
+    empty:
+        title: No session scheduled
+        description: Check your campaign calendars to choose your next date.
+
+campaigns:
+    active: Active campaigns
+    view: View my campaigns
+
+    create:
+        title: New campaign
+        description: Create a new table and prepare its calendar.
+
+upcoming:
+    eyebrow: Schedule
+    title: Upcoming sessions
+
+quick_access:
+    eyebrow: Quick access
+    title: My campaigns
+    show_all: View all
+
+    campaign:
+        description: View participants and plan your next sessions.
+        open: Open campaign

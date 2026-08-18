@@ -7,11 +7,11 @@ enum DayPeriod: string
     case AFTERNOON = 'afternoon';
     case EVENING = 'evening';
 
-    public function label(): string
+    public function translationKey(): string
     {
         return match ($this) {
-            self::AFTERNOON => 'Après-midi',
-            self::EVENING => 'Soir',
+            self::AFTERNOON => 'day_period.afternoon',
+            self::EVENING => 'day_period.evening',
         };
     }
 }

@@ -1,121 +1,63 @@
 {% extends 'emails/_layout.html.twig' %}
 
+{% trans_default_domain 'emails' %}
+
 {% block title %}
-    Nouveau message CampaignPlanner
+    {{ 'feedback_received.title'|trans }}
 {% endblock %}
 
 {% block heading %}
-    📡 Nouveau message
+    {{ 'feedback_received.heading'|trans }}
 {% endblock %}
 
 {% block content %}
-    <p
-        style="
-            margin: 0 0 20px;
-            color: #d4d7dd;
-            font-size: 16px;
-            line-height: 1.7;
-        "
-    >
-        Une nouvelle communication a été reçue
-        via la Pierre de communication.
+    <p class="email-text">
+        {{ 'feedback_received.intro'|trans }}
     </p>
 
-    <div
-        style="
-            margin-bottom: 28px;
-            padding: 22px;
-            border-left: 4px solid #c9a85c;
-            border-radius: 8px;
-            background: #242832;
-        "
-    >
-        <div
-            style="
-                margin-bottom: 14px;
-                color: #c9a85c;
-                font-size: 13px;
-                font-weight: 700;
-                letter-spacing: 1px;
-                text-transform: uppercase;
-            "
-        >
-            {{ feedback.type.label() }}
+    <div class="email-panel email-panel--accent">
+        <div class="email-panel__label">
+            {{
+                feedback.type
+                    .translationKey()
+                    |trans({}, 'enums')
+            }}
         </div>
 
-        <p
-            style="
-                margin: 0 0 8px;
-                color: #ffffff;
-                font-size: 15px;
-                line-height: 1.6;
-            "
-        >
-            <strong>De :</strong>
-            {{ feedback.email ?? 'Adresse inconnue' }}
+        <p class="email-panel__line">
+            <strong>
+                {{ 'feedback_received.from'|trans }}
+            </strong>
+
+            {{
+                feedback.email
+                ?? 'feedback_received.unknown_address'|trans
+            }}
         </p>
 
         {% if feedback.user %}
-            <p
-                style="
-                    margin: 0 0 8px;
-                    color: #a7a8ad;
-                    font-size: 14px;
-                    line-height: 1.6;
-                "
-            >
-                Utilisateur connecté :
+            <p class="email-text email-text--muted">
+                {{ 'feedback_received.connected_user'|trans }}
                 {{ feedback.user.userIdentifier }}
             </p>
         {% endif %}
     </div>
 
-    <div
-        style="
-            padding: 22px;
-            border: 1px solid #2c3038;
-            border-radius: 8px;
-            background: #191b21;
-        "
-    >
-        <div
-            style="
-                margin-bottom: 18px;
-                color: #ffffff;
-                font-size: 18px;
-                font-weight: 700;
-                line-height: 1.5;
-            "
-        >
+    <div class="email-message">
+        <div class="email-message__subject">
             {{ feedback.subject }}
         </div>
-        <div
-            style="
-                margin-bottom: 12px;
-                color: #c9a85c;
-                font-size: 13px;
-                font-weight: 700;
-                letter-spacing: 1px;
-                text-transform: uppercase;
-            "
-        >
-            Message
+
+        <div class="email-message__label">
+            {{ 'feedback_received.message'|trans }}
         </div>
 
-        <p
-            style="
-                margin: 0;
-                color: #d4d7dd;
-                font-size: 15px;
-                line-height: 1.7;
-                white-space: pre-line;
-            "
-        >
+        <p class="email-message__content">
             {{ feedback.message }}
         </p>
     </div>
 {% endblock %}
 
 {% block footer %}
-    Une nouvelle quête secondaire vous attend.
+    {{ 'feedback_received.footer'|trans }}
 {% endblock %}

@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Entity\Campaign;
+use App\Entity\User;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 abstract class BaseController extends AbstractController
@@ -13,9 +14,7 @@ abstract class BaseController extends AbstractController
         $user = $this->getUser();
 
         if (!$user instanceof User) {
-            throw $this->createAccessDeniedException(
-                'No authenticated user found.'
-            );
+            throw $this->createAccessDeniedException();
         }
 
         return $user;
@@ -23,12 +22,26 @@ abstract class BaseController extends AbstractController
 
     protected function denyArchivedCampaign(
         Campaign $campaign,
-        string $message = 'Cette campagne n’est plus active.',
+        string $message,
     ): void {
         if ($campaign->isArchived()) {
-            throw $this->createNotFoundException(
-                $message,
-            );
+            throw $this->createNotFoundException($message);
         }
+    }
+    protected function denyInvalidCsrf(
+        string $tokenId,
+        mixed $token,
+        TranslatorInterface $translator,
+    ): void {
+        if ($this->isCsrfTokenValid($tokenId, (string) $token)) {
+            return;
+        }
+
+        throw $this->createAccessDeniedException(
+            $translator->trans(
+                'controller.security.invalid_csrf',
+                domain: 'error',
+            ),
+        );
     }
 }

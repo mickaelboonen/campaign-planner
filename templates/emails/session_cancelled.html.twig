@@ -1,24 +1,30 @@
 {% extends 'emails/_layout.html.twig' %}
 
+{% trans_default_domain 'emails' %}
+
 {% block title %}
-    Session annulée - {{ campaign.name }}
+    {{ 'session_cancelled.title'|trans({
+        '%campaign%': campaign.name
+    }) }}
 {% endblock %}
 
 {% block heading %}
-    Session annulée
+    {{ 'session_cancelled.heading'|trans }}
 {% endblock %}
 
 {% block content %}
-    <p style="margin: 0 0 20px; color: #d4d7dd; font-size: 16px; line-height: 1.7;">
-        Bonjour <strong>{{ participant.name }}</strong>,
+    <p class="email-text">
+        {{ 'session_cancelled.greeting'|trans({
+            '%name%': participant.name
+        }) }}
     </p>
 
-    <p style="margin: 0 0 24px; color: #d4d7dd; font-size: 16px; line-height: 1.7;">
-        La session suivante vient d’être annulée :
+    <p class="email-text">
+        {{ 'session_cancelled.intro'|trans }}
     </p>
 
     {% include 'emails/_session_details.html.twig' with {
-        accentColor: '#d77474'
+        danger: true
     } %}
 
     {% include 'emails/_dashboard_button.html.twig' %}

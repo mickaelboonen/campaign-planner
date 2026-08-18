@@ -1,0 +1,135 @@
+breadcrumb:
+    campaigns: Campagnes
+
+eyebrow: Campagne
+
+navigation:
+    participants:
+        title: Participants
+        description: Gérer le groupe de jeu
+    calendar:
+        title: Calendrier
+        description: Disponibilités et créneaux
+    notes:
+        title: Notes MJ
+        description: Mémos privés de campagne
+
+list:
+    title: Mes campagnes
+    eyebrow: Organisation
+    description: Retrouvez toutes vos campagnes actives et accédez rapidement à leur gestion.
+    new: Nouvelle campagne
+
+    empty:
+        title: Aucune campagne
+        message: Créez votre première campagne pour commencer à organiser vos prochaines sessions.
+        action: Créer une campagne
+
+    created_at: Créée le
+    edit: Modifier
+    open: Ouvrir →
+
+create:
+    title: Nouvelle campagne
+    description: Créez un nouvel espace pour organiser votre groupe et vos sessions.
+    form_title: Créer une campagne
+    submit: Créer la campagne
+
+edit:
+    title: Modifier %name%
+    breadcrumb: Modifier
+    description: Modifiez les informations générales de la campagne.
+    form_title: Informations de la campagne
+    submit: Enregistrer
+
+form:
+    eyebrow: Informations générales
+    description: Nom, couleur et image de couverture de la campagne.
+
+    name:
+        label: Nom de la campagne
+        placeholder: Ex. Curse of Strahd
+
+    color:
+        label: Couleur de la campagne
+        hint: Cette couleur sera utilisée comme accent visuel.
+
+    image:
+        label: Image de couverture
+        current: Image actuelle
+        help: JPG, PNG ou WebP — 5 Mo maximum.
+
+    cancel: Annuler
+
+show:
+    active: Campagne active
+    archived: Campagne archivée
+    created_at: Créée le
+    edit: Modifier
+    archive: Archiver
+    archive_confirm: Archiver cette campagne ?
+
+    stats:
+        participants:
+            label: Participants
+            description: Participants actifs
+        upcoming:
+            label: Sessions à venir
+            description: Sessions planifiées
+        played:
+            label: Sessions jouées
+            description: Historique de la campagne
+
+    upcoming:
+        eyebrow: Planning
+        title: Sessions à venir
+        calendar: Voir le calendrier
+
+        empty:
+            title: Aucune session planifiée
+            description: Consultez les disponibilités pour choisir une prochaine date.
+
+        time_missing: Horaire non défini
+        next: Prochaine session
+        edit: Modifier
+        define_time: Définir l’horaire
+        cancel: Annuler la session
+        cancel_confirm: Voulez-vous vraiment annuler cette session ?
+
+    participants:
+        eyebrow: Groupe de jeu
+        title: Participants
+        add: Ajouter un participant
+
+        empty:
+            title: Aucun participant
+            description: Ajoutez votre premier joueur afin de commencer à préparer le calendrier de cette campagne.
+
+        archived: Participants archivés
+        restore: Restaurer
+
+    history:
+        eyebrow: Historique
+        title: Sessions passées
+        empty: Aucune session passée
+
+notes:
+    title: Notes — %name%
+    breadcrumb: Notes MJ
+    eyebrow: Mémo MJ
+    heading: Notes privées
+
+    editor:
+        title: Édition
+        description: Ces notes ne sont visibles que par le MJ de la campagne.
+        markdown: "Markdown disponible :"
+        back: Retour
+        save: Enregistrer
+
+    preview:
+        title: Aperçu
+        description: Rendu actuel des notes.
+
+    form:
+        label: Notes privées
+        placeholder: "## Joueurs\n- **Alice** : enfants les semaines paires\n- **Bob** : indisponible le premier week-end du mois"

@@ -25,10 +25,7 @@ final readonly class AvailabilityManager
         Participant $participant,
         array $submittedAvailabilities,
     ): int {
-        $normalizedValues = $this->normalizeValues(
-            $submittedAvailabilities,
-        );
-
+        $normalizedValues = $this->normalizeValues($submittedAvailabilities);
         $slotIds = array_keys($normalizedValues);
 
         $slots = $this->calendarSlotRepository->findByIdsAndCampaign(
@@ -42,15 +39,12 @@ final readonly class AvailabilityManager
          */
         if (count($slots) !== count($slotIds)) {
             throw new \InvalidArgumentException(
-                'Un ou plusieurs créneaux sont invalides.',
+                'availability.invalid_slots',
             );
         }
 
         $existingAvailabilities = $this->availabilityRepository
-            ->findByParticipantAndSlots(
-                $participant,
-                $slots,
-            );
+            ->findByParticipantAndSlots($participant, $slots);
 
         $availabilityBySlotId = [];
 
@@ -72,9 +66,9 @@ final readonly class AvailabilityManager
             }
 
             /*
-            * Un créneau bloqué ne doit pas être modifiable,
-            * même avec une requête fabriquée manuellement.
-            */
+             * Un créneau bloqué ne doit pas être modifiable,
+             * même avec une requête fabriquée manuellement.
+             */
             if ($slot->isBlocked()) {
                 continue;
             }
@@ -83,8 +77,8 @@ final readonly class AvailabilityManager
             $availability = $availabilityBySlotId[$slotId] ?? null;
 
             /*
-            * Une valeur vide représente l’absence de réponse.
-            */
+             * Une valeur vide représente l’absence de réponse.
+             */
             if ($status === null) {
                 if ($availability !== null) {
                     $this->entityManager->remove($availability);
@@ -101,7 +95,6 @@ final readonly class AvailabilityManager
                 $availability->setStatus($status);
 
                 $this->entityManager->persist($availability);
-
                 ++$changedCount;
 
                 continue;
@@ -109,7 +102,6 @@ final readonly class AvailabilityManager
 
             if ($availability->getStatus() !== $status) {
                 $availability->setStatus($status);
-
                 ++$changedCount;
             }
         }
@@ -130,26 +122,22 @@ final readonly class AvailabilityManager
         $normalized = [];
 
         foreach ($submittedAvailabilities as $slotId => $value) {
-            $slotId = filter_var(
-                $slotId,
-                FILTER_VALIDATE_INT,
-            );
+            $slotId = filter_var($slotId, FILTER_VALIDATE_INT);
 
             if ($slotId === false || $slotId <= 0) {
                 throw new \InvalidArgumentException(
-                    'Identifiant de créneau invalide.',
+                    'availability.invalid_slot_id',
                 );
             }
 
             if ($value === '') {
                 $normalized[$slotId] = null;
-
                 continue;
             }
 
             if (!is_string($value)) {
                 throw new \InvalidArgumentException(
-                    'Statut de disponibilité invalide.',
+                    'availability.invalid_status',
                 );
             }
 
@@ -157,7 +145,7 @@ final readonly class AvailabilityManager
 
             if ($status === null) {
                 throw new \InvalidArgumentException(
-                    'Statut de disponibilité inconnu.',
+                    'availability.unknown_status',
                 );
             }
 

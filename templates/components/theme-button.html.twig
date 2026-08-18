@@ -1,6 +1,10 @@
+{% trans_default_domain 'common' %}
+
 <div
     class="theme-switch"
     data-controller="theme"
+    data-theme-light-label-value="{{ 'theme.light'|trans }}"
+    data-theme-dark-label-value="{{ 'theme.dark'|trans }}"
 >
     <span
         class="theme-switch__icon"
@@ -14,7 +18,7 @@
         class="theme-switch__label"
         data-theme-target="label"
     >
-        Thème clair
+        {{ 'theme.light'|trans }}
     </span>
 
     <button
@@ -22,7 +26,7 @@
         class="theme-switch__button"
         role="switch"
         aria-checked="false"
-        aria-label="Changer de thème"
+        aria-label="{{ 'theme.toggle'|trans }}"
         data-theme-target="button"
         data-action="theme#toggle"
     >

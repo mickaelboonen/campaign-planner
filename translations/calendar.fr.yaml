@@ -1,0 +1,55 @@
+title: Calendrier
+breadcrumb:
+    campaigns: Campagnes
+    calendar: Calendrier
+
+header:
+    eyebrow: Disponibilités
+    description: "Semaine %week% — du %start% au %end%"
+
+readonly:
+    archived: Cette campagne est archivée. Le calendrier est disponible en lecture seule.
+    past_week: Cette semaine est passée et ne peut plus être modifiée.
+
+toolbar:
+    previous_week: Semaine précédente
+    current_week: Cette semaine
+    next_week: Semaine suivante
+    choose_week: Choisir une semaine
+
+table:
+    participant: Participant
+    no_participant: Aucun participant actif dans cette campagne.
+
+period:
+    afternoon: Après-midi
+    evening: Soir
+    blocked: Bloqué
+
+editor:
+    action: Action à appliquer
+    block: Bloquer
+    open: Ouvrir
+
+    shortcuts:
+        label: Actions rapides
+        all_week: Toute la semaine
+        all_afternoons: Tous les après-midi
+        all_evenings: Tous les soirs
+
+decision:
+    title: Décision
+    scheduled: Session prévue
+    validate: Valider
+
+mobile:
+    participant: Participant
+    blocked: Bloqué
+    no_participant: Aucun participant actif.
+    no_slot: Aucun créneau disponible pour cette semaine.
+
+save:
+    hint: Les modifications ne sont enregistrées qu’après validation.
+    submit: Enregistrer les créneaux
+
+unsaved_changes: Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter cette page ?

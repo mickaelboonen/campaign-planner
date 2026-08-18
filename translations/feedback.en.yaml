@@ -1,0 +1,21 @@
+create:
+    title: Sending Stone
+    intro:
+        question: A question, a problem or an idea?
+        message: Entrust your message to the stone.
+        destination: It will reach the administrator.
+    message_placeholder: Describe your problem or idea…
+    submit: Send message
+    back: Back
+
+form:
+    type:
+        label: Request type
+        placeholder: Choose a type
+    email:
+        label: Email address
+    message:
+        label: Message
+    subject:
+        label: Subject
+        placeholder: Optional

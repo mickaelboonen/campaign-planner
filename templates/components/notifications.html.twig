@@ -1,3 +1,5 @@
+{% trans_default_domain 'common' %}
+
 {% set notifications = gm_notifications() %}
 {% set unseenCount = gm_unseen_notification_count() %}
 
@@ -6,15 +8,20 @@
         class="notifications"
         data-controller="notifications"
         data-action="toggle->notifications#toggle"
-        data-notifications-mark-seen-url-value="{{ path('notifications_mark_seen') }}"
+        data-notifications-mark-seen-url-value="{{ path(
+            'notifications_mark_seen'
+        ) }}"
         data-notifications-unseen-count-value="{{ unseenCount }}"
     >
         <summary
             class="notifications__trigger"
-            aria-label="Notifications"
-            title="Notifications"
+            aria-label="{{ 'notifications.title'|trans }}"
+            title="{{ 'notifications.title'|trans }}"
         >
-            <span class="notifications__icon" aria-hidden="true">
+            <span
+                class="notifications__icon"
+                aria-hidden="true"
+            >
                 <svg
                     viewBox="0 0 24 24"
                     width="22"
@@ -25,7 +32,9 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                 >
-                    <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+                    <path
+                        d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"
+                    />
                     <path d="M10 21h4"/>
                 </svg>
             </span>
@@ -42,31 +51,37 @@
 
         <div class="notifications__panel">
             <header class="notifications__header">
-                <strong>Notifications</strong>
+                <strong>
+                    {{ 'notifications.title'|trans }}
+                </strong>
 
                 <div class="notifications__header-actions">
                     <form
                         method="post"
-                        action="{{ path('notifications_mark_all_read') }}"
+                        action="{{ path(
+                            'notifications_mark_all_read'
+                        ) }}"
                     >
                         <input
                             type="hidden"
                             name="_token"
-                            value="{{ csrf_token('notifications_mark_all_read') }}"
+                            value="{{ csrf_token(
+                                'notifications_mark_all_read'
+                            ) }}"
                         >
 
                         <button
                             type="submit"
                             class="notifications__mark-all"
                         >
-                            Tout marquer comme lu
+                            {{ 'notifications.mark_all_read'|trans }}
                         </button>
                     </form>
 
                     <button
                         type="button"
                         class="notifications__close"
-                        aria-label="Fermer les notifications"
+                        aria-label="{{ 'notifications.close'|trans }}"
                         data-action="notifications#close"
                     >
                         ×
@@ -86,7 +101,8 @@
                             type="hidden"
                             name="_token"
                             value="{{ csrf_token(
-                                'notification_open_' ~ notification.id
+                                'notification_open_'
+                                ~ notification.id
                             ) }}"
                         >
 
@@ -99,16 +115,31 @@
                             </strong>
 
                             <span>
-                                a mis à jour
-                                {{ notification.count }}
-                                disponibilité{{ notification.count > 1 ? 's' : '' }}
+                                {{
+                                    'notifications.availability_updated.text'
+                                    |trans(
+                                        {
+                                            '%count%':
+                                                notification.count
+                                        },
+                                        'common'
+                                    )
+                                }}
                             </span>
 
                             <small>
-                                Semaine du
-                                {{ notification.weekStart|date('d/m') }}
-                                au
-                                {{ notification.weekStart|date_modify('+6 days')|date('d/m') }}
+                                {{
+                                    'notifications.availability_updated.week'
+                                    |trans({
+                                        '%start%':
+                                            notification.weekStart
+                                            |date('d/m'),
+                                        '%end%':
+                                            notification.weekStart
+                                            |date_modify('+6 days')
+                                            |date('d/m')
+                                    })
+                                }}
                             </small>
                         </button>
                     </form>

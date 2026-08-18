@@ -1,73 +1,37 @@
 {% extends 'emails/_layout.html.twig' %}
 
+{% trans_default_domain 'emails' %}
+
 {% block title %}
-    Bienvenue dans {{ campaign.name }}
+    {{ 'participant_access.title'|trans({
+        '%campaign%': campaign.name
+    }) }}
 {% endblock %}
 
 {% block heading %}
-    🎲 Nouvelle campagne
+    {{ 'participant_access.heading'|trans }}
 {% endblock %}
 
 {% block content %}
-    <p
-        style="
-            margin: 0 0 20px;
-            color: #d4d7dd;
-            font-size: 16px;
-            line-height: 1.7;
-        "
-    >
-        Bonjour <strong>{{ participant.name }}</strong>,
+    <p class="email-text">
+        {{ 'participant_access.greeting'|trans({
+            '%name%': participant.name
+        }) }}
     </p>
 
-    <p
-        style="
-            margin: 0 0 24px;
-            color: #d4d7dd;
-            font-size: 16px;
-            line-height: 1.7;
-        "
-    >
-        Vous avez été ajouté à la campagne
-        <strong style="color: #e2c87f;">
-            {{ campaign.name }}
-        </strong>
-        sur Campaign Planner.
+    <p class="email-text">
+        {{ 'participant_access.added'|trans({
+            '%campaign%': campaign.name
+        }) }}
     </p>
 
-    <div
-        style="
-            margin-bottom: 28px;
-            padding: 22px;
-            border-left: 4px solid #c9a85c;
-            border-radius: 8px;
-            background: #242832;
-        "
-    >
-        <div
-            style="
-                margin-bottom: 10px;
-                color: #c9a85c;
-                font-size: 13px;
-                font-weight: 700;
-                letter-spacing: 1px;
-                text-transform: uppercase;
-            "
-        >
-            Votre espace joueur
+    <div class="email-panel email-panel--accent">
+        <div class="email-panel__label">
+            {{ 'participant_access.player_space'|trans }}
         </div>
 
-        <p
-            style="
-                margin: 0;
-                color: #d4d7dd;
-                font-size: 15px;
-                line-height: 1.7;
-            "
-        >
-            Retrouvez au même endroit vos campagnes,
-            vos prochaines sessions et vos calendriers
-            de disponibilités.
+        <p class="email-text">
+            {{ 'participant_access.description'|trans }}
         </p>
     </div>
 
@@ -76,15 +40,12 @@
     } %}
 
     <p
-        style="
-            margin: 28px 0 0;
-            color: #a7a8ad;
-            font-size: 13px;
-            line-height: 1.6;
-            text-align: center;
+        class="
+            email-text
+            email-text--small
+            email-text--center
         "
     >
-        Ce lien donne accès à votre espace joueur personnel.
-        Ne le partagez pas.
+        {{ 'participant_access.warning'|trans }}
     </p>
 {% endblock %}

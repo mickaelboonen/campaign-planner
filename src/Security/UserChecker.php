@@ -6,9 +6,15 @@ use App\Entity\User;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class UserChecker implements UserCheckerInterface
 {
+    public function __construct(
+        private readonly TranslatorInterface $translator,
+    ) {
+    }
+
     public function checkPreAuth(UserInterface $user): void
     {
         if (!$user instanceof User) {
@@ -17,7 +23,10 @@ final class UserChecker implements UserCheckerInterface
 
         if (!$user->isActive()) {
             throw new CustomUserMessageAccountStatusException(
-                'Votre compte CampaignPlanner a été désactivé. Veuillez contacter l’administrateur si vous pensez qu’il s’agit d’une erreur.',
+                $this->translator->trans(
+                    'account.disabled',
+                    domain: 'auth',
+                ),
             );
         }
     }

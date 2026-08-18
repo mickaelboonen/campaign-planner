@@ -1,24 +1,11 @@
-{% set isCurrentParticipant =
-    row.participant.id == participant.id
-%}
+{% trans_default_domain 'participant_access' %}
 
-{% set isEditable =
-    isCurrentParticipant and not isPastWeek
-%}
+{% set isCurrentParticipant = row.participant.id == participant.id %}
+{% set isEditable = isCurrentParticipant and not isPastWeek %}
 
-<div
-    class="
-        availability-table__participant
-        {{ isCurrentParticipant
-            ? 'is-current-participant'
-        }}
-    "
->
+<div class="availability-table__participant {{ isCurrentParticipant ? 'is-current-participant' }}">
     <strong>
-        {% if isCurrentParticipant %}
-            Vous —
-        {% endif %}
-
+        {% if isCurrentParticipant %}{{ 'calendar.table.you'|trans }}{% endif %}
         {{ row.participant.name }}
     </strong>
 
@@ -31,110 +18,49 @@
     {% set afternoonCell = row.cells[dayIndex * 2] %}
     {% set eveningCell = row.cells[(dayIndex * 2) + 1] %}
 
-    <div
-        class="
-            availability-table__cells
-            {{ isCurrentParticipant
-                ? 'is-current-participant'
-            }}
-        "
-    >
-        <div
-            class="
-                availability-cell
-                {{ afternoonCell.cssClass }}
-                {{ isEditable ? 'is-editable' }}
-            "
-            title="{{ afternoonCell.label }}"
-
-            {% if isEditable %}
-                data-availability-grid-target="cell"
-                data-action="click->availability-grid#updateCell"
-                data-slot-id="{{ afternoonCell.slot.id }}"
-                data-period="afternoon"
-                data-status="{{
-                    afternoonCell.status
-                        ? afternoonCell.status.value
-                        : ''
-                }}"
-                data-blocked="{{
-                    afternoonCell.blocked
-                        ? 'true'
-                        : 'false'
-                }}"
-            {% endif %}
-        >
-            <span class="availability-cell__symbol">
-                {{ afternoonCell.symbol }}
-            </span>
+    <div class="availability-table__cells {{ isCurrentParticipant ? 'is-current-participant' }}">
+        <div class="availability-cell {{ afternoonCell.cssClass }} {{ isEditable ? 'is-editable' }}"
+             title="{{ afternoonCell.translationKey|trans({}, 'enums') }}"
+             {% if isEditable %}
+                 data-availability-grid-target="cell"
+                 data-action="click->availability-grid#updateCell"
+                 data-slot-id="{{ afternoonCell.slot.id }}"
+                 data-period="afternoon"
+                 data-status="{{ afternoonCell.status ? afternoonCell.status.value : '' }}"
+                 data-blocked="{{ afternoonCell.blocked ? 'true' : 'false' }}"
+             {% endif %}>
+            <span class="availability-cell__symbol">{{ afternoonCell.symbol }}</span>
         </div>
 
         {% if isEditable %}
-            <input
-                type="hidden"
-                name="availabilities[{{ afternoonCell.slot.id }}]"
-                value="{{
-                    afternoonCell.status
-                        ? afternoonCell.status.value
-                        : ''
-                }}"
-                data-availability-grid-target="input"
-                data-slot-id="{{ afternoonCell.slot.id }}"
-                data-initial-value="{{
-                    afternoonCell.status
-                        ? afternoonCell.status.value
-                        : ''
-                }}"
-            >
+            <input type="hidden"
+                   name="availabilities[{{ afternoonCell.slot.id }}]"
+                   value="{{ afternoonCell.status ? afternoonCell.status.value : '' }}"
+                   data-availability-grid-target="input"
+                   data-slot-id="{{ afternoonCell.slot.id }}"
+                   data-initial-value="{{ afternoonCell.status ? afternoonCell.status.value : '' }}">
         {% endif %}
 
-        <div
-            class="
-                availability-cell
-                {{ eveningCell.cssClass }}
-                {{ isEditable ? 'is-editable' }}
-            "
-            title="{{ eveningCell.label }}"
-
-            {% if isEditable %}
-                data-availability-grid-target="cell"
-                data-action="click->availability-grid#updateCell"
-                data-slot-id="{{ eveningCell.slot.id }}"
-                data-period="evening"
-                data-status="{{
-                    eveningCell.status
-                        ? eveningCell.status.value
-                        : ''
-                }}"
-                data-blocked="{{
-                    eveningCell.blocked
-                        ? 'true'
-                        : 'false'
-                }}"
-            {% endif %}
-        >
-            <span class="availability-cell__symbol">
-                {{ eveningCell.symbol }}
-            </span>
+        <div class="availability-cell {{ eveningCell.cssClass }} {{ isEditable ? 'is-editable' }}"
+             title="{{ eveningCell.translationKey|trans({}, 'enums') }}"
+             {% if isEditable %}
+                 data-availability-grid-target="cell"
+                 data-action="click->availability-grid#updateCell"
+                 data-slot-id="{{ eveningCell.slot.id }}"
+                 data-period="evening"
+                 data-status="{{ eveningCell.status ? eveningCell.status.value : '' }}"
+                 data-blocked="{{ eveningCell.blocked ? 'true' : 'false' }}"
+             {% endif %}>
+            <span class="availability-cell__symbol">{{ eveningCell.symbol }}</span>
         </div>
 
         {% if isEditable %}
-            <input
-                type="hidden"
-                name="availabilities[{{ eveningCell.slot.id }}]"
-                value="{{
-                    eveningCell.status
-                        ? eveningCell.status.value
-                        : ''
-                }}"
-                data-availability-grid-target="input"
-                data-slot-id="{{ eveningCell.slot.id }}"
-                data-initial-value="{{
-                    eveningCell.status
-                        ? eveningCell.status.value
-                        : ''
-                }}"
-            >
+            <input type="hidden"
+                   name="availabilities[{{ eveningCell.slot.id }}]"
+                   value="{{ eveningCell.status ? eveningCell.status.value : '' }}"
+                   data-availability-grid-target="input"
+                   data-slot-id="{{ eveningCell.slot.id }}"
+                   data-initial-value="{{ eveningCell.status ? eveningCell.status.value : '' }}">
         {% endif %}
     </div>
 {% endfor %}

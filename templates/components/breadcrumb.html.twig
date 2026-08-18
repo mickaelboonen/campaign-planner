@@ -1,11 +1,21 @@
-<nav class="breadcrumb" aria-label="Fil d’Ariane">
+{% trans_default_domain 'common' %}
+
+<nav
+    class="breadcrumb"
+    aria-label="{{ 'breadcrumb.aria_label'|trans }}"
+>
     {% for item in items %}
         {% if not loop.first %}
-            <span class="breadcrumb__separator">›</span>
+            <span class="breadcrumb__separator">
+                ›
+            </span>
         {% endif %}
 
         {% if item.path is defined and item.path %}
-            <a class="breadcrumb__link" href="{{ item.path }}">
+            <a
+                class="breadcrumb__link"
+                href="{{ item.path }}"
+            >
                 {{ item.label }}
             </a>
         {% else %}

@@ -1,16 +1,13 @@
+{% trans_default_domain 'participant_access' %}
+
 <section class="calendar-card">
     <div class="availability-table">
-        <div class="availability-table__corner">
-            Participant
-        </div>
+        <div class="availability-table__corner">{{ 'calendar.table.participant'|trans }}</div>
 
         {% for day in calendar.days %}
-            {% set hasSelectedSession =
-                day.afternoonSlot.isSelected
-                or day.eveningSlot.isSelected
-            %}
+            {% set hasSelectedSession = day.afternoonSlot.isSelected or day.eveningSlot.isSelected %}
             <div class="availability-table__day {{ hasSelectedSession ? 'has-session' }}">
-                <strong>{{ day.label }}</strong>
+                <strong>{{ day.translationKey|trans({}, 'common') }}</strong>
                 <span>{{ day.date|date('d/m') }}</span>
             </div>
         {% endfor %}
@@ -20,13 +17,9 @@
         {% include 'participant_access/_desktop_periods.html.twig' %}
 
         {% for row in calendar.rows %}
-            {% include 'participant_access/_participant_row.html.twig' with {
-                row: row
-            } %}
+            {% include 'participant_access/_participant_row.html.twig' with { row: row } %}
         {% else %}
-            <div class="availability-table__empty">
-                Aucun participant actif dans cette campagne.
-            </div>
+            <div class="availability-table__empty">{{ 'calendar.table.no_participant_campaign'|trans }}</div>
         {% endfor %}
 
         {% include 'components/calendar/_results.html.twig' %}

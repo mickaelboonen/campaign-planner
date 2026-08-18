@@ -1,0 +1,41 @@
+{% trans_default_domain 'common' %}
+
+<details class="account-language">
+    <summary class="sidebar-section__link account-language__trigger">
+        <span class="account-language__icon">🌐</span>
+        <span>{{ 'language.label'|trans }}</span>
+        <span class="account-language__current">
+            {{ app.request.locale|upper }}
+        </span>
+    </summary>
+
+    <div class="account-language__menu">
+        <a
+            class="sidebar-section__link account-language__option {{ app.request.locale == 'fr' ? 'is-active' }}"
+            href="{{ path('app_locale', { _locale: 'fr' }) }}"
+            lang="fr"
+            hreflang="fr"
+        >
+            <span class="account-language__code">FR</span>
+            <span>{{ 'language.french'|trans }}</span>
+
+            {% if app.request.locale == 'fr' %}
+                <span class="account-language__check">✓</span>
+            {% endif %}
+        </a>
+
+        <a
+            class="sidebar-section__link account-language__option {{ app.request.locale == 'en' ? 'is-active' }}"
+            href="{{ path('app_locale', { _locale: 'en' }) }}"
+            lang="en"
+            hreflang="en"
+        >
+            <span class="account-language__code">EN</span>
+            <span>{{ 'language.english'|trans }}</span>
+
+            {% if app.request.locale == 'en' %}
+                <span class="account-language__check">✓</span>
+            {% endif %}
+        </a>
+    </div>
+</details>

@@ -1,0 +1,69 @@
+layout:
+    automatic: Cet email a été envoyé automatiquement par
+    footer: À bientôt autour de la table !
+
+dashboard_button:
+    label: Voir mon espace joueur
+
+session_details:
+    campaign: Campagne
+
+availability_complete:
+    title: "Tout le monde a répondu — %campaign%"
+    heading: Tout le monde a répondu !
+    message: "Tous les joueurs de %campaign% ont renseigné au moins une disponibilité pour la semaine du %start% au %end%."
+    description: Vous pouvez maintenant consulter les disponibilités du groupe et choisir votre prochain créneau.
+    action: Voir les disponibilités
+    subject: Tout le monde a répondu — %campaign%
+
+feedback_received:
+    title: Nouveau message CampaignPlanner
+    heading: 📡 Nouveau message
+    intro: Une nouvelle communication a été reçue via la Pierre de communication.
+    from: "De :"
+    unknown_address: Adresse inconnue
+    connected_user: "Utilisateur connecté :"
+    message: Message
+    footer: Une nouvelle quête secondaire vous attend.
+    subject: "[%type%] Nouveau message CampaignPlanner"
+
+participant_access:
+    title: "Bienvenue dans %campaign%"
+    heading: 🎲 Nouvelle campagne
+    greeting: "Bonjour %name%,"
+    added: "Vous avez été ajouté à la campagne %campaign% sur Campaign Planner."
+    player_space: Votre espace joueur
+    description: Retrouvez au même endroit vos campagnes, vos prochaines sessions et vos calendriers de disponibilités.
+    warning: Ce lien donne accès à votre espace joueur personnel. Ne le partagez pas.
+    subject: Vous avez été ajouté à %campaign%
+
+participant_access_recovery:
+    title: Votre accès Campaign Planner
+    heading: 🔑 Votre espace joueur
+    greeting: "Bonjour %name%,"
+    request: Une demande a été effectuée pour retrouver le lien d'accès à votre espace joueur Campaign Planner.
+    description: Vous pouvez y retrouver toutes vos campagnes, vos prochaines sessions et vos disponibilités.
+    ignored: Si vous n'êtes pas à l'origine de cette demande, aucune action n'est nécessaire. Vous pouvez simplement ignorer cet email.
+    subject: Votre lien d’accès CampaignPlanner
+
+session_cancelled:
+    title: "Session annulée — %campaign%"
+    heading: Session annulée
+    greeting: "Bonjour %name%,"
+    intro: "La session suivante vient d’être annulée :"
+    subject: Session annulée — %campaign%
+
+session_reminder:
+    title: Rappel de session
+    greeting: "Bonjour %name%,"
+    intro: "Petit rappel concernant votre prochaine session de %campaign%."
+    prepare: Pensez à préparer vos dés, vos fiches et vos meilleurs jets de sauvegarde.
+    subject: Rappel — Session à venir — %campaign%
+
+session_scheduled:
+    title: "Nouvelle session — %campaign%"
+    heading: 🎲 Nouvelle session
+    greeting: "Bonjour %name%,"
+    intro: "Une nouvelle session vient d’être validée pour votre campagne :"
+    prepare: Pensez à vérifier vos disponibilités si nécessaire et préparez vos dés !
+    subject: Nouvelle session planifiée — %campaign%

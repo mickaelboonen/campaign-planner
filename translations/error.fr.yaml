@@ -1,0 +1,74 @@
+common:
+    home: Retour à l’accueil
+
+generic:
+    title: Une erreur est survenue
+    eyebrow: Erreur
+    heading: Impossible de traiter cette demande.
+    message: Une erreur est survenue.
+
+forbidden:
+    title: Accès interdit
+    heading: Accès interdit
+    subtitle: TPK ahead
+    message_line_1: Ce territoire est hors de votre portée.
+    message_line_2: Même les plus braves n’y sont pas invités.
+
+not_found:
+    title: Page introuvable
+    heading: "Jet de Survie : 1 naturel"
+    subtitle: Lost in the mist
+    message_line_1: Les Brumes ont effacé le chemin.
+    message_line_2: Cette page demeure introuvable.
+
+server:
+    title: Erreur serveur
+    heading: PLAN PRÉVISIONNEL PERTURBÉ
+    subtitle: WILD MAGIC SURGE
+    message_line_1: Une erreur inattendue est survenue.
+    message_line_2: Même le MJ ne l’avait pas préparée.
+
+controller:
+    campaign:
+        calendar_unavailable: Le calendrier de cette campagne n’est plus disponible.
+
+    calendar:
+        invalid_requested_week: La semaine demandée est invalide.
+        invalid_submitted_week: La semaine envoyée est invalide.
+        past_week: Une semaine passée ne peut plus être modifiée.
+
+    session:
+        wrong_campaign: Cette session n’appartient pas à cette campagne.
+        slot_wrong_campaign: Ce créneau n’appartient pas à cette campagne.
+
+    participant:
+        invalid_access_link: Ce lien de participation est invalide ou n’est plus actif.
+        invalid_dashboard_link: Ce lien joueur est invalide ou n’est plus actif.
+
+    security:
+        invalid_csrf: Jeton CSRF invalide.
+
+    recovery:
+        rate_limited: Trop de demandes ont été effectuées. Veuillez réessayer plus tard.
+
+availability:
+    invalid_slots: Un ou plusieurs créneaux sont invalides.
+    invalid_slot_id: Identifiant de créneau invalide.
+    invalid_status: Statut de disponibilité invalide.
+    unknown_status: Statut de disponibilité inconnu.
+
+calendar:
+    invalid_slot_id: Identifiant de créneau invalide.
+    invalid_slot_state: État de créneau invalide.
+    unknown_slot_state: État de créneau inconnu.
+    invalid_slots: Un ou plusieurs créneaux sont invalides.
+
+campaign:
+    already_archived: Cette campagne est déjà archivée.
+    has_upcoming_sessions: Cette campagne possède encore des sessions à venir.
+
+session:
+    slot_not_open: Seul un créneau ouvert peut être validé comme session.
+    slot_in_past: Impossible de créer une session à partir d’un créneau passé.
+    already_exists: Une session existe déjà pour ce créneau.
+    already_cancelled: Cette session est déjà annulée.

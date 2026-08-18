@@ -3,15 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Campaign;
+use App\Repository\AvailabilityRepository;
+use App\Repository\ParticipantRepository;
 use App\Security\Voter\CampaignVoter;
 use App\Service\CalendarSlotManager;
-use App\Repository\AvailabilityRepository;
 use App\Service\CalendarViewBuilder;
-use App\Repository\ParticipantRepository;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/campaign/{id}/calendar', name: 'calendar_')]
 final class CalendarController extends BaseController
@@ -28,15 +29,16 @@ final class CalendarController extends BaseController
     public function show(
         Request $request,
         Campaign $campaign,
+        TranslatorInterface $translator,
     ): Response {
-        $this->denyAccessUnlessGranted(
-            CampaignVoter::VIEW,
-            $campaign,
-        );
+        $this->denyAccessUnlessGranted(CampaignVoter::VIEW, $campaign);
 
         $this->denyArchivedCampaign(
             $campaign,
-            'Le calendrier de cette campagne n’est plus disponible.',
+            $translator->trans(
+                'controller.campaign.calendar_unavailable',
+                domain: 'error',
+            ),
         );
 
         $requestedWeek = $request->query->get('week');
@@ -47,20 +49,19 @@ final class CalendarController extends BaseController
                 : new \DateTimeImmutable();
         } catch (\Exception) {
             throw $this->createNotFoundException(
-                'La semaine demandée est invalide.',
+                $translator->trans(
+                    'controller.calendar.invalid_requested_week',
+                    domain: 'error',
+                ),
             );
         }
 
-        $weekStart = $date
-            ->modify('monday this week')
-            ->setTime(0, 0);
-
+        $weekStart = $date->modify('monday this week')->setTime(0, 0);
         $currentWeekStart = (new \DateTimeImmutable())
             ->modify('monday this week')
             ->setTime(0, 0);
 
         $availableWeeks = [];
-
         $limit = $currentWeekStart->modify('+6 months');
 
         for (
@@ -106,20 +107,15 @@ final class CalendarController extends BaseController
     public function saveSlots(
         Request $request,
         Campaign $campaign,
+        TranslatorInterface $translator,
     ): RedirectResponse {
-        $this->denyAccessUnlessGranted(
-            CampaignVoter::EDIT,
-            $campaign,
-        );
+        $this->denyAccessUnlessGranted(CampaignVoter::EDIT, $campaign);
 
-        if (!$this->isCsrfTokenValid(
+        $this->denyInvalidCsrf(
             'save-calendar-slots-'.$campaign->getId(),
-            (string) $request->request->get('_token'),
-        )) {
-            throw $this->createAccessDeniedException(
-                'Jeton CSRF invalide.',
-            );
-        }
+            $request->request->get('_token'),
+            $translator,
+        );
 
         $week = (string) $request->request->get('week');
 
@@ -127,7 +123,10 @@ final class CalendarController extends BaseController
             $weekStart = new \DateTimeImmutable($week);
         } catch (\Exception) {
             throw $this->createNotFoundException(
-                'La semaine envoyée est invalide.',
+                $translator->trans(
+                    'controller.calendar.invalid_submitted_week',
+                    domain: 'error',
+                ),
             );
         }
 
@@ -141,7 +140,10 @@ final class CalendarController extends BaseController
 
         if ($weekStart < $currentWeekStart) {
             throw $this->createAccessDeniedException(
-                'Une semaine passée ne peut plus être modifiée.',
+                $translator->trans(
+                    'controller.calendar.past_week',
+                    domain: 'error',
+                ),
             );
         }
 
@@ -152,19 +154,18 @@ final class CalendarController extends BaseController
             );
         } catch (\InvalidArgumentException $exception) {
             throw $this->createNotFoundException(
-                $exception->getMessage(),
+                $translator->trans(
+                    $exception->getMessage(),
+                    domain: 'error',
+                ),
             );
         }
 
-        $this->addFlash(
-            'success',
-            'Les créneaux ont bien été mis à jour.',
-        );
+        $this->addFlash('success', 'calendar.slots_updated');
 
         return $this->redirectToRoute('calendar_show', [
             'id' => $campaign->getId(),
             'week' => $weekStart->format('Y-m-d'),
         ]);
     }
-
 }

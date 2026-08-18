@@ -1,41 +1,31 @@
 {% extends 'root.html.twig' %}
 
 {% block layout %}
-    <body class="portal-body">
-        <main class="portal-layout">
-            <section
-                class="
-                    portal-page
-                    {% block portal_class %}{% endblock %}
-                "
-            >
-                <div class="portal-page__content">
-
-                    {% block portal_brand %}
-                        <div class="portal-page__brand">
-                            {% include 'components/brand.html.twig' %}
-                        </div>
-                    {% endblock %}
-
-                    {% block portal_separator %}
-                        <div
-                            class="portal-page__separator"
-                            aria-hidden="true"
-                        >
-                            <span></span>
-                            <span>◆</span>
-                            <span></span>
-                        </div>
-                    {% endblock %}
-
-                    <div class="portal-page__body">
-                        {% block portal_content %}{% endblock %}
+<body class="portal-body">
+    <main class="portal-layout">
+        <section class="portal-page {% block portal_class %}{% endblock %}">
+            <div class="portal-page__content">
+                {% block portal_brand %}
+                    <div class="portal-page__brand">
+                        {% include 'components/brand.html.twig' %}
                     </div>
+                {% endblock %}
 
+                {% block portal_separator %}
+                    <div class="portal-page__separator" aria-hidden="true">
+                        <span></span>
+                        <span>◆</span>
+                        <span></span>
+                    </div>
+                {% endblock %}
+
+                <div class="portal-page__body">
+                    {% block portal_content %}{% endblock %}
                 </div>
-            </section>
-        </main>
+            </div>
+        </section>
+    </main>
 
-        {% include 'components/footer.html.twig' %}
-    </body>
+    {% include 'components/footer.html.twig' %}
+</body>
 {% endblock %}

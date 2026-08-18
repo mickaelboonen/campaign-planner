@@ -1,5 +1,7 @@
+{% trans_default_domain 'calendar' %}
+
 <div class="availability-table__results-label">
-    Décision
+    {{ 'decision.title'|trans }}
 </div>
 
 {% for day in calendar.days %}
@@ -11,11 +13,17 @@
                 </span>
             {% elseif day.afternoonSlot.status.value == 'selected' %}
                 <span class="availability-table__selected">
-                    Session prévue
+                    {{ 'decision.scheduled'|trans }}
                 </span>
             {% else %}
-                <a class="availability-table__schedule-button" href="{{ path('campaign_session_new', { id: campaign.id, slot: day.afternoonSlot.id }) }}" >
-                    ✓ Valider
+                <a
+                    class="availability-table__schedule-button"
+                    href="{{ path('campaign_session_new', {
+                        id: campaign.id,
+                        slot: day.afternoonSlot.id
+                    }) }}"
+                >
+                    ✓ {{ 'decision.validate'|trans }}
                 </a>
             {% endif %}
         </div>
@@ -27,11 +35,17 @@
                 </span>
             {% elseif day.eveningSlot.status.value == 'selected' %}
                 <span class="availability-table__selected">
-                    Session prévue
+                    {{ 'decision.scheduled'|trans }}
                 </span>
             {% else %}
-                <a class="availability-table__schedule-button" href="{{ path('campaign_session_new', { id: campaign.id, slot: day.eveningSlot.id }) }}" >
-                    ✓ Valider
+                <a
+                    class="availability-table__schedule-button"
+                    href="{{ path('campaign_session_new', {
+                        id: campaign.id,
+                        slot: day.eveningSlot.id
+                    }) }}"
+                >
+                    ✓ {{ 'decision.validate'|trans }}
                 </a>
             {% endif %}
         </div>

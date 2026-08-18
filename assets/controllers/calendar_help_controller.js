@@ -12,6 +12,8 @@ export default class extends Controller {
 
     static values = {
         autoOpen: Boolean,
+        nextLabel: String,
+        finishLabel: String,
     };
 
     connect() {
@@ -26,7 +28,6 @@ export default class extends Controller {
     open() {
         this.currentStep = 0;
         this.overlayTarget.hidden = false;
-
         document.body.classList.add('has-calendar-help');
 
         this.showStep();
@@ -34,9 +35,7 @@ export default class extends Controller {
 
     close() {
         this.clearHighlight();
-
         this.overlayTarget.hidden = true;
-
         document.body.classList.remove('has-calendar-help');
     }
 
@@ -92,8 +91,8 @@ export default class extends Controller {
 
         this.nextButtonTarget.textContent =
             this.currentStep === this.stepTargets.length - 1
-                ? 'Terminer'
-                : 'Suivant →';
+                ? this.finishLabelValue
+                : `${this.nextLabelValue} →`;
     }
 
     getHighlightSelector(step) {

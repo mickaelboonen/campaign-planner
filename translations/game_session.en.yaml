@@ -1,0 +1,21 @@
+form:
+    date: Date
+    period: Time slot
+    cancel: Cancel
+
+    name:
+        label: Session name
+    start_time:
+        label: Start time
+    end_time:
+        label: End time
+
+new:
+    title: Schedule a session
+    description: Set the session times before confirming it.
+    submit: Create session
+
+edit:
+    title: Edit session
+    description: Edit the times for this session.
+    submit: Save changes

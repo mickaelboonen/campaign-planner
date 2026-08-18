@@ -1,0 +1,31 @@
+breadcrumb:
+    campaigns: Campaigns
+
+eyebrow: Participants
+
+new:
+    title: New participant
+    heading: Add a participant
+    description: Invite a new player to this campaign.
+    submit: Add participant
+
+edit:
+    title: Edit %name%
+    heading: Edit participant
+    description: Update %name%'s information.
+    submit: Save
+
+form:
+    name:
+        label: Name or nickname
+    email:
+        label: Email address
+    phone:
+        label: Phone
+    character_name:
+        label: Character
+    cancel: Cancel
+
+errors:
+    archived_email: This participant already exists in this campaign but is archived. You can restore them from the archived participants section.
+    email_used: This email address is already used in this campaign.

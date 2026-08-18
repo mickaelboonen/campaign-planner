@@ -1,0 +1,171 @@
+base:
+    title: Administration — CampaignPlanner
+    eyebrow: Administration
+
+dashboard:
+    title: Vue d’ensemble
+    game_masters: Maîtres du Jeu
+    campaigns: Campagnes
+
+campaign:
+    title: Campagnes
+    description: Vue globale des campagnes créées sur CampaignPlanner.
+
+    filters:
+        aria: Filtrer les campagnes
+        active: Actives
+        archived: Archivées
+        all: Toutes
+
+    search:
+        placeholder: Campagne ou maître du jeu…
+        aria: Rechercher une campagne
+        submit: Rechercher
+        clear: Effacer
+
+    empty: Aucune campagne trouvée.
+
+    table:
+        campaign: Campagne
+        game_master: Maître du Jeu
+        participants: Participants
+        created_at: Créée le
+        status: Statut
+        actions: Actions
+        view: Voir
+
+    status:
+        active: Active
+        archived: Archivée
+
+    show:
+        breadcrumb_admin: Administration
+        breadcrumb_campaigns: Campagnes
+
+        campaign:
+            title: Campagne
+            name: Nom
+            status: Statut
+            created_at: Créée le
+            participants: Participants
+            sessions: Sessions
+
+        owner:
+            title: Maître du Jeu
+            account: Compte
+            account_status: Statut du compte
+            plan: Plan
+            active: Actif
+            disabled: Désactivé
+            view: Voir le compte
+
+        participants:
+            title: Participants
+            empty: Aucun participant.
+
+feedback:
+    title: Feedbacks
+    eyebrow: Administration
+
+    filters:
+        open: À traiter
+        new: Nouveaux
+        read: Lus
+        closed: Clôturés
+        all: Tous
+
+    empty: Aucun message pour le moment.
+
+    table:
+        type: Type
+        status: Statut
+        user: Utilisateur
+        subject: Sujet
+        date: Date
+        actions: Actions
+        anonymous: Anonyme
+        account: "Compte #%id%"
+        view: Voir
+
+    show:
+        title: "Feedback #%id%"
+        back: Retour à la liste
+
+        meta:
+            type: Type
+            status: Statut
+            received_at: Reçu le
+
+        sender:
+            title: Expéditeur
+            anonymous: Anonyme
+            account: "Compte utilisateur #%id%"
+
+        subject: Sujet
+        message: Message
+
+        reply: Répondre par e-mail
+        reopen: Rouvrir
+        close: Clôturer
+        close_confirm: Clôturer ce feedback ?
+
+logs:
+    title: Logs système
+    breadcrumb_admin: Administration
+    journal: Journal des erreurs
+    errors_for: "Erreurs du %date%"
+    unknown_error: Erreur inconnue
+
+    navigation:
+        previous: Jour précédent
+        next: Jour suivant
+        choose_date: Choisir une date
+        today: Aujourd’hui
+
+    empty:
+        no_file: Aucun fichier de log pour cette date.
+        no_errors: Aucune erreur enregistrée ce jour-là.
+
+user:
+    title: Utilisateurs
+
+    search:
+        placeholder: Rechercher par email...
+        submit: Rechercher
+        reset: Réinitialiser
+
+    table:
+        user: Utilisateur
+        plan: Plan
+        status: Statut
+        campaigns: Campagnes
+        registered_at: Inscription
+        last_login: Dernière connexion
+        admin: Admin
+        active: Actif
+        disabled: Désactivé
+        never: Jamais
+        view: Voir
+        empty: Aucun utilisateur trouvé.
+
+    show:
+        game_master: Maître du Jeu
+        admin: Admin
+        active: Actif
+        disabled: Désactivé
+
+        registered_at: Inscription
+        last_login: Dernière connexion
+        campaigns: Campagnes
+        never: Jamais
+
+        disable_confirm: Désactiver ce compte ?
+        enable_confirm: Réactiver ce compte ?
+        disable: Désactiver le compte
+        enable: Réactiver le compte
+
+        activity: Activité
+        campaigns_title: Campagnes
+        campaigns_empty: Aucune campagne.
+        created_at: Créée le
+        view: Voir

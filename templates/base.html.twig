@@ -1,27 +1,35 @@
 {% extends 'root.html.twig' %}
+{% trans_default_domain 'common' %}
 
 {% block layout %}
-    <body>
-        <div class="app-layout" data-controller="mobile-navigation" >
+<body>
+    <div class="app-layout" data-controller="mobile-navigation">
+        {% include 'components/notifications.html.twig' %}
 
-            {% include 'components/notifications.html.twig' %}
+        <header class="mobile-header">
+            <button class="mobile-header__toggle"
+                    type="button"
+                    aria-label="{{ 'navigation.open'|trans }}"
+                    data-action="mobile-navigation#toggle">
+                ☰
+            </button>
 
-            <header class="mobile-header">
-                <button class="mobile-header__toggle" type="button" aria-label="Ouvrir la navigation" data-action="mobile-navigation#toggle" > ☰ </button>
-                <a class="mobile-header__brand" href="{{ path('dashboard') }}">CampaignPlanner</a>
-            </header>
+            <a class="mobile-header__brand" href="{{ path('dashboard') }}">
+                CampaignPlanner
+            </a>
+        </header>
 
-            <div class="mobile-overlay" data-mobile-navigation-target="overlay" data-action="click->mobile-navigation#close" ></div>
-
-            {% include 'components/sidebar.html.twig' %}
-
-            <main class="main-content">
-                {% include 'components/flashes.html.twig' %}
-
-                {% block body %}{% endblock %}
-            </main>
-
-            {% include 'components/footer.html.twig' %}
+        <div class="mobile-overlay" data-mobile-navigation-target="overlay" data-action="click->mobile-navigation#close">
         </div>
-    </body>
+
+        {% include 'components/sidebar.html.twig' %}
+
+        <main class="main-content">
+            {% include 'components/flashes.html.twig' %}
+            {% block body %}{% endblock %}
+        </main>
+
+        {% include 'components/footer.html.twig' %}
+    </div>
+</body>
 {% endblock %}

@@ -1,8 +1,10 @@
+{% trans_default_domain 'campaign' %}
+
 <section class="campaign-form-card">
     <header class="campaign-form-card__header">
         <div>
             <p class="page-eyebrow">
-                Informations générales
+                {{ 'form.eyebrow'|trans }}
             </p>
 
             <h2>
@@ -10,32 +12,40 @@
             </h2>
 
             <p>
-                Nom, couleur et image de couverture de la campagne.
+                {{ 'form.description'|trans }}
             </p>
         </div>
     </header>
 
-    {{ form_start(form) }}
+    {{ form_start(form, { attr: { 'data-turbo': 'false' } }) }}
 
         <div class="campaign-form">
             <div class="campaign-form__field">
-                {{ form_label(form.name, 'Nom de la campagne') }}
+                {{ form_label(
+                    form.name,
+                    'form.name.label'|trans
+                ) }}
+
                 {{ form_widget(form.name, {
                     attr: {
-                        placeholder: 'Ex. Curse of Strahd'
+                        placeholder: 'form.name.placeholder'|trans
                     }
                 }) }}
+
                 {{ form_errors(form.name) }}
             </div>
 
             <div class="campaign-form__field">
-                {{ form_label(form.color, 'Couleur de la campagne') }}
+                {{ form_label(
+                    form.color,
+                    'form.color.label'|trans
+                ) }}
 
                 <div class="campaign-form__color">
                     {{ form_widget(form.color) }}
 
                     <span class="campaign-form__color-hint">
-                        Cette couleur sera utilisée comme accent visuel.
+                        {{ 'form.color.hint'|trans }}
                     </span>
                 </div>
 
@@ -43,7 +53,10 @@
             </div>
 
             <div class="campaign-form__field">
-                {{ form_label(form.imageFile, 'Image de couverture') }}
+                {{ form_label(
+                    form.imageFile,
+                    'form.image.label'|trans
+                ) }}
 
                 {% if campaign is defined and campaign.image %}
                     <div class="campaign-form__current-image">
@@ -55,7 +68,7 @@
                         >
 
                         <span>
-                            Image actuelle
+                            {{ 'form.image.current'|trans }}
                         </span>
                     </div>
                 {% endif %}
@@ -64,7 +77,7 @@
                 {{ form_errors(form.imageFile) }}
 
                 <p class="campaign-form__help">
-                    JPG, PNG ou WebP — 5 Mo maximum.
+                    {{ 'form.image.help'|trans }}
                 </p>
             </div>
         </div>
@@ -74,7 +87,7 @@
                 class="button button--secondary"
                 href="{{ cancel_path }}"
             >
-                Annuler
+                {{ 'form.cancel'|trans }}
             </a>
 
             <button

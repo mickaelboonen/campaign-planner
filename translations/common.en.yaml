@@ -1,0 +1,75 @@
+sidebar:
+    aria_label: Main navigation
+
+    dashboard: Dashboard
+    campaigns: Campaigns
+    calendar: Calendar
+
+    administration:
+        title: Administration
+        overview: Overview
+        users: Users
+        campaigns: Campaigns
+        feedbacks: Feedback
+        logs: Logs
+
+    account:
+        title: Account
+        contact_admin: Contact administrator
+        player_space: My player space
+        logout: Sign out
+
+calendar_results:
+    title: Results
+    blocked: Blocked slot
+
+brand:
+    tagline: Organize your legends.
+
+breadcrumb:
+    aria_label: Breadcrumb
+
+notifications:
+    title: Notifications
+    mark_all_read: Mark all as read
+    close: Close notifications
+
+    availability_updated:
+        text: "updated %count% availability|updated %count% availabilities"
+        week: "Week from %start% to %end%"
+
+participant_card:
+    edit: Edit
+    copy_calendar: Copy calendar
+    archive: Archive
+    archive_confirm: Archive this participant?
+
+theme:
+    light: Light theme
+    dark: Dark theme
+    toggle: Change theme
+
+navigation:
+    open: Open navigation
+    main: Main navigation
+
+public_sidebar:
+    lost_access: I lost my access link
+
+clipboard:
+    copied: Copied
+    prompt: "Copy this link:"
+
+days:
+    monday: Monday
+    tuesday: Tuesday
+    wednesday: Wednesday
+    thursday: Thursday
+    friday: Friday
+    saturday: Saturday
+    sunday: Sunday
+
+language:
+    label: Language
+    french: French
+    english: English

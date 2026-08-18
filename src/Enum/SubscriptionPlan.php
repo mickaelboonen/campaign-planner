@@ -7,11 +7,11 @@ enum SubscriptionPlan: string
     case FREE = 'free';
     case PREMIUM = 'premium';
 
-    public function label(): string
+    public function translationKey(): string
     {
         return match ($this) {
-            self::FREE => 'Gratuit',
-            self::PREMIUM => 'Premium',
+            self::FREE => 'subscription_plan.free',
+            self::PREMIUM => 'subscription_plan.premium',
         };
     }
 }

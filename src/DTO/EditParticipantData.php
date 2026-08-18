@@ -18,7 +18,7 @@ final class EditParticipantData
 
     #[Assert\Regex(
         pattern: '/^\d{10}$/',
-        message: 'Le numéro de téléphone doit contenir exactement 10 chiffres.',
+        message: 'participant.phone.invalid_format',
     )]
     public ?string $phone = null;
 

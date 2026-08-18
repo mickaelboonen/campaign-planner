@@ -1,0 +1,75 @@
+sidebar:
+    aria_label: Navigation principale
+
+    dashboard: Tableau de bord
+    campaigns: Campagnes
+    calendar: Calendrier
+
+    administration:
+        title: Administration
+        overview: Vue d’ensemble
+        users: Utilisateurs
+        campaigns: Campagnes
+        feedbacks: Feedbacks
+        logs: Logs
+
+    account:
+        title: Compte
+        contact_admin: Contacter l’administrateur
+        player_space: Mon espace joueur
+        logout: Déconnexion
+
+calendar_results:
+    title: Résultats
+    blocked: Créneau bloqué
+
+brand:
+    tagline: Organisez vos légendes.
+
+breadcrumb:
+    aria_label: Fil d’Ariane
+
+notifications:
+    title: Notifications
+    mark_all_read: Tout marquer comme lu
+    close: Fermer les notifications
+
+    availability_updated:
+        text: "a mis à jour %count% disponibilité|a mis à jour %count% disponibilités"
+        week: "Semaine du %start% au %end%"
+
+participant_card:
+    edit: Modifier
+    copy_calendar: Copier calendrier
+    archive: Archiver
+    archive_confirm: Archiver ce participant ?
+
+theme:
+    light: Thème clair
+    dark: Thème sombre
+    toggle: Changer de thème
+
+navigation:
+    open: Ouvrir la navigation
+    main: Navigation principale
+
+public_sidebar:
+    lost_access: J'ai perdu mon lien d'accès
+
+clipboard:
+    copied: Copié
+    prompt: "Copiez ce lien :"
+
+days:
+    monday: Lundi
+    tuesday: Mardi
+    wednesday: Mercredi
+    thursday: Jeudi
+    friday: Vendredi
+    saturday: Samedi
+    sunday: Dimanche
+
+language:
+    label: Langue
+    french: Français
+    english: Anglais

@@ -1,0 +1,171 @@
+base:
+    title: Administration — CampaignPlanner
+    eyebrow: Administration
+
+dashboard:
+    title: Overview
+    game_masters: Game Masters
+    campaigns: Campaigns
+
+campaign:
+    title: Campaigns
+    description: Global overview of campaigns created on CampaignPlanner.
+
+    filters:
+        aria: Filter campaigns
+        active: Active
+        archived: Archived
+        all: All
+
+    search:
+        placeholder: Campaign or game master…
+        aria: Search for a campaign
+        submit: Search
+        clear: Clear
+
+    empty: No campaigns found.
+
+    table:
+        campaign: Campaign
+        game_master: Game Master
+        participants: Participants
+        created_at: Created on
+        status: Status
+        actions: Actions
+        view: View
+
+    status:
+        active: Active
+        archived: Archived
+
+    show:
+        breadcrumb_admin: Administration
+        breadcrumb_campaigns: Campaigns
+
+        campaign:
+            title: Campaign
+            name: Name
+            status: Status
+            created_at: Created on
+            participants: Participants
+            sessions: Sessions
+
+        owner:
+            title: Game Master
+            account: Account
+            account_status: Account status
+            plan: Plan
+            active: Active
+            disabled: Disabled
+            view: View account
+
+        participants:
+            title: Participants
+            empty: No participants.
+
+feedback:
+    title: Feedback
+    eyebrow: Administration
+
+    filters:
+        open: To process
+        new: New
+        read: Read
+        closed: Closed
+        all: All
+
+    empty: No messages yet.
+
+    table:
+        type: Type
+        status: Status
+        user: User
+        subject: Subject
+        date: Date
+        actions: Actions
+        anonymous: Anonymous
+        account: "Account #%id%"
+        view: View
+
+    show:
+        title: "Feedback #%id%"
+        back: Back to list
+
+        meta:
+            type: Type
+            status: Status
+            received_at: Received on
+
+        sender:
+            title: Sender
+            anonymous: Anonymous
+            account: "User account #%id%"
+
+        subject: Subject
+        message: Message
+
+        reply: Reply by email
+        reopen: Reopen
+        close: Close
+        close_confirm: Close this feedback?
+
+logs:
+    title: System logs
+    breadcrumb_admin: Administration
+    journal: Error log
+    errors_for: "Errors for %date%"
+    unknown_error: Unknown error
+
+    navigation:
+        previous: Previous day
+        next: Next day
+        choose_date: Choose a date
+        today: Today
+
+    empty:
+        no_file: No log file for this date.
+        no_errors: No errors recorded on this day.
+
+user:
+    title: Users
+
+    search:
+        placeholder: Search by email...
+        submit: Search
+        reset: Reset
+
+    table:
+        user: User
+        plan: Plan
+        status: Status
+        campaigns: Campaigns
+        registered_at: Registration
+        last_login: Last login
+        admin: Admin
+        active: Active
+        disabled: Disabled
+        never: Never
+        view: View
+        empty: No users found.
+
+    show:
+        game_master: Game Master
+        admin: Admin
+        active: Active
+        disabled: Disabled
+
+        registered_at: Registration
+        last_login: Last login
+        campaigns: Campaigns
+        never: Never
+
+        disable_confirm: Disable this account?
+        enable_confirm: Reactivate this account?
+        disable: Disable account
+        enable: Reactivate account
+
+        activity: Activity
+        campaigns_title: Campaigns
+        campaigns_empty: No campaigns.
+        created_at: Created on
+        view: View

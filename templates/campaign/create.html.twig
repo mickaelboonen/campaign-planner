@@ -1,32 +1,34 @@
 {% extends 'base.html.twig' %}
 
+{% trans_default_domain 'campaign' %}
+
 {% block title %}
-    Nouvelle campagne
+    {{ 'create.title'|trans }}
 {% endblock %}
 
 {% block body %}
     {% include 'components/breadcrumb.html.twig' with {
         items: [
             {
-                label: 'Campagnes',
+                label: 'breadcrumb.campaigns'|trans,
                 path: path('campaign_list')
             },
             {
-                label: 'Nouvelle campagne'
+                label: 'create.title'|trans
             }
         ]
     } %}
 
     {% include 'components/page-header.html.twig' with {
-        eyebrow: 'Campagne',
-        title: 'Nouvelle campagne',
-        description: 'Créez un nouvel espace pour organiser votre groupe et vos sessions.'
+        eyebrow: 'eyebrow'|trans,
+        title: 'create.title'|trans,
+        description: 'create.description'|trans
     } %}
 
     {% include 'campaign/_form.html.twig' with {
         form: form,
-        form_title: 'Créer une campagne',
-        submit_label: 'Créer la campagne',
+        form_title: 'create.form_title'|trans,
+        submit_label: 'create.submit'|trans,
         cancel_path: path('campaign_list')
     } %}
 {% endblock %}

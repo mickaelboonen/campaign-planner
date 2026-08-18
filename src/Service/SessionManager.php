@@ -27,7 +27,12 @@ final readonly class SessionManager
         $this->guardSlotCanBeScheduled($slot);
 
         return $this->entityManager->wrapInTransaction(
-            function () use ($slot, $name, $startTime, $endTime): GameSession {
+            function () use (
+                $slot,
+                $name,
+                $startTime,
+                $endTime,
+            ): GameSession {
                 $session = new GameSession();
 
                 $session
@@ -40,7 +45,6 @@ final readonly class SessionManager
                     ->setEndTime($endTime);
 
                 $slot->select();
-
                 $this->entityManager->persist($session);
 
                 return $session;
@@ -62,44 +66,11 @@ final readonly class SessionManager
         $this->entityManager->flush();
     }
 
-    private function guardSlotCanBeScheduled(
-        CalendarSlot $slot,
-    ): void {
-        if (
-            $slot->getStatus()
-            !== CalendarSlotStatus::OPEN
-        ) {
-            throw new \DomainException(
-                'Seul un créneau ouvert peut être validé comme session.',
-            );
-        }
-
-        if (
-            $slot->getDate()
-            < new \DateTimeImmutable('today')
-        ) {
-            throw new \DomainException(
-                'Impossible de créer une session à partir d’un créneau passé.',
-            );
-        }
-
-        $existingSession = $this->gameSessionRepository
-            ->findOneBy([
-                'calendarSlot' => $slot,
-            ]);
-
-        if ($existingSession !== null) {
-            throw new \DomainException(
-                'Une session existe déjà pour ce créneau.',
-            );
-        }
-    }
-
     public function cancel(GameSession $session): void
     {
         if ($session->isCancelled()) {
             throw new \DomainException(
-                'Cette session est déjà annulée.',
+                'session.already_cancelled',
             );
         }
 
@@ -112,5 +83,32 @@ final readonly class SessionManager
         }
 
         $this->entityManager->flush();
+    }
+
+    private function guardSlotCanBeScheduled(
+        CalendarSlot $slot,
+    ): void {
+        if ($slot->getStatus() !== CalendarSlotStatus::OPEN) {
+            throw new \DomainException(
+                'session.slot_not_open',
+            );
+        }
+
+        if ($slot->getDate() < new \DateTimeImmutable('today')) {
+            throw new \DomainException(
+                'session.slot_in_past',
+            );
+        }
+
+        $existingSession = $this->gameSessionRepository
+            ->findOneBy([
+                'calendarSlot' => $slot,
+            ]);
+
+        if ($existingSession !== null) {
+            throw new \DomainException(
+                'session.already_exists',
+            );
+        }
     }
 }

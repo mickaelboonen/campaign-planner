@@ -7,24 +7,43 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[AsCommand(
     name: 'app:sessions:process',
-    description: 'Traite les rappels et les sessions passées.',
 )]
 final class ProcessSessionsCommand extends Command
 {
     public function __construct(
         private readonly SessionAutomationManager $sessionAutomationManager,
+        private readonly TranslatorInterface $translator,
     ) {
         parent::__construct();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function configure(): void
     {
+        $this->setDescription(
+            $this->translator->trans(
+                'sessions.description',
+                domain: 'commands',
+            ),
+        );
+    }
+
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output,
+    ): int {
         $this->sessionAutomationManager->process();
 
-        $output->writeln('<info>Traitement des sessions terminé.</info>');
+        $output->writeln(sprintf(
+            '<info>%s</info>',
+            $this->translator->trans(
+                'sessions.success',
+                domain: 'commands',
+            ),
+        ));
 
         return Command::SUCCESS;
     }

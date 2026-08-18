@@ -54,9 +54,8 @@ final class RegistrationController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'Votre compte a été créé. Vous pouvez maintenant vous connecter.',
+                'registration.success',
             );
-
             return $this->redirectToRoute('app_login');
         }
 

@@ -14,47 +14,44 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class FeedbackType extends AbstractType
 {
-    public function buildForm(
-        FormBuilderInterface $builder,
-        array $options,
-    ): void {
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
         $builder
             ->add('type', ChoiceType::class, [
-                'label' => 'Type de demande',
-                'placeholder' => 'Choisissez un type',
+                'label' => 'form.type.label',
+                'placeholder' => 'form.type.placeholder',
                 'choices' => FeedbackTypeEnum::cases(),
-                'choice_label' => static fn (FeedbackTypeEnum $type) => $type->label(),
+                'choice_label' => static fn (FeedbackTypeEnum $type) => $type->translationKey(),
                 'choice_value' => static fn (?FeedbackTypeEnum $type) => $type?->value,
+                'choice_translation_domain' => 'enums',
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Adresse e-mail',
+                'label' => 'form.email.label',
                 'required' => !$options['authenticated'],
                 'disabled' => $options['authenticated'],
             ])
             ->add('message', TextareaType::class, [
-                'label' => 'Message',
-                'attr' => [
-                    'rows' => 5,
-                ],
+                'label' => 'form.message.label',
+                'attr' => ['rows' => 5],
             ])
             ->add('subject', TextType::class, [
-                'label' => 'Sujet',
+                'label' => 'form.subject.label',
                 'required' => false,
-                'attr' => ['maxlength' => 120, 'placeholder' => 'Facultatif'],
+                'attr' => [
+                    'maxlength' => 120,
+                    'placeholder' => 'form.subject.placeholder',
+                ],
             ]);
     }
 
-    public function configureOptions(
-        OptionsResolver $resolver,
-    ): void {
+    public function configureOptions(OptionsResolver $resolver): void
+    {
         $resolver->setDefaults([
             'data_class' => CreateFeedbackData::class,
             'authenticated' => false,
+            'translation_domain' => 'feedback',
         ]);
 
-        $resolver->setAllowedTypes(
-            'authenticated',
-            'bool',
-        );
+        $resolver->setAllowedTypes('authenticated', 'bool');
     }
 }

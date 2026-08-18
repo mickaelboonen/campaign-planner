@@ -1,0 +1,42 @@
+campaign:
+    created: The campaign has been created.
+    updated: The campaign has been updated.
+    archived: The campaign has been archived.
+    notes_saved: The private notes have been saved.
+
+calendar:
+    slots_updated: The time slots have been updated.
+
+session:
+    scheduled: The session has been scheduled.
+    updated: The session times have been updated.
+    cancelled: The session has been cancelled.
+
+participant:
+    created: The participant has been added.
+    updated: The participant has been updated.
+    archived: The participant has been archived.
+    restored: The participant has been restored.
+
+availability:
+    saved: Your availability has been saved.
+
+feedback:
+    sent: Your message has been sent.
+
+recovery:
+    rate_limited: Too many requests have been made. Please wait before requesting another link.
+    sent: If this address is associated with a CampaignPlanner player, an access link has been sent.
+
+registration:
+    success: Your account has been created. You can now sign in.
+
+admin:
+    feedback:
+        closed: The feedback has been closed.
+        reopened: The feedback has been reopened.
+
+    user:
+        cannot_disable_self: You cannot disable your own account.
+        activated: The account has been reactivated.
+        deactivated: The account has been deactivated.

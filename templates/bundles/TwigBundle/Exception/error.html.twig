@@ -1,28 +1,30 @@
 {% extends 'error_base.html.twig' %}
 
+{% trans_default_domain 'error' %}
+
 {% block title %}
-    Une erreur est survenue
+    {{ 'generic.title'|trans }}
 {% endblock %}
 
 {% block body %}
     <section class="error-page">
         <p class="page-eyebrow">
-            Erreur
+            {{ 'generic.eyebrow'|trans }}
         </p>
 
         <h1>
-            Impossible de traiter cette demande.
+            {{ 'generic.heading'|trans }}
         </h1>
 
         <p class="error-page__message">
-            Une erreur est survenue.
+            {{ 'generic.message'|trans }}
         </p>
 
         <a
             class="button button--primary"
             href="{{ path('dashboard') }}"
         >
-            Retour à l’accueil
+            {{ 'common.home'|trans }}
         </a>
     </section>
 {% endblock %}

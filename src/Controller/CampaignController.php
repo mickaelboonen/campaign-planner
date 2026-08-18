@@ -2,23 +2,24 @@
 
 namespace App\Controller;
 
+use App\DTO\CreateCampaignData;
+use App\DTO\EditCampaignData;
+use App\DTO\UpdateCampaignNotesData;
 use App\Entity\Campaign;
+use App\Entity\GameSession;
+use App\Form\CampaignNotesType;
+use App\Form\CampaignType;
+use App\Repository\CampaignRepository;
+use App\Repository\GameSessionRepository;
 use App\Repository\ParticipantRepository;
 use App\Security\Voter\CampaignVoter;
-use App\DTO\CreateCampaignData;
-use App\DTO\UpdateCampaignNotesData;
-use App\Form\CampaignNotesType;
-use App\DTO\EditCampaignData;
-use App\Form\CampaignType;
-use App\Repository\GameSessionRepository;
-use App\Repository\CampaignRepository;
 use App\Service\CampaignManager;
-use App\Entity\GameSession;
-use App\Service\SessionManager;
 use App\Service\Notification\SessionNotificationManager;
+use App\Service\SessionManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/campaign', name: 'campaign_')]
 final class CampaignController extends BaseController
@@ -34,12 +35,9 @@ final class CampaignController extends BaseController
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(): Response
     {
-        $campaigns = $this->campaignRepository->findActiveByOwner(
-            $this->getCurrentUser()
-        );
-
         return $this->render('campaign/list.html.twig', [
-            'campaigns' => $campaigns,
+            'campaigns' => $this->campaignRepository
+                ->findActiveByOwner($this->getCurrentUser()),
         ]);
     }
 
@@ -47,20 +45,16 @@ final class CampaignController extends BaseController
     public function create(Request $request): Response
     {
         $data = new CreateCampaignData();
-
         $form = $this->createForm(CampaignType::class, $data);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->campaignManager->create(
                 $this->getCurrentUser(),
-                $data
+                $data,
             );
 
-            $this->addFlash(
-                'success',
-                'La campagne a bien été créée.'
-            );
+            $this->addFlash('success', 'campaign.created');
 
             return $this->redirectToRoute('campaign_list');
         }
@@ -73,29 +67,18 @@ final class CampaignController extends BaseController
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Campaign $campaign): Response
     {
-        $this->denyAccessUnlessGranted(
-            CampaignVoter::VIEW,
-            $campaign,
-        );
-
-        $participants = $this->participantRepository
-            ->findActiveByCampaign($campaign);
-
-        $archivedParticipants = $this->participantRepository
-            ->findArchivedByCampaign($campaign);
-
-        $upcomingSessions = $this->gameSessionRepository
-            ->findUpcomingByCampaign($campaign);
-
-        $pastSessions = $this->gameSessionRepository
-            ->findPastByCampaign($campaign);
+        $this->denyAccessUnlessGranted(CampaignVoter::VIEW, $campaign);
 
         return $this->render('campaign/show.html.twig', [
             'campaign' => $campaign,
-            'participants' => $participants,
-            'upcomingSessions' => $upcomingSessions,
-            'pastSessions' => $pastSessions,
-            'archivedParticipants' => $archivedParticipants,
+            'participants' => $this->participantRepository
+                ->findActiveByCampaign($campaign),
+            'upcomingSessions' => $this->gameSessionRepository
+                ->findUpcomingByCampaign($campaign),
+            'pastSessions' => $this->gameSessionRepository
+                ->findPastByCampaign($campaign),
+            'archivedParticipants' => $this->participantRepository
+                ->findArchivedByCampaign($campaign),
         ]);
     }
 
@@ -104,10 +87,7 @@ final class CampaignController extends BaseController
         Campaign $campaign,
         Request $request,
     ): Response {
-        $this->denyAccessUnlessGranted(
-            CampaignVoter::EDIT,
-            $campaign,
-        );
+        $this->denyAccessUnlessGranted(CampaignVoter::EDIT, $campaign);
 
         $data = new EditCampaignData();
         $data->name = $campaign->getName();
@@ -116,39 +96,24 @@ final class CampaignController extends BaseController
         $form = $this->createForm(
             CampaignType::class,
             $data,
-            [
-                'data_class' => EditCampaignData::class,
-            ],
+            ['data_class' => EditCampaignData::class],
         );
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->campaignManager->update(
-                $campaign,
-                $data,
-            );
+            $this->campaignManager->update($campaign, $data);
+            $this->addFlash('success', 'campaign.updated');
 
-            $this->addFlash(
-                'success',
-                'La campagne a bien été modifiée.',
-            );
-
-            return $this->redirectToRoute(
-                'campaign_show',
-                [
-                    'id' => $campaign->getId(),
-                ],
-            );
+            return $this->redirectToRoute('campaign_show', [
+                'id' => $campaign->getId(),
+            ]);
         }
 
-        return $this->render(
-            'campaign/edit.html.twig',
-            [
-                'campaign' => $campaign,
-                'form' => $form,
-            ],
-        );
+        return $this->render('campaign/edit.html.twig', [
+            'campaign' => $campaign,
+            'form' => $form,
+        ]);
     }
 
     #[Route(
@@ -162,87 +127,68 @@ final class CampaignController extends BaseController
         Request $request,
         SessionManager $sessionManager,
         SessionNotificationManager $sessionNotificationManager,
+        TranslatorInterface $translator,
     ): Response {
-        $this->denyAccessUnlessGranted(
-            CampaignVoter::EDIT,
-            $campaign,
-        );
+        $this->denyAccessUnlessGranted(CampaignVoter::EDIT, $campaign);
 
         if ($session->getCampaign() !== $campaign) {
             throw $this->createNotFoundException(
-                'Cette session n’appartient pas à cette campagne.',
+                $translator->trans(
+                    'controller.session.wrong_campaign',
+                    domain: 'error',
+                ),
             );
         }
 
-        if (!$this->isCsrfTokenValid(
-            'cancel-session-' . $session->getId(),
-            (string) $request->request->get('_token'),
-        )) {
-            throw $this->createAccessDeniedException(
-                'Jeton CSRF invalide.',
-            );
-        }
+        $this->denyInvalidCsrf(
+            'cancel-session-'.$session->getId(),
+            $request->request->get('_token'),
+            $translator,
+        );
 
         try {
             $sessionManager->cancel($session);
-
-            $sessionNotificationManager->notifySessionCancelled(
-                $session,
-            );
-
-            $this->addFlash(
-                'success',
-                'La session a bien été annulée.',
-            );
+            $sessionNotificationManager->notifySessionCancelled($session);
+            $this->addFlash('success', 'session.cancelled');
         } catch (\DomainException $exception) {
             $this->addFlash(
                 'error',
-                $exception->getMessage(),
+                $translator->trans(
+                    $exception->getMessage(),
+                    domain: 'error',
+                ),
             );
         }
 
-        return $this->redirectToRoute(
-            'campaign_show',
-            [
-                'id' => $campaign->getId(),
-            ],
-        );
+        return $this->redirectToRoute('campaign_show', [
+            'id' => $campaign->getId(),
+        ]);
     }
 
-    #[Route(
-        '/{id}/archive',
-        name: 'archive',
-        methods: ['POST'],
-    )]
+    #[Route('/{id}/archive', name: 'archive', methods: ['POST'])]
     public function archive(
         Campaign $campaign,
         Request $request,
+        TranslatorInterface $translator,
     ): Response {
-        $this->denyAccessUnlessGranted(
-            CampaignVoter::EDIT,
-            $campaign,
-        );
+        $this->denyAccessUnlessGranted(CampaignVoter::EDIT, $campaign);
 
-        if (!$this->isCsrfTokenValid(
-            'archive-campaign-' . $campaign->getId(),
-            (string) $request->request->get('_token'),
-        )) {
-            throw $this->createAccessDeniedException(
-                'Jeton CSRF invalide.',
-            );
-        }
+        $this->denyInvalidCsrf(
+            'archive-campaign-'.$campaign->getId(),
+            $request->request->get('_token'),
+            $translator,
+        );
 
         try {
             $this->campaignManager->archive($campaign);
-
-            $this->addFlash(
-                'success',
-                'La campagne a bien été archivée.',
-            );
+            $this->addFlash('success', 'campaign.archived');
         } catch (\DomainException $exception) {
             $this->addFlash(
                 'error',
-                $exception->getMessage(),
+                $translator->trans(
+                    $exception->getMessage(),
+                    domain: 'error',
+                ),
             );
         }
 
@@ -250,8 +196,10 @@ final class CampaignController extends BaseController
     }
 
     #[Route('/{id}/notes', name: 'notes', methods: ['GET', 'POST'])]
-    public function notes(Campaign $campaign, Request $request): Response
-    {
+    public function notes(
+        Campaign $campaign,
+        Request $request,
+    ): Response {
         $this->denyAccessUnlessGranted(CampaignVoter::EDIT, $campaign);
 
         $data = new UpdateCampaignNotesData();
@@ -262,8 +210,7 @@ final class CampaignController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->campaignManager->updateNotes($campaign, $data);
-
-            $this->addFlash('success', 'Les notes privées ont bien été enregistrées.');
+            $this->addFlash('success', 'campaign.notes_saved');
 
             return $this->redirectToRoute('campaign_notes', [
                 'id' => $campaign->getId(),

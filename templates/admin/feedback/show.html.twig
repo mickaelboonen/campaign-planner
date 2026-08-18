@@ -1,20 +1,25 @@
 {% extends 'base.html.twig' %}
 
+{% trans_default_domain 'admin' %}
+
 {% block title %}
-    Feedback #{{ feedback.id }}
+    {{ 'feedback.show.title'|trans({
+        '%id%': feedback.id
+    }) }}
 {% endblock %}
 
 {% block body %}
     <div class="admin-feedback-detail">
-
         <div class="page-header">
             <div>
                 <p class="page-eyebrow">
-                    Administration
+                    {{ 'feedback.eyebrow'|trans }}
                 </p>
 
                 <h1>
-                    Feedback #{{ feedback.id }}
+                    {{ 'feedback.show.title'|trans({
+                        '%id%': feedback.id
+                    }) }}
                 </h1>
             </div>
 
@@ -22,24 +27,28 @@
                 class="button button--secondary"
                 href="{{ path('admin_feedback_index') }}"
             >
-                Retour à la liste
+                {{ 'feedback.show.back'|trans }}
             </a>
         </div>
 
         <div class="admin-feedback-detail__meta">
             <div class="admin-feedback-detail__meta-item">
                 <span class="admin-feedback-detail__meta-label">
-                    Type
+                    {{ 'feedback.show.meta.type'|trans }}
                 </span>
 
                 <strong class="admin-feedback-detail__type">
-                    {{ feedback.type.label() }}
+                    {{
+                        feedback.type
+                            .translationKey()
+                            |trans({}, 'enums')
+                    }}
                 </strong>
             </div>
 
             <div class="admin-feedback-detail__meta-item">
                 <span class="admin-feedback-detail__meta-label">
-                    Statut
+                    {{ 'feedback.show.meta.status'|trans }}
                 </span>
 
                 <strong
@@ -48,13 +57,17 @@
                         admin-feedback-detail__status--{{ feedback.status.value }}
                     "
                 >
-                    {{ feedback.status.label() }}
+                    {{
+                        feedback.status
+                            .translationKey()
+                            |trans({}, 'enums')
+                    }}
                 </strong>
             </div>
 
             <div class="admin-feedback-detail__meta-item">
                 <span class="admin-feedback-detail__meta-label">
-                    Reçu le
+                    {{ 'feedback.show.meta.received_at'|trans }}
                 </span>
 
                 <strong>
@@ -64,26 +77,36 @@
         </div>
 
         <section class="admin-feedback-detail__card">
-
             <div class="admin-feedback-detail__section">
                 <h2>
-                    Expéditeur
+                    {{ 'feedback.show.sender.title'|trans }}
                 </h2>
 
                 <div class="admin-feedback-detail__sender">
                     <span>
-                        {{ feedback.email ?? 'Anonyme' }}
+                        {{
+                            feedback.email
+                            ?? 'feedback.show.sender.anonymous'|trans
+                        }}
                     </span>
 
                     {% if feedback.user %}
                         <span class="admin-feedback-detail__muted">
-                            Compte utilisateur #{{ feedback.user.id }}
+                            {{
+                                'feedback.show.sender.account'
+                                |trans({
+                                    '%id%': feedback.user.id
+                                })
+                            }}
                         </span>
                     {% endif %}
                 </div>
             </div>
+
             <div class="admin-feedback-detail__section">
-                <h2>Sujet</h2>
+                <h2>
+                    {{ 'feedback.show.subject'|trans }}
+                </h2>
 
                 <div class="admin-feedback-detail__subject">
                     {{ feedback.subject }}
@@ -92,24 +115,22 @@
 
             <div class="admin-feedback-detail__section">
                 <h2>
-                    Message
+                    {{ 'feedback.show.message'|trans }}
                 </h2>
 
                 <div class="admin-feedback-detail__message">
                     {{ feedback.message }}
                 </div>
             </div>
-
         </section>
 
         <div class="admin-feedback-detail__actions">
-
             {% if feedback.email %}
                 <a
                     class="button button--secondary"
                     href="mailto:{{ feedback.email }}"
                 >
-                    Répondre par e-mail
+                    {{ 'feedback.show.reply'|trans }}
                 </a>
             {% endif %}
 
@@ -132,7 +153,7 @@
                         type="submit"
                         class="button button--primary"
                     >
-                        Rouvrir
+                        {{ 'feedback.show.reopen'|trans }}
                     </button>
                 </form>
             {% else %}
@@ -141,11 +162,9 @@
                     action="{{ path('admin_feedback_close', {
                         id: feedback.id
                     }) }}"
-                    onsubmit="
-                        return confirm(
-                            'Clôturer ce feedback ?'
-                        );
-                    "
+                    onsubmit="return confirm(
+                        '{{ 'feedback.show.close_confirm'|trans|e('js') }}'
+                    );"
                 >
                     <input
                         type="hidden"
@@ -159,12 +178,10 @@
                         type="submit"
                         class="button button--primary"
                     >
-                        Clôturer
+                        {{ 'feedback.show.close'|trans }}
                     </button>
                 </form>
             {% endif %}
-
         </div>
-
     </div>
 {% endblock %}

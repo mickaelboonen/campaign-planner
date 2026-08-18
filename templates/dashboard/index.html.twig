@@ -1,24 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tableau de bord{% endblock %}
+{% trans_default_domain 'dashboard' %}
+
+{% block title %}
+    {{ 'title'|trans }}
+{% endblock %}
 
 {% block body %}
     <p class="page-eyebrow">
-        Vue d’ensemble
+        {{ 'eyebrow'|trans }}
     </p>
 
     <h1>
-        Tableau de bord
+        {{ 'title'|trans }}
     </h1>
 
     <p class="page-description">
-        Planifiez facilement les prochaines sessions de vos campagnes.
+        {{ 'description'|trans }}
     </p>
 
     <section class="dashboard-grid">
         {% if nextSession %}
             <article
-                class="dashboard-card dashboard-card--featured dashboard-card--session"
+                class="
+                    dashboard-card
+                    dashboard-card--featured
+                    dashboard-card--session
+                "
                 style="
                     --campaign-color:
                     {{ nextSession.campaign.color ?? '#c9a85c' }}
@@ -40,16 +48,21 @@
 
                 <div class="dashboard-card__session-content">
                     <div class="dashboard-card__header">
-                        <span class="dashboard-card__icon">◈</span>
+                        <span class="dashboard-card__icon">
+                            ◈
+                        </span>
 
                         <span class="dashboard-card__label">
-                            Prochaine session
+                            {{ 'next_session.label'|trans }}
                         </span>
                     </div>
 
                     <div class="dashboard-card__content">
                         <h2>
-                            {{ nextSession.name ?: nextSession.campaign.name }}
+                            {{
+                                nextSession.name
+                                ?: nextSession.campaign.name
+                            }}
                         </h2>
 
                         {% if nextSession.name %}
@@ -61,13 +74,26 @@
                         <p class="dashboard-card__session-date">
                             {{ nextSession.date|date('d/m/Y') }}
                             ·
-                            {{ nextSession.period.label() }}
+                            {{
+                                nextSession.period
+                                    .translationKey()
+                                    |trans({}, 'enums')
+                            }}
 
-                            {% if nextSession.startTime and nextSession.endTime %}
+                            {% if
+                                nextSession.startTime
+                                and nextSession.endTime
+                            %}
                                 ·
-                                {{ nextSession.startTime|date('H:i', false) }}
+                                {{
+                                    nextSession.startTime
+                                    |date('H:i', false)
+                                }}
                                 →
-                                {{ nextSession.endTime|date('H:i', false) }}
+                                {{
+                                    nextSession.endTime
+                                    |date('H:i', false)
+                                }}
                             {% endif %}
                         </p>
                     </div>
@@ -78,28 +104,34 @@
                             id: nextSession.campaign.id
                         }) }}"
                     >
-                        Voir la campagne
+                        {{ 'next_session.view_campaign'|trans }}
                     </a>
                 </div>
             </article>
         {% else %}
-            <article class="dashboard-card dashboard-card--featured">
+            <article
+                class="
+                    dashboard-card
+                    dashboard-card--featured
+                "
+            >
                 <div class="dashboard-card__header">
-                    <span class="dashboard-card__icon">◈</span>
+                    <span class="dashboard-card__icon">
+                        ◈
+                    </span>
 
                     <span class="dashboard-card__label">
-                        Prochaine session
+                        {{ 'next_session.label'|trans }}
                     </span>
                 </div>
 
                 <div class="dashboard-card__content">
                     <h2>
-                        Aucune session planifiée
+                        {{ 'next_session.empty.title'|trans }}
                     </h2>
 
                     <p>
-                        Consultez les calendriers de vos campagnes
-                        pour choisir votre prochaine date.
+                        {{ 'next_session.empty.description'|trans }}
                     </p>
                 </div>
             </article>
@@ -107,10 +139,12 @@
 
         <article class="dashboard-card">
             <div class="dashboard-card__header">
-                <span class="dashboard-card__icon">◆</span>
+                <span class="dashboard-card__icon">
+                    ◆
+                </span>
 
                 <span class="dashboard-card__label">
-                    Campagnes actives
+                    {{ 'campaigns.active'|trans }}
                 </span>
             </div>
 
@@ -122,12 +156,15 @@
                 class="text-link"
                 href="{{ path('campaign_list') }}"
             >
-                Voir mes campagnes
+                {{ 'campaigns.view'|trans }}
             </a>
         </article>
 
         <a
-            class="dashboard-card dashboard-card--action"
+            class="
+                dashboard-card
+                dashboard-card--action
+            "
             href="{{ path('campaign_create') }}"
         >
             <span class="dashboard-card__action-icon">
@@ -136,11 +173,11 @@
 
             <span>
                 <strong>
-                    Nouvelle campagne
+                    {{ 'campaigns.create.title'|trans }}
                 </strong>
 
                 <small>
-                    Créez une nouvelle table et préparez son calendrier.
+                    {{ 'campaigns.create.description'|trans }}
                 </small>
             </span>
         </a>
@@ -151,11 +188,11 @@
             <div class="section-heading">
                 <div>
                     <p class="page-eyebrow">
-                        Planning
+                        {{ 'upcoming.eyebrow'|trans }}
                     </p>
 
                     <h2>
-                        Sessions à venir
+                        {{ 'upcoming.title'|trans }}
                     </h2>
                 </div>
             </div>
@@ -180,11 +217,18 @@
 
                         <div class="dashboard-session-card__content">
                             <strong>
-                                {{ session.name ?: session.campaign.name }}
+                                {{
+                                    session.name
+                                    ?: session.campaign.name
+                                }}
                             </strong>
 
                             {% if session.name %}
-                                <span class="dashboard-session-card__campaign">
+                                <span
+                                    class="
+                                        dashboard-session-card__campaign
+                                    "
+                                >
                                     {{ session.campaign.name }}
                                 </span>
                             {% endif %}
@@ -192,13 +236,26 @@
                             <span>
                                 {{ session.date|date('d/m/Y') }}
                                 ·
-                                {{ session.period.label() }}
+                                {{
+                                    session.period
+                                        .translationKey()
+                                        |trans({}, 'enums')
+                                }}
 
-                                {% if session.startTime and session.endTime %}
+                                {% if
+                                    session.startTime
+                                    and session.endTime
+                                %}
                                     ·
-                                    {{ session.startTime|date('H:i', false) }}
+                                    {{
+                                        session.startTime
+                                        |date('H:i', false)
+                                    }}
                                     →
-                                    {{ session.endTime|date('H:i', false) }}
+                                    {{
+                                        session.endTime
+                                        |date('H:i', false)
+                                    }}
                                 {% endif %}
                             </span>
                         </div>
@@ -217,11 +274,11 @@
             <div class="section-heading">
                 <div>
                     <p class="page-eyebrow">
-                        Accès rapide
+                        {{ 'quick_access.eyebrow'|trans }}
                     </p>
 
                     <h2>
-                        Mes campagnes
+                        {{ 'quick_access.title'|trans }}
                     </h2>
                 </div>
 
@@ -229,7 +286,7 @@
                     class="button button--secondary"
                     href="{{ path('campaign_list') }}"
                 >
-                    Tout afficher
+                    {{ 'quick_access.show_all'|trans }}
                 </a>
             </div>
 
@@ -262,8 +319,10 @@
                             </h3>
 
                             <p>
-                                Consultez les participants
-                                et planifiez vos prochaines sessions.
+                                {{
+                                    'quick_access.campaign.description'
+                                    |trans
+                                }}
                             </p>
 
                             <a
@@ -272,7 +331,10 @@
                                     id: campaign.id
                                 }) }}"
                             >
-                                Ouvrir la campagne
+                                {{
+                                    'quick_access.campaign.open'
+                                    |trans
+                                }}
                             </a>
                         </div>
                     </article>

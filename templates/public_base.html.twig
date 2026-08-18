@@ -1,105 +1,34 @@
 {% extends 'root.html.twig' %}
+{% trans_default_domain 'common' %}
 
 {% block layout %}
-    <body>
-        <div
-            class="app-layout"
-            data-controller="mobile-navigation"
-        >
-            <header class="mobile-header">
-                <button
-                    class="mobile-header__toggle"
+<body>
+    <div class="app-layout" data-controller="mobile-navigation">
+        <header class="mobile-header">
+            <button class="mobile-header__toggle"
                     type="button"
-                    aria-label="Ouvrir la navigation"
-                    data-action="mobile-navigation#toggle"
-                >
-                    ☰
-                </button>
+                    aria-label="{{ 'navigation.open'|trans }}"
+                    data-action="mobile-navigation#toggle">
+                ☰
+            </button>
 
-                <a
-                    class="mobile-header__brand"
-                    href="{{ path('dashboard') }}"
-                >
-                    CampaignPlanner
-                </a>
-            </header>
+            <a class="mobile-header__brand" href="{{ path('dashboard') }}">
+                CampaignPlanner
+            </a>
+        </header>
 
-            <div
-                class="mobile-overlay"
-                data-mobile-navigation-target="overlay"
-                data-action="click->mobile-navigation#close"
-            ></div>
+        <div class="mobile-overlay"
+             data-mobile-navigation-target="overlay"
+             data-action="click->mobile-navigation#close"></div>
 
-            <aside
-                class="sidebar"
-                data-mobile-navigation-target="sidebar"
-            >
-                <a
-                    class="brand"
-                    href="{{ path('dashboard') }}"
-                >
-                    {% include 'components/brand.html.twig' %}
-                </a>
+        {% include 'components/public-sidebar.html.twig' %}
 
-                {% include 'components/theme-button.html.twig' %}
+        <main class="main-content">
+            {% include 'components/flashes.html.twig' %}
+            {% block body %}{% endblock %}
+        </main>
 
-                <nav
-                    class="sidebar-nav"
-                    aria-label="Navigation principale"
-                >
-                    <a
-                        class="sidebar-nav__link {{ app.current_route == 'dashboard' ? 'is-active' }}"
-                        href="{{ path('dashboard') }}"
-                    >
-                        <span>⌂</span>
-                        Tableau de bord
-                    </a>
-
-                    <a
-                        class="sidebar-nav__link {{ app.current_route starts with 'campaign_' ? 'is-active' }}"
-                        href="{{ path('campaign_list') }}"
-                    >
-                        <span>◆</span>
-                        Campagnes
-                    </a>
-
-                    <span class="sidebar-nav__link is-disabled">
-                        <span>▦</span>
-                        Calendrier
-                    </span>
-
-                    <a href="{{ path('participant_recover') }}">
-                        J'ai perdu mon lien d'accès
-                    </a>
-                </nav>
-
-                <div class="sidebar__footer">
-                    {% if app.user %}
-                        <span class="sidebar__user">
-                            {{ app.user.userIdentifier }}
-                        </span>
-
-                        <a
-                            class="sidebar__logout"
-                            href="{{ path('app_logout') }}"
-                        >
-                            Déconnexion
-                        </a>
-                    {% endif %}
-                </div>
-            </aside>
-
-            <main class="main-content">
-                {% for message in app.flashes('success') %}
-                    <div class="flash flash--success">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-
-                {% block body %}{% endblock %}
-            </main>
-
-            {% include 'components/footer.html.twig' %}
-        </div>
-    </body>
+        {% include 'components/footer.html.twig' %}
+    </div>
+</body>
 {% endblock %}

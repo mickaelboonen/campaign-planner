@@ -1,0 +1,24 @@
+tabs:
+    login: Connexion
+    register: Inscription
+
+login:
+    title: Connexion
+    email: Adresse e-mail
+    password: Mot de passe
+    submit: Franchir le portail
+    player_question: Vous êtes joueur ?
+    player_recover: Retrouver mon espace
+    contact_admin: Un problème ? Contacter l'administrateur
+
+register:
+    title: Inscription
+    submit: Commencer l'aventure
+
+    form:
+        email: Adresse e-mail
+        password: Mot de passe
+        password_confirm: Confirmer le mot de passe
+
+account:
+    disabled: Votre compte CampaignPlanner a été désactivé. Veuillez contacter l’administrateur si vous pensez qu’il s’agit d’une erreur.

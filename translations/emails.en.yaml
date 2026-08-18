@@ -1,0 +1,69 @@
+layout:
+    automatic: This email was sent automatically by
+    footer: See you around the table!
+
+dashboard_button:
+    label: View my player space
+
+session_details:
+    campaign: Campaign
+
+availability_complete:
+    title: "Everyone has responded — %campaign%"
+    heading: Everyone has responded!
+    message: "All players in %campaign% have provided at least one availability for the week from %start% to %end%."
+    description: You can now review the group's availability and choose your next time slot.
+    action: View availability
+    subject: Everyone has responded — %campaign%
+
+feedback_received:
+    title: New CampaignPlanner message
+    heading: 📡 New message
+    intro: A new communication has been received through the Sending Stone.
+    from: "From:"
+    unknown_address: Unknown address
+    connected_user: "Signed-in user:"
+    message: Message
+    footer: A new side quest awaits you.
+    subject: "[%type%] New CampaignPlanner message"
+
+participant_access:
+    title: "Welcome to %campaign%"
+    heading: 🎲 New campaign
+    greeting: "Hello %name%,"
+    added: "You have been added to the %campaign% campaign on Campaign Planner."
+    player_space: Your player space
+    description: Find your campaigns, upcoming sessions and availability calendars all in one place.
+    warning: This link gives access to your personal player space. Do not share it.
+    subject: You have been added to %campaign%
+
+participant_access_recovery:
+    title: Your Campaign Planner access
+    heading: 🔑 Your player space
+    greeting: "Hello %name%,"
+    request: A request was made to retrieve the link to your Campaign Planner player space.
+    description: You can find all your campaigns, upcoming sessions and availability there.
+    ignored: If you did not make this request, no action is required. You can simply ignore this email.
+    subject: Your CampaignPlanner access link
+
+session_cancelled:
+    title: "Session cancelled — %campaign%"
+    heading: Session cancelled
+    greeting: "Hello %name%,"
+    intro: "The following session has just been cancelled:"
+    subject: Session cancelled — %campaign%
+
+session_reminder:
+    title: Session reminder
+    greeting: "Hello %name%,"
+    intro: "A quick reminder about your upcoming %campaign% session."
+    prepare: Remember to prepare your dice, character sheets and best saving throws.
+    subject: Reminder — Upcoming session — %campaign%
+
+session_scheduled:
+    title: "New session — %campaign%"
+    heading: 🎲 New session
+    greeting: "Hello %name%,"
+    intro: "A new session has just been scheduled for your campaign:"
+    prepare: Check your availability if necessary and get your dice ready!
+    subject: New session scheduled — %campaign%

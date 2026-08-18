@@ -5,8 +5,6 @@ namespace App\Service;
 use App\Entity\CalendarSlot;
 use App\Entity\Campaign;
 use App\Enum\DayPeriod;
-use App\ViewModel\Calendar\CalendarDayView;
-use App\ViewModel\Calendar\CalendarWeekView;
 use App\Repository\CalendarSlotRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -28,7 +26,9 @@ final readonly class CalendarSlotManager
         $weekStart = $this->getWeekStart($date);
 
         foreach (range(0, 6) as $dayOffset) {
-            $currentDate = $weekStart->modify(sprintf('+%d days', $dayOffset));
+            $currentDate = $weekStart->modify(
+                sprintf('+%d days', $dayOffset),
+            );
 
             foreach (DayPeriod::cases() as $period) {
                 $existingSlot = $this->calendarSlotRepository
@@ -53,16 +53,8 @@ final readonly class CalendarSlotManager
 
         $this->entityManager->flush();
 
-        return $this->calendarSlotRepository->findByCampaignAndWeek(
-            $campaign,
-            $weekStart,
-        );
-    }
-
-    private function getWeekStart(
-        \DateTimeImmutable $date,
-    ): \DateTimeImmutable {
-        return $date->modify('monday this week')->setTime(0, 0);
+        return $this->calendarSlotRepository
+            ->findByCampaignAndWeek($campaign, $weekStart);
     }
 
     /**
@@ -80,24 +72,21 @@ final readonly class CalendarSlotManager
                 FILTER_VALIDATE_INT,
             );
 
-            if (
-                $validatedSlotId === false
-                || $validatedSlotId <= 0
-            ) {
+            if ($validatedSlotId === false || $validatedSlotId <= 0) {
                 throw new \InvalidArgumentException(
-                    'Identifiant de créneau invalide.',
+                    'calendar.invalid_slot_id',
                 );
             }
 
             if (!is_string($status)) {
                 throw new \InvalidArgumentException(
-                    'État de créneau invalide.',
+                    'calendar.invalid_slot_state',
                 );
             }
 
             if (!in_array($status, ['open', 'blocked'], true)) {
                 throw new \InvalidArgumentException(
-                    'État de créneau inconnu.',
+                    'calendar.unknown_slot_state',
                 );
             }
 
@@ -111,7 +100,7 @@ final readonly class CalendarSlotManager
 
         if (count($slots) !== count($slotIds)) {
             throw new \InvalidArgumentException(
-                'Un ou plusieurs créneaux sont invalides.',
+                'calendar.invalid_slots',
             );
         }
 
@@ -129,5 +118,13 @@ final readonly class CalendarSlotManager
         }
 
         $this->entityManager->flush();
+    }
+
+    private function getWeekStart(
+        \DateTimeImmutable $date,
+    ): \DateTimeImmutable {
+        return $date
+            ->modify('monday this week')
+            ->setTime(0, 0);
     }
 }

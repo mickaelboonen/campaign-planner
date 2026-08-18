@@ -1,0 +1,22 @@
+{% trans_default_domain 'participant' %}
+
+<section class="card card--form">
+    {{ form_start(form, { attr: { class: 'form', 'data-turbo': 'false' } }) }}
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.phone) }}
+    {{ form_row(form.characterName) }}
+
+    <div class="form-actions">
+        <a href="{{ path('campaign_show', { id: campaign.id }) }}" class="button button--secondary">
+            {{ 'form.cancel'|trans }}
+        </a>
+
+        <button type="submit" class="button button--primary">
+            {{ submitLabel }}
+        </button>
+    </div>
+
+    {{ form_end(form) }}
+</section>

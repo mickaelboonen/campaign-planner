@@ -1,5 +1,7 @@
 {% extends 'admin/base.html.twig' %}
 
+{% trans_default_domain 'admin' %}
+
 {% block admin_title %}
     {{ user.email }}
 {% endblock %}
@@ -10,7 +12,7 @@
             <div class="admin-user__identity">
                 <div>
                     <p class="page-eyebrow">
-                        Maître du Jeu
+                        {{ 'user.show.game_master'|trans }}
                     </p>
 
                     <h2>
@@ -20,8 +22,13 @@
 
                 <div class="admin-user__badges">
                     {% if 'ROLE_ADMIN' in user.roles %}
-                        <span class="admin-badge admin-badge--admin">
-                            Admin
+                        <span
+                            class="
+                                admin-badge
+                                admin-badge--admin
+                            "
+                        >
+                            {{ 'user.show.admin'|trans }}
                         </span>
                     {% endif %}
 
@@ -34,7 +41,11 @@
                             }}
                         "
                     >
-                        {{ user.subscriptionPlan.label() }}
+                        {{
+                            user.subscriptionPlan
+                                .translationKey()
+                                |trans({}, 'enums')
+                        }}
                     </span>
 
                     <span
@@ -46,32 +57,45 @@
                             }}
                         "
                     >
-                        {{ user.active ? 'Actif' : 'Désactivé' }}
+                        {{
+                            user.active
+                                ? 'user.show.active'|trans
+                                : 'user.show.disabled'|trans
+                        }}
                     </span>
                 </div>
             </div>
 
             <dl class="admin-user__meta">
                 <div>
-                    <dt>Inscription</dt>
+                    <dt>
+                        {{ 'user.show.registered_at'|trans }}
+                    </dt>
+
                     <dd>
                         {{ user.createdAt|date('d/m/Y H:i') }}
                     </dd>
                 </div>
 
                 <div>
-                    <dt>Dernière connexion</dt>
+                    <dt>
+                        {{ 'user.show.last_login'|trans }}
+                    </dt>
+
                     <dd>
                         {% if user.lastLoginAt %}
                             {{ user.lastLoginAt|date('d/m/Y H:i') }}
                         {% else %}
-                            Jamais
+                            {{ 'user.show.never'|trans }}
                         {% endif %}
                     </dd>
                 </div>
 
                 <div>
-                    <dt>Campagnes</dt>
+                    <dt>
+                        {{ 'user.show.campaigns'|trans }}
+                    </dt>
+
                     <dd>
                         {{ user.campaigns|length }}
                     </dd>
@@ -85,10 +109,11 @@
                         id: user.id
                     }) }}"
                     onsubmit="return confirm(
-                        '{{ user.active
-                            ? 'Désactiver ce compte ?'
-                            : 'Réactiver ce compte ?'
-                        }}'
+                        '{{ (
+                            user.active
+                                ? 'user.show.disable_confirm'
+                                : 'user.show.enable_confirm'
+                        )|trans|e('js') }}'
                     );"
                 >
                     <input
@@ -109,9 +134,10 @@
                             }}
                         "
                     >
-                        {{ user.active
-                            ? 'Désactiver le compte'
-                            : 'Réactiver le compte'
+                        {{
+                            user.active
+                                ? 'user.show.disable'|trans
+                                : 'user.show.enable'|trans
                         }}
                     </button>
                 </form>
@@ -122,18 +148,18 @@
             <div class="section-heading">
                 <div>
                     <p class="page-eyebrow">
-                        Activité
+                        {{ 'user.show.activity'|trans }}
                     </p>
 
                     <h2>
-                        Campagnes
+                        {{ 'user.show.campaigns_title'|trans }}
                     </h2>
                 </div>
             </div>
 
             {% if user.campaigns is empty %}
                 <div class="admin-user__empty">
-                    Aucune campagne.
+                    {{ 'user.show.campaigns_empty'|trans }}
                 </div>
             {% else %}
                 <div class="admin-user__campaign-list">
@@ -145,8 +171,11 @@
                                 </strong>
 
                                 <span>
-                                    Créée le
-                                    {{ campaign.createdAt|date('d/m/Y') }}
+                                    {{ 'user.show.created_at'|trans }}
+                                    {{
+                                        campaign.createdAt
+                                        |date('d/m/Y')
+                                    }}
                                 </span>
                             </div>
 
@@ -156,7 +185,7 @@
                                 }) }}"
                                 class="button button--ghost"
                             >
-                                Voir
+                                {{ 'user.show.view'|trans }}
                             </a>
                         </article>
                     {% endfor %}

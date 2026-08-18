@@ -1,0 +1,42 @@
+
+availability_status:
+    available: Disponible
+    maybe: Peut-être
+    unavailable: Indisponible
+    unanswered: Non renseigné
+    blocked: Bloqué
+
+calendar_slot_status:
+    open: Ouvert
+    blocked: Bloqué
+    selected: Sélectionné
+
+day_period:
+    afternoon: Après-midi
+    evening: Soir
+
+feedback_status:
+    new: Nouveau
+    read: Lu
+    closed: Clôturé
+
+feedback_type:
+    bug: Bug
+    idea: Idée
+    support: Support
+    other: Autre
+
+    default_subject:
+        bug: Problème rencontré
+        idea: Suggestion d’amélioration
+        support: Demande d’aide
+        other: Autre demande
+
+game_session_status:
+    scheduled: Prévue
+    cancelled: Annulée
+    completed: Terminée
+
+subscription_plan:
+    free: Gratuit
+    premium: Premium

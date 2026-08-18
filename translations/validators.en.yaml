@@ -1,0 +1,20 @@
+registration:
+    password_mismatch: The passwords do not match.
+    password_required: Please enter a password.
+    password_min_length: Your password must contain at least {{ limit }} characters.
+
+campaign:
+    color:
+        invalid_format: The color must use hexadecimal format.
+    image:
+        invalid_type: Please select a JPG, PNG or WebP image.
+
+participant:
+    phone:
+        invalid_format: The phone number must contain exactly 10 digits.
+
+game_session:
+    start_time:
+        required: Start time is required.
+    end_time:
+        required: End time is required.

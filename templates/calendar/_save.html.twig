@@ -1,7 +1,9 @@
+{% trans_default_domain 'calendar' %}
+
 {% if not isPastWeek %}
     <div class="availability-save">
         <p class="availability-save__hint">
-            Les modifications ne sont enregistrées qu’après validation.
+            {{ 'save.hint'|trans }}
         </p>
 
         <button
@@ -10,7 +12,7 @@
             data-calendar-slot-grid-target="saveButton"
             disabled
         >
-            Enregistrer les créneaux
+            {{ 'save.submit'|trans }}
         </button>
     </div>
 {% endif %}

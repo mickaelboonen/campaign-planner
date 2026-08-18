@@ -1,0 +1,135 @@
+breadcrumb:
+    campaigns: Campaigns
+
+eyebrow: Campaign
+
+navigation:
+    participants:
+        title: Participants
+        description: Manage the gaming group
+    calendar:
+        title: Calendar
+        description: Availability and time slots
+    notes:
+        title: GM Notes
+        description: Private campaign notes
+
+list:
+    title: My campaigns
+    eyebrow: Organization
+    description: Find all your active campaigns and quickly access their management.
+    new: New campaign
+
+    empty:
+        title: No campaigns
+        message: Create your first campaign to start organizing your upcoming sessions.
+        action: Create a campaign
+
+    created_at: Created on
+    edit: Edit
+    open: Open →
+
+create:
+    title: New campaign
+    description: Create a new space to organize your group and sessions.
+    form_title: Create a campaign
+    submit: Create campaign
+
+edit:
+    title: Edit %name%
+    breadcrumb: Edit
+    description: Edit the campaign's general information.
+    form_title: Campaign information
+    submit: Save
+
+form:
+    eyebrow: General information
+    description: Campaign name, color and cover image.
+
+    name:
+        label: Campaign name
+        placeholder: E.g. Curse of Strahd
+
+    color:
+        label: Campaign color
+        hint: This color will be used as a visual accent.
+
+    image:
+        label: Cover image
+        current: Current image
+        help: JPG, PNG or WebP — 5 MB maximum.
+
+    cancel: Cancel
+
+show:
+    active: Active campaign
+    archived: Archived campaign
+    created_at: Created on
+    edit: Edit
+    archive: Archive
+    archive_confirm: Archive this campaign?
+
+    stats:
+        participants:
+            label: Participants
+            description: Active participants
+        upcoming:
+            label: Upcoming sessions
+            description: Scheduled sessions
+        played:
+            label: Sessions played
+            description: Campaign history
+
+    upcoming:
+        eyebrow: Schedule
+        title: Upcoming sessions
+        calendar: View calendar
+
+        empty:
+            title: No session scheduled
+            description: Check availability to choose the next date.
+
+        time_missing: Time not set
+        next: Next session
+        edit: Edit
+        define_time: Set time
+        cancel: Cancel session
+        cancel_confirm: Are you sure you want to cancel this session?
+
+    participants:
+        eyebrow: Gaming group
+        title: Participants
+        add: Add participant
+
+        empty:
+            title: No participants
+            description: Add your first player to start preparing this campaign's calendar.
+
+        archived: Archived participants
+        restore: Restore
+
+    history:
+        eyebrow: History
+        title: Past sessions
+        empty: No past sessions
+
+notes:
+    title: Notes — %name%
+    breadcrumb: GM Notes
+    eyebrow: GM memo
+    heading: Private notes
+
+    editor:
+        title: Editing
+        description: These notes are only visible to the campaign GM.
+        markdown: "Markdown available:"
+        back: Back
+        save: Save
+
+    preview:
+        title: Preview
+        description: Current rendering of the notes.
+
+    form:
+        label: Private notes
+        placeholder: "## Players\n- **Alice**: children on even-numbered weeks\n- **Bob**: unavailable on the first weekend of the month"

@@ -1,81 +1,34 @@
+{% trans_default_domain 'participant_access' %}
+
 <section class="calendar-toolbar">
     <div class="calendar-toolbar__navigation">
-        <a
-            class="button button--secondary calendar-toolbar__button"
-            href="{{ path('participant_availability_show', {
-                token: participant.accessToken,
-                week: calendar.previousWeek|date('Y-m-d')
-            }) }}"
-            aria-label="Semaine précédente"
-        >
-            <span class="calendar-toolbar__desktop-label">
-                ← Semaine précédente
-            </span>
-
-            <span class="calendar-toolbar__mobile-label">
-                ←
-            </span>
+        <a class="button button--secondary calendar-toolbar__button"
+           href="{{ path('participant_availability_show', { token: participant.accessToken, week: calendar.previousWeek|date('Y-m-d') }) }}"
+           aria-label="{{ 'calendar.toolbar.previous'|trans }}">
+            <span class="calendar-toolbar__desktop-label">← {{ 'calendar.toolbar.previous'|trans }}</span>
+            <span class="calendar-toolbar__mobile-label">←</span>
         </a>
 
-        <a
-            class="button button--secondary calendar-toolbar__button"
-            href="{{ path('participant_availability_show', {
-                token: participant.accessToken
-            }) }}"
-        >
-            Cette semaine
+        <a class="button button--secondary calendar-toolbar__button"
+           href="{{ path('participant_availability_show', { token: participant.accessToken }) }}">
+            {{ 'calendar.toolbar.current'|trans }}
         </a>
 
-        <a
-            class="button button--secondary calendar-toolbar__button"
-            href="{{ path('participant_availability_show', {
-                token: participant.accessToken,
-                week: calendar.nextWeek|date('Y-m-d')
-            }) }}"
-            aria-label="Semaine suivante"
-        >
-            <span class="calendar-toolbar__desktop-label">
-                Semaine suivante →
-            </span>
-
-            <span class="calendar-toolbar__mobile-label">
-                →
-            </span>
+        <a class="button button--secondary calendar-toolbar__button"
+           href="{{ path('participant_availability_show', { token: participant.accessToken, week: calendar.nextWeek|date('Y-m-d') }) }}"
+           aria-label="{{ 'calendar.toolbar.next'|trans }}">
+            <span class="calendar-toolbar__desktop-label">{{ 'calendar.toolbar.next'|trans }} →</span>
+            <span class="calendar-toolbar__mobile-label">→</span>
         </a>
     </div>
 
-    <form
-        method="get"
-        action="{{ path('participant_availability_show', {
-            token: participant.accessToken
-        }) }}"
-        class="calendar-week-picker"
-    >
-        <label
-            for="calendar-week-picker"
-            class="sr-only"
-        >
-            Choisir une semaine
-        </label>
+    <form method="get" action="{{ path('participant_availability_show', { token: participant.accessToken }) }}" class="calendar-week-picker">
+        <label for="calendar-week-picker" class="sr-only">{{ 'calendar.toolbar.choose'|trans }}</label>
 
-        <select
-            id="calendar-week-picker"
-            name="week"
-            onchange="this.form.submit()"
-        >
+        <select id="calendar-week-picker" name="week" onchange="this.form.submit()">
             {% for week in availableWeeks %}
-                <option
-                    value="{{ week.start|date('Y-m-d') }}"
-                    {% if
-                        week.start|date('Y-m-d')
-                        == calendar.start|date('Y-m-d')
-                    %}
-                        selected
-                    {% endif %}
-                >
-                    {{ week.start|date('d/m') }}
-                    —
-                    {{ week.end|date('d/m/Y') }}
+                <option value="{{ week.start|date('Y-m-d') }}" {{ week.start|date('Y-m-d') == calendar.start|date('Y-m-d') ? 'selected' }}>
+                    {{ week.start|date('d/m') }} — {{ week.end|date('d/m/Y') }}
                 </option>
             {% endfor %}
         </select>

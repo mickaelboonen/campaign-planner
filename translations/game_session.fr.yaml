@@ -1,0 +1,21 @@
+form:
+    date: Date
+    period: Créneau
+    cancel: Annuler
+
+    name:
+        label: Nom de la session
+    start_time:
+        label: Heure de début
+    end_time:
+        label: Heure de fin
+
+new:
+    title: Planifier une session
+    description: Définissez les horaires de la session avant de la confirmer.
+    submit: Créer la session
+
+edit:
+    title: Modifier la session
+    description: Modifiez les horaires de cette session.
+    submit: Enregistrer les modifications
