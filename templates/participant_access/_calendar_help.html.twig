@@ -1,59 +1,97 @@
 {% trans_default_domain 'participant_access' %}
 
-<button type="button" class="button button--secondary calendar-help-button" data-action="calendar-help#open">
-    ? {{ 'help.button'|trans }}
-</button>
-
-<div class="calendar-help" data-calendar-help-target="overlay" hidden>
-    <aside class="calendar-help__panel" role="dialog" aria-modal="true" aria-label="{{ 'help.dialog'|trans }}">
+<div
+    class="calendar-help"
+    data-calendar-help-target="overlay"
+    hidden
+>
+    <aside
+        class="calendar-help__panel"
+        role="dialog"
+        aria-modal="true"
+        aria-label="{{ 'help.dialog'|trans }}"
+    >
         <header class="calendar-help__header">
-            <span class="calendar-help__counter" data-calendar-help-target="counter"></span>
-            <button type="button" class="calendar-help__close" data-action="calendar-help#close" aria-label="{{ 'help.close'|trans }}">×</button>
+            <span
+                class="calendar-help__counter"
+                data-calendar-help-target="counter"
+            ></span>
+
+            <button
+                type="button"
+                class="calendar-help__close"
+                data-action="calendar-help#close"
+                aria-label="{{ 'help.close'|trans }}"
+            >
+                ×
+            </button>
         </header>
 
-        <div data-calendar-help-target="step"
-             data-highlight-desktop=".availability-editor__status"
-             data-highlight-mobile=".availability-editor__status">
-            <p class="page-eyebrow">{{ 'help.availability.eyebrow'|trans }}</p>
-            <h2>{{ 'help.availability.title'|trans }}</h2>
-            <p>{{ 'help.availability.description'|trans }}</p>
-        </div>
-
-        <div data-calendar-help-target="step"
-             data-highlight-desktop=".calendar-card"
-             data-highlight-mobile=".calendar-mobile-day" hidden>
+        <div
+            data-calendar-help-target="step"
+            data-highlight-desktop=".calendar-card"
+            data-highlight-mobile=".calendar-mobile-day"
+        >
             <p class="page-eyebrow">{{ 'help.calendar.eyebrow'|trans }}</p>
             <h2>{{ 'help.calendar.title'|trans }}</h2>
-            <p class="calendar-help__desktop-text">{{ 'help.calendar.desktop'|trans }}</p>
-            <p class="calendar-help__mobile-text">{{ 'help.calendar.mobile'|trans }}</p>
+
+            <p class="calendar-help__desktop-text">
+                {{ 'help.calendar.desktop'|trans }}
+            </p>
+
+            <p class="calendar-help__mobile-text">
+                {{ 'help.calendar.mobile'|trans }}
+            </p>
+
+            <p>
+                {{ 'help.calendar.cycle'|trans }}
+            </p>
         </div>
 
-        <div data-calendar-help-target="step"
-             data-highlight-desktop=".availability-editor__shortcuts"
-             data-highlight-mobile=".availability-editor__shortcuts" hidden>
+        <div
+            data-calendar-help-target="step"
+            data-highlight-desktop=".availability-editor"
+            data-highlight-mobile=".availability-editor"
+            hidden
+        >
             <p class="page-eyebrow">{{ 'help.shortcuts.eyebrow'|trans }}</p>
             <h2>{{ 'help.shortcuts.title'|trans }}</h2>
-            <p>{{ 'help.shortcuts.description'|trans }}</p>
+
+            <p>
+                {{ 'help.shortcuts.description'|trans }}
+            </p>
         </div>
 
-        <div data-calendar-help-target="step"
-             data-highlight-desktop=".availability-save"
-             data-highlight-mobile=".availability-save" hidden>
-            <p class="page-eyebrow">{{ 'help.save.eyebrow'|trans }}</p>
-            <h2>{{ 'help.save.title'|trans }}</h2>
-            <p>{{ 'help.save.description'|trans }}</p>
+        <div
+            data-calendar-help-target="step"
+            data-highlight-desktop=".availability-save"
+            data-highlight-mobile=".availability-save"
+            hidden
+        >
+            <p class="page-eyebrow">{{ 'help.autosave.eyebrow'|trans }}</p>
+            <h2>{{ 'help.autosave.title'|trans }}</h2>
+
+            <p>
+                {{ 'help.autosave.description'|trans }}
+            </p>
         </div>
 
         <footer class="calendar-help__actions">
-            <button type="button" class="button button--secondary"
-                    data-calendar-help-target="previousButton"
-                    data-action="calendar-help#previous">
+            <button
+                type="button"
+                class="button button--secondary"
+                data-calendar-help-target="previousButton"
+                data-action="calendar-help#previous"
+            >
                 ← {{ 'help.previous'|trans }}
             </button>
 
-            <button type="button" class="button button--primary"
-                    data-calendar-help-target="nextButton"
-                    data-action="calendar-help#next">
+            <button
+                type="button"
+                class="button button--primary"
+                data-calendar-help-target="nextButton"
+                data-action="calendar-help#next"
+            >
                 {{ 'help.next'|trans }} →
             </button>
         </footer>

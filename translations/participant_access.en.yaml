@@ -61,38 +61,35 @@ calendar:
         readonly: This week has passed and can no longer be edited.
 
     save:
-        hint: Changes are only saved after confirmation.
-        submit: Save my availability
+        saving: Saving…
+        saved: ✓ Saved
+        error: ⚠ Save failed
 
 help:
     button: Help
     dialog: Calendar help
     close: Close help
-    finish: Finish
-
-    availability:
-        eyebrow: Your availability
-        title: Choose a status
-        description: Start by choosing whether you are available, maybe available or unavailable.
 
     calendar:
-        eyebrow: The calendar
-        title: Enter your time slots
-        desktop: Click your time slots to apply the selected status. Only your own row can be edited.
-        mobile: Browse through the days and tap your time slots to apply the selected status.
+        eyebrow: Your availability
+        title: Click directly on your time slots
+        desktop: Click one of your time slots to change your availability. Only your own row can be edited.
+        mobile: Tap one of your time slots to change your availability.
+        cycle: Each click cycles through Available, Maybe, Unavailable and Unanswered.
 
     shortcuts:
         eyebrow: Quick actions
-        title: Save time
-        description: Apply the selected status to the entire week, all afternoons or all evenings.
+        title: Fill several time slots at once
+        description: Choose a status, then apply it to the entire week, all afternoons or all evenings in one click.
 
-    save:
-        eyebrow: Final step
-        title: Save your answers
-        description: Your changes only take effect once you save your availability.
+    autosave:
+        eyebrow: Automatic saving
+        title: No manual save required
+        description: Your changes are saved automatically after a short delay. An indicator confirms when saving is complete.
 
     previous: Previous
     next: Next
+    finish: Finish
 
 recover:
     title: Find my player space

@@ -1,25 +1,37 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-    static targets = ['cell', 'statusButton', 'input', 'saveButton'];
+    static targets = ['cell', 'statusButton', 'input', 'saveStatus'];
 
     static values = {
         activeStatus: {
             type: String,
             default: 'available',
         },
+        autosaveUrl: String,
         availableLabel: String,
         maybeLabel: String,
         unavailableLabel: String,
         unansweredLabel: String,
+        savingLabel: String,
+        savedLabel: String,
+        errorLabel: String,
         unsavedChangesMessage: String,
     };
 
     connect() {
-        this.hasUnsavedChanges = false;
+        this.pendingChanges = new Map();
+        this.savedValues = new Map();
+        this.saveTimeout = null;
+        this.savePromise = null;
+        this.allowNavigation = false;
+
+        this.inputTargets.forEach((input) => {
+            this.savedValues.set(input.dataset.slotId, input.value);
+        });
 
         this.beforeUnloadHandler = (event) => {
-            if (!this.hasUnsavedChanges) {
+            if (!this.hasPendingChanges()) {
                 return;
             }
 
@@ -27,17 +39,24 @@ export default class extends Controller {
             event.returnValue = '';
         };
 
-        this.beforeVisitHandler = (event) => {
-            if (!this.hasUnsavedChanges) {
+        this.beforeVisitHandler = async (event) => {
+            if (this.allowNavigation || !this.hasPendingChanges()) {
                 return;
             }
 
-            const shouldLeave = window.confirm(
-                this.unsavedChangesMessageValue,
-            );
+            event.preventDefault();
 
-            if (!shouldLeave) {
-                event.preventDefault();
+            const url = event.detail?.url;
+
+            try {
+                await this.flush();
+
+                if (url) {
+                    this.allowNavigation = true;
+                    window.location.assign(url);
+                }
+            } catch {
+                // Les modifications restent en attente.
             }
         };
 
@@ -45,16 +64,14 @@ export default class extends Controller {
         document.addEventListener('turbo:before-visit', this.beforeVisitHandler);
 
         this.updateStatusButtons();
-        this.updateSaveButton();
+        this.updateSaveStatus();
     }
 
     disconnect() {
+        clearTimeout(this.saveStatusTimeout);
+
         window.removeEventListener('beforeunload', this.beforeUnloadHandler);
         document.removeEventListener('turbo:before-visit', this.beforeVisitHandler);
-    }
-
-    submit() {
-        this.hasUnsavedChanges = false;
     }
 
     selectStatus(event) {
@@ -69,13 +86,34 @@ export default class extends Controller {
             return;
         }
 
-        const status = this.activeStatusValue;
+        const status = this.getNextStatus(cell.dataset.status ?? '');
 
-        cell.dataset.status = status;
+        this.flipCellToStatus(cell, status);
+    }
 
-        this.applyCellAppearance(cell, status);
-        this.updateHiddenInput(cell, status);
-        this.updateSaveButton();
+    flipCellToStatus(cell, status) {
+        if (
+            cell.classList.contains('is-flipping-out')
+            || cell.classList.contains('is-flipping-in')
+        ) {
+            return;
+        }
+
+        cell.classList.add('is-flipping-out');
+
+        window.setTimeout(() => {
+            this.setCellStatus(cell, status);
+            this.scheduleSave();
+
+            cell.classList.remove('is-flipping-out');
+            cell.classList.add('is-flipping-in');
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    cell.classList.remove('is-flipping-in');
+                });
+            });
+        }, 220);
     }
 
     applyToAll(event) {
@@ -91,12 +129,140 @@ export default class extends Controller {
                 return scope === 'all' || cell.dataset.period === scope;
             })
             .forEach((cell) => {
-                cell.dataset.status = status;
-                this.applyCellAppearance(cell, status);
-                this.updateHiddenInput(cell, status);
+                this.setCellStatus(cell, status);
             });
 
-        this.updateSaveButton();
+        this.scheduleSave();
+    }
+
+    getNextStatus(status) {
+        switch (status) {
+            case '':
+                return 'available';
+            case 'available':
+                return 'maybe';
+            case 'maybe':
+                return 'unavailable';
+            default:
+                return '';
+        }
+    }
+
+    setCellStatus(cell, status) {
+        cell.dataset.status = status;
+
+        this.applyCellAppearance(cell, status);
+        this.updateHiddenInput(cell, status);
+        this.trackChange(cell.dataset.slotId, status);
+    }
+
+    trackChange(slotId, status) {
+        const savedValue = this.savedValues.get(slotId) ?? '';
+
+        if (status === savedValue) {
+            this.pendingChanges.delete(slotId);
+        } else {
+            this.pendingChanges.set(slotId, status);
+        }
+    }
+
+    scheduleSave() {
+        clearTimeout(this.saveTimeout);
+
+        if (this.pendingChanges.size === 0) {
+            this.updateSaveStatus('saved');
+            return;
+        }
+
+        this.updateSaveStatus('saving');
+
+        this.saveTimeout = setTimeout(() => {
+            this.flush().catch(() => {});
+        }, 1000);
+    }
+
+    async flush() {
+        clearTimeout(this.saveTimeout);
+
+        if (this.savePromise) {
+            await this.savePromise;
+
+            if (this.pendingChanges.size === 0) {
+                return;
+            }
+        }
+
+        if (this.pendingChanges.size === 0) {
+            this.updateSaveStatus('saved');
+            return;
+        }
+
+        const changes = Object.fromEntries(this.pendingChanges);
+        const token = this.element.querySelector('[name="_token"]')?.value;
+        const week = this.element.querySelector('[name="week"]')?.value;
+
+        this.updateSaveStatus('saving');
+
+        this.savePromise = fetch(this.autosaveUrlValue, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                _token: token,
+                week,
+                availabilities: changes,
+            }),
+        })
+            .then(async (response) => {
+                if (!response.ok) {
+                    throw new Error(`Autosave failed with status ${response.status}`);
+                }
+
+                return response.json();
+            })
+            .then(() => {
+                Object.entries(changes).forEach(([slotId, status]) => {
+                    this.savedValues.set(slotId, status);
+
+                    if (this.pendingChanges.get(slotId) === status) {
+                        this.pendingChanges.delete(slotId);
+                    }
+
+                    const input = this.inputTargets.find(
+                        (candidate) => candidate.dataset.slotId === slotId,
+                    );
+
+                    if (input) {
+                        input.dataset.initialValue = status;
+                    }
+                });
+
+                this.updateSaveStatus(
+                    this.pendingChanges.size === 0
+                        ? 'saved'
+                        : 'saving',
+                );
+            })
+            .catch((error) => {
+                this.updateSaveStatus('error');
+                throw error;
+            })
+            .finally(() => {
+                this.savePromise = null;
+
+                if (this.pendingChanges.size > 0) {
+                    this.scheduleSave();
+                }
+            });
+
+        return this.savePromise;
+    }
+
+    hasPendingChanges() {
+        return this.pendingChanges.size > 0 || this.savePromise !== null;
     }
 
     applyCellAppearance(cell, status) {
@@ -140,10 +306,8 @@ export default class extends Controller {
     }
 
     updateHiddenInput(cell, status) {
-        const slotId = cell.dataset.slotId;
-
         const input = this.inputTargets.find(
-            (candidate) => candidate.dataset.slotId === slotId,
+            (candidate) => candidate.dataset.slotId === cell.dataset.slotId,
         );
 
         if (input) {
@@ -160,16 +324,42 @@ export default class extends Controller {
         });
     }
 
-    updateSaveButton() {
-        if (!this.hasSaveButtonTarget) {
+    updateSaveStatus(status) {
+        if (!this.hasSaveStatusTarget) {
             return;
         }
 
-        const hasChanges = this.inputTargets.some(
-            (input) => input.value !== input.dataset.initialValue,
+        clearTimeout(this.saveStatusTimeout);
+
+        this.saveStatusTarget.classList.remove(
+            'is-saving',
+            'is-saved',
+            'is-error',
+            'is-hidden',
         );
 
-        this.hasUnsavedChanges = hasChanges;
-        this.saveButtonTarget.disabled = !hasChanges;
+        switch (status) {
+            case 'saving':
+                this.saveStatusTarget.classList.add('is-saving');
+                this.saveStatusTarget.textContent = this.savingLabelValue;
+                break;
+
+            case 'error':
+                this.saveStatusTarget.classList.add('is-error');
+                this.saveStatusTarget.textContent = this.errorLabelValue;
+                break;
+
+            case 'saved':
+                this.saveStatusTarget.classList.add('is-saved');
+                this.saveStatusTarget.textContent = this.savedLabelValue;
+
+                this.saveStatusTimeout = window.setTimeout(() => {
+                    this.saveStatusTarget.classList.add('is-hidden');
+                }, 1500);
+                break;
+
+            default:
+                this.saveStatusTarget.textContent = '';
+        }
     }
 }

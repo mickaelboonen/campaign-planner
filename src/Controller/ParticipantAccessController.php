@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/p/{token}', name: 'participant_')]
 final class ParticipantAccessController extends BaseController
@@ -247,6 +248,130 @@ final class ParticipantAccessController extends BaseController
                 'week' => $weekStart->format('Y-m-d'),
             ],
         );
+    }
+
+    #[Route(
+        '/availability/autosave',
+        name: 'availability_autosave',
+        methods: ['POST'],
+    )]
+    public function autosave(
+        Request $request,
+        string $token,
+        TranslatorInterface $translator,
+    ): JsonResponse {
+        $participant = $this->participantRepository
+            ->findActiveByAccessToken($token);
+
+        if ($participant === null) {
+            throw $this->createNotFoundException(
+                $translator->trans(
+                    'controller.participant.invalid_access_link',
+                    domain: 'error',
+                ),
+            );
+        }
+
+        $campaign = $participant->getCampaign();
+
+        $this->denyArchivedCampaign(
+            $campaign,
+            $translator->trans(
+                'controller.campaign.calendar_unavailable',
+                domain: 'error',
+            ),
+        );
+
+        $data = $request->toArray();
+
+        $this->denyInvalidCsrf(
+            'save-availabilities-'.$participant->getId(),
+            $data['_token'] ?? null,
+            $translator,
+        );
+
+        $week = (string) ($data['week'] ?? '');
+
+        try {
+            $weekStart = new \DateTimeImmutable($week);
+        } catch (\Exception) {
+            throw $this->createNotFoundException(
+                $translator->trans(
+                    'controller.calendar.invalid_submitted_week',
+                    domain: 'error',
+                ),
+            );
+        }
+
+        $weekStart = $weekStart
+            ->modify('monday this week')
+            ->setTime(0, 0);
+
+        $currentWeekStart = (new \DateTimeImmutable())
+            ->modify('monday this week')
+            ->setTime(0, 0);
+
+        if ($weekStart < $currentWeekStart) {
+            throw $this->createAccessDeniedException(
+                $translator->trans(
+                    'controller.calendar.past_week',
+                    domain: 'error',
+                ),
+            );
+        }
+
+        $submittedAvailabilities = $data['availabilities'] ?? [];
+
+        if (!is_array($submittedAvailabilities)) {
+            throw $this->createNotFoundException(
+                $translator->trans(
+                    'availability.invalid_status',
+                    domain: 'error',
+                ),
+            );
+        }
+
+        $wasComplete = $this->weekCompletionChecker->isComplete(
+            $campaign,
+            $weekStart,
+        );
+
+        try {
+            $changedCount = $this->availabilityManager->save(
+                $participant,
+                $submittedAvailabilities,
+            );
+
+            $this->notificationManager->notifyAvailabilityUpdated(
+                $participant,
+                $weekStart,
+                $changedCount,
+            );
+        } catch (\InvalidArgumentException $exception) {
+            throw $this->createNotFoundException(
+                $translator->trans(
+                    $exception->getMessage(),
+                    domain: 'error',
+                ),
+            );
+        }
+
+        $isComplete = $this->weekCompletionChecker->isComplete(
+            $campaign,
+            $weekStart,
+        );
+
+        if (!$wasComplete && $isComplete) {
+            $this->emailAvailabilityCompletionNotifier->notify(
+                $campaign,
+                $weekStart,
+            );
+        }
+
+        return $this->json([
+            'success' => true,
+            'changedCount' => $changedCount,
+        ]);
     }
 
     #[Route('', name: 'dashboard', methods: ['GET'])]
