@@ -7,6 +7,11 @@ echo "🚀 Déploiement CampaignPlanner..."
 echo "→ Récupération des modifications"
 git pull --ff-only
 
+APP_ENV=prod APP_DEBUG=0 composer install \
+    --no-dev \
+    --optimize-autoloader \
+    --no-interaction
+
 echo "→ Application des migrations"
 APP_ENV=prod APP_DEBUG=0 php bin/console doctrine:migrations:migrate --no-interaction
 
