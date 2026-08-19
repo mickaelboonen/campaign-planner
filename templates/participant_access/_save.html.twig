@@ -1,12 +1,11 @@
 {% trans_default_domain 'participant_access' %}
 
 {% if not isPastWeek %}
-<div class="availability-save">
-    <p class="availability-save__hint">{{ 'calendar.save.hint'|trans }}</p>
-
-    <button type="submit" class="button button--primary"
-            data-availability-grid-target="saveButton" disabled>
-        {{ 'calendar.save.submit'|trans }}
-    </button>
-</div>
+    <div class="availability-save">
+        <p
+            class="availability-save__status"
+            data-availability-grid-target="saveStatus"
+            aria-live="polite"
+        ></p>
+    </div>
 {% endif %}

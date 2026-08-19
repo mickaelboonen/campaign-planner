@@ -26,11 +26,14 @@
             method="post"
             action="{{ path('participant_availability_save', { token: participant.accessToken }) }}"
             data-controller="availability-grid"
-            data-action="submit->availability-grid#submit"
+            data-availability-grid-autosave-url-value="{{ path('participant_availability_autosave', { token: participant.accessToken }) }}"
             data-availability-grid-available-label-value="{{ 'availability_status.available'|trans({}, 'enums') }}"
             data-availability-grid-maybe-label-value="{{ 'availability_status.maybe'|trans({}, 'enums') }}"
             data-availability-grid-unavailable-label-value="{{ 'availability_status.unavailable'|trans({}, 'enums') }}"
             data-availability-grid-unanswered-label-value="{{ 'availability_status.unanswered'|trans({}, 'enums') }}"
+            data-availability-grid-saving-label-value="{{ 'calendar.save.saving'|trans }}"
+            data-availability-grid-saved-label-value="{{ 'calendar.save.saved'|trans }}"
+            data-availability-grid-error-label-value="{{ 'calendar.save.error'|trans }}"
             data-availability-grid-unsaved-changes-message-value="{{ 'calendar.unsaved_changes'|trans }}"
         {% endif %}
     >

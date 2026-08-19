@@ -61,34 +61,31 @@ calendar:
         readonly: Cette semaine est passée et ne peut plus être modifiée.
 
     save:
-        hint: Les modifications ne sont enregistrées qu’après validation.
-        submit: Enregistrer mes disponibilités
+        saving: Enregistrement…
+        saved: ✓ Enregistré
+        error: ⚠ Échec de l’enregistrement
 
 help:
     button: Aide
     dialog: Aide du calendrier
     close: Fermer l’aide
 
-    availability:
-        eyebrow: Vos disponibilités
-        title: Choisissez un statut
-        description: Commencez par choisir si vous êtes disponible, peut-être disponible ou indisponible.
-
     calendar:
-        eyebrow: Le calendrier
-        title: Indiquez vos créneaux
-        desktop: Cliquez sur vos créneaux pour leur appliquer le statut sélectionné. Seule votre propre ligne est modifiable.
-        mobile: Parcourez les journées et appuyez sur vos créneaux pour leur appliquer le statut sélectionné.
+        eyebrow: Vos disponibilités
+        title: Cliquez directement sur vos créneaux
+        desktop: Cliquez sur l’un de vos créneaux pour modifier votre disponibilité. Seule votre propre ligne est modifiable.
+        mobile: Appuyez sur l’un de vos créneaux pour modifier votre disponibilité.
+        cycle: Chaque clic fait défiler les statuts — Disponible, Peut-être, Indisponible puis Non renseigné.
 
     shortcuts:
         eyebrow: Actions rapides
-        title: Gagnez du temps
-        description: Appliquez le statut choisi à toute la semaine, à tous les après-midi ou à tous les soirs.
+        title: Remplissez plusieurs créneaux
+        description: Choisissez un statut puis appliquez-le en un clic à toute la semaine, à tous les après-midi ou à tous les soirs.
 
-    save:
-        eyebrow: Dernière étape
-        title: Enregistrez vos réponses
-        description: Vos modifications ne sont prises en compte qu’après avoir enregistré vos disponibilités.
+    autosave:
+        eyebrow: Sauvegarde automatique
+        title: Rien à enregistrer manuellement
+        description: Vos modifications sont enregistrées automatiquement après un court instant. Un indicateur vous confirme lorsque la sauvegarde est terminée.
 
     previous: Précédent
     next: Suivant
